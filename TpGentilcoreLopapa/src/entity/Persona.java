@@ -33,12 +33,19 @@ public class Persona {
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;	}
 	
-	Persona(){
+	public int getCategoria() {
+		return categoria; 	}
+	public void setCategoria(int categoria) {
+		this.categoria = categoria;  }
+	
+	
+	Persona(String apellido, String nombre, String dni, String usuario, String contraseña, int categoria){
 		this.setApellido(apellido);
 		this.setNombre(nombre);
 		this.setDni(dni);
 		this.setUsuario(usuario);
-		this.setContraseña(contraseña);		}
+		this.setContraseña(contraseña);
+		this.setCategoria(categoria);}
 	
 	@Override
 	public boolean equals(Object p){
