@@ -36,8 +36,7 @@ public class Persona {
 	public int getCategoria() {
 		return categoria; 	}
 	public void setCategoria(int categoria) {
-		this.categoria = categoria;  }
-	
+		this.categoria = categoria;  }	
 	
 	Persona(String apellido, String nombre, String dni, String usuario, String contraseña, int categoria){
 		this.setApellido(apellido);
