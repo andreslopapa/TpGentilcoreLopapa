@@ -12,10 +12,4 @@ public class TipoDeElemento {
 	
 	//además AGREGAR CAMPO horas maxima de tiempo de reserva (en horas)
 	
-	
-	public int getId() {
-		return id;	}
-	public void setId(int id) {
-		this.id = id; 	}
-	
 }
