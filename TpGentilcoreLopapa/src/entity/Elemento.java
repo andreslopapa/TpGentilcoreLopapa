@@ -5,6 +5,6 @@ public class Elemento {
 	private String nombre;
 	private TipoDeElemento tipoDeElemento;
 	
-	//hagamos un modelo de todas las entidades,.controlador,. catalogo. Si usaremos o no
-
+	//LEER COMENTARIOSSS....
+	//hagamos un modelo de todas las entidades,controlador, catalogo. Si usaremos o no
 }
