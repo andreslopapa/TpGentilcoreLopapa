@@ -1,11 +1,11 @@
-package entity;
+package business.entities;
 
 public class Persona {
 	private String dni;
 	private String nombre;
 	private String apellido;
 	private String usuario;
-	private String contraseña;
+	private String contrasenia;
 	private int categoria; //prom. direct     1-encargado 2-admin 3-usuario
 	
 	public String getDni() {
@@ -28,22 +28,22 @@ public class Persona {
 	public void setUsuario(String usuario) {
 		this.usuario = usuario; }
 	
-	public String getContraseña() {
-		return contraseña;	}
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;	}
+	public String getContrasenia() {
+		return contrasenia;	}
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;	}
 	
 	public int getCategoria() {
 		return categoria; 	}
 	public void setCategoria(int categoria) {
 		this.categoria = categoria;  }	
 	
-	Persona(String apellido, String nombre, String dni, String usuario, String contraseña, int categoria){
+	Persona(String apellido, String nombre, String dni, String usuario, String contrasenia, int categoria){
 		this.setApellido(apellido);
 		this.setNombre(nombre);
 		this.setDni(dni);
 		this.setUsuario(usuario);
-		this.setContraseña(contraseña);
+		this.setContrasenia(contrasenia);
 		this.setCategoria(categoria);}
 	
 	@Override

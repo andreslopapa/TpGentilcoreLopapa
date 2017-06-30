@@ -1,4 +1,4 @@
-package entity;
+package business.entities;
 
 public class Elemento {
 	private int id;

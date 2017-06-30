@@ -1,4 +1,4 @@
-package entity;
+package business.entities;
 
 import java.util.Date;
 
@@ -10,6 +10,6 @@ public class TipoDeElemento {
 	//este ultimo campo podria INT. Ya que dice que un TipoDeElemento PUEDE tener una cantidad maxima de dias. en dicho caso le ponemos 0. ESCUCHO OPINION LOPAPA
 	
 	
-	//además AGREGAR CAMPO horas maxima de tiempo de reserva (en horas)
+	//ademï¿½s AGREGAR CAMPO horas maxima de tiempo de reserva (en horas)
 	
 }
