@@ -1,18 +1,6 @@
 package business.entities;
 
 public class Elemento {
-	
-	public Elemento(int id, String nombre, int id_elemento) {
-		this.id = id;
-		this.nombre = nombre;
-		this.id_elemento = id_elemento;
-	}
-	
-	
-	public Elemento(){}
-	
-	
-	
 	private int id;
 	private String nombre; //este es opcional
 	private int id_elemento;
@@ -37,5 +25,13 @@ public class Elemento {
 		this.id_elemento = id_elemento;
 	}
 	
+
+	public Elemento(int id, String nombre, int id_elemento) {
+		this.id = id;
+		this.nombre = nombre;
+		this.id_elemento = id_elemento;
+	}
+	
+	public Elemento(){}	
 	
 }
