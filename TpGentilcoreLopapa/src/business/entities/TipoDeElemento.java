@@ -5,19 +5,6 @@ import java.util.Date;
 public class TipoDeElemento {
 	
 	
-	public TipoDeElemento(int id, String nombre, int cant_max_res_pen, int limite_horas_res,
-			int dias_max_anticipacion) {
-		this.id = id;
-		this.nombre = nombre;
-		this.cant_max_res_pen = cant_max_res_pen;
-		this.limite_horas_res = limite_horas_res;
-		this.dias_max_anticipacion = dias_max_anticipacion;
-	}
-
-	public TipoDeElemento(){
-		
-	}
-
 	private int id;
 	private String nombre;
 	private int cant_max_res_pen; 
@@ -56,7 +43,15 @@ public class TipoDeElemento {
 		this.dias_max_anticipacion = dias_max_anticipacion;
 	}
 
-	
+	public TipoDeElemento(int id, String nombre, int cant_max_res_pen, int limite_horas_res,
+			int dias_max_anticipacion) {
+		this.id = id;
+		this.nombre = nombre;
+		this.cant_max_res_pen = cant_max_res_pen;
+		this.limite_horas_res = limite_horas_res;
+		this.dias_max_anticipacion = dias_max_anticipacion;
+	}
 
-	
+	public TipoDeElemento(){
+	}
 }
