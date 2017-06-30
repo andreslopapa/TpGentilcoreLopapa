@@ -3,13 +3,60 @@ package business.entities;
 import java.util.Date;
 
 public class TipoDeElemento {
+	
+	
+	public TipoDeElemento(int id, String nombre, int cant_max_res_pen, int limite_horas_res,
+			int dias_max_anticipacion) {
+		this.id = id;
+		this.nombre = nombre;
+		this.cant_max_res_pen = cant_max_res_pen;
+		this.limite_horas_res = limite_horas_res;
+		this.dias_max_anticipacion = dias_max_anticipacion;
+	}
+
+	public TipoDeElemento(){
+		
+	}
+
 	private int id;
 	private String nombre;
-	private int cant_max_reservas; 
-	private Date dias_min_anticipacion;			
-	//este ultimo campo podria INT. Ya que dice que un TipoDeElemento PUEDE tener una cantidad maxima de dias. en dicho caso le ponemos 0. ESCUCHO OPINION LOPAPA
+	private int cant_max_res_pen; 
+	private int limite_horas_res; //es el limite de tiempo de la reseva en horas
+	private int dias_max_anticipacion;//cantidad maxima de dias de anticipacion			
 	
 	
-	//adem�s AGREGAR CAMPO horas maxima de tiempo de reserva (en horas)
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public int getCant_max_res_pen() {
+		return cant_max_res_pen;
+	}
+	public void setCant_max_res_pen(int cant_max_res_pen) {
+		this.cant_max_res_pen = cant_max_res_pen;
+	}
+	public int getLimite_horas_res() {
+		return limite_horas_res;
+	}
+	public void setLimite_horas_res(int limite_horas_res) {
+		this.limite_horas_res = limite_horas_res;
+	}
+	public int getDias_max_anticipacion() {
+		return dias_max_anticipacion;
+	}
+	public void setDias_max_anticipacion(int dias_max_anticipacion) {
+		this.dias_max_anticipacion = dias_max_anticipacion;
+	}
+
+	
+
 	
 }
