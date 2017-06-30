@@ -2,10 +2,10 @@ package business.entities;
 
 import java.util.Date;
 
-public class TipoDeElemento {
+public class TipoElemento {
 	
 	
-	public TipoDeElemento(int id, String nombre, int cant_max_res_pen, int limite_horas_res,
+	public TipoElemento(int id, String nombre, int cant_max_res_pen, int limite_horas_res,
 			int dias_max_anticipacion) {
 		this.id = id;
 		this.nombre = nombre;
@@ -14,7 +14,7 @@ public class TipoDeElemento {
 		this.dias_max_anticipacion = dias_max_anticipacion;
 	}
 
-	public TipoDeElemento(){
+	public TipoElemento(){
 		
 	}
 
