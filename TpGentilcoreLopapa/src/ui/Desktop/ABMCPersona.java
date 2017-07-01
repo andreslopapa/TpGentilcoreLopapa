@@ -1,4 +1,4 @@
-package ui;
+package ui.Desktop;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
