@@ -9,7 +9,7 @@ public class TipoDeElemento {
 	private String nombre;
 	private int cant_max_res_pen; 
 	private int limite_horas_res; //es el limite de tiempo de la reseva en horas
-	private int dias_max_anticipacion;//cantidad maxima de dias de anticipacion			
+	private int dias_max_anticipacion;//es la cantidad maxima de dias de anticipacion			
 	
 	
 	public int getId() {
