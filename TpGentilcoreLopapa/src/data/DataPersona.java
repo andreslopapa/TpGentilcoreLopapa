@@ -25,7 +25,7 @@ public class DataPersona {
 							p.setApellido(rs.getString("apellido"));
 							p.setDni(rs.getString("dni"));
 							p.setUsuario(rs.getString("usuario"));		
-							p.setContrasenia(rs.getString("contrasenia"));	//NO DEBERÍA SER ALGUN METODO DE CONTRASEÑAS?							
+							p.setContrasenia(rs.getString("contrasenia"));	//NO DEBERï¿½A SER ALGUN METODO DE CONTRASEï¿½AS?							
 							p.setEmail(rs.getString("email"));
 							p.setHabilitado(rs.getBoolean("habilitado"));
 							pers.add(p);
@@ -65,7 +65,7 @@ public class DataPersona {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado) value(?,?,?,?,?,?,?)",
+					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado) values(?,?,?,?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setString(1, p.getDni());
