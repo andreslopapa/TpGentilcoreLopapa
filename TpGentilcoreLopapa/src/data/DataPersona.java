@@ -54,12 +54,9 @@ public class DataPersona {
 		
 	}
 	
-	//*/
+	*/
 
 	
-	
-	
-	//a ver si se corrigue el error
 	
 	
 	public void add(Persona p){
