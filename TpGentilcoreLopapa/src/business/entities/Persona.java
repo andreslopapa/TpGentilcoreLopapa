@@ -9,7 +9,7 @@ public class Persona {
 	private String contrasenia;
 	private String email;
 	private boolean habilitado; //true or false
-	private int id_categoria; //prom. direct     1-encargado 2-admin 3-usuario
+	private Categoria id_categoria; //prom. direct     1-encargado 2-admin 3-usuario
 	
 	public int getId() {
 		return id;
@@ -48,10 +48,10 @@ public class Persona {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public int getCategoria() {
+	Categoria getCategoria() {
 		return id_categoria; 	}
-	public void setCategoria(int categoria) {
-		this.id_categoria = categoria;  }	
+	void setCategoria(Categoria p_categoria) {
+		this.id_categoria = p_categoria;  }	
 	
 	public boolean isHabilitado() {
 		return habilitado;
@@ -60,23 +60,23 @@ public class Persona {
 		this.habilitado = habilitado;
 	}
 	
-	public Persona(){
 		
+	public Persona(){	
 	}
 	
-	public Persona(int id,String apellido, String nombre, String dni, String usuario, String contrasenia,String email, int categoria,boolean habilitado){
+	public Persona(int id,String apellido, String nombre, String dni, String usuario, String contrasenia,String email, Categoria categoria,boolean habilitado){
 		this(apellido,nombre,dni,usuario,contrasenia,email,categoria,habilitado);
 		this.setApellido(apellido);	
 	}
 	
-	public Persona(String apellido, String nombre, String dni, String usuario, String contrasenia,String email, int categoria,boolean habilitado){
+	public Persona(String apellido, String nombre, String dni, String usuario, String contrasenia,String email, Categoria id_categoria,boolean habilitado){
 		this.setApellido(apellido);
 		this.setNombre(nombre);
 		this.setDni(dni);
 		this.setUsuario(usuario);
 		this.setContrasenia(contrasenia);
 		this.setEmail(email);
-		this.setCategoria(categoria);
+		this.setCategoria(id_categoria);
 		this.setHabilitado(habilitado);}
 	
 	@Override

@@ -19,7 +19,6 @@ public class FactoryConexion {
 		}
 	}
 	
-	
 	public static FactoryConexion getInstancia(){
 		if(FactoryConexion.instancia == null){
 			FactoryConexion.instancia=new FactoryConexion();

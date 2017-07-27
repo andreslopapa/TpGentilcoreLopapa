@@ -24,6 +24,9 @@ public class DataPersona {
 							p.setNombre(rs.getString("nombre"));
 							p.setApellido(rs.getString("apellido"));
 							p.setDni(rs.getString("dni"));
+							p.setUsuario(rs.getString("usuario"));		
+							p.setContrasenia(rs.getString("contrasenia"));	//NO DEBERÍA SER ALGUN METODO DE CONTRASEÑAS?							
+							p.setEmail(rs.getString("email"));
 							p.setHabilitado(rs.getBoolean("habilitado"));
 							pers.add(p);
 						}
@@ -46,14 +49,11 @@ public class DataPersona {
 	
 
 	
-	
 	/*
 	public Persona getByDni(){
-//
-//completar//////////////////////////////////////////////////////////////
-//		
-	}
-	*/
+		
+	}*/
+
 	
 	
 	
@@ -66,13 +66,18 @@ public class DataPersona {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"insert into persona(dni, nombre, apellido, habilitado) value(?,?,?,?)",
+					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado) value(?,?,?,?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setString(1, p.getDni());
 			stmt.setString(2, p.getNombre());
 			stmt.setString(3, p.getApellido());
-			stmt.setBoolean(4, p.isHabilitado());
+			stmt.setString(4, p.getUsuario());
+			stmt.setString(5, p.getContrasenia());
+			stmt.setString(6, p.getEmail());			
+			stmt.setBoolean(7, p.isHabilitado());
+
+			//Y LA CATEGORIA??///////////////////////////////////////////////////
 			stmt.executeUpdate();
 			keyResultSet = stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
