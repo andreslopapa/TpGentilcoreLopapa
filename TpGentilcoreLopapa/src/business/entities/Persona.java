@@ -9,7 +9,7 @@ public class Persona {
 	private String contrasenia;
 	private String email;
 	private boolean habilitado; //true or false
-	private Categoria id_categoria; //prom. direct     1-encargado 2-admin 3-usuario
+	private Categoria categoria; //prom. direct     1-encargado 2-admin 3-usuario
 	
 	public int getId() {
 		return id;
@@ -49,9 +49,9 @@ public class Persona {
 		this.email = email;
 	}
 	Categoria getCategoria() {
-		return id_categoria; 	}
+		return categoria; 	}
 	void setCategoria(Categoria p_categoria) {
-		this.id_categoria = p_categoria;  }	
+		this.categoria = p_categoria;  }	
 	
 	public boolean isHabilitado() {
 		return habilitado;
