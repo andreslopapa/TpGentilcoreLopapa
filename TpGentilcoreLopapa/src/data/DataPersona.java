@@ -52,12 +52,14 @@ public class DataPersona {
 	/*
 	public Persona getByDni(){
 		
-	}*/
+	}
+	
+	//*/
 
 	
 	
 	
-	
+	//a ver si se corrigue el error
 	
 	
 	public void add(Persona p){
