@@ -26,8 +26,7 @@ public class FactoryConexion {
 		}
 		return FactoryConexion.instancia;
 	}
-	
-	
+/////////////
 	private Connection conn;
 	private int cantConn=0;
 	public Connection getConn(){
@@ -42,8 +41,7 @@ public class FactoryConexion {
 		cantConn++;
 		return conn;
 	}
-	
-	
+/////////////
 	public void releaseConn(){
 		try {
 			cantConn--;

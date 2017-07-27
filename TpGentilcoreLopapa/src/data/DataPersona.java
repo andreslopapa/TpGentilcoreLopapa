@@ -44,12 +44,7 @@ public class DataPersona {
 
 	
 	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	/*
@@ -58,12 +53,28 @@ public class DataPersona {
 //completar//////////////////////////////////////////////////////////////
 //		
 	}
+	*/
 	
 	
-	public Persona add(){
-///
-//completar//////////////////////////////////////////////////////////////
-//		
+	
+	
+	
+	
+	public void add(Persona p){
+		PreparedStatement stmt = null;
+		ResultSet keyResultSet = null;
+		
+		try {
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
+					"insert into persona(dni, nombre, apellido, habilitado) value(?,?,?,?)",
+					PreparedStatement.RETURN_GENERATED_KEYS
+					);
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
-*/
+
 }
