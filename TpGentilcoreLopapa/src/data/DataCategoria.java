@@ -40,6 +40,9 @@ public class DataCategoria {
 	}
 	
 	
+	/*public void add(Categoria cat){
+		PreparedStatement
+	}*/
 	
 	
 	
