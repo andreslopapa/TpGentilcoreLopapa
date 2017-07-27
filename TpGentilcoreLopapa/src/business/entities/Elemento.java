@@ -1,16 +1,16 @@
 package business.entities;
 
 public class Elemento {
-	private int id;
-	private String nombre; //este es opcional
 	private int id_elemento;
+	private String nombre; //este es opcional
+	private TipoDeElemento tipo;
 	
 	
 	public int getId() {
-		return id;
+		return id_elemento;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.id_elemento = id;
 	}
 	public String getNombre() {
 		return nombre;
@@ -26,8 +26,16 @@ public class Elemento {
 	}
 	
 
+	public TipoDeElemento getTipo() {
+		return tipo;
+	}
+	public void setTipo(TipoDeElemento tipo) {
+		this.tipo = tipo;
+	}
+	
+	
 	public Elemento(int id, String nombre, int id_elemento) {
-		this.id = id;
+		this.id_elemento = id;
 		this.nombre = nombre;
 		this.id_elemento = id_elemento;
 	}
