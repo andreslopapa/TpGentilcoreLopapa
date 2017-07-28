@@ -20,7 +20,7 @@ public class DataPersona {
 					if(rs!=null){
 						while(rs.next()){
 							Persona p= new Persona();
-							p.setId(rs.getInt("id"));
+							p.setId(rs.getInt("id_persona"));
 							p.setNombre(rs.getString("nombre"));
 							p.setApellido(rs.getString("apellido"));
 							p.setDni(rs.getString("dni"));

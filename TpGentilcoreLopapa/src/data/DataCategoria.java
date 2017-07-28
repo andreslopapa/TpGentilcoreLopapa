@@ -21,7 +21,7 @@ public class DataCategoria {
 			if(rs!=null){
 				while(rs.next()){
 					Categoria cat=new Categoria();
-					cat.setId(rs.getInt("id"));
+					cat.setId(rs.getInt("id_categoria"));
 					cat.setDescripcion(rs.getString("descripcion"));
 					categorias.add(cat);
 				}
