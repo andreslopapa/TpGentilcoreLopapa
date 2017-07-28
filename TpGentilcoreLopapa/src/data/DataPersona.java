@@ -28,6 +28,7 @@ public class DataPersona {
 							p.setContrasenia(rs.getString("contrasenia"));	//NO DEBERÍA SER ALGUN METODO DE CONTRASEÑAS?							
 							p.setEmail(rs.getString("email"));
 							p.setHabilitado(rs.getBoolean("habilitado"));
+							p.setCategoria(rs.getInt("categoria"));
 							pers.add(p);
 						}
 					}
@@ -49,12 +50,25 @@ public class DataPersona {
 	
 
 	
-	/*
+/*
 	public Persona getByDni(){
+		Persona p = null;
+		PreparedStatement stmt = null;
+		ResultSet rs= null;
 		
-	}
-	
-	*/
+		try {
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select id, nombre, apellido, dni, usuario, contrasenia, email , habilitado from persona where dni=?");
+			stmt.setString(1, p.getDni());
+			rs = stmt.executeQuery();
+			if(rs!=)
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}	*/
+
 
 	
 	
@@ -65,7 +79,7 @@ public class DataPersona {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado) value(?,?,?,?,?,?,?)",
+					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado, id_categoria) value(?,?,?,?,?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setString(1, p.getDni());
@@ -75,8 +89,7 @@ public class DataPersona {
 			stmt.setString(5, p.getContrasenia());
 			stmt.setString(6, p.getEmail());			
 			stmt.setBoolean(7, p.isHabilitado());
-
-			//Y LA CATEGORIA??///////////////////////////////////////////////////
+			stmt.setInt(8, p.getCategoria().getId());
 			stmt.executeUpdate();
 			keyResultSet = stmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){

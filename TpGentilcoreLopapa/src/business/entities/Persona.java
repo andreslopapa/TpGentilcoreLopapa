@@ -48,9 +48,9 @@ public class Persona {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	Categoria getCategoria() {
+	public Categoria getCategoria() {
 		return id_categoria; 	}
-	void setCategoria(Categoria p_categoria) {
+	public void setCategoria(Categoria p_categoria) {
 		this.id_categoria = p_categoria;  }	
 	
 	public boolean isHabilitado() {
