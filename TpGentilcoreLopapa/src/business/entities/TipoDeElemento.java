@@ -5,7 +5,7 @@ import java.util.Date;
 public class TipoDeElemento {
 	
 	
-	private int id;
+	private int id_tipodeelemento;
 	private String nombre;
 	private int cant_max_res_pen; 
 	private int limite_horas_res; //es el limite de tiempo de la reseva en horas
@@ -13,10 +13,10 @@ public class TipoDeElemento {
 	
 	
 	public int getId() {
-		return id;
+		return id_tipodeelemento;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.id_tipodeelemento = id;
 	}
 	public String getNombre() {
 		return nombre;
@@ -45,7 +45,7 @@ public class TipoDeElemento {
 
 	public TipoDeElemento(int id, String nombre, int cant_max_res_pen, int limite_horas_res,
 			int dias_max_anticipacion) {
-		this.id = id;
+		this.id_tipodeelemento = id;
 		this.nombre = nombre;
 		this.cant_max_res_pen = cant_max_res_pen;
 		this.limite_horas_res = limite_horas_res;

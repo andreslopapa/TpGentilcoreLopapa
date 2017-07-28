@@ -1,7 +1,7 @@
 package business.entities;
 
 public class Persona {
-	private int id;
+	private int id_persona;
 	private String dni;
 	private String nombre;
 	private String apellido;
@@ -12,10 +12,10 @@ public class Persona {
 	private Categoria categoria; //prom. direct     1-encargado 2-admin 3-usuario
 	
 	public int getId() {
-		return id;
+		return id_persona;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.id_persona = id;
 	}
 	public String getDni() {
 		return dni; 	}
