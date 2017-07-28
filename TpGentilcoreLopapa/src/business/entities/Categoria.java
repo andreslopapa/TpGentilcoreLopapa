@@ -1,15 +1,15 @@
 package business.entities;
 
 public class Categoria {
-	private int id;
+	private int id_categoria;
 	private String descripcion;
 
 	
 	public int getId() {
-		return id;
+		return id_categoria;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.id_categoria = id;
 	}
 	public String getDescripcion() {
 		return descripcion;
@@ -22,7 +22,7 @@ public class Categoria {
 	}
 	
 	public Categoria(int id, String descripcion) {
-		this.id = id;
+		this.id_categoria = id;
 		this.descripcion = descripcion;   
 		}
 }

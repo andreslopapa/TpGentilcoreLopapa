@@ -7,7 +7,7 @@ import data.DataPersona;
 
 public class PersonaLogic {
 	
-	private DataPersona dataPer;
+	/*private DataPersona dataPer;
 	private ArrayList<Persona> pers;
 	
 	public PersonaLogic(){
@@ -19,7 +19,7 @@ public class PersonaLogic {
 	
 	public void add(Persona p){
 		dataPer.add(p);
-	}
+	}*/
 /*--------------------------------------------------------------------------------------------
 	public void delete(Persona p){
 		dataPer.remove(p);

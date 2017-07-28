@@ -25,7 +25,7 @@ public class DataPersona {
 							p.setApellido(rs.getString("apellido"));
 							p.setDni(rs.getString("dni"));
 							p.setUsuario(rs.getString("usuario"));		
-							p.setContrasenia(rs.getString("contrasenia"));	//NO DEBERÍA SER ALGUN METODO DE CONTRASEÑAS?							
+							p.setContrasenia(rs.getString("contrasenia"));	//NO DEBERï¿½A SER ALGUN METODO DE CONTRASEï¿½AS?							
 							p.setEmail(rs.getString("email"));
 							p.setHabilitado(rs.getBoolean("habilitado"));
 							p.setCategoria(rs.getInt("categoria"));
@@ -79,7 +79,11 @@ public class DataPersona {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
+<<<<<<< HEAD
 					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado, id_categoria) value(?,?,?,?,?,?,?,?)",
+=======
+					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado) values(?,?,?,?,?,?,?)",
+>>>>>>> branch 'master' of https://github.com/andreslopapa/TpGentilcoreLopapa.git
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setString(1, p.getDni());

@@ -1,7 +1,7 @@
 package business.entities;
 
 public class Persona {
-	private int id;
+	private int id_persona;
 	private String dni;
 	private String nombre;
 	private String apellido;
@@ -9,13 +9,13 @@ public class Persona {
 	private String contrasenia;
 	private String email;
 	private boolean habilitado; //true or false
-	private Categoria id_categoria; //prom. direct     1-encargado 2-admin 3-usuario
+	private Categoria categoria; //prom. direct     1-encargado 2-admin 3-usuario
 	
 	public int getId() {
-		return id;
+		return id_persona;
 	}
 	public void setId(int id) {
-		this.id = id;
+		this.id_persona = id;
 	}
 	public String getDni() {
 		return dni; 	}
@@ -48,10 +48,17 @@ public class Persona {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+<<<<<<< HEAD
 	public Categoria getCategoria() {
 		return id_categoria; 	}
 	public void setCategoria(Categoria p_categoria) {
 		this.id_categoria = p_categoria;  }	
+=======
+	Categoria getCategoria() {
+		return categoria; 	}
+	void setCategoria(Categoria p_categoria) {
+		this.categoria = p_categoria;  }	
+>>>>>>> branch 'master' of https://github.com/andreslopapa/TpGentilcoreLopapa.git
 	
 	public boolean isHabilitado() {
 		return habilitado;
