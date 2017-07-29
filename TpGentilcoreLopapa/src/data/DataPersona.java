@@ -8,7 +8,7 @@ import business.entities.*;
 
 public class DataPersona {
 	
-	public ArrayList<Persona> getAll(){
+	public ArrayList<Persona> getAll() throws Exception{
 		Statement stmt = null;
 		ResultSet rs=null;
 		ArrayList<Persona> pers= new ArrayList<Persona>();
@@ -48,14 +48,14 @@ public class DataPersona {
 	}
 	
 
-	public Persona getByDni(Persona per){
+	public Persona getByDni(Persona per) throws Exception{
 		Persona p = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		DataCategoria dc = new DataCategoria();
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select id, nombre, apellido, dni, usuario, contrasenia, email , habilitado from persona where dni=?");
+					"select id, nombre, apellido, dni, usuario, contrasenia, email , habilitado, idCategoria from persona where dni=?");
 			stmt.setString(1, per.getDni());
 			rs = stmt.executeQuery();
 			if(rs!=null && rs.next()){
