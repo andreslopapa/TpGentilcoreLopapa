@@ -6,7 +6,7 @@ import java.sql.*;
 
 import business.entities.*;
 
-public class DataPersona {
+public class DataPersona{
 	
 	public ArrayList<Persona> getAll() throws Exception{
 		Statement stmt = null;
