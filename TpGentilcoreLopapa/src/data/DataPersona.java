@@ -12,6 +12,7 @@ public class DataPersona {
 		Statement stmt = null;
 		ResultSet rs=null;
 		ArrayList<Persona> pers= new ArrayList<Persona>();
+		DataCategoria dc = new DataCategoria();
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().createStatement();
@@ -28,7 +29,9 @@ public class DataPersona {
 							p.setContrasenia(rs.getString("contrasenia"));	//NO DEBER�A SER ALGUN METODO DE CONTRASE�AS?							
 							p.setEmail(rs.getString("email"));
 							p.setHabilitado(rs.getBoolean("habilitado"));
-							p.setCategoria(rs.getInt("categoria"));
+							int idCat= rs.getInt("idCategoria");
+							p.setCategoria(dc.getOne(idCat));
+							
 							pers.add(p);
 						}
 					}
@@ -45,29 +48,49 @@ public class DataPersona {
 		}		
 		return pers;
 	}
-
-	
 	
 
-	
-/*
 	public Persona getByDni(){
 		Persona p = null;
 		PreparedStatement stmt = null;
-		ResultSet rs= null;
+		ResultSet rs = null;
+		DataCategoria dc = new DataCategoria();
+		
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
 					"select id, nombre, apellido, dni, usuario, contrasenia, email , habilitado from persona where dni=?");
 			stmt.setString(1, p.getDni());
 			rs = stmt.executeQuery();
-			if(rs!=)
+			if(rs!=null && rs.next()){
+				p= new Persona();
+				p.setId(rs.getInt("id"));
+				p.setNombre(rs.getString("nombre"));
+				p.setApellido(rs.getString("apellido"));
+				p.setDni(rs.getString("dni"));
+				p.setUsuario(rs.getString("usuario"));		
+				p.setContrasenia(rs.getString("contrasenia"));	//NO DEBERIA SER ALGUN METODO DE CONTRASE�AS?							
+				p.setEmail(rs.getString("email"));
+				p.setHabilitado(rs.getBoolean("habilitado"));
+				int idCat= rs.getInt("idCategoria");
+				p.setCategoria(dc.getOne(idCat));
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		try {
+			if(rs!=null)rs.close();
+			if(stmt!=null)stmt.close();
+			FactoryConexion.getInstancia().releaseConn();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
-	}	*/
+		
+		return p;
+	}	
 
 
 	
@@ -79,11 +102,8 @@ public class DataPersona {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-<<<<<<< HEAD
-					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado, id_categoria) value(?,?,?,?,?,?,?,?)",
-=======
 					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado) values(?,?,?,?,?,?,?)",
->>>>>>> branch 'master' of https://github.com/andreslopapa/TpGentilcoreLopapa.git
+
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setString(1, p.getDni());
@@ -103,7 +123,6 @@ public class DataPersona {
 			e.printStackTrace();
 		}
 		
-		
 		try {
 			if(keyResultSet!=null) keyResultSet.close();
 			if(stmt!=null) stmt.close();
@@ -112,5 +131,4 @@ public class DataPersona {
 			e.printStackTrace();
 		}
 	}
-
 }
