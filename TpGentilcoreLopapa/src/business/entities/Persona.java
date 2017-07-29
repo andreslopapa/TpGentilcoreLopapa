@@ -11,6 +11,13 @@ public class Persona {
 	private boolean habilitado; //true or false
 	private Categoria categoria; //prom. direct     1-encargado 2-admin 3-usuario
 	
+	public Categoria getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+	
 	public int getId() {
 		return id_persona;
 	}
@@ -48,11 +55,8 @@ public class Persona {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	Categoria getCategoria() {
-		return categoria; 	}
-	void setCategoria(Categoria p_categoria) {
-		this.categoria = p_categoria;  }	
-	
+
+
 	public boolean isHabilitado() {
 		return habilitado;
 	}
@@ -77,7 +81,9 @@ public class Persona {
 		this.setContrasenia(contrasenia);
 		this.setEmail(email);
 		this.setCategoria(id_categoria);
-		this.setHabilitado(habilitado);}
+		this.setHabilitado(habilitado);
+		
+	}
 	
 	@Override
 	public boolean equals(Object p){
