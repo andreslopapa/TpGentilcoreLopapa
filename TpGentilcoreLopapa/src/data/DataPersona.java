@@ -48,7 +48,7 @@ public class DataPersona {
 	}
 	
 
-	public Persona getByDni(){
+	public Persona getByDni(Persona per){
 		Persona p = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -56,7 +56,7 @@ public class DataPersona {
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
 					"select id, nombre, apellido, dni, usuario, contrasenia, email , habilitado from persona where dni=?");
-			stmt.setString(1, p.getDni());
+			stmt.setString(1, per.getDni());
 			rs = stmt.executeQuery();
 			if(rs!=null && rs.next()){
 				p= new Persona();
