@@ -31,14 +31,12 @@ public class DataPersona {
 							p.setHabilitado(rs.getBoolean("habilitado"));
 							int idCat= rs.getInt("idCategoria");
 							p.setCategoria(dc.getOne(idCat));
-							
 							pers.add(p);
 						}
 					}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		try {
 			if(rs!=null) rs.close();
 			if(stmt!=null) stmt.close();
@@ -55,8 +53,6 @@ public class DataPersona {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		DataCategoria dc = new DataCategoria();
-		
-		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
 					"select id, nombre, apellido, dni, usuario, contrasenia, email , habilitado from persona where dni=?");
@@ -75,11 +71,9 @@ public class DataPersona {
 				int idCat= rs.getInt("idCategoria");
 				p.setCategoria(dc.getOne(idCat));
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		try {
 			if(rs!=null)rs.close();
 			if(stmt!=null)stmt.close();
@@ -87,23 +81,16 @@ public class DataPersona {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
 		return p;
 	}	
-
-
-	
 	
 	
 	public void add(Persona p){
 		PreparedStatement stmt = null;
 		ResultSet keyResultSet = null;
-		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
 					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado) values(?,?,?,?,?,?,?)",
-
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			stmt.setString(1, p.getDni());
@@ -122,7 +109,6 @@ public class DataPersona {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 		try {
 			if(keyResultSet!=null) keyResultSet.close();
 			if(stmt!=null) stmt.close();
