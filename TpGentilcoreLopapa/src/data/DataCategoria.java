@@ -6,11 +6,11 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLDataException;
 import java.sql.*;
 
 import business.entities.*;
-
+import tools.*;
 
 public class DataCategoria {
 
-	public ArrayList<Categoria> getAll(){
+	public ArrayList<Categoria> getAll()throws SQLException,AppDataException{
 		Statement stmt=null;
 		ResultSet rs=null;
 		ArrayList<Categoria> categorias=new ArrayList<Categoria>();
@@ -26,21 +26,28 @@ public class DataCategoria {
 				}
 			}
 		}
-		catch(SQLException ex){
-			ex.printStackTrace();
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al traer todas las categorias de la base de datos");
 			}		
-		try{
-			if(rs!=null)rs.close();
-			if(stmt!=null)stmt.close();
-			FactoryConexion.getInstancia().releaseConn();
+		finally{
+				try{
+					if(rs!=null)rs.close();
+					if(stmt!=null)stmt.close();
+					FactoryConexion.getInstancia().releaseConn();
+					}
+				catch(SQLException sqlex){
+					throw new AppDataException(sqlex,"Error al cerrar conexion, resultset o statement");
+					}
+			
 		}
-		catch(SQLException ex){
-			ex.printStackTrace();
-		}
+		
+	
 		return categorias;
 	}
-	
-	public Categoria getOne(Categoria cat)throws Exception{
+	//wacho nunca vas a buscar una categoria con el objeto entero,o con el id o con la descripcion
+	//lo mismo para cualquier otro objeto
+	/*
+	public Categoria getOne(Categoria cat)throws SQLException,AppDataException{
 		Categoria c = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -56,7 +63,7 @@ public class DataCategoria {
 				c.setDescripcion(rs.getString("descripcion"));
 				
 			}
-		} catch (Exception e) {
+		} catch (SQLException sqlex) {
 			e.printStackTrace();
 		}
 		
@@ -71,38 +78,38 @@ public class DataCategoria {
 		}
 		return c;
 	}
-
+*/
 	//SI EL PARAMETRO ES ENTERO
-	public Categoria getOne(int idcat)throws Exception{
+	public Categoria getOne(int idcat)throws SQLException,AppDataException{
 		Categoria c = null;
-		PreparedStatement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select id_categoria, descripcion from categoria where id=?");
-			stmt.setInt(1,idcat);
-			rs= stmt.executeQuery();
+			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select* from categoria where id=?");
+			pstmt.setInt(1,idcat);
+			rs= pstmt.executeQuery();
 			if(rs != null && rs.next()){
 				c = new Categoria();
 				c.setId(rs.getInt("id_categoria"));
 				c.setDescripcion(rs.getString("descripcion"));
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException sqlex) {
+			throw new AppDataException(sqlex, "Error al buscar una categoria por id");
 		}		
 		finally{
 		try {
 			if(rs != null) rs.close();
-			if(stmt != null) stmt.close();
+			if(pstmt != null) pstmt.close();
 			FactoryConexion.getInstancia().releaseConn();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SQLException sqlex) {
+			throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
 		} }
-		return c;		//RETURN CATEGORIA O UN ENTERO DE LA CATEGORIA??
+		return c;		//RETURN CATEGORIA O UN ENTERO DE LA CATEGORIA??->Retornas la categoria papa,siempre un objeto
 	}
 	
 	
-	public void add(Categoria cat){
+	public void add(Categoria cat)throws SQLException,AppDataException{
 		PreparedStatement pstmt=null;
 		ResultSet keyResulset=null;
 		try{
@@ -115,15 +122,15 @@ public class DataCategoria {
 				cat.setId(keyResulset.getInt(1));
 			}
 		}
-		catch(SQLException ex){
-			ex.printStackTrace();
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al agregar categoria");
 		}
 		try{
 			if(keyResulset!=null)keyResulset.close();
 			if(pstmt!=null)pstmt.close();
 			FactoryConexion.getInstancia().releaseConn();}
-		catch(SQLException ex){
-			ex.printStackTrace();
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
 		}
 	}
 }
