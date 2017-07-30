@@ -1,6 +1,6 @@
 package tools;
 
-public class AppDataException {
+public class AppDataException extends Exception{
 
 	String message;
 	Throwable innerException;

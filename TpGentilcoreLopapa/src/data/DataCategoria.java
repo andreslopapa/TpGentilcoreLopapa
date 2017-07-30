@@ -6,11 +6,11 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLDataException;
 import java.sql.*;
 
 import business.entities.*;
-
+import tools.*;
 
 public class DataCategoria {
 
-	public ArrayList<Categoria> getAll(){
+	public ArrayList<Categoria> getAll()throws SQLException,AppDataException{
 		Statement stmt=null;
 		ResultSet rs=null;
 		ArrayList<Categoria> categorias=new ArrayList<Categoria>();
@@ -26,17 +26,22 @@ public class DataCategoria {
 				}
 			}
 		}
-		catch(SQLException ex){
-			ex.printStackTrace();
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al traer todas las categorias de la base de datos");
 			}		
-		try{
-			if(rs!=null)rs.close();
-			if(stmt!=null)stmt.close();
-			FactoryConexion.getInstancia().releaseConn();
+		finally{
+				try{
+					if(rs!=null)rs.close();
+					if(stmt!=null)stmt.close();
+					FactoryConexion.getInstancia().releaseConn();
+					}
+				catch(SQLException sqlex){
+					throw new AppDataException(sqlex,"Error al cerrar conexion, resulset o statement");
+					}
+			
 		}
-		catch(SQLException ex){
-			ex.printStackTrace();
-		}
+		
+	
 		return categorias;
 	}
 	
