@@ -18,39 +18,39 @@ USE `BaseReservas`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `CAT_TIP`
+-- Table structure for table `cat_tip`
 --
 
-DROP TABLE IF EXISTS `CAT_TIP`;
+DROP TABLE IF EXISTS `cat_tip`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `CAT_TIP` (
+CREATE TABLE `cat_tip` (
   `id_categoria` int(11) NOT NULL,
   `id_tipodeelemento` int(11) NOT NULL,
   PRIMARY KEY (`id_categoria`,`id_tipodeelemento`),
   KEY `fk_id_tipodeelemento_idx` (`id_tipodeelemento`),
-  CONSTRAINT `fk_CAT_TIP_Categoria` FOREIGN KEY (`id_categoria`) REFERENCES `Categoria` (`id_categoria`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_CAT_TIP_Tipo` FOREIGN KEY (`id_tipodeelemento`) REFERENCES `TipoDeElemento` (`id_tipodeelemento`) ON UPDATE CASCADE
+  CONSTRAINT `fk_CAT_TIP_Categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_CAT_TIP_Tipo` FOREIGN KEY (`id_tipodeelemento`) REFERENCES `tipodeelemento` (`id_tipodeelemento`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `CAT_TIP`
+-- Dumping data for table `cat_tip`
 --
 
-LOCK TABLES `CAT_TIP` WRITE;
-/*!40000 ALTER TABLE `CAT_TIP` DISABLE KEYS */;
-/*!40000 ALTER TABLE `CAT_TIP` ENABLE KEYS */;
+LOCK TABLES `cat_tip` WRITE;
+/*!40000 ALTER TABLE `cat_tip` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cat_tip` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `Categoria`
+-- Table structure for table `categoria`
 --
 
-DROP TABLE IF EXISTS `Categoria`;
+DROP TABLE IF EXISTS `categoria`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Categoria` (
+CREATE TABLE `categoria` (
   `id_categoria` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(100) NOT NULL,
   PRIMARY KEY (`id_categoria`)
@@ -58,49 +58,49 @@ CREATE TABLE `Categoria` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Categoria`
+-- Dumping data for table `categoria`
 --
 
-LOCK TABLES `Categoria` WRITE;
-/*!40000 ALTER TABLE `Categoria` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Categoria` ENABLE KEYS */;
+LOCK TABLES `categoria` WRITE;
+/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
+/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `Elemento`
+-- Table structure for table `elemento`
 --
 
-DROP TABLE IF EXISTS `Elemento`;
+DROP TABLE IF EXISTS `elemento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Elemento` (
+CREATE TABLE `elemento` (
   `id_elemento` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
   `id_tipodeelemento` int(11) NOT NULL,
   PRIMARY KEY (`id_elemento`),
   KEY `fk_idtipodeelemento_idx` (`id_tipodeelemento`),
   KEY `fk_id_tipo_idx` (`id_tipodeelemento`),
-  CONSTRAINT `fk_Elemento_Tipo` FOREIGN KEY (`id_tipodeelemento`) REFERENCES `TipoDeElemento` (`id_tipodeelemento`) ON UPDATE CASCADE
+  CONSTRAINT `fk_Elemento_Tipo` FOREIGN KEY (`id_tipodeelemento`) REFERENCES `tipodeelemento` (`id_tipodeelemento`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Elemento`
+-- Dumping data for table `elemento`
 --
 
-LOCK TABLES `Elemento` WRITE;
-/*!40000 ALTER TABLE `Elemento` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Elemento` ENABLE KEYS */;
+LOCK TABLES `elemento` WRITE;
+/*!40000 ALTER TABLE `elemento` DISABLE KEYS */;
+/*!40000 ALTER TABLE `elemento` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `Persona`
+-- Table structure for table `persona`
 --
 
-DROP TABLE IF EXISTS `Persona`;
+DROP TABLE IF EXISTS `persona`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Persona` (
+CREATE TABLE `persona` (
   `id_persona` int(11) NOT NULL AUTO_INCREMENT,
   `dni` varchar(10) NOT NULL,
   `nombre` varchar(45) NOT NULL,
@@ -112,55 +112,55 @@ CREATE TABLE `Persona` (
   `id_categoria` int(11) NOT NULL,
   PRIMARY KEY (`id_persona`),
   KEY `fk_id_categoria_idx` (`id_categoria`),
-  CONSTRAINT `fk_Persona_Categoria` FOREIGN KEY (`id_categoria`) REFERENCES `Categoria` (`id_categoria`) ON UPDATE CASCADE
+  CONSTRAINT `fk_Persona_Categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Persona`
+-- Dumping data for table `persona`
 --
 
-LOCK TABLES `Persona` WRITE;
-/*!40000 ALTER TABLE `Persona` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Persona` ENABLE KEYS */;
+LOCK TABLES `persona` WRITE;
+/*!40000 ALTER TABLE `persona` DISABLE KEYS */;
+/*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `Reserva`
+-- Table structure for table `reserva`
 --
 
-DROP TABLE IF EXISTS `Reserva`;
+DROP TABLE IF EXISTS `reserva`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Reserva` (
+CREATE TABLE `reserva` (
   `id_persona` int(11) NOT NULL,
   `id_elemento` int(11) NOT NULL,
   `fecha_hora` datetime NOT NULL,
   `detalle` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`id_persona`,`id_elemento`),
   KEY `fk_Reserva_Elemento_idx` (`id_elemento`),
-  CONSTRAINT `fk_Reserva_Elemento` FOREIGN KEY (`id_elemento`) REFERENCES `Elemento` (`id_elemento`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_Reserva_Persona` FOREIGN KEY (`id_persona`) REFERENCES `Persona` (`id_persona`) ON UPDATE CASCADE
+  CONSTRAINT `fk_Reserva_Elemento` FOREIGN KEY (`id_elemento`) REFERENCES `elemento` (`id_elemento`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_Reserva_Persona` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Reserva`
+-- Dumping data for table `reserva`
 --
 
-LOCK TABLES `Reserva` WRITE;
-/*!40000 ALTER TABLE `Reserva` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Reserva` ENABLE KEYS */;
+LOCK TABLES `reserva` WRITE;
+/*!40000 ALTER TABLE `reserva` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reserva` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `TipoDeElemento`
+-- Table structure for table `tipodeelemento`
 --
 
-DROP TABLE IF EXISTS `TipoDeElemento`;
+DROP TABLE IF EXISTS `tipodeelemento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TipoDeElemento` (
+CREATE TABLE `tipodeelemento` (
   `id_tipodeelemento` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `cantmaxrespen` int(11) NOT NULL,
@@ -171,12 +171,12 @@ CREATE TABLE `TipoDeElemento` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `TipoDeElemento`
+-- Dumping data for table `tipodeelemento`
 --
 
-LOCK TABLES `TipoDeElemento` WRITE;
-/*!40000 ALTER TABLE `TipoDeElemento` DISABLE KEYS */;
-/*!40000 ALTER TABLE `TipoDeElemento` ENABLE KEYS */;
+LOCK TABLES `tipodeelemento` WRITE;
+/*!40000 ALTER TABLE `tipodeelemento` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tipodeelemento` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -188,4 +188,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-29 18:39:36
+-- Dump completed on 2017-07-29 21:26:05
