@@ -31,6 +31,7 @@ public class ABMCPersona {
 	private JTextField textNombre;
 	private JTextField textApellido;
 	private JTextField textDNI;
+	private JTextField textCategoria;
 	
 	
 
@@ -118,10 +119,6 @@ public class ABMCPersona {
 		rdbtnHabilitado.setBounds(130, 228, 109, 23);
 		frame.getContentPane().add(rdbtnHabilitado);
 		
-		JComboBox comboBoxCategoria = new JComboBox();
-		comboBoxCategoria.setBounds(130, 208, 150, 20);
-		frame.getContentPane().add(comboBoxCategoria);
-		
 		JLabel lblGestinDeNuevo = new JLabel("Gesti\u00F3n de nuevo usuario");
 		lblGestinDeNuevo.setFont(new Font("Calibri", Font.BOLD, 15));
 		lblGestinDeNuevo.setBounds(37, 23, 175, 14);
@@ -134,6 +131,7 @@ public class ABMCPersona {
 				guardarClick();
 			}
 		});
+			
 		
 		btnGuardar.setBounds(191, 270, 89, 23);
 		frame.getContentPane().add(btnGuardar);
@@ -152,22 +150,36 @@ public class ABMCPersona {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.setBounds(300, 132, 89, 23);
 		frame.getContentPane().add(btnBuscar);
+		
+		textCategoria = new JTextField();
+		textCategoria.setBounds(130, 208, 150, 20);
+		frame.getContentPane().add(textCategoria);
+		textCategoria.setColumns(10);
 	}
 	
-	protected void guardarClick(){
-		perLogic.add(this.mapearDeForm());
-		this.limpiarTexto();
+	protected void guardarClick() throws Exception{
+		try {
+			perLogic.add(this.mapearDeForm());
+			this.limpiarTexto();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	private void mapearDeForm(){
+
+	
+	private Persona mapearDeForm(){
 		Persona p= new Persona();
+		Categoria c = new Categoria();
 		p.setDni(this.textDNI.getText());
 		p.setNombre(this.textNombre.getText());
 		p.setApellido(this.textApellido.getText());
 		p.setUsuario(this.textUsuario.getText());
-		p.setNombre(this.passwordUsuarioField.getText());
-		p.setNombre(this.textNombre.getText());
-		p.setNombre(this.textNombre.getText());
+		p.setContrasenia(this.passwordUsuarioField.getText());			//detalle a tener en cuenta
+		p.setEmail(this.textEmail.getText());
+		c.setId(Integer.parseInt(this.textCategoria.getText()));
+
+		return p;
 		
 	}
 	
