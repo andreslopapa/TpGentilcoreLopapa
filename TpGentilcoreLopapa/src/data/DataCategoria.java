@@ -46,7 +46,7 @@ public class DataCategoria {
 	}
 	//wacho nunca vas a buscar una categoria con el objeto entero,o con el id o con la descripcion
 	//lo mismo para cualquier otro objeto
-	/*
+	
 	public Categoria getOne(Categoria cat)throws SQLException,AppDataException{
 		Categoria c = null;
 		PreparedStatement stmt = null;
@@ -54,7 +54,7 @@ public class DataCategoria {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select id_categoria, descripcion from categoria where id=?");
+					"select id_categoria, descripcion from categoria where id_categoria=?");
 			stmt.setInt(1,cat.getId());
 			rs= stmt.executeQuery();
 			if(rs != null && rs.next()){
@@ -64,7 +64,7 @@ public class DataCategoria {
 				
 			}
 		} catch (SQLException sqlex) {
-			e.printStackTrace();
+			sqlex.printStackTrace();
 		}
 		
 		finally{
@@ -78,7 +78,7 @@ public class DataCategoria {
 		}
 		return c;
 	}
-*/
+
 	//SI EL PARAMETRO ES ENTERO
 	public Categoria getOne(int idcat)throws SQLException,AppDataException{
 		Categoria c = null;
@@ -86,7 +86,7 @@ public class DataCategoria {
 		ResultSet rs = null;
 		try {
 			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select* from categoria where id=?");
+					"select * from categoria where id_categoria=?");
 			pstmt.setInt(1,idcat);
 			rs= pstmt.executeQuery();
 			if(rs != null && rs.next()){

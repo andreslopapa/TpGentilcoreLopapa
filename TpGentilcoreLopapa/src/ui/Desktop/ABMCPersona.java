@@ -1,5 +1,6 @@
 package ui.Desktop;
 
+import tools.AppDataException;
 import business.entities.*;
 import business.logic.*;
 import java.awt.EventQueue;
@@ -125,10 +126,18 @@ public class ABMCPersona {
 		frame.getContentPane().add(lblGestinDeNuevo);
 		
 		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		btnGuardar.addMouseListener(new MouseAdapter(){
 			@Override
 			public void mouseClicked(MouseEvent e){
-				guardarClick();
+				try {
+					guardarClick();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 			
@@ -148,6 +157,16 @@ public class ABMCPersona {
 		textDNI.setColumns(10);
 		
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					buscarClick();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnBuscar.setBounds(300, 132, 89, 23);
 		frame.getContentPane().add(btnBuscar);
 		
@@ -161,11 +180,22 @@ public class ABMCPersona {
 		try {
 			perLogic.add(this.mapearDeForm());
 			this.limpiarTexto();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception sqlex) {
+
+			throw new AppDataException(sqlex, "Error al guardar, metodo guardarClick");	
 		}
 	}
 	
+	
+	protected void buscarClick()  throws Exception{
+		try {
+			this.mapearAForm(perLogic.getByDni(this.mapearDeForm()));
+		} catch (Exception sqlex) {
+
+				throw new AppDataException(sqlex, "Error al buscar mtodo buscarClick");			//MECA: 			JOptionPane.showMessageDialog(this, e.getMessage());
+
+		}
+	}
 
 	
 	private Persona mapearDeForm(){
@@ -176,12 +206,26 @@ public class ABMCPersona {
 		p.setApellido(this.textApellido.getText());
 		p.setUsuario(this.textUsuario.getText());
 		p.setContrasenia(this.passwordUsuarioField.getText());			//detalle a tener en cuenta
-		p.setEmail(this.textEmail.getText());
-		c.setId(Integer.parseInt(this.textCategoria.getText()));
+	//	p.setEmail(this.textEmail.getText());
+	//	c.setId(Integer.parseInt(this.textCategoria.getText()));		//ojota aca xq se esta retornando solo P
+
 
 		return p;
-		
 	}
+	
+	
+	private void mapearAForm(Persona p){
+		this.textUsuario.setText(p.getUsuario());
+		this.textEmail.setText(p.getEmail());
+		this.passwordUsuarioField.setText(p.getContrasenia());
+		this.textDNI.setText(p.getDni());
+		this.textNombre.setText(p.getNombre());
+		this.textApellido.setText(p.getApellido());
+	//	this.textCategoria.setText(p.getCategoria());
+	//	this.textCategoria.setText(this.textCategoria.getText());
+	}
+	
+
 	
 	private void limpiarTexto(){
 		this.textDNI.setText("");

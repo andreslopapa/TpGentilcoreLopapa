@@ -7,9 +7,9 @@ public class FactoryConexion {
 	private String driver="com.mysql.jdbc.Driver";
 	private String host="localhost";
 	private String port="3306";
-	private String user="";			////////COMPLETAR///////
-	private String password="";		////////COMPLETAR///////
-	private String db="";			////////COMPLETAR///////
+	private String user="root";			////////COMPLETAR///////
+	private String password="root";		////////COMPLETAR///////
+	private String db="basereservas";			////////COMPLETAR///////
 	
 	private static FactoryConexion instancia;
 	

@@ -7,6 +7,7 @@ import java.sql.*;
 import business.entities.*;
 import tools.AppDataException;
 
+
 public class DataPersona{
 	
 	public ArrayList<Persona> getAll() throws SQLException,AppDataException{
@@ -18,7 +19,7 @@ public class DataPersona{
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().createStatement();
 			
-			rs = stmt.executeQuery("select * from persona"); 	////////VERIFICAR EL NOMBRE DE LA TABLA
+			rs = stmt.executeQuery("select * from persona"); 	
 					if(rs!=null){
 						while(rs.next()){
 							Persona p= new Persona();
@@ -56,20 +57,20 @@ public class DataPersona{
 		DataCategoria dc = new DataCategoria();
 		try {
 			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select* from persona where dni=?");
+					"select * from persona where dni=?");
 			pstmt.setString(1, per.getDni());
 			rs = pstmt.executeQuery();
 			if(rs!=null && rs.next()){
 				p= new Persona();
-				p.setId(rs.getInt("id"));
+				p.setId(rs.getInt("id_persona"));
 				p.setNombre(rs.getString("nombre"));
 				p.setApellido(rs.getString("apellido"));
 				p.setDni(rs.getString("dni"));
 				p.setUsuario(rs.getString("usuario"));		
-				p.setContrasenia(rs.getString("contrasenia"));	//NO DEBERIA SER ALGUN METODO DE CONTRASE�AS?							
+				p.setContrasenia(rs.getString("contrasenia"));	//NO DEBERIA SER ALGUN METODO DE CONTRASEnia?							
 				p.setEmail(rs.getString("email"));
 				p.setHabilitado(rs.getBoolean("habilitado"));
-				int idCat= rs.getInt("idCategoria");
+				int idCat= rs.getInt("id_categoria");
 				p.setCategoria(dc.getOne(idCat));
 			}
 		} catch (SQLException sqlex) {
@@ -91,7 +92,7 @@ public class DataPersona{
 		ResultSet keyResultSet = null;
 		try {
 			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado,id_categoria) values(?,?,?,?,?,?,?,?)",
+					"insert into persona(dni, nombre, apellido, usuario, contrasenia, correo, habilitado, id_categoria) values(?,?,?,?,?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			pstmt.setString(1, p.getDni());

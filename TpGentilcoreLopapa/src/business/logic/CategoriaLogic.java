@@ -20,6 +20,7 @@ public class CategoriaLogic {
 	public Categoria getOne(Categoria c) throws Exception{
 		return this.dataCat.getOne(c);
 	}
+
 	
 	public Categoria getOne(int idCat) throws Exception{
 		Categoria c = new Categoria();
