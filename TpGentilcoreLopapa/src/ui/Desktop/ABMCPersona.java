@@ -20,6 +20,7 @@ import javax.swing.JComboBox;
 import java.awt.Font;
 import javax.swing.JFormattedTextField;
 import javax.swing.ImageIcon;
+import javax.swing.DefaultComboBoxModel;
 
 public class ABMCPersona {
 
@@ -32,7 +33,7 @@ public class ABMCPersona {
 	private JTextField textNombre;
 	private JTextField textApellido;
 	private JTextField textDNI;
-	private JTextField textCategoria;
+	private JComboBox comboBox;
 	
 	
 
@@ -170,10 +171,11 @@ public class ABMCPersona {
 		btnBuscar.setBounds(300, 132, 89, 23);
 		frame.getContentPane().add(btnBuscar);
 		
-		textCategoria = new JTextField();
-		textCategoria.setBounds(130, 208, 150, 20);
-		frame.getContentPane().add(textCategoria);
-		textCategoria.setColumns(10);
+		 comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new Categoria[] {new Categoria(1,"Administrador"), new Categoria(2,"Encargado"), new Categoria(3,"Usuario")}));
+		comboBox.setBounds(130, 208, 150, 20);
+		frame.getContentPane().add(comboBox);
+		
 	}
 	
 	protected void guardarClick() throws Exception{
@@ -206,9 +208,9 @@ public class ABMCPersona {
 		p.setApellido(this.textApellido.getText());
 		p.setUsuario(this.textUsuario.getText());
 		p.setContrasenia(this.passwordUsuarioField.getText());			//detalle a tener en cuenta
-	//	p.setEmail(this.textEmail.getText());
+		p.setEmail(this.textEmail.getText());
 	//	c.setId(Integer.parseInt(this.textCategoria.getText()));		//ojota aca xq se esta retornando solo P
-
+		p.setCategoria((Categoria) this.comboBox.getSelectedItem());
 
 		return p;
 	}
@@ -221,6 +223,7 @@ public class ABMCPersona {
 		this.textDNI.setText(p.getDni());
 		this.textNombre.setText(p.getNombre());
 		this.textApellido.setText(p.getApellido());
+		this.comboBox.setSelectedItem((Categoria) p.getCategoria());
 	//	this.textCategoria.setText(p.getCategoria());
 	//	this.textCategoria.setText(this.textCategoria.getText());
 	}

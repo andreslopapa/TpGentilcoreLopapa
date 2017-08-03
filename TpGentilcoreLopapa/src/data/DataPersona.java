@@ -92,7 +92,7 @@ public class DataPersona{
 		ResultSet keyResultSet = null;
 		try {
 			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"insert into persona(dni, nombre, apellido, usuario, contrasenia, correo, habilitado, id_categoria) values(?,?,?,?,?,?,?,?)",
+					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado, id_categoria) values(?,?,?,?,?,?,?,?)",
 					PreparedStatement.RETURN_GENERATED_KEYS
 					);
 			pstmt.setString(1, p.getDni());
