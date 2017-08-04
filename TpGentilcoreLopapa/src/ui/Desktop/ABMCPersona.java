@@ -209,7 +209,6 @@ public class ABMCPersona {
 		p.setUsuario(this.textUsuario.getText());
 		p.setContrasenia(this.passwordUsuarioField.getText());			//detalle a tener en cuenta
 		p.setEmail(this.textEmail.getText());
-	//	c.setId(Integer.parseInt(this.textCategoria.getText()));		//ojota aca xq se esta retornando solo P
 		p.setCategoria((Categoria) this.comboBox.getSelectedItem());
 
 		return p;
@@ -224,9 +223,7 @@ public class ABMCPersona {
 		this.textNombre.setText(p.getNombre());
 		this.textApellido.setText(p.getApellido());
 		this.comboBox.setSelectedItem((Categoria) p.getCategoria());
-	//	this.textCategoria.setText(p.getCategoria());
-	//	this.textCategoria.setText(this.textCategoria.getText());
-	}
+}
 	
 
 	

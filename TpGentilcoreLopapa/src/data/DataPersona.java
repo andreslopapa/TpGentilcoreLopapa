@@ -119,4 +119,22 @@ public class DataPersona{
 			throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
 		}
 	}
+	/*
+	public void update(Persona p)throws SQLException,AppDataException{
+		PreparedStatement pstmt = null;
+		pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
+				"update persona set dni=?, nombre=?, apellido=?, usuario=?, contrasenia=?, email=?, habilitado=?, id_categoria=?" + 
+				"where dni=?");
+		pstmt.setString(1,p.getDni());
+		pstmt.setString(2, p.getNombre());
+		pstmt.setString(3, p.getApellido());
+		pstmt.setString(4, p.getUsuario());
+		pstmt.setString(5, p.getContrasenia());
+		pstmt.setString(6, p.getEmail());			
+		pstmt.setBoolean(7, p.isHabilitado());
+		pstmt.setInt(8, p.getCategoria().get);
+		
+
+	}
+	*/
 }
