@@ -6,7 +6,7 @@ values
 
 insert into persona(dni,nombre,apellido,usuario,contrasenia,habilitado,email,id_categoria) 
 values
-('39927307','Nawhuel','Alvarez','NaweShopping','123',0,'NaweShopping@gmail.com',3),
+('39927307','Nahuel','Alvarez','NaweShopping','123',0,'NaweShopping@gmail.com',3),
 ('11111111','Elsa','Pallo','zapallito','321',1,'zapallito@hotmail.com',3),
 ('22222222','Seba','Rantica','heilHitler','000',1,'bigotito@yahoo.com',2),
 ('33333333','Fausto','Azzaretti','elOligarca','1989',1,'mauriPresidente@yahoo.com',2),
