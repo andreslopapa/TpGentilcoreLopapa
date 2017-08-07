@@ -24,9 +24,9 @@ values
 
 insert into elemento(nombre,id_tipodeelemento)
 values
-(null,1),(null,1),('computadora',1),('servidor',1),('plotter',1),('camara',1),
+('computadora',1),('servidor',1),('plotter',1),('camara',1),
 ('jeen',2),('corbata',2),('saco',2),('pantalon',2),('traje',2),('zapatos',2),('vestido',2),
-('canchita de futbol',3),('salon de eventos',3),('quinta',3),(null,3),(null,3),(null,3),
+('canchita de futbol',3),('salon de eventos',3),('quinta',3),
 ('auto deportivo',4),('auto familiar',4),('triciclo',4),('panzer',4),('moto',4);
 
 /*delete from persona;
