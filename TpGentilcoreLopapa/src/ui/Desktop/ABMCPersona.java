@@ -73,9 +73,9 @@ public class ABMCPersona {
 		lblUsuario.setBounds(37, 61, 46, 14);
 		frame.getContentPane().add(lblUsuario);
 		
-		JLabel lblContraseña = new JLabel("Contrase\u00F1a");
-		lblContraseña.setBounds(37, 86, 56, 14);
-		frame.getContentPane().add(lblContraseña);
+		JLabel lblContrasenia = new JLabel("Contrase\u00F1a");
+		lblContrasenia.setBounds(37, 86, 56, 14);
+		frame.getContentPane().add(lblContrasenia);
 		
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setBounds(37, 111, 46, 14);
@@ -207,7 +207,7 @@ public class ABMCPersona {
 		p.setNombre(this.textNombre.getText());
 		p.setApellido(this.textApellido.getText());
 		p.setUsuario(this.textUsuario.getText());
-		p.setContrasenia(this.passwordUsuarioField.getText());			//detalle a tener en cuenta
+		p.setContrasenia(this.passwordUsuarioField.getPassword().toString()); //no se si es asi pero anda papa
 		p.setEmail(this.textEmail.getText());
 		p.setCategoria((Categoria) this.comboBox.getSelectedItem());
 

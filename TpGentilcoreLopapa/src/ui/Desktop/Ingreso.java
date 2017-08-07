@@ -3,18 +3,30 @@ package ui.Desktop;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.SystemColor;
+import javax.swing.UIManager;
+import javax.swing.JSeparator;
+import java.awt.Panel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.CompoundBorder;
 
 public class Ingreso {
 
-	private JFrame frame;
-	private JTextField textUsuario;
-	private JPasswordField passwordUsuario;
-
+	private JFrame frmLogin;
+	private JTextField txtUsuario;
+	private JTextField txtPassword;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -23,7 +35,7 @@ public class Ingreso {
 			public void run() {
 				try {
 					Ingreso window = new Ingreso();
-					window.frame.setVisible(true);
+					window.frmLogin.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -42,30 +54,53 @@ public class Ingreso {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
 		
-		JButton btnIngresar = new JButton("Ingresar");
-		btnIngresar.setBounds(188, 180, 89, 23);
-		frame.getContentPane().add(btnIngresar);
+	
+		frmLogin = new JFrame();
+		frmLogin.setResizable(false);
+		frmLogin.getContentPane().setBackground(new Color(255, 255, 255));
+		frmLogin.setTitle("Login");
+
+		frmLogin.setBounds(100, 100, 400, 247);
+		frmLogin.setLocationRelativeTo(null);
+		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmLogin.getContentPane().setLayout(null);
+		
+		Fondo fondo = new Fondo("loginimg.jpg");
+		fondo.setBounds(0, 0, 400, 247);
+		//frmLogin.setContentPane(fondo);
+		frmLogin.getContentPane().add(fondo);
+		
+		txtUsuario=new JTextField();
+		txtUsuario.setBounds(161, 86, 168, 19);
+		fondo.add(txtUsuario);
+		txtUsuario.setColumns(10);
 		
 		JLabel lblUsuario = new JLabel("Usuario");
-		lblUsuario.setBounds(100, 71, 36, 14);
-		frame.getContentPane().add(lblUsuario);
+		lblUsuario.setBounds(161, 72, 70, 15);
+		fondo.add(lblUsuario);
 		
-		textUsuario = new JTextField();
-		textUsuario.setBounds(156, 68, 170, 20);
-		frame.getContentPane().add(textUsuario);
-		textUsuario.setColumns(10);
+		JLabel lblPassword = new JLabel("Contraseña");
+		lblPassword.setBounds(164, 117, 85, 15);
+		fondo.add(lblPassword);
 		
-		passwordUsuario = new JPasswordField();
-		passwordUsuario.setBounds(156, 113, 170, 20);
-		frame.getContentPane().add(passwordUsuario);
+		txtPassword = new JTextField();
+		txtPassword.setBounds(161, 131, 168, 19);
+		fondo.add(txtPassword);
+		txtPassword.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Contrase\u00F1a");
-		lblNewLabel.setBounds(80, 116, 56, 14);
-		frame.getContentPane().add(lblNewLabel);
+		JButton btnSignIn = new JButton("Sign In");
+		btnSignIn.setBounds(212, 175, 117, 25);
+		fondo.add(btnSignIn);
+		
+		fondo.repaint(); 
+		
+//		JLabel lblParaelFondo = new JLabel("New label");
+//		
+//		lblParaelFondo.setBounds(0, 0, frmLogin.getWidth(), frmLogin.getHeight());
+//		
+//		Icon imgFondo=new ImageIcon(this.getClass().getResource("loginimg.jpg"));
+//		lblParaelFondo.setIcon(imgFondo);
+//		frmLogin.getContentPane().add(lblParaelFondo);
 	}
 }
