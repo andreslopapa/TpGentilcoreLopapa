@@ -93,7 +93,7 @@ public class Ingreso {
 		btnSignIn.setBounds(212, 175, 117, 25);
 		fondo.add(btnSignIn);
 		
-		fondo.repaint(); 
+		//fondo.repaint(); 
 		
 //		JLabel lblParaelFondo = new JLabel("New label");
 //		
