@@ -76,7 +76,7 @@ public class ABMCPersona {
 		frmSistemaDeGestin.getContentPane().setBackground(Color.WHITE);
 		frmSistemaDeGestin.setFont(new Font("Calibri", Font.PLAIN, 12));
 		frmSistemaDeGestin.setTitle("SISTEMA DE GESTI\u00D3N DE RESERVAS");
-		frmSistemaDeGestin.setBounds(100, 100, 696, 437);
+		frmSistemaDeGestin.setBounds(100, 100, 472, 438);
 		frmSistemaDeGestin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSistemaDeGestin.getContentPane().setLayout(null);
 		
@@ -131,7 +131,7 @@ public class ABMCPersona {
 		
 		JLabel lblGestinDeNuevo = new JLabel("Gesti\u00F3n de nuevo usuario");
 		lblGestinDeNuevo.setFont(new Font("Calibri", Font.BOLD, 15));
-		lblGestinDeNuevo.setBounds(45, 66, 175, 14);
+		lblGestinDeNuevo.setBounds(43, 39, 175, 14);
 		frmSistemaDeGestin.getContentPane().add(lblGestinDeNuevo);
 		
 		JButton btnGuardar = new JButton("Guardar");
@@ -151,7 +151,7 @@ public class ABMCPersona {
 		});
 			
 		
-		btnGuardar.setBounds(566, 354, 89, 23);
+		btnGuardar.setBounds(335, 354, 89, 23);
 		frmSistemaDeGestin.getContentPane().add(btnGuardar);
 		
 	
@@ -196,7 +196,7 @@ public class ABMCPersona {
 			}
 		});
 		
-		btnModificar.setBounds(419, 354, 89, 23);
+		btnModificar.setBounds(185, 354, 89, 23);
 		frmSistemaDeGestin.getContentPane().add(btnModificar);
 		
 		JButton btnBorrar = new JButton("Borrar");
@@ -210,12 +210,13 @@ public class ABMCPersona {
 				}
 			}
 		});
-		btnBorrar.setBounds(320, 354, 89, 23);
+		btnBorrar.setBounds(76, 354, 89, 23);
 		frmSistemaDeGestin.getContentPane().add(btnBorrar);
 		
-		JCheckBox chckbxHabilitado = new JCheckBox("Habilitado");
+		chckbxHabilitado = new JCheckBox("Habilitado");
 		chckbxHabilitado.setBounds(138, 300, 97, 23);
 		frmSistemaDeGestin.getContentPane().add(chckbxHabilitado);
+		
 		
 	}
 	
@@ -269,7 +270,7 @@ public class ABMCPersona {
 		p.setContrasenia(this.passwordUsuarioField.getText());			//detalle a tener en cuenta
 		p.setEmail(this.textEmail.getText());
 		p.setCategoria((Categoria) this.comboBox.getSelectedItem());
-	//	p.setHabilitado(chckbxHabilitado.isSelected());
+		p.setHabilitado(this.chckbxHabilitado.isSelected());
 
 
 		return p;
@@ -284,7 +285,7 @@ public class ABMCPersona {
 		this.textNombre.setText(p.getNombre());
 		this.textApellido.setText(p.getApellido());
 		this.comboBox.setSelectedItem((Categoria) p.getCategoria());
-	//	this.chckbxHabilitado.setSelected(p.isHabilitado());
+		this.chckbxHabilitado.setSelected(p.isHabilitado());
 }
 	
 
@@ -296,7 +297,7 @@ public class ABMCPersona {
 		this.textUsuario.setText("");
 		this.passwordUsuarioField.setText("");
 		this.textEmail.setText("");
-	//	this.chckbxHabilitado.setSelected(false);
+		this.chckbxHabilitado.setSelected(false);
 
 	}
 }
