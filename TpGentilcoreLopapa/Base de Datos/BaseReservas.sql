@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `BaseReservas` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `BaseReservas`;
 -- MySQL dump 10.13  Distrib 5.7.19, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: BaseReservas
@@ -54,7 +52,7 @@ CREATE TABLE `categoria` (
   `id_categoria` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(100) NOT NULL,
   PRIMARY KEY (`id_categoria`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,6 +61,7 @@ CREATE TABLE `categoria` (
 
 LOCK TABLES `categoria` WRITE;
 /*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
+INSERT INTO `categoria` VALUES (1,'Administrador'),(2,'Encargado'),(3,'Usuario');
 /*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,7 +80,7 @@ CREATE TABLE `elemento` (
   KEY `fk_idtipodeelemento_idx` (`id_tipodeelemento`),
   KEY `fk_id_tipo_idx` (`id_tipodeelemento`),
   CONSTRAINT `fk_Elemento_Tipo` FOREIGN KEY (`id_tipodeelemento`) REFERENCES `tipodeelemento` (`id_tipodeelemento`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,6 +89,7 @@ CREATE TABLE `elemento` (
 
 LOCK TABLES `elemento` WRITE;
 /*!40000 ALTER TABLE `elemento` DISABLE KEYS */;
+INSERT INTO `elemento` VALUES (1,NULL,1),(2,NULL,1),(3,'computadora',1),(4,'servidor',1),(5,'plotter',1),(6,'camara',1),(7,'jeen',2),(8,'corbata',2),(9,'saco',2),(10,'pantalon',2),(11,'traje',2),(12,'zapatos',2),(13,'vestido',2),(14,'canchita de futbol',3),(15,'salon de eventos',3),(16,'quinta',3),(17,NULL,3),(18,NULL,3),(19,NULL,3),(20,'auto deportivo',4),(21,'auto familiar',4),(22,'triciclo',4),(23,'panzer',4),(24,'moto',4);
 /*!40000 ALTER TABLE `elemento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -105,15 +105,15 @@ CREATE TABLE `persona` (
   `dni` varchar(10) NOT NULL,
   `nombre` varchar(45) NOT NULL,
   `apellido` varchar(45) NOT NULL,
-  `usuario` varchar(45) NOT NULL,
-  `contrasenia` varchar(45) NOT NULL,
+  `usuario` varchar(20) NOT NULL,
+  `contrasenia` varchar(20) NOT NULL,
   `habilitado` tinyint(4) NOT NULL,
   `email` varchar(45) NOT NULL,
   `id_categoria` int(11) NOT NULL,
   PRIMARY KEY (`id_persona`),
   KEY `fk_id_categoria_idx` (`id_categoria`),
   CONSTRAINT `fk_Persona_Categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,6 +122,7 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
+INSERT INTO `persona` VALUES (1,'39927307','nawe','shopping','naweferoz','123',0,'tunawebienturro@gmail.com',3),(2,'11111111','kim','deal','lakimpiola','321',1,'kim_deal@hotmail.com',3),(3,'22222222','joe','santiago','santiagojoe','000',1,'joe_santiago@yahoo.com',2),(4,'33333333','black','francis','thepixies','1989',1,'hey@yahoo.com',2),(5,'44444444','adrian','meca','debo aprobar','alumnos',1,'estoschicospromueven@hotmail.com',1),(6,'55555555','Ricky','Tabacman','Ricardo','123',1,'soyricky@yahoo.com',1);
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,7 +168,7 @@ CREATE TABLE `tipodeelemento` (
   `limite_horas_res` int(11) NOT NULL,
   `dias_max_anticipacion` int(11) NOT NULL,
   PRIMARY KEY (`id_tipodeelemento`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,6 +177,7 @@ CREATE TABLE `tipodeelemento` (
 
 LOCK TABLES `tipodeelemento` WRITE;
 /*!40000 ALTER TABLE `tipodeelemento` DISABLE KEYS */;
+INSERT INTO `tipodeelemento` VALUES (1,'electronico',3,72,8),(2,'ropa',10,72,15),(3,'inmueble',4,24,30),(4,'vehiculo',2,48,30);
 /*!40000 ALTER TABLE `tipodeelemento` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -188,4 +190,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-07-29 21:26:05
+-- Dump completed on 2017-08-08 18:43:04

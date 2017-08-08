@@ -5,17 +5,23 @@ import javax.swing.*;
 
 import business.entities.Persona;
 import business.logic.PersonaLogic;
+import tools.LimitadorTxt;
 import tools.MessageError;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 
 public class Ingreso {
 
 	private JFrame frmLogin;
 	private JTextField txtUsuario;
-	private JTextField txtPassword;
 	private PersonaLogic UsuLogic;
+	private JPasswordField pwfContrasenia;
 	
 	/**
 	 * Launch the application.
@@ -64,7 +70,14 @@ public class Ingreso {
 		frmLogin.getContentPane().add(fondo);
 		
 		txtUsuario=new JTextField();
+		txtUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				loguea();
+			}
+		});
+		LimitadorTxt.MaxCaracteres(20, txtUsuario);
 		txtUsuario.setBounds(161, 86, 168, 19);
+		
 		fondo.add(txtUsuario);
 		txtUsuario.setColumns(10);
 		
@@ -73,13 +86,8 @@ public class Ingreso {
 		fondo.add(lblUsuario);
 		
 		JLabel lblPassword = new JLabel("Contraseña");
-		lblPassword.setBounds(164, 117, 85, 15);
+		lblPassword.setBounds(161, 117, 85, 15);
 		fondo.add(lblPassword);
-		
-		txtPassword = new JTextField();
-		txtPassword.setBounds(161, 131, 168, 19);
-		fondo.add(txtPassword);
-		txtPassword.setColumns(10);
 		
 		JButton btnSignIn = new JButton("Sign In");
 		btnSignIn.addMouseListener(new MouseAdapter() {
@@ -87,17 +95,30 @@ public class Ingreso {
 			public void mouseClicked(MouseEvent arg0) {
 				
 				//UsuLogic.getLoggedUser(txtUsuario.getText(), txtPassword.getText());
-				validaCampos();
-				loguea(txtUsuario.getText(), txtPassword.getText());
+				loguea();
 			}
 		});
 		btnSignIn.setBounds(212, 175, 117, 25);
 		fondo.add(btnSignIn);
 		
+		pwfContrasenia = new JPasswordField();
+		pwfContrasenia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				loguea();
+			}
+		});
+		LimitadorTxt.MaxCaracteres(20, pwfContrasenia);
+		pwfContrasenia.setBounds(162, 132, 167, 19);
+		fondo.add(pwfContrasenia);
+		
 		
 
 	}
 	
+	private void loguea(){
+		if(validaCampos()){
+			loguea(txtUsuario.getText(), String.valueOf(pwfContrasenia.getPassword()));}
+	}
 	private void loguea(String usuario,String pass){
 		try{
 			Persona usu=UsuLogic.getLoggedUser(usuario, pass);
@@ -119,9 +140,11 @@ public class Ingreso {
 		}
 	}
 	
-	private void validaCampos(){
-		if(txtPassword.getText().isEmpty()||txtUsuario.getText().isEmpty()){
+	private Boolean validaCampos(){
+		if(String.valueOf(pwfContrasenia.getPassword()).isEmpty()||txtUsuario.getText().isEmpty()){
 			JOptionPane.showMessageDialog(frmLogin, "Complete todos los campos por favor", "", JOptionPane.INFORMATION_MESSAGE);
+		    return false;
 		}
+		return true;
 	}
 }
