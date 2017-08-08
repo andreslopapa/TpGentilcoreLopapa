@@ -50,6 +50,54 @@ public class DataPersona{
 	}
 	
 
+	public void update(Persona p) throws SQLException,AppDataException{
+	PreparedStatement stmt=null;
+		
+		try {
+			stmt= FactoryConexion.getInstancia().getConn().prepareStatement(
+					"update persona set dni=?, nombre=?, apellido=?, usuario=?, contrasenia=?, email=?, habilitado=? , id_categoria=?"+
+					" where dni=?");
+			
+			stmt.setString(1, p.getDni());
+			stmt.setString(2, p.getNombre());
+			stmt.setString(3, p.getApellido());
+			stmt.setString(4, p.getUsuario());
+			stmt.setString(5, p.getContrasenia());
+			stmt.setString(6, p.getEmail());	
+			stmt.setBoolean(7, p.isHabilitado());
+			stmt.setInt(8, p.getCategoria().getId());
+			stmt.setString(9, p.getDni());
+			stmt.execute();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} 
+		finally {
+			try {
+				if(stmt!=null)stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException sqlex) {
+				throw new AppDataException(sqlex, "Error al cerrar conexion de update, statement");
+			} 
+		}	
+	}
+
+	
+	public void delete(Persona p) throws SQLException,AppDataException{
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"delete from persona where dni=?");
+			stmt.setString(1,p.getDni());
+			stmt.execute();
+		} catch (SQLException sqlex) {
+			throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+		}
+	}
+	
+	
 	public Persona getByDni(Persona per) throws Exception{
 		Persona p = null;
 		PreparedStatement pstmt = null;
@@ -119,22 +167,5 @@ public class DataPersona{
 			throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
 		}
 	}
-	/*
-	public void update(Persona p)throws SQLException,AppDataException{
-		PreparedStatement pstmt = null;
-		pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-				"update persona set dni=?, nombre=?, apellido=?, usuario=?, contrasenia=?, email=?, habilitado=?, id_categoria=?" + 
-				"where dni=?");
-		pstmt.setString(1,p.getDni());
-		pstmt.setString(2, p.getNombre());
-		pstmt.setString(3, p.getApellido());
-		pstmt.setString(4, p.getUsuario());
-		pstmt.setString(5, p.getContrasenia());
-		pstmt.setString(6, p.getEmail());			
-		pstmt.setBoolean(7, p.isHabilitado());
-		pstmt.setInt(8, p.getCategoria().get);
-		
-
-	}
-	*/
+	
 }

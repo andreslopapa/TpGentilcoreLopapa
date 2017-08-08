@@ -21,12 +21,19 @@ import java.awt.Font;
 import javax.swing.JFormattedTextField;
 import javax.swing.ImageIcon;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.Toolkit;
+import java.awt.Color;
+import javax.swing.JTextPane;
+import java.awt.Component;
+import javax.swing.Box;
+import javax.swing.JMenu;
+import javax.swing.JCheckBox;
 
 public class ABMCPersona {
 
 	PersonaLogic perLogic = new PersonaLogic();
 	
-	private JFrame frame;
+	private JFrame frmSistemaDeGestin;
 	private JTextField textUsuario;
 	private JTextField textEmail;
 	private JPasswordField passwordUsuarioField;
@@ -34,6 +41,7 @@ public class ABMCPersona {
 	private JTextField textApellido;
 	private JTextField textDNI;
 	private JComboBox comboBox;
+	private JCheckBox chckbxHabilitado; 
 	
 	
 
@@ -45,7 +53,7 @@ public class ABMCPersona {
 			public void run() {
 				try {
 					ABMCPersona window = new ABMCPersona();
-					window.frame.setVisible(true);
+					window.frmSistemaDeGestin.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -64,67 +72,67 @@ public class ABMCPersona {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 415, 361);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmSistemaDeGestin = new JFrame();
+		frmSistemaDeGestin.getContentPane().setBackground(Color.WHITE);
+		frmSistemaDeGestin.setFont(new Font("Calibri", Font.PLAIN, 12));
+		frmSistemaDeGestin.setTitle("SISTEMA DE GESTI\u00D3N DE RESERVAS");
+		frmSistemaDeGestin.setBounds(100, 100, 472, 438);
+		frmSistemaDeGestin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmSistemaDeGestin.getContentPane().setLayout(null);
 		
 		JLabel lblUsuario = new JLabel("Usuario");
-		lblUsuario.setBounds(37, 61, 46, 14);
-		frame.getContentPane().add(lblUsuario);
+		lblUsuario.setBounds(45, 107, 46, 14);
+		frmSistemaDeGestin.getContentPane().add(lblUsuario);
 		
-		JLabel lblContrasenia = new JLabel("Contrase\u00F1a");
-		lblContrasenia.setBounds(37, 86, 56, 14);
-		frame.getContentPane().add(lblContrasenia);
+		JLabel lblContraseña = new JLabel("Contrase\u00F1a");
+		lblContraseña.setBounds(45, 132, 56, 14);
+		frmSistemaDeGestin.getContentPane().add(lblContraseña);
 		
 		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setBounds(37, 111, 46, 14);
-		frame.getContentPane().add(lblEmail);
+		lblEmail.setBounds(45, 157, 46, 14);
+		frmSistemaDeGestin.getContentPane().add(lblEmail);
 		
 		textUsuario = new JTextField();
-		textUsuario.setBounds(130, 58, 150, 20);
-		frame.getContentPane().add(textUsuario);
+		textUsuario.setBounds(138, 104, 150, 20);
+		frmSistemaDeGestin.getContentPane().add(textUsuario);
 		textUsuario.setColumns(10);
 		
 		textEmail = new JTextField();
-		textEmail.setBounds(130, 108, 150, 20);
-		frame.getContentPane().add(textEmail);
+		textEmail.setBounds(138, 154, 150, 20);
+		frmSistemaDeGestin.getContentPane().add(textEmail);
 		textEmail.setColumns(10);
 		
 		passwordUsuarioField = new JPasswordField();
-		passwordUsuarioField.setBounds(130, 83, 150, 20);
-		frame.getContentPane().add(passwordUsuarioField);
+		passwordUsuarioField.setBounds(138, 129, 150, 20);
+		frmSistemaDeGestin.getContentPane().add(passwordUsuarioField);
 		
 		JLabel lblNombre = new JLabel("Nombre");
-		lblNombre.setBounds(37, 161, 46, 14);
-		frame.getContentPane().add(lblNombre);
+		lblNombre.setBounds(45, 207, 46, 14);
+		frmSistemaDeGestin.getContentPane().add(lblNombre);
 		
 		textNombre = new JTextField();
-		textNombre.setBounds(130, 158, 150, 20);
-		frame.getContentPane().add(textNombre);
+		textNombre.setBounds(138, 204, 150, 20);
+		frmSistemaDeGestin.getContentPane().add(textNombre);
 		textNombre.setColumns(10);
 		
 		JLabel lblApellido = new JLabel("Apellido");
-		lblApellido.setBounds(37, 186, 46, 14);
-		frame.getContentPane().add(lblApellido);
+		lblApellido.setBounds(45, 232, 46, 14);
+		frmSistemaDeGestin.getContentPane().add(lblApellido);
 		
 		textApellido = new JTextField();
-		textApellido.setBounds(130, 183, 150, 20);
-		frame.getContentPane().add(textApellido);
+		textApellido.setBounds(138, 229, 150, 20);
+		frmSistemaDeGestin.getContentPane().add(textApellido);
 		textApellido.setColumns(10);
 		
 		JLabel lblCategoria = new JLabel("Categoria");
-		lblCategoria.setBounds(37, 211, 56, 14);
-		frame.getContentPane().add(lblCategoria);
-		
-		JRadioButton rdbtnHabilitado = new JRadioButton("Habilitado");
-		rdbtnHabilitado.setBounds(130, 228, 109, 23);
-		frame.getContentPane().add(rdbtnHabilitado);
+		lblCategoria.setBounds(45, 257, 56, 14);
+		frmSistemaDeGestin.getContentPane().add(lblCategoria);
+
 		
 		JLabel lblGestinDeNuevo = new JLabel("Gesti\u00F3n de nuevo usuario");
 		lblGestinDeNuevo.setFont(new Font("Calibri", Font.BOLD, 15));
-		lblGestinDeNuevo.setBounds(37, 23, 175, 14);
-		frame.getContentPane().add(lblGestinDeNuevo);
+		lblGestinDeNuevo.setBounds(43, 39, 175, 14);
+		frmSistemaDeGestin.getContentPane().add(lblGestinDeNuevo);
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
@@ -143,18 +151,18 @@ public class ABMCPersona {
 		});
 			
 		
-		btnGuardar.setBounds(191, 270, 89, 23);
-		frame.getContentPane().add(btnGuardar);
+		btnGuardar.setBounds(335, 354, 89, 23);
+		frmSistemaDeGestin.getContentPane().add(btnGuardar);
 		
 	
 		
 		JLabel lblDni = new JLabel("DNI");
-		lblDni.setBounds(37, 136, 46, 14);
-		frame.getContentPane().add(lblDni);
+		lblDni.setBounds(45, 182, 46, 14);
+		frmSistemaDeGestin.getContentPane().add(lblDni);
 		
 		textDNI = new JTextField();
-		textDNI.setBounds(130, 133, 150, 20);
-		frame.getContentPane().add(textDNI);
+		textDNI.setBounds(138, 179, 150, 20);
+		frmSistemaDeGestin.getContentPane().add(textDNI);
 		textDNI.setColumns(10);
 		
 		JButton btnBuscar = new JButton("Buscar");
@@ -168,13 +176,47 @@ public class ABMCPersona {
 				}
 			}
 		});
-		btnBuscar.setBounds(300, 132, 89, 23);
-		frame.getContentPane().add(btnBuscar);
+		btnBuscar.setBounds(308, 178, 89, 23);
+		frmSistemaDeGestin.getContentPane().add(btnBuscar);
 		
 		 comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new Categoria[] {new Categoria(1,"Administrador"), new Categoria(2,"Encargado"), new Categoria(3,"Usuario")}));
-		comboBox.setBounds(130, 208, 150, 20);
-		frame.getContentPane().add(comboBox);
+		comboBox.setBounds(138, 254, 150, 20);
+		frmSistemaDeGestin.getContentPane().add(comboBox);
+		
+		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					modificarClick();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		btnModificar.setBounds(185, 354, 89, 23);
+		frmSistemaDeGestin.getContentPane().add(btnModificar);
+		
+		JButton btnBorrar = new JButton("Borrar");
+		btnBorrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					eliminarClick();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnBorrar.setBounds(76, 354, 89, 23);
+		frmSistemaDeGestin.getContentPane().add(btnBorrar);
+		
+		chckbxHabilitado = new JCheckBox("Habilitado");
+		chckbxHabilitado.setBounds(138, 300, 97, 23);
+		frmSistemaDeGestin.getContentPane().add(chckbxHabilitado);
+		
 		
 	}
 	
@@ -199,6 +241,24 @@ public class ABMCPersona {
 		}
 	}
 
+	protected void modificarClick() throws Exception{
+		try {
+			perLogic.update(mapearDeForm());
+			this.limpiarTexto();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	protected void eliminarClick() throws Exception{
+		try {
+			perLogic.delete(mapearDeForm());
+			this.limpiarTexto();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private Persona mapearDeForm(){
 		Persona p= new Persona();
@@ -207,9 +267,11 @@ public class ABMCPersona {
 		p.setNombre(this.textNombre.getText());
 		p.setApellido(this.textApellido.getText());
 		p.setUsuario(this.textUsuario.getText());
-		p.setContrasenia(this.passwordUsuarioField.getPassword().toString()); //no se si es asi pero anda papa
+		p.setContrasenia(this.passwordUsuarioField.getText());			//detalle a tener en cuenta
 		p.setEmail(this.textEmail.getText());
 		p.setCategoria((Categoria) this.comboBox.getSelectedItem());
+		p.setHabilitado(this.chckbxHabilitado.isSelected());
+
 
 		return p;
 	}
@@ -223,6 +285,7 @@ public class ABMCPersona {
 		this.textNombre.setText(p.getNombre());
 		this.textApellido.setText(p.getApellido());
 		this.comboBox.setSelectedItem((Categoria) p.getCategoria());
+		this.chckbxHabilitado.setSelected(p.isHabilitado());
 }
 	
 
@@ -234,5 +297,7 @@ public class ABMCPersona {
 		this.textUsuario.setText("");
 		this.passwordUsuarioField.setText("");
 		this.textEmail.setText("");
+		this.chckbxHabilitado.setSelected(false);
+
 	}
 }

@@ -29,6 +29,14 @@ public class PersonaLogic {
 		return getByDni(p);
 	}
 	
+	public void update(Persona p) throws Exception{
+		dataPer.update(p);
+	}
+	
+	public void delete(Persona p) throws Exception{
+		dataPer.delete(p);
+	}
+	
 	public ArrayList<Persona> getAll() throws Exception{
 		return dataPer.getAll();
 	}
