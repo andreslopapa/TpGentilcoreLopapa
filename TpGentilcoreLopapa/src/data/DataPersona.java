@@ -168,4 +168,46 @@ public class DataPersona{
 		}
 	}
 	
+	
+	public Persona getLoggedUser(String usuario,String pass)throws SQLException,AppDataException{
+		Persona per=null;
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+		try{
+			
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select* from persona where usuario=? and contrasenia=?;");
+			pstmt.setString(1, usuario);
+			pstmt.setString(2, pass);
+			res=pstmt.executeQuery();
+			if(res!=null && res.next()){
+				per=new Persona();
+				per.setId(res.getInt("id_persona"));
+				per.setDni(res.getString("dni"));
+				per.setNombre(res.getString("nombre"));
+				per.setApellido(res.getString("apellido"));
+				per.setUsuario(res.getString("usuario"));
+				per.setContrasenia(res.getString("contrasenia"));
+				per.setHabilitado(res.getBoolean("habilitado"));
+				int id_categoria=res.getInt("id_categoria");
+				per.setCategoria(new DataCategoria().getOne(id_categoria));
+				per.setEmail(res.getString("email"));
+			}
+			
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al buscar usuario logueado");
+		}
+		finally{
+			try{
+			if(res!=null)res.close();
+			if(pstmt!=null)pstmt.close();
+			FactoryConexion.getInstancia().releaseConn();}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+			}
+		}
+		return per;
+	}
+	
 }

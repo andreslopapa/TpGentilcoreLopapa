@@ -84,9 +84,9 @@ public class ABMCPersona {
 		lblUsuario.setBounds(45, 107, 46, 14);
 		frmSistemaDeGestin.getContentPane().add(lblUsuario);
 		
-		JLabel lblContraseña = new JLabel("Contrase\u00F1a");
-		lblContraseña.setBounds(45, 132, 56, 14);
-		frmSistemaDeGestin.getContentPane().add(lblContraseña);
+		JLabel lblContrasenia = new JLabel("Contrase\u00F1a");
+		lblContrasenia.setBounds(45, 132, 56, 14);
+		frmSistemaDeGestin.getContentPane().add(lblContrasenia);
 		
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setBounds(45, 157, 46, 14);

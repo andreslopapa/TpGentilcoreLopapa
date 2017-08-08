@@ -1,41 +1,21 @@
 package ui.Desktop;
 
-import java.awt.EventQueue;
-import java.awt.Image;
+import java.awt.*;
+import javax.swing.*;
 
-import javax.swing.JFrame;
-import javax.imageio.ImageIO;
-import javax.print.DocFlavor.URL;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.BorderLayout;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.SystemColor;
-import java.awt.image.ImagingOpException;
-import java.io.File;
-
-import javax.swing.UIManager;
-import javax.swing.JSeparator;
-import java.awt.Panel;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.SoftBevelBorder;
-
+import business.entities.Persona;
+import business.logic.PersonaLogic;
 import tools.MessageError;
 
-import javax.swing.border.CompoundBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Ingreso {
 
 	private JFrame frmLogin;
 	private JTextField txtUsuario;
 	private JTextField txtPassword;
+	private PersonaLogic UsuLogic;
 	
 	/**
 	 * Launch the application.
@@ -57,6 +37,7 @@ public class Ingreso {
 	 * Create the application.
 	 */
 	public Ingreso() {
+		this.UsuLogic=new PersonaLogic();
 		initialize();
 
 	}
@@ -78,7 +59,7 @@ public class Ingreso {
 		frmLogin.getContentPane().setLayout(null);
 		
 		Fondo fondo = new Fondo("loginimg.jpg");
-		fondo.setBounds(0, 0, 394, 251);
+		fondo.setBounds(0, 0, 400, 279);
 		//frmLogin.setContentPane(fondo);
 		frmLogin.getContentPane().add(fondo);
 		
@@ -101,17 +82,46 @@ public class Ingreso {
 		txtPassword.setColumns(10);
 		
 		JButton btnSignIn = new JButton("Sign In");
+		btnSignIn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				//UsuLogic.getLoggedUser(txtUsuario.getText(), txtPassword.getText());
+				validaCampos();
+				loguea(txtUsuario.getText(), txtPassword.getText());
+			}
+		});
 		btnSignIn.setBounds(212, 175, 117, 25);
 		fondo.add(btnSignIn);
 		
-		//fondo.repaint(); 
 		
-//		JLabel lblParaelFondo = new JLabel("New label");
-//		
-//		lblParaelFondo.setBounds(0, 0, frmLogin.getWidth(), frmLogin.getHeight());
-//		
-//		Icon imgFondo=new ImageIcon(this.getClass().getResource("loginimg.jpg"));
-//		lblParaelFondo.setIcon(imgFondo);
-//		frmLogin.getContentPane().add(lblParaelFondo);
+
+	}
+	
+	private void loguea(String usuario,String pass){
+		try{
+			Persona usu=UsuLogic.getLoggedUser(usuario, pass);
+			if(usu!=null){
+				if(usu.isHabilitado()==true){
+					JOptionPane.showMessageDialog(frmLogin, "Usuario encontrado", "", JOptionPane.INFORMATION_MESSAGE);
+//aca despues abro otro frame
+				}else{
+					JOptionPane.showMessageDialog(frmLogin, "Usuario no Habilitado", "", JOptionPane.WARNING_MESSAGE);
+
+				}
+			}
+			else{
+				JOptionPane.showMessageDialog(frmLogin, "Usuario no encontrado", "", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}
+		catch(Exception ex){
+			MessageError.showMessageDialog(frmLogin,ex.getMessage());
+		}
+	}
+	
+	private void validaCampos(){
+		if(txtPassword.getText().isEmpty()||txtUsuario.getText().isEmpty()){
+			JOptionPane.showMessageDialog(frmLogin, "Complete todos los campos por favor", "", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 }

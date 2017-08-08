@@ -41,4 +41,7 @@ public class PersonaLogic {
 		return dataPer.getAll();
 	}
 	
+	public Persona getLoggedUser(String usuario,String pass)throws Exception{
+		return dataPer.getLoggedUser(usuario, pass);
+	}
 }
