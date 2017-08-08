@@ -1,24 +1,34 @@
 package ui.Desktop;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 
 import javax.swing.JFrame;
+import javax.imageio.ImageIO;
+import javax.print.DocFlavor.URL;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.SystemColor;
+import java.awt.image.ImagingOpException;
+import java.io.File;
+
 import javax.swing.UIManager;
 import javax.swing.JSeparator;
 import java.awt.Panel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
+
+import tools.MessageError;
+
 import javax.swing.border.CompoundBorder;
 
 public class Ingreso {
@@ -48,6 +58,7 @@ public class Ingreso {
 	 */
 	public Ingreso() {
 		initialize();
+
 	}
 
 	/**
