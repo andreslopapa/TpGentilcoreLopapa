@@ -76,7 +76,7 @@ public class ABMCPersona {
 		frmSistemaDeGestin.getContentPane().setBackground(Color.WHITE);
 		frmSistemaDeGestin.setFont(new Font("Calibri", Font.PLAIN, 12));
 		frmSistemaDeGestin.setTitle("SISTEMA DE GESTI\u00D3N DE RESERVAS");
-		frmSistemaDeGestin.setBounds(100, 100, 472, 438);
+		frmSistemaDeGestin.setBounds(100, 100, 773, 453);
 		frmSistemaDeGestin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSistemaDeGestin.getContentPane().setLayout(null);
 		

@@ -44,8 +44,7 @@ public class DataCategoria {
 	
 		return categorias;
 	}
-	//wacho nunca vas a buscar una categoria con el objeto entero,o con el id o con la descripcion
-	//lo mismo para cualquier otro objeto
+	
 	
 	public Categoria getOne(Categoria cat)throws SQLException,AppDataException{
 		Categoria c = null;
@@ -105,7 +104,7 @@ public class DataCategoria {
 		} catch (SQLException sqlex) {
 			throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
 		} }
-		return c;		//RETURN CATEGORIA O UN ENTERO DE LA CATEGORIA??->Retornas la categoria papa,siempre un objeto
+		return c;		
 	}
 	
 	

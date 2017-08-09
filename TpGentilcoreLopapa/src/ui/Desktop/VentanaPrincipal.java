@@ -17,6 +17,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.GroupLayout;
@@ -61,11 +62,13 @@ public class VentanaPrincipal extends JFrame {
 		setBounds(100, 100, 800, 450);
 		
 
-		int x; 
-		int y;
+
+		
 		contentPane = new JPanel();
 		contentPane.addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
+			//@Override
+			
+			int x,y;
 			public void mouseDragged(MouseEvent e) {
 				 Point point = MouseInfo.getPointerInfo().getLocation() ; 
 				setLocation(point.x - x, point.y - y)  ;
@@ -74,50 +77,79 @@ public class VentanaPrincipal extends JFrame {
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(null);	
 		
 		JLabel lblSistemaDeGestin = new JLabel("  SISTEMA DE GESTI\u00D3N DE RESERVAS");
 		lblSistemaDeGestin.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent evt) {
+			
+			int x,y; 
+			
+		//	@Override
+			public void lblSistemaDeGestinmousePressed(MouseEvent evt) {
+
 				   x = evt.getX   ()  ; 
 				   y = evt.getY   ()  ; 
-			}
-			
-
-			
-			
+			}			
 		});
+		
+
 		lblSistemaDeGestin.setBounds(0, 1, 742, 31);
 		lblSistemaDeGestin.setForeground(Color.WHITE);
 		lblSistemaDeGestin.setBackground(new Color(0, 51, 102));
 		lblSistemaDeGestin.setOpaque(true);
 		lblSistemaDeGestin.setFont(new Font("Calibri", Font.PLAIN, 12));
 		contentPane.add(lblSistemaDeGestin);
-		
+
+		/*
+		//BOTONES DE MINIMAR Y CERRAR (EN CASO DE QUERER CAMBIAR EL DISEÑ
 		Button button_Cerrar = new Button("X");
+		button_Cerrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0); 
+			}
+		});
 		button_Cerrar.setForeground(Color.BLACK);
 		button_Cerrar.setBounds(772, 1, 28, 31);
 		contentPane.add(button_Cerrar);
-		
+O)
 		Button button_Minimizar = new Button("-");
+		button_Minimizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				setExtendedState(ICONIFIED); 
+
+			}
+		});
 		button_Minimizar.setBounds(740, 1, 28, 31);
 		contentPane.add(button_Minimizar);
-		
+		*/
 		JLabel lblCerrar = new JLabel("X");
+		lblCerrar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(JOptionPane.showConfirmDialog(null, "Esta seguro que desea Cerrar?", "Saliendo", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+					System.exit(0);
+					}
+			}
+		});
 		lblCerrar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCerrar.setForeground(Color.WHITE);
-		lblCerrar.setBounds(772, 38, 28, 31);
-		lblCerrar.setBackground(new Color(0, 51, 102));
+		lblCerrar.setBounds(772, 1, 28, 31);
+		lblCerrar.setBackground(SystemColor.controlText);
 		lblCerrar.setOpaque(true);
 		lblCerrar.setFont(new Font("Calibri", Font.PLAIN, 12));
 		contentPane.add(lblCerrar);
 		
 		JLabel labMinimizar = new JLabel("-");
+		labMinimizar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				setExtendedState(ICONIFIED); 
+			}
+		});
 		labMinimizar.setHorizontalAlignment(SwingConstants.CENTER);
 		labMinimizar.setForeground(Color.WHITE);
-		labMinimizar.setBounds(740, 38, 28, 31);
-		labMinimizar.setBackground(new Color(0, 51, 102));
+		labMinimizar.setBounds(743, 1, 28, 31);
+		labMinimizar.setBackground(SystemColor.controlText);
 		labMinimizar.setOpaque(true);
 
 		contentPane.add(labMinimizar);
@@ -126,11 +158,9 @@ public class VentanaPrincipal extends JFrame {
 		labMinimizar.setFocusable(false)  ; 
 		lblCerrar.setFocusable(false)  ; 
 		lblSistemaDeGestin.setFocusable(false)  ; 
-		button_Minimizar.setFocusable(false)  ; 
-		button_Cerrar.setFocusable(false) ; 
-		
-		//para arrastrarlo en la compu
-		int x, y;
+	//	button_Minimizar.setFocusable(false)  ; 
+	//	button_Cerrar.setFocusable(false) ; 
+
 		
 		
 		
