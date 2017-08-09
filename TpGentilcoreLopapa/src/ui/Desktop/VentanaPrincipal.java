@@ -78,7 +78,7 @@ public class VentanaPrincipal extends JFrame {
 				setLocation(point.x - x, point.y - y)  ;
 			}
 		});
-		contentPane.setBackground(new Color(51, 51, 102));
+		contentPane.setBackground(new Color(0, 51, 102));
 		contentPane.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.LIGHT_GRAY));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);	
@@ -136,9 +136,9 @@ O)
 			}
 		});
 		lblCerrar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCerrar.setForeground(Color.WHITE);
-		lblCerrar.setBounds(772, 1, 28, 31);
-		lblCerrar.setBackground(Color.BLACK);
+		lblCerrar.setForeground(new Color(153, 51, 51));
+		lblCerrar.setBounds(770, 0, 28, 32);
+		lblCerrar.setBackground(Color.WHITE);
 		lblCerrar.setOpaque(true);
 		lblCerrar.setFont(new Font("Calibri", Font.PLAIN, 12));
 		contentPane.add(lblCerrar);
@@ -152,9 +152,9 @@ O)
 			}
 		});
 		labMinimizar.setHorizontalAlignment(SwingConstants.CENTER);
-		labMinimizar.setForeground(Color.WHITE);
-		labMinimizar.setBounds(743, 1, 28, 31);
-		labMinimizar.setBackground(Color.DARK_GRAY);
+		labMinimizar.setForeground(new Color(153, 51, 51));
+		labMinimizar.setBounds(742, 0, 28, 32);
+		labMinimizar.setBackground(Color.WHITE);
 		labMinimizar.setOpaque(true);
 
 		contentPane.add(labMinimizar);
@@ -164,58 +164,52 @@ O)
 		lblCerrar.setFocusable(false)  ; 
 		lblSistemaDeGestin.setFocusable(false)  ;
 		
-		Panel panel_Gris_Derecho = new Panel();
-		panel_Gris_Derecho.setBackground(new Color(0, 51, 102));
-		panel_Gris_Derecho.setBounds(288, 33, 512, 417);
-		contentPane.add(panel_Gris_Derecho);
-		panel_Gris_Derecho.setLayout(null);
-		
-		JLabel lblUsuario = new JLabel("Usuario");
-		lblUsuario.setForeground(Color.WHITE);
-		lblUsuario.setBounds(68, 107, 43, 16);
-		lblUsuario.setFont(new Font("Calibri", Font.PLAIN, 14));
-		panel_Gris_Derecho.add(lblUsuario);
-		
-		textUsuario = new JTextField();
-		textUsuario.setBounds(67, 132, 348, 20);
-		panel_Gris_Derecho.add(textUsuario);
-		textUsuario.setColumns(10);
-		
 		JLabel lblContrasenia = new JLabel("Contrase\u00F1a");
+		lblContrasenia.setBounds(353, 246, 77, 14);
+		contentPane.add(lblContrasenia);
 		lblContrasenia.setForeground(Color.WHITE);
 		lblContrasenia.setFont(new Font("Calibri", Font.PLAIN, 14));
-		lblContrasenia.setBounds(68, 196, 77, 14);
-		panel_Gris_Derecho.add(lblContrasenia);
+		
+		textUsuario = new JTextField();
+		textUsuario.setBounds(215, 183, 348, 20);
+		contentPane.add(textUsuario);
+		textUsuario.setColumns(10);
+		
+		JLabel lblUsuario = new JLabel("Usuario");
+		lblUsuario.setBounds(362, 153, 43, 16);
+		contentPane.add(lblUsuario);
+		lblUsuario.setForeground(Color.WHITE);
+		lblUsuario.setFont(new Font("Calibri", Font.PLAIN, 14));
+		
+		JLabel lblInicioSesion = new JLabel("Iniciar sesi\u00F3n");
+		lblInicioSesion.setBounds(336, 89, 122, 20);
+		contentPane.add(lblInicioSesion);
+		lblInicioSesion.setFont(new Font("Calibri", Font.PLAIN, 18));
+		lblInicioSesion.setForeground(Color.WHITE);
 		
 		textContrasenia = new JTextField();
-		textContrasenia.setBounds(68, 221, 347, 20);
-		panel_Gris_Derecho.add(textContrasenia);
+		textContrasenia.setBounds(216, 272, 347, 20);
+		contentPane.add(textContrasenia);
 		textContrasenia.setColumns(10);
 		
+		JLabel lblnoTieneUnaCuenta = new JLabel("\u00BFNo tiene una cuenta?");
+		lblnoTieneUnaCuenta.setBounds(216, 344, 107, 14);
+		contentPane.add(lblnoTieneUnaCuenta);
+		lblnoTieneUnaCuenta.setFont(new Font("Calibri", Font.PLAIN, 11));
+		lblnoTieneUnaCuenta.setForeground(Color.WHITE);
+		
+		JLabel lblCreeUna = new JLabel("Cree una");
+		lblCreeUna.setBounds(329, 345, 55, 14);
+		contentPane.add(lblCreeUna);
+		lblCreeUna.setFont(new Font("Calibri", Font.BOLD, 12));
+		lblCreeUna.setForeground(Color.WHITE);
+		
 		JLabel lblIngresar = new JLabel("Ingresar");
+		lblIngresar.setBounds(491, 343, 72, 16);
+		contentPane.add(lblIngresar);
 		lblIngresar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblIngresar.setFont(new Font("Calibri", Font.BOLD, 14));
 		lblIngresar.setForeground(Color.WHITE);
-		lblIngresar.setBounds(343, 292, 72, 16);
-		panel_Gris_Derecho.add(lblIngresar);
-		
-		JLabel lblInicioSesion = new JLabel("Iniciar sesi\u00F3n");
-		lblInicioSesion.setFont(new Font("Calibri", Font.PLAIN, 18));
-		lblInicioSesion.setForeground(Color.WHITE);
-		lblInicioSesion.setBounds(68, 40, 122, 20);
-		panel_Gris_Derecho.add(lblInicioSesion);
-		
-		JLabel lblnoTieneUnaCuenta = new JLabel("\u00BFNo tiene una cuenta?");
-		lblnoTieneUnaCuenta.setFont(new Font("Calibri", Font.PLAIN, 11));
-		lblnoTieneUnaCuenta.setForeground(Color.WHITE);
-		lblnoTieneUnaCuenta.setBounds(68, 293, 107, 14);
-		panel_Gris_Derecho.add(lblnoTieneUnaCuenta);
-		
-		JLabel lblCreeUna = new JLabel("Cree una");
-		lblCreeUna.setFont(new Font("Calibri", Font.BOLD, 12));
-		lblCreeUna.setForeground(Color.WHITE);
-		lblCreeUna.setBounds(181, 294, 55, 14);
-		panel_Gris_Derecho.add(lblCreeUna);
 	//	button_Minimizar.setFocusable(false)  ; 
 	//	button_Cerrar.setFocusable(false) ; 
 
