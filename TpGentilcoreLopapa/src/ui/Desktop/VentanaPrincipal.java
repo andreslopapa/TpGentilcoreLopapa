@@ -93,7 +93,11 @@ public class VentanaPrincipal extends JFrame {
 
 				   x = evt.getX   ()  ; 
 				   y = evt.getY   ()  ; 
-			}			
+			}		
+			public void mouseDragged(MouseEvent e) {
+				 Point point = MouseInfo.getPointerInfo().getLocation() ; 
+				setLocation(point.x - x, point.y - y)  ;
+			}
 		});
 		
 

@@ -73,7 +73,7 @@ public class ABMCPersona {
 	 */
 	private void initialize() {
 		frmSistemaDeGestin = new JFrame();
-		frmSistemaDeGestin.getContentPane().setBackground(Color.WHITE);
+		frmSistemaDeGestin.getContentPane().setBackground(new Color(0, 51, 102));
 		frmSistemaDeGestin.setFont(new Font("Calibri", Font.PLAIN, 12));
 		frmSistemaDeGestin.setTitle("SISTEMA DE GESTI\u00D3N DE RESERVAS");
 		frmSistemaDeGestin.setBounds(100, 100, 773, 453);
@@ -81,15 +81,21 @@ public class ABMCPersona {
 		frmSistemaDeGestin.getContentPane().setLayout(null);
 		
 		JLabel lblUsuario = new JLabel("Usuario");
+		lblUsuario.setForeground(Color.WHITE);
+		lblUsuario.setFont(new Font("Calibri", Font.PLAIN, 14));
 		lblUsuario.setBounds(45, 107, 46, 14);
 		frmSistemaDeGestin.getContentPane().add(lblUsuario);
 		
-		JLabel lblContraseña = new JLabel("Contrase\u00F1a");
-		lblContraseña.setBounds(45, 132, 56, 14);
-		frmSistemaDeGestin.getContentPane().add(lblContraseña);
+		JLabel lblContrasenia = new JLabel("Contrase\u00F1a");
+		lblContrasenia.setBounds(45, 132, 56, 14);
+		lblContrasenia.setForeground(Color.WHITE);
+		lblContrasenia.setFont(new Font("Calibri", Font.PLAIN, 14));
+		frmSistemaDeGestin.getContentPane().add(lblContrasenia);
 		
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setBounds(45, 157, 46, 14);
+		lblEmail.setForeground(Color.WHITE);
+		lblEmail.setFont(new Font("Calibri", Font.PLAIN, 14));
 		frmSistemaDeGestin.getContentPane().add(lblEmail);
 		
 		textUsuario = new JTextField();
@@ -108,6 +114,8 @@ public class ABMCPersona {
 		
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setBounds(45, 207, 46, 14);
+		lblNombre.setForeground(Color.WHITE);
+		lblNombre.setFont(new Font("Calibri", Font.PLAIN, 14));
 		frmSistemaDeGestin.getContentPane().add(lblNombre);
 		
 		textNombre = new JTextField();
@@ -117,6 +125,8 @@ public class ABMCPersona {
 		
 		JLabel lblApellido = new JLabel("Apellido");
 		lblApellido.setBounds(45, 232, 46, 14);
+		lblApellido.setForeground(Color.WHITE);
+		lblApellido.setFont(new Font("Calibri", Font.PLAIN, 14));
 		frmSistemaDeGestin.getContentPane().add(lblApellido);
 		
 		textApellido = new JTextField();
@@ -126,11 +136,14 @@ public class ABMCPersona {
 		
 		JLabel lblCategoria = new JLabel("Categoria");
 		lblCategoria.setBounds(45, 257, 56, 14);
+		lblCategoria.setForeground(Color.WHITE);
+		lblCategoria.setFont(new Font("Calibri", Font.PLAIN, 14));
 		frmSistemaDeGestin.getContentPane().add(lblCategoria);
 
 		
 		JLabel lblGestinDeNuevo = new JLabel("Gesti\u00F3n de nuevo usuario");
-		lblGestinDeNuevo.setFont(new Font("Calibri", Font.BOLD, 15));
+		lblGestinDeNuevo.setForeground(Color.WHITE);
+		lblGestinDeNuevo.setFont(new Font("Calibri", Font.BOLD, 18));
 		lblGestinDeNuevo.setBounds(43, 39, 175, 14);
 		frmSistemaDeGestin.getContentPane().add(lblGestinDeNuevo);
 		
@@ -158,6 +171,8 @@ public class ABMCPersona {
 		
 		JLabel lblDni = new JLabel("DNI");
 		lblDni.setBounds(45, 182, 46, 14);
+		lblDni.setForeground(Color.WHITE);
+		lblDni.setFont(new Font("Calibri", Font.PLAIN, 14));
 		frmSistemaDeGestin.getContentPane().add(lblDni);
 		
 		textDNI = new JTextField();
