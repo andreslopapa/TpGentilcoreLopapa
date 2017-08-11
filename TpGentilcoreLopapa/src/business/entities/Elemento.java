@@ -5,12 +5,6 @@ public class Elemento {
 	private String nombre; //este es opcional
 	private TipoDeElemento tipo;
 		
-	public int getId() {
-		return id_elemento;
-	}
-	public void setId(int id) {
-		this.id_elemento = id;
-	}
 	public String getNombre() {
 		return nombre;
 	}
