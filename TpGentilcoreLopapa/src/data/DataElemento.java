@@ -9,6 +9,12 @@ import tools.AppDataException;
 public class DataElemento {
 	//id_elemento, nombre, tipo
 	
+	
+	
+	
+	
+	
+	
 	public ArrayList<Elemento> getAll() throws SQLException, AppDataException{
 		Statement stmt = null;
 		ResultSet rs=null;
