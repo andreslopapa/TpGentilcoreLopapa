@@ -26,5 +26,15 @@ public class TipoDeElementoLogic {
 		return dataTdE.getAll();
 	}	
 	
+	public void add(TipoDeElemento tde) throws Exception{
+		dataTdE.add(tde);
+	}	
+	public void update(TipoDeElemento tde) throws Exception{
+		dataTdE.update(tde);
+	}
+	public void delete(TipoDeElemento tde) throws Exception{
+		dataTdE.delete(tde);
+	}
+	
 
 }

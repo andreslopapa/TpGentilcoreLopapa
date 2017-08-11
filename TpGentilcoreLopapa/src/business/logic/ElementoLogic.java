@@ -17,15 +17,16 @@ public class ElementoLogic {
 		dataElem.add(e);
 	}
 
-	public Elemento getByOne(Elemento e) throws Exception{
-		return this.dataElem.getByOne(e);
+	public Elemento getOne(Elemento e) throws Exception{
+		return this.dataElem.getOne(e);
 	}
-		
-/*	public Persona getByDni(String dni) throws Exception{
-		Persona p = new Persona();
-		p.setDni(dni);
-		return getByDni(p);
-	}*/
+	
+	public Elemento getOne(int id_elem) throws Exception{
+		Elemento e = new Elemento();
+		e.setId_elemento(id_elem);
+		return getOne(e);
+	}
+	
 	
 	public void update(Elemento e) throws Exception{
 		dataElem.update(e);
@@ -35,11 +36,7 @@ public class ElementoLogic {
 		dataElem.delete(e);
 	}
 	
-	/*
-	 * public ArrayList<Persona> getAll() throws Exception{
-		return dataElem.getAll();
-	}*/
-	
+
 }
 
 
