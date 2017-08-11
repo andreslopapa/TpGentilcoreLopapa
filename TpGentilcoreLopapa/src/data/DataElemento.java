@@ -17,13 +17,13 @@ public class DataElemento {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().createStatement();
-			rs = stmt.executeQuery("select id_elemento, nombre, tipo from elemento");
+			rs = stmt.executeQuery("select id_elemento, nombre, id_tipodeelemento from elemento");
 			if(rs!=null){
 				while(rs.next()){
 					Elemento el = new Elemento();
 					el.setNombre(rs.getString("nombre"));
 					el.setId_elemento(rs.getInt("id_elemento"));
-					int idTipEl = rs.getInt("tipo");
+					int idTipEl = rs.getInt("id_tipodeelemento");
 					el.setTipo(dtde.getOne(idTipEl));
 					elems.add(el);				
 				}
@@ -50,14 +50,14 @@ public class DataElemento {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select id_elemento, nombre, tipo from elemento where id_elemento=?");
+					"select id_elemento, nombre, id_tipodeelemento from elemento where id_elemento=?");
 			stmt.setInt(1,elem.getId_elemento());
 			rs = stmt.executeQuery();
 			if(rs!=null && rs.next()){
 				e = new Elemento();
 				e.setId_elemento(rs.getInt("id_elemento"));
 				e.setNombre(rs.getString("nombre"));
-				int idTipo = rs.getInt("tipo");
+				int idTipo = rs.getInt("id_tipodeelemento");
 				e.setTipo(dtde.getOne(idTipo));
 			}
 		} catch (SQLException sqlex) {
@@ -84,14 +84,14 @@ public class DataElemento {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select id_elemento, nombre, tipo from elemento where id_elemento=?");
+					"select id_elemento, nombre, id_tipodeelemento from elemento where id_elemento=?");
 			stmt.setInt(1,id_elem_p);
 			rs = stmt.executeQuery();
 			if(rs!=null && rs.next()){
 				e = new Elemento();
 				e.setId_elemento(rs.getInt("id_elemento"));
 				e.setNombre(rs.getString("nombre"));
-				int idTipo = rs.getInt("tipo");
+				int idTipo = rs.getInt("id_tipodeelemento");
 				e.setTipo(dtde.getOne(idTipo));
 			}
 		} catch (SQLException sqlex) {
