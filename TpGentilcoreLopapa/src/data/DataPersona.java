@@ -1,7 +1,6 @@
 package data;
 
 import java.util.ArrayList;
-import java.security.KeyStore.ProtectionParameter;
 import java.sql.*;
 
 import business.entities.*;
@@ -30,7 +29,7 @@ public class DataPersona{
 							p.setUsuario(rs.getString("usuario"));		
 							p.setContrasenia(rs.getString("contrasenia"));	//NO DEBER�A SER ALGUN METODO DE CONTRASE�AS?							
 							p.setEmail(rs.getString("email"));
-							p.setHabilitado(rs.getBoolean("habilitado"));
+							p.setHabilitado(rs.getBoolean("habilitado"));		
 							int idCat= rs.getInt("id_categoria");
 							p.setCategoria(dc.getOne(idCat));
 							pers.add(p);
@@ -84,7 +83,7 @@ public class DataPersona{
 	}
 
 	
-	public void delete(Persona p) throws SQLException,AppDataException{
+	public void delete(Persona p) throws SQLException,AppDataException{	/////////////preguntar si baja logica o baja fisica///////////////////////
 		PreparedStatement stmt = null;
 		
 		try {

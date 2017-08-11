@@ -6,7 +6,6 @@ import business.entities.Persona;
 import data.DataPersona;
 
 public class PersonaLogic {
-	
 	private DataPersona dataPer;
 	private ArrayList<Persona> pers;
 	
@@ -39,9 +38,13 @@ public class PersonaLogic {
 	
 	public ArrayList<Persona> getAll() throws Exception{
 		return dataPer.getAll();
+
 	}
 	
 	public Persona getLoggedUser(String usuario,String pass)throws Exception{
 		return dataPer.getLoggedUser(usuario, pass);
 	}
-}
+
+	}	
+
+
