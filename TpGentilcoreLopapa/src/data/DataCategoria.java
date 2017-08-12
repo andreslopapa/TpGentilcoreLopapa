@@ -16,7 +16,7 @@ public class DataCategoria {
 		ArrayList<Categoria> categorias=new ArrayList<Categoria>();
 		try{
 			stmt=FactoryConexion.getInstancia().getConn().createStatement();
-			rs=stmt.executeQuery("select id_categoria,descripcion from categoria;");
+			rs=stmt.executeQuery("select id_categoria,descripcion from categoria");
 			if(rs!=null){
 				while(rs.next()){
 					Categoria cat=new Categoria();
@@ -38,10 +38,7 @@ public class DataCategoria {
 				catch(SQLException sqlex){
 					throw new AppDataException(sqlex,"Error al cerrar conexion, resultset o statement");
 					}
-			
-		}
-		
-	
+		}	
 		return categorias;
 	}
 	

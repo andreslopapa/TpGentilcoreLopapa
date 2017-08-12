@@ -29,4 +29,14 @@ public class Categoria {
 	public String toString() {
 		return  id_categoria + "-" + descripcion;
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		return (o instanceof Categoria && ((Categoria)o).getId()==this.getId());
+	}
+	
+	@Override
+	public int hashCode(){
+		return ((Integer)this.getId()).hashCode();
+	}
 }

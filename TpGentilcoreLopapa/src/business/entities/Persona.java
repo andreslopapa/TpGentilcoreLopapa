@@ -89,4 +89,6 @@ public class Persona {
 	public boolean equals(Object p){
 		return(p instanceof Persona) && (((Persona)p).getDni().equals(this.getDni()));
 				}
+	
+	
 }

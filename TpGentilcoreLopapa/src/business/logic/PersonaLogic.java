@@ -2,15 +2,19 @@ package business.logic;
 
 import java.util.ArrayList;
 
+import business.entities.Categoria;
 import business.entities.Persona;
+import data.DataCategoria;
 import data.DataPersona;
 
 public class PersonaLogic {
 	private DataPersona dataPer;
+	private DataCategoria dataCat;
 	private ArrayList<Persona> pers;
 	
 	public PersonaLogic(){
 		dataPer = new DataPersona();
+		dataCat = new DataCategoria();
 		pers = new ArrayList<Persona>();
 	}
 	
@@ -44,7 +48,11 @@ public class PersonaLogic {
 	public Persona getLoggedUser(String usuario,String pass)throws Exception{
 		return dataPer.getLoggedUser(usuario, pass);
 	}
-
-	}	
+	
+	public ArrayList<Categoria> getCategorias() throws Exception{
+		return dataCat.getAll();
+	}
+	
+}	
 
 

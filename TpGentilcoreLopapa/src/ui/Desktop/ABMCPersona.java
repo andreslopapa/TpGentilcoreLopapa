@@ -7,12 +7,14 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
@@ -42,7 +44,7 @@ public class ABMCPersona {
 	private JTextField textNombre;
 	private JTextField textApellido;
 	private JTextField textDNI;
-	private JComboBox comboBox;
+	private JComboBox comboCategoria;
 	private JCheckBox chckbxHabilitado; 
 	
 	
@@ -63,17 +65,14 @@ public class ABMCPersona {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
-	public ABMCPersona() {
+	 // Create the application.
+
+	public ABMCPersona() throws Exception {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
+	// Initialize the contents of the frame.
+	private void initialize() throws Exception {
 		frmSistemaDeGestin = new JFrame();
 		frmSistemaDeGestin.setIconImage(Toolkit.getDefaultToolkit().getImage(ABMCPersona.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
 		frmSistemaDeGestin.getContentPane().setBackground(Color.WHITE);
@@ -87,12 +86,12 @@ public class ABMCPersona {
 		lblUsuario.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblUsuario.setForeground(new Color(0, 51, 102));
 		lblUsuario.setFont(new Font("Calibri", Font.PLAIN, 14));
-		lblUsuario.setBounds(210, 137, 62, 14);
+		lblUsuario.setBounds(185, 137, 87, 14);
 		frmSistemaDeGestin.getContentPane().add(lblUsuario);
 		
 		JLabel lblContrasenia = new JLabel("Contrase\u00F1a");
 
-		lblContrasenia.setBounds(45, 132, 56, 14);
+		lblContrasenia.setBounds(185, 168, 89, 14);
 
 		lblContrasenia.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblContrasenia.setBounds(210, 168, 64, 14);
@@ -103,7 +102,7 @@ public class ABMCPersona {
 		
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblEmail.setBounds(210, 106, 62, 14);
+		lblEmail.setBounds(185, 106, 87, 14);
 		lblEmail.setForeground(new Color(0, 51, 102));
 		lblEmail.setFont(new Font("Calibri", Font.PLAIN, 14));
 		frmSistemaDeGestin.getContentPane().add(lblEmail);
@@ -124,7 +123,7 @@ public class ABMCPersona {
 		
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNombre.setBounds(212, 199, 62, 14);
+		lblNombre.setBounds(185, 199, 89, 14);
 		lblNombre.setForeground(new Color(0, 51, 102));
 		lblNombre.setFont(new Font("Calibri", Font.PLAIN, 14));
 		frmSistemaDeGestin.getContentPane().add(lblNombre);
@@ -136,7 +135,7 @@ public class ABMCPersona {
 		
 		JLabel lblApellido = new JLabel("Apellido");
 		lblApellido.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblApellido.setBounds(212, 230, 62, 14);
+		lblApellido.setBounds(185, 230, 89, 14);
 		lblApellido.setForeground(new Color(0, 51, 102));
 		lblApellido.setFont(new Font("Calibri", Font.PLAIN, 14));
 		frmSistemaDeGestin.getContentPane().add(lblApellido);
@@ -148,16 +147,16 @@ public class ABMCPersona {
 		
 		JLabel lblCategoria = new JLabel("Categoria");
 		lblCategoria.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCategoria.setBounds(212, 261, 62, 14);
+		lblCategoria.setBounds(185, 261, 89, 14);
 		lblCategoria.setForeground(new Color(0, 51, 102));
 		lblCategoria.setFont(new Font("Calibri", Font.PLAIN, 14));
 		frmSistemaDeGestin.getContentPane().add(lblCategoria);
 
 		
-		JLabel lblGestinDeNuevo = new JLabel("Gesti\u00F3n de nuevo usuario");
+		JLabel lblGestinDeNuevo = new JLabel("Nuevo usuario");
 		lblGestinDeNuevo.setForeground(new Color(0, 51, 102));
 		lblGestinDeNuevo.setFont(new Font("Calibri", Font.BOLD, 18));
-		lblGestinDeNuevo.setBounds(307, 35, 215, 14);
+		lblGestinDeNuevo.setBounds(307, 35, 213, 14);
 		frmSistemaDeGestin.getContentPane().add(lblGestinDeNuevo);
 		
 		JButton btnGuardar = new JButton("Guardar");
@@ -185,7 +184,7 @@ public class ABMCPersona {
 		
 		JLabel lblDni = new JLabel("DNI");
 		lblDni.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblDni.setBounds(210, 75, 62, 14);
+		lblDni.setBounds(185, 75, 87, 14);
 		lblDni.setForeground(new Color(0, 51, 102));
 		lblDni.setFont(new Font("Calibri", Font.PLAIN, 14));
 		frmSistemaDeGestin.getContentPane().add(lblDni);
@@ -210,11 +209,11 @@ public class ABMCPersona {
 		btnBuscar.setBounds(564, 72, 89, 23);
 		frmSistemaDeGestin.getContentPane().add(btnBuscar);
 		
-		 comboBox = new JComboBox();
-		 comboBox.setForeground(new Color(0, 51, 102));
-		comboBox.setModel(new DefaultComboBoxModel(new Categoria[] {new Categoria(1,"Administrador"), new Categoria(2,"Encargado"), new Categoria(3,"Usuario")}));
-		comboBox.setBounds(305, 258, 215, 20);
-		frmSistemaDeGestin.getContentPane().add(comboBox);
+		 comboCategoria = new JComboBox();
+		 comboCategoria.setForeground(new Color(0, 51, 102));
+	//	comboCategoria.setModel(new DefaultComboBoxModel(new Categoria[] {new Categoria(1,"Administrador"), new Categoria(2,"Encargado"), new Categoria(3,"Usuario")}));
+		comboCategoria.setBounds(305, 258, 215, 20);
+		frmSistemaDeGestin.getContentPane().add(comboCategoria);
 		
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.setForeground(new Color(0, 51, 102));
@@ -259,7 +258,16 @@ public class ABMCPersona {
 		panel.setBounds(0, 0, 130, 415);
 		frmSistemaDeGestin.getContentPane().add(panel);
 		
-		
+		cargarListas();		
+	}
+
+	private void cargarListas() throws Exception {
+		try {
+			this.comboCategoria.setModel(new DefaultComboBoxModel(perLogic.getCategorias().toArray()));
+			this.comboCategoria.setSelectedIndex(-1);
+		} catch (SQLException sqlex) {
+			throw new AppDataException(sqlex, "Error al cargar listas, metodo guardarClick");	
+		}
 	}
 	
 	protected void guardarClick() throws Exception{
@@ -309,7 +317,7 @@ public class ABMCPersona {
 		p.setUsuario(this.textUsuario.getText());
 		p.setContrasenia(this.passwordUsuarioField.getText());			//detalle a tener en cuenta
 		p.setEmail(this.textEmail.getText());
-		p.setCategoria((Categoria) this.comboBox.getSelectedItem());
+		p.setCategoria((Categoria) this.comboCategoria.getSelectedItem());
 		p.setHabilitado(this.chckbxHabilitado.isSelected());
 
 		return p;
@@ -322,7 +330,7 @@ public class ABMCPersona {
 		this.textDNI.setText(p.getDni());
 		this.textNombre.setText(p.getNombre());
 		this.textApellido.setText(p.getApellido());
-		this.comboBox.setSelectedItem((Categoria) p.getCategoria());
+		this.comboCategoria.setSelectedItem((Categoria) p.getCategoria());
 		this.chckbxHabilitado.setSelected(p.isHabilitado());
 }
 	
