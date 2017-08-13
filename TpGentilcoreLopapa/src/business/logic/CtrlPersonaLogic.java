@@ -7,12 +7,12 @@ import business.entities.Persona;
 import data.DataCategoria;
 import data.DataPersona;
 
-public class PersonaLogic {
+public class CtrlPersonaLogic {
 	private DataPersona dataPer;
 	private DataCategoria dataCat;
 	private ArrayList<Persona> pers;
 	
-	public PersonaLogic(){
+	public CtrlPersonaLogic(){
 		dataPer = new DataPersona();
 		dataCat = new DataCategoria();
 		pers = new ArrayList<Persona>();

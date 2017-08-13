@@ -5,11 +5,11 @@ import business.entities.Elemento;
 import business.entities.Persona;
 import data.DataElemento;
 
-public class ElementoLogic {
+public class CtrlElementoLogic {
 	private DataElemento dataElem;
 	
 	
-	public ElementoLogic(){
+	public CtrlElementoLogic(){
 		dataElem = new DataElemento();			
 	}
 	

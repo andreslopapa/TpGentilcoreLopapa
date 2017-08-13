@@ -6,7 +6,7 @@ import business.entities.Persona;
 import business.entities.TipoDeElemento;
 import data.DataTipoDeElemento;
 
-public class TipoDeElementoLogic {
+public class CtrlTipoDeElementoLogic {
 	private DataTipoDeElemento dataTdE;
 	private ArrayList<DataTipoDeElemento> tdes; 
 	
@@ -22,7 +22,7 @@ public class TipoDeElementoLogic {
 	}
 	
 	
-	public ArrayList<DataTipoDeElemento> getAll() throws Exception{
+	public ArrayList<TipoDeElemento> getAll() throws Exception{
 		return dataTdE.getAll();
 	}	
 	

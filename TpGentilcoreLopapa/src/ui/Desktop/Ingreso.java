@@ -4,12 +4,13 @@ import java.awt.*;
 import javax.swing.*;
 
 import business.entities.Persona;
-import business.logic.PersonaLogic;
+import business.logic.CtrlPersonaLogic;
 import tools.LimitadorTxt;
 import tools.MessageError;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +21,7 @@ public class Ingreso {
 
 	private JFrame frmLogin;
 	private JTextField txtUsuario;
-	private PersonaLogic UsuLogic;
+	private CtrlPersonaLogic UsuLogic;
 	private JPasswordField pwfContrasenia;
 	
 	/**
@@ -43,7 +44,7 @@ public class Ingreso {
 	 * Create the application.
 	 */
 	public Ingreso() {
-		this.UsuLogic=new PersonaLogic();
+		this.UsuLogic=new CtrlPersonaLogic();
 		initialize();
 
 	}
@@ -131,9 +132,10 @@ public class Ingreso {
 			Persona usu=UsuLogic.getLoggedUser(usuario, pass);
 			if(usu!=null){
 				if(usu.isHabilitado()==true){
-					JOptionPane.showMessageDialog(frmLogin, "Usuario encontrado", "", JOptionPane.INFORMATION_MESSAGE);
+					//JOptionPane.showMessageDialog(frmLogin, "Usuario encontrado", "", JOptionPane.INFORMATION_MESSAGE);
 					MainWindow.main(usu);
 					frmLogin.dispose();
+					//frmLogin.dispatchEvent(new WindowEvent(frmLogin, WindowEvent.WINDOW_CLOSING));
 				}else{
 					JOptionPane.showMessageDialog(frmLogin, "Usuario no Habilitado", "", JOptionPane.WARNING_MESSAGE);
 

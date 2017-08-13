@@ -9,7 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import business.entities.Elemento;
 import business.entities.TipoDeElemento;
-import business.logic.ElementoLogic;
+import business.logic.CtrlElementoLogic;
 import tools.AppDataException;
 
 import java.awt.Color;
@@ -21,7 +21,7 @@ import java.awt.event.MouseEvent;
 
 public class ABMCElemento extends JFrame {
 	
-	ElementoLogic elemLogic = new ElementoLogic();
+	CtrlElementoLogic elemLogic = new CtrlElementoLogic();
 
 	private JPanel contentPane;
 	private JTextField textIdElemento;

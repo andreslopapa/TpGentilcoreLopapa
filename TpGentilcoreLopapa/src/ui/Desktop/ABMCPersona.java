@@ -35,7 +35,7 @@ import javax.swing.JPanel;
 
 public class ABMCPersona {
 
-	PersonaLogic perLogic = new PersonaLogic();
+	CtrlPersonaLogic perLogic = new CtrlPersonaLogic();
 	
 	private JFrame frmSistemaDeGestin;
 	private JTextField textUsuario;
