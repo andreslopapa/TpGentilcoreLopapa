@@ -3,6 +3,7 @@ package ui.Desktop;
 import tools.AppDataException;
 import business.entities.*;
 import business.logic.*;
+import tools.FormatoEmail;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -15,6 +16,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
@@ -32,6 +35,8 @@ import javax.swing.JMenu;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class ABMCPersona {
 
@@ -46,7 +51,7 @@ public class ABMCPersona {
 	private JTextField textDNI;
 	private JComboBox comboCategoria;
 	private JCheckBox chckbxHabilitado; 
-	
+
 	
 
 	/**
@@ -74,90 +79,62 @@ public class ABMCPersona {
 	// Initialize the contents of the frame.
 	private void initialize() throws Exception {
 		frmSistemaDeGestin = new JFrame();
-		frmSistemaDeGestin.setIconImage(Toolkit.getDefaultToolkit().getImage(ABMCPersona.class.getResource("/javax/swing/plaf/metal/icons/ocean/computer.gif")));
+		frmSistemaDeGestin.setIconImage(Toolkit.getDefaultToolkit().getImage(ABMCPersona.class.getResource("/ui/Desktop/cropped-3w2-web-dominios-hosting.png")));
 		frmSistemaDeGestin.getContentPane().setBackground(Color.WHITE);
 		frmSistemaDeGestin.setFont(new Font("Calibri", Font.PLAIN, 12));
 		frmSistemaDeGestin.setTitle("SISTEMA DE GESTI\u00D3N DE RESERVAS");
 		frmSistemaDeGestin.setBounds(100, 100, 770, 451);
 		frmSistemaDeGestin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmSistemaDeGestin.getContentPane().setLayout(null);
 		
 		JLabel lblUsuario = new JLabel("Usuario");
 		lblUsuario.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblUsuario.setForeground(new Color(0, 51, 102));
 		lblUsuario.setFont(new Font("Calibri", Font.PLAIN, 14));
-		lblUsuario.setBounds(185, 137, 87, 14);
-		frmSistemaDeGestin.getContentPane().add(lblUsuario);
 		
 		JLabel lblContrasenia = new JLabel("Contrase\u00F1a");
 
-		lblContrasenia.setBounds(185, 168, 89, 14);
-
 		lblContrasenia.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblContrasenia.setBounds(210, 168, 64, 14);
 		lblContrasenia.setForeground(new Color(0, 51, 102));
 		lblContrasenia.setFont(new Font("Calibri", Font.PLAIN, 14));
-
-		frmSistemaDeGestin.getContentPane().add(lblContrasenia);
 		
 		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblEmail.setBounds(185, 106, 87, 14);
 		lblEmail.setForeground(new Color(0, 51, 102));
 		lblEmail.setFont(new Font("Calibri", Font.PLAIN, 14));
-		frmSistemaDeGestin.getContentPane().add(lblEmail);
 		
 		textUsuario = new JTextField();
-		textUsuario.setBounds(305, 134, 215, 20);
-		frmSistemaDeGestin.getContentPane().add(textUsuario);
 		textUsuario.setColumns(10);
 		
 		textEmail = new JTextField();
-		textEmail.setBounds(305, 103, 215, 20);
-		frmSistemaDeGestin.getContentPane().add(textEmail);
 		textEmail.setColumns(10);
 		
 		passwordUsuarioField = new JPasswordField();
-		passwordUsuarioField.setBounds(305, 165, 215, 20);
-		frmSistemaDeGestin.getContentPane().add(passwordUsuarioField);
 		
 		JLabel lblNombre = new JLabel("Nombre");
 		lblNombre.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNombre.setBounds(185, 199, 89, 14);
 		lblNombre.setForeground(new Color(0, 51, 102));
 		lblNombre.setFont(new Font("Calibri", Font.PLAIN, 14));
-		frmSistemaDeGestin.getContentPane().add(lblNombre);
 		
 		textNombre = new JTextField();
-		textNombre.setBounds(305, 196, 215, 20);
-		frmSistemaDeGestin.getContentPane().add(textNombre);
 		textNombre.setColumns(10);
 		
 		JLabel lblApellido = new JLabel("Apellido");
 		lblApellido.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblApellido.setBounds(185, 230, 89, 14);
 		lblApellido.setForeground(new Color(0, 51, 102));
 		lblApellido.setFont(new Font("Calibri", Font.PLAIN, 14));
-		frmSistemaDeGestin.getContentPane().add(lblApellido);
 		
 		textApellido = new JTextField();
-		textApellido.setBounds(305, 227, 215, 20);
-		frmSistemaDeGestin.getContentPane().add(textApellido);
 		textApellido.setColumns(10);
 		
 		JLabel lblCategoria = new JLabel("Categoria");
 		lblCategoria.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCategoria.setBounds(185, 261, 89, 14);
 		lblCategoria.setForeground(new Color(0, 51, 102));
 		lblCategoria.setFont(new Font("Calibri", Font.PLAIN, 14));
-		frmSistemaDeGestin.getContentPane().add(lblCategoria);
 
 		
 		JLabel lblGestinDeNuevo = new JLabel("Nuevo usuario");
 		lblGestinDeNuevo.setForeground(new Color(0, 51, 102));
 		lblGestinDeNuevo.setFont(new Font("Calibri", Font.BOLD, 18));
-		lblGestinDeNuevo.setBounds(307, 35, 213, 14);
-		frmSistemaDeGestin.getContentPane().add(lblGestinDeNuevo);
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setForeground(new Color(0, 51, 102));
@@ -175,23 +152,15 @@ public class ABMCPersona {
 				}
 			}
 		});
-			
-		
-		btnGuardar.setBounds(564, 353, 89, 23);
-		frmSistemaDeGestin.getContentPane().add(btnGuardar);
 		
 	
 		
 		JLabel lblDni = new JLabel("DNI");
 		lblDni.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblDni.setBounds(185, 75, 87, 14);
 		lblDni.setForeground(new Color(0, 51, 102));
 		lblDni.setFont(new Font("Calibri", Font.PLAIN, 14));
-		frmSistemaDeGestin.getContentPane().add(lblDni);
 		
 		textDNI = new JTextField();
-		textDNI.setBounds(305, 72, 215, 20);
-		frmSistemaDeGestin.getContentPane().add(textDNI);
 		textDNI.setColumns(10);
 		
 		JButton btnBuscar = new JButton("Buscar");
@@ -206,14 +175,9 @@ public class ABMCPersona {
 				}
 			}
 		});
-		btnBuscar.setBounds(564, 72, 89, 23);
-		frmSistemaDeGestin.getContentPane().add(btnBuscar);
 		
 		 comboCategoria = new JComboBox();
 		 comboCategoria.setForeground(new Color(0, 51, 102));
-	//	comboCategoria.setModel(new DefaultComboBoxModel(new Categoria[] {new Categoria(1,"Administrador"), new Categoria(2,"Encargado"), new Categoria(3,"Usuario")}));
-		comboCategoria.setBounds(305, 258, 215, 20);
-		frmSistemaDeGestin.getContentPane().add(comboCategoria);
 		
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.setForeground(new Color(0, 51, 102));
@@ -228,9 +192,6 @@ public class ABMCPersona {
 			}
 		});
 		
-		btnModificar.setBounds(307, 353, 89, 23);
-		frmSistemaDeGestin.getContentPane().add(btnModificar);
-		
 		JButton btnBorrar = new JButton("Borrar");
 		btnBorrar.setForeground(new Color(153, 0, 0));
 		btnBorrar.addActionListener(new ActionListener() {
@@ -243,68 +204,190 @@ public class ABMCPersona {
 				}
 			}
 		});
-		btnBorrar.setBounds(210, 353, 89, 23);
-		frmSistemaDeGestin.getContentPane().add(btnBorrar);
 		
 		chckbxHabilitado = new JCheckBox("   Habilitado");
 		chckbxHabilitado.setHorizontalAlignment(SwingConstants.LEFT);
 		chckbxHabilitado.setForeground(new Color(0, 51, 102));
 		chckbxHabilitado.setBackground(Color.WHITE);
-		chckbxHabilitado.setBounds(305, 297, 97, 23);
-		frmSistemaDeGestin.getContentPane().add(chckbxHabilitado);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 51, 102));
-		panel.setBounds(0, 0, 130, 415);
-		frmSistemaDeGestin.getContentPane().add(panel);
+		
+		JLabel lblIconousuario = new JLabel("");
+		lblIconousuario.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lblIconousuario.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/ic_person_add_white_24dp_2x.png")));
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(39)
+					.addComponent(lblIconousuario)
+					.addContainerGap(43, Short.MAX_VALUE))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(23)
+					.addComponent(lblIconousuario)
+					.addContainerGap(344, Short.MAX_VALUE))
+		);
+		panel.setLayout(gl_panel);
+		GroupLayout groupLayout = new GroupLayout(frmSistemaDeGestin.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(55)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblDni, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblUsuario, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(25)
+							.addComponent(lblContrasenia))
+						.addComponent(lblNombre, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblApellido, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCategoria, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(25)
+							.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
+					.addGap(6)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(2)
+							.addComponent(lblGestinDeNuevo, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textDNI, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textEmail, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textUsuario, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+						.addComponent(passwordUsuarioField, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textNombre, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textApellido, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+						.addComponent(comboCategoria, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+						.addComponent(chckbxHabilitado, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(2)
+							.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
+					.addGap(44)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(75)
+					.addComponent(lblDni, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+					.addGap(17)
+					.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+					.addGap(17)
+					.addComponent(lblUsuario, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+					.addGap(17)
+					.addComponent(lblContrasenia, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+					.addGap(17)
+					.addComponent(lblNombre, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+					.addGap(17)
+					.addComponent(lblApellido, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+					.addGap(17)
+					.addComponent(lblCategoria, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+					.addGap(78)
+					.addComponent(btnBorrar))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(35)
+					.addComponent(lblGestinDeNuevo, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+					.addGap(23)
+					.addComponent(textDNI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(11)
+					.addComponent(textEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(11)
+					.addComponent(textUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(11)
+					.addComponent(passwordUsuarioField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(11)
+					.addComponent(textNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(11)
+					.addComponent(textApellido, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(11)
+					.addComponent(comboCategoria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(19)
+					.addComponent(chckbxHabilitado)
+					.addGap(33)
+					.addComponent(btnModificar))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(72)
+					.addComponent(btnBuscar)
+					.addGap(258)
+					.addComponent(btnGuardar))
+		);
+		frmSistemaDeGestin.getContentPane().setLayout(groupLayout);
 		
 		cargarListas();		
 	}
 
-	private void cargarListas() throws Exception {
-		try {
+	private void cargarListas() {
+		try {//setModel:  es una representacion de los datos que tiene adentro. Como se ordeanan
+			//DefaultComboBoxModel:   recibe como parametro un array con los elementos a mostrar
 			this.comboCategoria.setModel(new DefaultComboBoxModel(perLogic.getCategorias().toArray()));
 			this.comboCategoria.setSelectedIndex(-1);
-		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex, "Error al cargar listas, metodo guardarClick");	
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, e.getMessage());
 		}
 	}
 	
-	protected void guardarClick() throws Exception{
-		try {
+	protected void guardarClick(){
+		try {		
+			if(textDNI.getText().length() >0 && textUsuario.getText().length() >0 && passwordUsuarioField.getText().length() >0 
+					&& textNombre.getText().length() >0 && textApellido.getText().length() >0 &&  textEmail.getText().length()>0 ){				
+			if(!FormatoEmail.esEmailCorrecto(textEmail.getText())){JOptionPane.showMessageDialog(frmSistemaDeGestin, "Email incorrecto", "", JOptionPane.WARNING_MESSAGE); 
+			}else{
 			perLogic.add(this.mapearDeForm());
-			this.limpiarTexto();
-		} catch (Exception sqlex) {
-
-			throw new AppDataException(sqlex, "Error al guardar, metodo guardarClick");	
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario guardado correctamente", "", JOptionPane.OK_OPTION);}
+			}else{
+				JOptionPane.showMessageDialog(frmSistemaDeGestin, "Debe completar todos los campos", "", JOptionPane.WARNING_MESSAGE);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, e.getMessage());
 		}
 	}
 	
 	
-	protected void buscarClick()  throws Exception{
-		try {
+	protected void buscarClick(){
+		try {if(textDNI.getText().length() >0){
 			this.mapearAForm(perLogic.getByDni(this.mapearDeForm()));
-		} catch (Exception sqlex) {
-				throw new AppDataException(sqlex, "Error al buscar mtodo buscarClick");			//MECA: 			JOptionPane.showMessageDialog(this, e.getMessage());
+			}else{
+				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningún usuario para buscar", "", JOptionPane.WARNING_MESSAGE);				
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario inexistente", "", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
-	protected void modificarClick() throws Exception{
+	protected void modificarClick(){
 		try {
+			if(textDNI.getText().length() >0){
 			perLogic.update(mapearDeForm());
-			this.limpiarTexto();
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario actualizado", "", JOptionPane.INFORMATION_MESSAGE);
+			}else{
+				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningún usuario", "", JOptionPane.WARNING_MESSAGE);
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			limpiarTexto();
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha podido actualizar el usuario", "", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
 	
-	protected void eliminarClick() throws Exception{
-		try {
+	protected void eliminarClick(){
+		try {if(textDNI.getText().length() >0){
 			perLogic.delete(mapearDeForm());
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario eliminado", "", JOptionPane.INFORMATION_MESSAGE);
 			this.limpiarTexto();
+			}else{
+				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningún usuario", "", JOptionPane.WARNING_MESSAGE);
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			limpiarTexto();
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha podido eliminar el usuario", "", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
@@ -344,4 +427,5 @@ public class ABMCPersona {
 		this.chckbxHabilitado.setSelected(false);
 
 	}
+
 }
