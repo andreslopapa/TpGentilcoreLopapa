@@ -59,13 +59,13 @@ public class Ingreso {
 		frmLogin.getContentPane().setBackground(new Color(255, 255, 255));
 		frmLogin.setTitle("Login");
 
-		frmLogin.setBounds(100, 100, 400, 279);
+		frmLogin.setBounds(100, 100, 400, 247);
 		frmLogin.setLocationRelativeTo(null);
 		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmLogin.getContentPane().setLayout(null);
 		
-		Fondo fondo = new Fondo("loginimg.jpg");
-		fondo.setBounds(0, 0, 400, 279);
+		Fondo fondo = new Fondo("loginimg2.jpg");
+		fondo.setBounds(0, 0, 400, 247);
 		//frmLogin.setContentPane(fondo);
 		frmLogin.getContentPane().add(fondo);
 		
@@ -82,10 +82,12 @@ public class Ingreso {
 		txtUsuario.setColumns(10);
 		
 		JLabel lblUsuario = new JLabel("Usuario");
+		lblUsuario.setForeground(new Color(0, 0, 0));
 		lblUsuario.setBounds(161, 72, 70, 15);
 		fondo.add(lblUsuario);
 		
 		JLabel lblPassword = new JLabel("Contraseña");
+		lblPassword.setForeground(new Color(0, 0, 0));
 		lblPassword.setBounds(161, 117, 85, 15);
 		fondo.add(lblPassword);
 		
@@ -111,6 +113,11 @@ public class Ingreso {
 		pwfContrasenia.setBounds(162, 132, 167, 19);
 		fondo.add(pwfContrasenia);
 		
+		JLabel lblSisRes = new JLabel("Sistema de Reservas");
+		lblSisRes.setForeground(new Color(255, 255, 255));
+		lblSisRes.setBounds(56, 12, 154, 25);
+		fondo.add(lblSisRes);
+		
 		
 
 	}
@@ -125,7 +132,8 @@ public class Ingreso {
 			if(usu!=null){
 				if(usu.isHabilitado()==true){
 					JOptionPane.showMessageDialog(frmLogin, "Usuario encontrado", "", JOptionPane.INFORMATION_MESSAGE);
-//aca despues abro otro frame
+					MainWindow.main(usu);
+					frmLogin.dispose();
 				}else{
 					JOptionPane.showMessageDialog(frmLogin, "Usuario no Habilitado", "", JOptionPane.WARNING_MESSAGE);
 

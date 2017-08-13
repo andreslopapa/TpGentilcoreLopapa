@@ -38,13 +38,15 @@ public class DataPersona{
 		} catch (SQLException sqlex) {
 			throw new AppDataException(sqlex, "Error al recuperar todas las personas");
 		}
-		try {
-			if(rs!=null) rs.close();
-			if(stmt!=null) stmt.close();
-			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
-		}		
+		    finally{
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null) stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException sqlex) {
+				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+			}
+		}
 		return pers;
 	}
 	
@@ -66,11 +68,11 @@ public class DataPersona{
 			stmt.setBoolean(7, p.isHabilitado());
 			stmt.setInt(8, p.getCategoria().getId());
 			stmt.setString(9, p.getDni());
-			stmt.execute();
+			stmt.executeUpdate();
 			
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
+		} catch (SQLException sqlex) {
+			throw new AppDataException(sqlex,"Error al modificar persona");
 		} 
 		finally {
 			try {
@@ -84,15 +86,19 @@ public class DataPersona{
 
 	
 	public void delete(Persona p) throws SQLException,AppDataException{	/////////////preguntar si baja logica o baja fisica///////////////////////
-		PreparedStatement stmt = null;
+		PreparedStatement pstmt = null;
 		
 		try {
-			stmt=FactoryConexion.getInstancia().getConn().prepareStatement(
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(
 					"delete from persona where dni=?");
-			stmt.setString(1,p.getDni());
-			stmt.execute();
+			pstmt.setString(1,p.getDni());
+			pstmt.executeUpdate();
 		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+			throw new AppDataException(sqlex, "Error al cerrar conexion o statement");
+		}
+		finally{
+			if(pstmt!=null){pstmt.close();}
+			FactoryConexion.getInstancia().releaseConn();
 		}
 	}
 	
@@ -123,12 +129,14 @@ public class DataPersona{
 		} catch (SQLException sqlex) {
 			throw new AppDataException(sqlex, "Error al buscar una persona");
 		}
-		try {
-			if(rs!=null)rs.close();
-			if(pstmt!=null)pstmt.close();
-			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+		finally{
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException sqlex) {
+				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+			}
 		}
 		return p;
 	}	
@@ -158,12 +166,14 @@ public class DataPersona{
 		} catch (SQLException sqlex) {
 			throw new AppDataException(sqlex,"Error al agregar persona");
 		}
-		try {
-			if(keyResultSet!=null) keyResultSet.close();
-			if(pstmt!=null) pstmt.close();
-			FactoryConexion.getInstancia().releaseConn();
-		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+		finally{
+			try {
+				if(keyResultSet!=null) keyResultSet.close();
+				if(pstmt!=null) pstmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException sqlex) {
+				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+			}
 		}
 	}
 	

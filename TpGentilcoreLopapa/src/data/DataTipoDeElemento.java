@@ -3,7 +3,9 @@ package data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import com.mysql.jdbc.Statement;
 
 import business.entities.TipoDeElemento;
 import tools.AppDataException;
@@ -36,13 +38,13 @@ public class DataTipoDeElemento {
 		}
 		
 		finally{
-		try {
-			if(rs != null) rs.close();
-			if(stmt != null) stmt.close();
-			FactoryConexion.getInstancia().releaseConn();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			try {
+				if(rs != null) rs.close();
+				if(stmt != null) stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return te;
 	}
@@ -87,5 +89,20 @@ public class DataTipoDeElemento {
 	}
 	
 	
-	
+	public ArrayList<TipoDeElemento> getAll()throws SQLException,AppDataException{
+		ArrayList<TipoDeElemento> elementos=null;
+		Statement stmt=null;
+		ResultSet res=null;
+		try{
+			stmt=(Statement) FactoryConexion.getInstancia().getConn().createStatement();
+			res=stmt.executeQuery("select* from elemento;");
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al recuperar todos los elementos");
+		}
+		finally{
+			
+		}
+		return elementos;
+	}
 }

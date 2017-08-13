@@ -16,7 +16,7 @@ public class DataCategoria {
 		ArrayList<Categoria> categorias=new ArrayList<Categoria>();
 		try{
 			stmt=FactoryConexion.getInstancia().getConn().createStatement();
-			rs=stmt.executeQuery("select id_categoria,descripcion from categoria");
+			rs=stmt.executeQuery("select* from categoria");
 			if(rs!=null){
 				while(rs.next()){
 					Categoria cat=new Categoria();
@@ -121,12 +121,55 @@ public class DataCategoria {
 		catch(SQLException sqlex){
 			throw new AppDataException(sqlex,"Error al agregar categoria");
 		}
+		finally{
+				try{
+					if(keyResulset!=null)keyResulset.close();
+					if(pstmt!=null)pstmt.close();
+					FactoryConexion.getInstancia().releaseConn();}
+				catch(SQLException sqlex){
+					throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+		}
+	  }
+	}
+	
+	
+	public void update(Categoria cat)throws SQLException,AppDataException{
+		PreparedStatement pstmt=null;
 		try{
-			if(keyResulset!=null)keyResulset.close();
-			if(pstmt!=null)pstmt.close();
-			FactoryConexion.getInstancia().releaseConn();}
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+					+ "update categoria set descripcion=? where id_categoria=?;");
+			pstmt.setString(1, cat.getDescripcion());
+			pstmt.setInt(2, cat.getId());
+			pstmt.executeUpdate();
+		}
 		catch(SQLException sqlex){
-			throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+			throw new AppDataException(sqlex,"Error al modificar categoria");
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerrar conexion o statement");
+			}
+		}
+	}
+	
+	public void delete(Categoria cat)throws SQLException,AppDataException{
+	    PreparedStatement pstmt=null;
+		try{
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+					+ "delete from categoria where id_categoria=?");
+			pstmt.setInt(1, cat.getId());
+			pstmt.executeUpdate();
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al borrar categoria");
+		}
+		finally{
+			if(pstmt!=null){pstmt.close();}
+			FactoryConexion.getInstancia().releaseConn();
 		}
 	}
 }
