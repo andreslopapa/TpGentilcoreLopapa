@@ -7,6 +7,7 @@ import business.entities.Persona;
 import business.logic.CtrlPersonaLogic;
 import tools.LimitadorTxt;
 import tools.MessageError;
+import tools.Campo;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -151,10 +152,12 @@ public class Ingreso {
 	}
 	
 	private Boolean validaCampos(){
-		if(String.valueOf(pwfContrasenia.getPassword()).isEmpty()||txtUsuario.getText().isEmpty()){
-			JOptionPane.showMessageDialog(frmLogin, "Complete todos los campos por favor", "", JOptionPane.INFORMATION_MESSAGE);
-		    return false;
-		}
-		return true;
+//		if(String.valueOf(pwfContrasenia.getPassword()).isEmpty()||txtUsuario.getText().isEmpty()){
+//			JOptionPane.showMessageDialog(frmLogin, "Complete todos los campos por favor", "", JOptionPane.INFORMATION_MESSAGE);
+//		    return false;
+//		}
+//		return true;
+		return (Campo.Valida(String.valueOf(pwfContrasenia.getPassword()),Campo.tipo.OTRO)
+				&& Campo.Valida(txtUsuario.getText(),Campo.tipo.OTRO));
 	}
 }

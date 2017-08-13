@@ -5,11 +5,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import business.entities.*;
 
 import javax.swing.JMenu;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainWindow {
 
@@ -74,7 +79,21 @@ public class MainWindow {
 		mnArchivo.add(mntmCambiarPass);
 		
 		JMenuItem mntmSalir = new JMenuItem("Salir");
+		mntmSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				salirClick();
+			}
+		});
+		
+		
 		mnArchivo.add(mntmSalir);
+	}
+
+	protected void salirClick() {
+		
+		frmSistemaDeReservas.dispose();
+		
+		
 	}
 
 }
