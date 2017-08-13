@@ -15,6 +15,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
@@ -261,50 +263,69 @@ public class ABMCPersona {
 		cargarListas();		
 	}
 
-	private void cargarListas() throws Exception {
+	private void cargarListas() {
 		try {
 			this.comboCategoria.setModel(new DefaultComboBoxModel(perLogic.getCategorias().toArray()));
 			this.comboCategoria.setSelectedIndex(-1);
-		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex, "Error al cargar listas, metodo guardarClick");	
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, e.getMessage());
 		}
 	}
 	
-	protected void guardarClick() throws Exception{
-		try {
-			perLogic.add(this.mapearDeForm());
-			this.limpiarTexto();
-		} catch (Exception sqlex) {
-
-			throw new AppDataException(sqlex, "Error al guardar, metodo guardarClick");	
+	protected void guardarClick(){
+		try {		//LA VALIDACION DEL EMAIL LA PODRIAMOS HACER AFUERA , EN OTRA CLASE.
+			if(textDNI.getText().length() >0 && textUsuario.getText().length() >0 && passwordUsuarioField.getText().length() >0 
+					&& textNombre.getText().length() >0 && textApellido.getText().length() >0 &&  textEmail.getText().length()>0 ){				
+			if(!esEmailCorrecto(textEmail.getText())){JOptionPane.showMessageDialog(frmSistemaDeGestin, "Email incorrecto", "", JOptionPane.WARNING_MESSAGE); 
+			}else{	perLogic.add(this.mapearDeForm());
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario guardado correctamente", "", JOptionPane.OK_OPTION);}
+			}else{
+				JOptionPane.showMessageDialog(frmSistemaDeGestin, "Debe completar todos los campos", "", JOptionPane.WARNING_MESSAGE);
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, e.getMessage());
 		}
 	}
 	
 	
-	protected void buscarClick()  throws Exception{
-		try {
+	protected void buscarClick(){
+		try {if(textDNI.getText().length() >0){
 			this.mapearAForm(perLogic.getByDni(this.mapearDeForm()));
-		} catch (Exception sqlex) {
-				throw new AppDataException(sqlex, "Error al buscar mtodo buscarClick");			//MECA: 			JOptionPane.showMessageDialog(this, e.getMessage());
+			}else{
+				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningún usuario para buscar", "", JOptionPane.WARNING_MESSAGE);				
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario inexistente", "", JOptionPane.WARNING_MESSAGE);
 		}
+
 	}
 
-	protected void modificarClick() throws Exception{
+	protected void modificarClick() {
 		try {
+			if(textDNI.getText().length() >0){
 			perLogic.update(mapearDeForm());
-			this.limpiarTexto();
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario actualizado", "", JOptionPane.INFORMATION_MESSAGE);
+			}else{
+				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningún usuario", "", JOptionPane.WARNING_MESSAGE);
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			limpiarTexto();
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha podido actualizar el usuario", "", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
 	
-	protected void eliminarClick() throws Exception{
-		try {
+	protected void eliminarClick() {
+		try {if(textDNI.getText().length() >0){
 			perLogic.delete(mapearDeForm());
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario eliminado", "", JOptionPane.INFORMATION_MESSAGE);
 			this.limpiarTexto();
+			}else{
+				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningún usuario", "", JOptionPane.WARNING_MESSAGE);
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			limpiarTexto();
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha podido eliminar el usuario", "", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
@@ -344,4 +365,20 @@ public class ABMCPersona {
 		this.chckbxHabilitado.setSelected(false);
 
 	}
+	
+	/**
+     * Valida si es correcta la dirección de correo electrónica dada.
+     *@param email
+     *@return true si es correcta o false si no lo es.
+     */
+    protected static boolean esEmailCorrecto(String email) {
+        boolean valido = false;
+        
+        Pattern patronEmail = Pattern.compile("([a-z0-9]+(\\.?[a-z0-9])*)+@(([a-z]+)\\.([a-z]+))+");    
+        Matcher mEmail = patronEmail.matcher(email.toLowerCase());
+        if (mEmail.matches()){
+           valido = true;  
+        }
+        return valido;
+    }//LA VALIDACION DEL EMAIL LA PODRIAMOS HACER AFUERA , EN OTRA CLASE.
 }

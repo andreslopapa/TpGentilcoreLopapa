@@ -10,7 +10,7 @@ import tools.*;
 
 public class DataCategoria {
 
-	public ArrayList<Categoria> getAll()throws SQLException,AppDataException{
+	public ArrayList<Categoria> getAll()throws Exception{
 		Statement stmt=null;
 		ResultSet rs=null;
 		ArrayList<Categoria> categorias=new ArrayList<Categoria>();
