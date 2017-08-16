@@ -15,10 +15,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JDesktopPane;
+import java.awt.BorderLayout;
 
 public class MainWindow {
 
 	private JFrame frmSistemaDeReservas;
+	private JDesktopPane desktopPane;
 
 	/**
 	 * Launch the application.
@@ -50,6 +53,9 @@ public class MainWindow {
 		frmSistemaDeReservas = new JFrame();
 		frmSistemaDeReservas.setExtendedState(frmSistemaDeReservas.MAXIMIZED_BOTH);
 		frmSistemaDeReservas.getContentPane().setBackground(Color.WHITE);
+		
+		desktopPane = new JDesktopPane();
+		frmSistemaDeReservas.getContentPane().add(desktopPane, BorderLayout.CENTER);
 		frmSistemaDeReservas.setTitle("Sistema de Reservas");
 		frmSistemaDeReservas.setBounds(100, 100, 450, 300);
 		frmSistemaDeReservas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,6 +67,12 @@ public class MainWindow {
 		menuBar.add(mnArchivo);
 		
 		JMenuItem mntmListadoElementos = new JMenuItem("Listado Elementos");
+		mntmListadoElementos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				listadoElementosClick();
+			}
+
+		});
 		mnArchivo.add(mntmListadoElementos);
 		
 		JMenuItem mntmListadoReservas = new JMenuItem("Listado Reservas");
@@ -89,9 +101,17 @@ public class MainWindow {
 		mnArchivo.add(mntmSalir);
 	}
 
+	protected void listadoElementosClick() {
+		ListadoElementos le=new ListadoElementos();
+		desktopPane.add(le);
+		le.setVisible(true);
+		
+	}
+
 	protected void salirClick() {
 		
 		frmSistemaDeReservas.dispose();
+		
 		
 		
 	}

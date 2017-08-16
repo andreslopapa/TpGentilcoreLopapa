@@ -136,8 +136,9 @@ DROP TABLE IF EXISTS `reserva`;
 CREATE TABLE `reserva` (
   `id_persona` int(11) NOT NULL,
   `id_elemento` int(11) NOT NULL,
-  `fecha_hora` datetime NOT NULL,
+  `fecha_hora_desde` datetime NOT NULL,
   `detalle` varchar(80) DEFAULT NULL,
+  `fecha_hora_hasta` datetime NOT NULL,
   PRIMARY KEY (`id_persona`,`id_elemento`),
   KEY `fk_Reserva_Elemento_idx` (`id_elemento`),
   CONSTRAINT `fk_Reserva_Elemento` FOREIGN KEY (`id_elemento`) REFERENCES `elemento` (`id_elemento`) ON UPDATE CASCADE,
@@ -190,4 +191,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-08 18:43:04
+-- Dump completed on 2017-08-15 20:54:12

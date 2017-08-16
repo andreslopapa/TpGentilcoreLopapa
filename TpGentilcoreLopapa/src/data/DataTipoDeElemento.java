@@ -55,7 +55,8 @@ public class DataTipoDeElemento {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select * from tipodeelemento where id_tipodeelemento=?");
+					"select* from tipodeelemento "
+					+ "where id_tipodeelemento=?");
 			stmt.setInt(1,tde_p);
 			rs= stmt.executeQuery();
 			if(rs != null && rs.next()){
