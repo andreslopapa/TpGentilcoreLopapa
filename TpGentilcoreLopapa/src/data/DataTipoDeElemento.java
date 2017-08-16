@@ -17,8 +17,7 @@ public class DataTipoDeElemento {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select* from tipodeelemento  "
-					+ "where id_tipodeelemento=?");
+					"select* from tipodeelemento where id_tipodeelemento=?");
 			stmt.setInt(1,tde_p.getId());
 			rs= stmt.executeQuery();
 			if(rs != null && rs.next()){
@@ -56,8 +55,7 @@ public class DataTipoDeElemento {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select* from tipodeelemento"
-					+ "where id_tipodeelemento=?");
+					"select * from tipodeelemento where id_tipodeelemento=?");
 			stmt.setInt(1,tde_p);
 			rs= stmt.executeQuery();
 			if(rs != null && rs.next()){
@@ -127,8 +125,7 @@ public class DataTipoDeElemento {
 		ResultSet keyRes=null;
 		try{
 			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "insert into tipodeelemento(nombre,cantmaxrespen,limite_horas_res,dias_max_anticipacion) "
-					+ "values(?,?,?,?);",PreparedStatement.RETURN_GENERATED_KEYS);
+					+ "insert into tipodeelemento(nombre,cantmaxrespen,limite_horas_res,dias_max_anticipacion) values(?,?,?,?);",PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, tde.getNombre());
 			pstmt.setInt(2, tde.getCant_max_res_pen());
 			pstmt.setInt(3, tde.getLimite_horas_res());
@@ -157,12 +154,7 @@ public class DataTipoDeElemento {
 	public void update(TipoDeElemento te)throws SQLException,AppDataException{
 		PreparedStatement pstmt=null;
 		try{
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "update tipodeelemento set nombre=?,"
-					+ "set cantmaxrespen=?,"
-					+ "set limite_horas_res=?,"
-					+ "set dias_max_anticipacion=? "
-					+ "where id_tipodeelemento=?");
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement("update tipodeelemento set nombre=?, set cantmaxrespen=?, set limite_horas_res=?, set dias_max_anticipacion=?  where id_tipodeelemento=?");
 			pstmt.setString(1,te.getNombre() );
 			pstmt.setInt(2,te.getCant_max_res_pen() );
 			pstmt.setInt(3, te.getLimite_horas_res());
@@ -187,8 +179,7 @@ public class DataTipoDeElemento {
 	public void delete(TipoDeElemento te)throws SQLException,AppDataException{
 		PreparedStatement pstmt=null;
 		try{
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "delete from tipodeelemento where id_tipodeelemento=?;");
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(" delete from tipodeelemento where id_tipodeelemento=?;");
 			pstmt.setInt(1, te.getId());
 			pstmt.executeUpdate();
 		}

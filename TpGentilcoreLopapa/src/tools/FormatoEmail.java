@@ -20,7 +20,7 @@ public class FormatoEmail {
            valido = true;  
         }
         return valido;
-    }//LA VALIDACION DEL EMAIL LA PODRIAMOS HACER AFUERA , EN OTRA CLASE.
+    }
 	
 	
 }

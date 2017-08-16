@@ -52,7 +52,9 @@ public class DataElemento {
 		
 		try {
 			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select id_elemento, nombre, id_tipodeelemento from elemento where id_elemento=?");
+					"select id_elemento, nombre, id_tipodeelemento "
+					+ "from elemento "
+					+ "where id_elemento=?");
 			pstmt.setInt(1,elem.getId_elemento());
 			rs = pstmt.executeQuery();
 			if(rs!=null && rs.next()){
@@ -87,7 +89,9 @@ public class DataElemento {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select id_elemento, nombre, id_tipodeelemento from elemento where id_elemento=?");
+					"select id_elemento, nombre, id_tipodeelemento "
+					+ " from elemento "
+					+ "where id_elemento=?");
 			stmt.setInt(1,id_elem_p);
 			rs = stmt.executeQuery();
 			if(rs!=null && rs.next()){
@@ -116,8 +120,7 @@ public class DataElemento {
 		PreparedStatement pstmt=null;
 		ResultSet KeyRes=null;
 		try{
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "insert into elemento(nombre,id_tipodeelemento) values(?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement("insert into elemento(nombre,id_tipodeelemento) values(?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, ele.getNombre());
 			pstmt.setInt(2,ele.getTipo().getId());
 			pstmt.executeUpdate();
@@ -145,8 +148,7 @@ public class DataElemento {
 	public void delete(Elemento ele)throws SQLException,AppDataException{
 		PreparedStatement pstmt=null;
 		try{
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "delete from elemento where id_elemento=?");
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement("delete from elemento where id_elemento=?");
 			pstmt.setInt(1, ele.getId_elemento());
 			pstmt.executeUpdate();
 		}
@@ -167,8 +169,7 @@ public class DataElemento {
 	public void update(Elemento ele)throws SQLException,AppDataException{
 		PreparedStatement pstmt=null;
 		try{
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "update elemento set nombre=?,id_tipodeelemento=?;");
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement("update elemento set nombre=?,id_tipodeelemento=?;");
 			pstmt.setString(1, ele.getNombre());
 			pstmt.setInt(2,ele.getTipo().getId() );
 			pstmt.executeUpdate();
