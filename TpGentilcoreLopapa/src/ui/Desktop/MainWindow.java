@@ -13,6 +13,7 @@ import javax.swing.JMenu;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyVetoException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JDesktopPane;
@@ -105,6 +106,11 @@ public class MainWindow {
 		ListadoElementos le=new ListadoElementos();
 		desktopPane.add(le);
 		le.setVisible(true);
+		try {
+			le.setMaximum(true);
+		} catch (PropertyVetoException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		}
 		
 	}
 
