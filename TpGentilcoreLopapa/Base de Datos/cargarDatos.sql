@@ -29,6 +29,13 @@ values
 ('canchita de futbol',3),('salon de eventos',3),('quinta',3),
 ('auto deportivo',4),('auto familiar',4),('triciclo',4),('panzer',4),('moto',4);
 
+
+insert into reserva(id_persona, id_elemento, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) 
+values
+(2,3,20170820,20170824,'Se entregó con raya superior');
+
+
+
 /*delete from persona;
 delete from elemento;
 delete from categoria;
