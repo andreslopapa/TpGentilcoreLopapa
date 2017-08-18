@@ -185,7 +185,7 @@ public class DataPersona{
 		try{
 			
 			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select* from persona where usuario=? and contrasenia=?;");
+					"select * from persona where usuario=? and contrasenia=?;");
 			pstmt.setString(1, usuario);
 			pstmt.setString(2, pass);
 			res=pstmt.executeQuery();

@@ -8,7 +8,8 @@ import business.entities.TipoDeElemento;
 import tools.AppDataException;
 
 public class DataTipoDeElemento {
-
+	
+	//id_tipodeelemento,  nombre,  cantmaxrespen,  limite_horas_res,  dias_max_anticipacion
 
 	public TipoDeElemento getOne(TipoDeElemento tde_p)throws SQLException,AppDataException{
 		TipoDeElemento te = null;
@@ -17,7 +18,8 @@ public class DataTipoDeElemento {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select* from tipodeelemento where id_tipodeelemento=?");
+					"select id_tipodeelemento, nombre, cantmaxrespen, limite_horas_res, dias_max_anticipacion"
+					+ " from tipodeelemento where id_tipodeelemento=?"); 	
 			stmt.setInt(1,tde_p.getId());
 			rs= stmt.executeQuery();
 			if(rs != null && rs.next()){
@@ -55,8 +57,9 @@ public class DataTipoDeElemento {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select* from tipodeelemento "
-					+ "where id_tipodeelemento=?");
+					"select id_tipodeelemento,nombre,cantmaxrespen,limite_horas_res,dias_max_anticipacion "
+					+ " from tipodeelemento "
+					+ " where id_tipodeelemento=? ");
 			stmt.setInt(1,tde_p);
 			rs= stmt.executeQuery();
 			if(rs != null && rs.next()){
@@ -91,7 +94,8 @@ public class DataTipoDeElemento {
 		ResultSet res=null;
 		try{
 			stmt= FactoryConexion.getInstancia().getConn().createStatement();
-			res=stmt.executeQuery("select* from tipodeelemento;");
+			res=stmt.executeQuery("select id_tipodeelemento,nombre,cantmaxrespen,limite_horas_res,dias_max_anticipacion "
+					+ " from tipodeelemento; ");
 			if(res!=null){
 				while(res.next()){
 					TipoDeElemento te=new TipoDeElemento();
