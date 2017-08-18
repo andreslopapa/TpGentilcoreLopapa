@@ -134,17 +134,21 @@ DROP TABLE IF EXISTS `reserva`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `reserva` (
+  `id_reserva` INT NOT NULL AUTO_INCREMENT,
   `id_persona` int(11) NOT NULL,
   `id_elemento` int(11) NOT NULL,
-  `fecha_hora_desde` datetime NOT NULL,
+  `fecha_hora_reserva_hecha` timestamp NOT NULL,
+  `fecha_hora_desde_solicitada` datetime NOT NULL,
+  `fecha_hora_hasta_solicitada` datetime NOT NULL,
+  `fecha_hora_entregado` datetime NULL, 	
   `detalle` varchar(80) DEFAULT NULL,
-  `fecha_hora_hasta` datetime NOT NULL,
-  PRIMARY KEY (`id_persona`,`id_elemento`),
+  PRIMARY KEY (`id_reserva`,`id_persona`,`id_elemento`),
   KEY `fk_Reserva_Elemento_idx` (`id_elemento`),
   CONSTRAINT `fk_Reserva_Elemento` FOREIGN KEY (`id_elemento`) REFERENCES `elemento` (`id_elemento`) ON UPDATE CASCADE,
   CONSTRAINT `fk_Reserva_Persona` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Dumping data for table `reserva`

@@ -43,6 +43,71 @@ public class DataElemento {
 		}
 		return elems;	
 	}
+	
+	public ArrayList<Elemento> getSome(int indice,int cantTraer)throws SQLException,AppDataException{
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+		ArrayList<Elemento> elementos=new ArrayList<Elemento>();
+		try{
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+					+ "select* from elemento "
+					+ "limit ?,?");
+			pstmt.setInt(1, indice);
+			pstmt.setInt(2, cantTraer);
+			res=pstmt.executeQuery();
+			if(res!=null){
+				while(res.next()){
+					Elemento ele=new Elemento();
+					ele.setId_elemento(res.getInt("id_elemento"));
+					ele.setNombre(res.getString("nombre"));
+					ele.setTipo(new DataTipoDeElemento().getOne(res.getInt("id_tipodeelemento")));
+					elementos.add(ele);
+				}
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al traer un grupo de elementos");
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				if(res!=null){res.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerrar Conexion,ResultSet o PreparedStatement");
+			}
+		}
+		return elementos;
+		
+	}
+	
+	
+	public int getCantidad()throws SQLException,AppDataException{
+		int cantidad=0;
+		Statement stmt=null;
+		ResultSet res=null;
+		try{
+			stmt=FactoryConexion.getInstancia().getConn().createStatement();
+			res=stmt.executeQuery("select count(*) from elemento;");
+			if(res!=null && res.next()){
+				cantidad=res.getInt(1);
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al contar elementos");
+		}
+		finally{
+			try{
+				if(stmt!=null){stmt.close();}
+				if(res!=null){res.close();}
+				FactoryConexion.getInstancia().releaseConn();}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerra Conexion,Statement o Resultset");
+			}
+		}
+		return cantidad;
+	}
 
 	public Elemento getOne(Elemento elem) throws SQLException, AppDataException{
 		Elemento e =null;

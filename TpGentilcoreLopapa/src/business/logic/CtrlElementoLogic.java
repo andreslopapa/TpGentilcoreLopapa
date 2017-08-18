@@ -13,6 +13,18 @@ public class CtrlElementoLogic {
 		dataElem = new DataElemento();			
 	}
 	
+	public ArrayList<Elemento> getAll()throws Exception{
+		return dataElem.getAll();
+	}
+	
+	public ArrayList<Elemento> getSome(int indice,int cantidad)throws Exception{
+		return dataElem.getSome(indice, cantidad);
+	}
+	
+	public int getCantidad()throws Exception{
+		return dataElem.getCantidad();
+	}
+	
 	public void add(Elemento e) throws Exception{
 		dataElem.add(e);
 	}
