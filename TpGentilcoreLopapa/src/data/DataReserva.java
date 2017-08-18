@@ -1,30 +1,28 @@
 package data;
 
 public class DataReserva {
-//insert into reserva (id_persona, id_elemento, fecha_hora, detalle) values (?,?,now(),?)
 
-
-//select id_persona, id_elemento, DATE_FORMAT(fecha_hora,'%d/%m/%Y a las %H:%i') as fecha_llamada, detalle from reserva
 	
 	
+	//INSERT
+//insert into reserva(id_persona, id_elemento, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) values(2,3,20170820,20170824,'Se entregó con raya superior');
+
 	
 	
-	//
-	//SELECT detalle, DATE_FORMAT(fecha_hora,'%d/%m/%Y a las %H:%i') AS fechaLlamada FROM reserva  ;
-
-//	insert into reserva (id_persona, id_elemento, fecha_hora_solcitada, fecha_hora_reserva, detalle) values (5,3,20170930,now(),"Lo atendió Ignacio, la compu tenía una marca");
-
+/*posible query //// con FORMATO*/
 /*
 select  per.apellido, 
 		per.nombre,
 		Concat(per.apellido, N', ',per.nombre) as 'Nombre y Apellido',
 		res.id_elemento, 
-		DATE_FORMAT(fecha_hora_reserva,'%d/%m/%Y a las %H:%i') as 'Fecha y hora de la reserva', 
+        DATE_FORMAT(fecha_hora_reserva_hecha,'%d/%m/%Y a las %H:%i') as 'Fecha y hora de fin de reserva',        
+		DATE_FORMAT(fecha_hora_desde_solicitada,'%d/%m/%Y a las %H:%i') as 'Fecha y hora de inicio de reserva', 
+		DATE_FORMAT(fecha_hora_hasta_solicitada,'%d/%m/%Y a las %H:%i') as 'Fecha y hora de fin de reserva', 
+		fecha_hora_entregado			//esta será null por defecto, posible validador para cuando no se finalizo la reserva, por lo tanto no tiene fecha de fin
         res.detalle,
         elem.nombre
 from reserva res
 	inner join persona per on per.id_persona = res.id_persona
-    inner join elemento elem on elem.id_elemento=res.id_elemento;
-
-	*/
+    inner join elemento elem on elem.id_elemento=res.id_elemento;    
+*/
 }

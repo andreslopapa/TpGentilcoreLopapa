@@ -79,8 +79,8 @@ public class Reserva {
 		this.fecha_hora_entregado = fecha_hora_entregado;
 		this.detalle = detalle;
 	}
+	
 	public Reserva(){
-		
 	}
 		
 }
