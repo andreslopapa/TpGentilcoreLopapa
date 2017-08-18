@@ -17,22 +17,32 @@ import javax.swing.JButton;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.observablecollections.ObservableList;
+
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
+import tools.Campo;
 
-public class ListadoElementos extends JInternalFrame {
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class ListadoElementos extends Listado {
 	/**
 	 * @wbp.nonvisual location=127,137
 	 */
 	private CtrlElementoLogic elementoLogic;
 	private ArrayList<Elemento> elementos=null;
+	private int totalElementos;
+	
 	private JTable table;
 	private JTextField txtIndice;
-	private final int FilasTabla=30;
+	private JLabel lblIndice;
+
+	//hacr una clase listado de la que hereden 
 
 	/**
 	 * Launch the application.
@@ -68,16 +78,27 @@ public class ListadoElementos extends JInternalFrame {
 		scrollPane.setViewportView(table);
 		
 		JButton btnAnterior = new JButton("",new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/flechaizquierda.png")));
+		btnAnterior.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				
+				buscarXIndiceClick(txtIndice.getText(),Indice.ANTERIOR);
+			}
+		});
 		
 		JButton btnSiguiente = new JButton("");
+		btnSiguiente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				buscarXIndiceClick(txtIndice.getText(), Indice.POSTERIOR);
+			}
+		});
 		btnSiguiente.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/flechaderecha.png")));
 		
 		txtIndice = new JTextField();
-		txtIndice.setText("1");
+		
 		txtIndice.setColumns(10);
 		txtIndice.setHorizontalAlignment(SwingConstants.RIGHT);
 		
-		JLabel lblIndice = new JLabel("de xxx");
+		lblIndice = new JLabel("de xxx");
 		getContentPane().setLayout(new MigLayout("", "[100%][100%][][50:50:50,center][][][][100%][100%]", "[][95%][5%,baseline]"));
 		getContentPane().add(txtIndice, "cell 3 2,alignx right,aligny center");
 		getContentPane().add(lblIndice, "cell 5 2,alignx left,aligny center");
@@ -85,14 +106,60 @@ public class ListadoElementos extends JInternalFrame {
 		getContentPane().add(btnSiguiente, "cell 7 2,alignx left,aligny center");
 		getContentPane().add(scrollPane, "cell 1 1 7 1,grow");
 		
-		try{
-			this.elementos=elementoLogic.getSome(0,FilasTabla);
-		}
-		catch(Exception ex){
-			JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-		}
+		this.indiceActual=1;
+		txtIndice.setText(String.valueOf(indiceActual));
+		this.Actualiza();
 		initDataBindings();
 
+	}
+	protected void buscarXIndiceClick(String indiceCampo,Indice tipoIndice) {
+		if(Campo.Valida(indiceCampo, Campo.tipo.INDICE)){
+			this.Actualiza();
+			int indiceTexto=Integer.parseInt(indiceCampo);
+			if(indiceTexto<=cantidadIndices){	
+				indiceActual=indiceTexto;
+				if(tipoIndice==Indice.ANTERIOR && indiceActual>1){
+					--indiceActual;
+					txtIndice.setText(String.valueOf(indiceActual));
+				}
+				else if(tipoIndice==Indice.POSTERIOR && indiceActual<cantidadIndices){
+					++indiceActual;
+					txtIndice.setText(String.valueOf(indiceActual));
+				}
+				//JOptionPane.showMessageDialog(null, Math.ceil(totalElementos/FilasTabla));
+				
+				try {
+					this.elementos=elementoLogic.getSome((indiceActual-1)*FilasTabla,FilasTabla);
+					initDataBindings();
+					
+				} 
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Error al buscar por indice\n"+e.getMessage(),
+							"Error",JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			else{
+				JOptionPane.showMessageDialog(null, "indice demasiado grande");
+				txtIndice.setText(String.valueOf(indiceActual));
+			}
+		}
+		else{
+			txtIndice.setText(String.valueOf(indiceActual));
+			//esto corregirlo
+		}
+	}
+	
+	private void Actualiza(){
+		try {
+			this.elementos=elementoLogic.getSome(indiceActual-1,FilasTabla);
+			this.totalElementos=elementoLogic.getCantidad();
+			cantidadIndices=(int)Math.ceil((double)totalElementos/FilasTabla);
+		    this.lblIndice.setText("de "+String.valueOf(cantidadIndices));
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, "Error al actualizar datos\n"+ex.getMessage(), 
+					"Error", JOptionPane.ERROR_MESSAGE);
+		}
+		
 	}
 	protected void initDataBindings() {
 		JTableBinding<Elemento, List<Elemento>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, elementos, table);

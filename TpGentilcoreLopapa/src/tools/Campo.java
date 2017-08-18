@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 public class Campo {
 
-	public enum tipo{EMAIL,DNI,OTRO}
+	public enum tipo{EMAIL,DNI,INDICE,OTRO}
 	
 	public static boolean Valida(String campo,tipo tipoCampo){
 		if(campo.isEmpty() || campo==null){
@@ -17,6 +17,7 @@ public class Campo {
 		switch(tipoCampo){
 		case EMAIL:return validaEmail(campo);
 		case DNI:return validaDni(campo);
+		case INDICE: return validaIndice(campo);
 		default:break;
 		}
 		return true;
@@ -43,5 +44,11 @@ public class Campo {
 		boolean correcto=dni.matches("[0-9]+");
 		if(!correcto){JOptionPane.showMessageDialog(null, "Dni invalido","",JOptionPane.INFORMATION_MESSAGE);}
 		return correcto;
+	}
+	
+	private static boolean validaIndice(String indice){
+		boolean correcto=indice.matches("[1-9][0-9]*");
+		if(!correcto){JOptionPane.showMessageDialog(null, "El indice debe tener un valor numerico mayor a 0","",JOptionPane.INFORMATION_MESSAGE);}
+	    return correcto;
 	}
 }

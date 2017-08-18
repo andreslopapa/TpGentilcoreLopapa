@@ -144,7 +144,7 @@ public class ABMCElemento extends JFrame {
 		contentPane.add(comboBoxTipoElemento);
 		
 		JLabel lblAcaPodriaSer = new JLabel("Aca podria ser mejor buscar directamente en una tabla");
-		lblAcaPodriaSer.setBounds(184, 194, 341, 47);
+		lblAcaPodriaSer.setBounds(184, 194, 541, 47);
 		contentPane.add(lblAcaPodriaSer);
 	}
 	

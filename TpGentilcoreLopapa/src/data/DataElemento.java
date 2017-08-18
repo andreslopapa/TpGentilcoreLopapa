@@ -81,6 +81,33 @@ public class DataElemento {
 		return elementos;
 		
 	}
+	
+	
+	public int getCantidad()throws SQLException,AppDataException{
+		int cantidad=0;
+		Statement stmt=null;
+		ResultSet res=null;
+		try{
+			stmt=FactoryConexion.getInstancia().getConn().createStatement();
+			res=stmt.executeQuery("select count(*) from elemento;");
+			if(res!=null && res.next()){
+				cantidad=res.getInt(1);
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al contar elementos");
+		}
+		finally{
+			try{
+				if(stmt!=null){stmt.close();}
+				if(res!=null){res.close();}
+				FactoryConexion.getInstancia().releaseConn();}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerra Conexion,Statement o Resultset");
+			}
+		}
+		return cantidad;
+	}
 
 	public Elemento getOne(Elemento elem) throws SQLException, AppDataException{
 		Elemento e =null;

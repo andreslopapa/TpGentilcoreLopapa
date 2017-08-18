@@ -21,6 +21,10 @@ public class CtrlElementoLogic {
 		return dataElem.getSome(indice, cantidad);
 	}
 	
+	public int getCantidad()throws Exception{
+		return dataElem.getCantidad();
+	}
+	
 	public void add(Elemento e) throws Exception{
 		dataElem.add(e);
 	}
