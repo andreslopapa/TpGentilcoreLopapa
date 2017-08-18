@@ -51,7 +51,7 @@ public class DataElemento {
 		try{
 			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 					+ "select* from elemento "
-					+ "limit ?,?");
+					+ "limit ?,?");//usar lo del ID
 			pstmt.setInt(1, indice);
 			pstmt.setInt(2, cantTraer);
 			res=pstmt.executeQuery();

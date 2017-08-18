@@ -1,6 +1,8 @@
 package data;
 import java.sql.*;
 
+import javax.swing.JOptionPane;
+
 import tools.AppDataException;
 
 public class FactoryConexion {
@@ -8,7 +10,7 @@ public class FactoryConexion {
 	private String host="localhost";
 	private String port="3306";
 	private String user="root";			////////COMPLETAR///////
-	private String password="root";		////////COMPLETAR///////
+	private String password="1618314";		////////COMPLETAR///////
 	private String db="BaseReservas";			////////COMPLETAR///////
 	
 	private static FactoryConexion instancia;
@@ -17,7 +19,7 @@ public class FactoryConexion {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

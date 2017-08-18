@@ -103,7 +103,13 @@ public class MainWindow {
 	}
 
 	protected void listadoElementosClick() {
-		ListadoElementos le=new ListadoElementos();
+		ListadoElementos le=null;
+		try {
+			le = ListadoElementos.getInstancia();
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, "Errpr al llamar a la ventana que lista elementos",
+					"Error",JOptionPane.ERROR_MESSAGE);
+		}
 		desktopPane.add(le);
 		le.setVisible(true);
 		try {

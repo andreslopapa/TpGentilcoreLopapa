@@ -30,7 +30,7 @@ import tools.Campo;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ListadoElementos extends Listado {
+public class ListadoElementos extends Listado implements IListados{
 	/**
 	 * @wbp.nonvisual location=127,137
 	 */
@@ -63,6 +63,16 @@ public class ListadoElementos extends Listado {
 	/**
 	 * Create the frame.
 	 */
+	
+	private static ListadoElementos instancia;
+	
+	public static ListadoElementos getInstancia()throws Exception{
+		if(instancia==null){
+			ListadoElementos.instancia=new ListadoElementos();
+		}
+		return instancia;
+	}
+	
 	public ListadoElementos() {
 		
 	
@@ -94,6 +104,11 @@ public class ListadoElementos extends Listado {
 		btnSiguiente.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/flechaderecha.png")));
 		
 		txtIndice = new JTextField();
+		txtIndice.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				buscarXIndiceClick(txtIndice.getText(),Indice.ESTE);
+			}
+		});
 		
 		txtIndice.setColumns(10);
 		txtIndice.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -112,6 +127,7 @@ public class ListadoElementos extends Listado {
 		initDataBindings();
 
 	}
+	//crear interface para que implemente esto y mas
 	protected void buscarXIndiceClick(String indiceCampo,Indice tipoIndice) {
 		if(Campo.Valida(indiceCampo, Campo.tipo.INDICE)){
 			this.Actualiza();
@@ -126,7 +142,7 @@ public class ListadoElementos extends Listado {
 					++indiceActual;
 					txtIndice.setText(String.valueOf(indiceActual));
 				}
-				//JOptionPane.showMessageDialog(null, Math.ceil(totalElementos/FilasTabla));
+				
 				
 				try {
 					this.elementos=elementoLogic.getSome((indiceActual-1)*FilasTabla,FilasTabla);
@@ -145,7 +161,7 @@ public class ListadoElementos extends Listado {
 		}
 		else{
 			txtIndice.setText(String.valueOf(indiceActual));
-			//esto corregirlo
+			
 		}
 	}
 	
@@ -161,6 +177,7 @@ public class ListadoElementos extends Listado {
 		}
 		
 	}
+	
 	protected void initDataBindings() {
 		JTableBinding<Elemento, List<Elemento>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, elementos, table);
 		//
