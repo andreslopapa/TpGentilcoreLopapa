@@ -2,15 +2,17 @@ package business.logic;
 import java.util.ArrayList;
 
 import business.entities.Elemento;
-import business.entities.Persona;
+import business.entities.TipoDeElemento;
 import data.DataElemento;
+import data.DataTipoDeElemento;
 
 public class CtrlElementoLogic {
 	private DataElemento dataElem;
-	
-	
+	private DataTipoDeElemento dataTipoElem;
+		
 	public CtrlElementoLogic(){
-		dataElem = new DataElemento();			
+		dataElem = new DataElemento();		
+		dataTipoElem = new DataTipoDeElemento();
 	}
 	
 	public ArrayList<Elemento> getAll()throws Exception{
@@ -39,7 +41,6 @@ public class CtrlElementoLogic {
 		return getOne(e);
 	}
 	
-	
 	public void update(Elemento e) throws Exception{
 		dataElem.update(e);
 	}
@@ -48,7 +49,8 @@ public class CtrlElementoLogic {
 		dataElem.delete(e);
 	}
 	
-
+	public ArrayList<TipoDeElemento> getTipoDeElemento() throws Exception{
+		return dataTipoElem.getAll();
+	}
+	
 }
-
-

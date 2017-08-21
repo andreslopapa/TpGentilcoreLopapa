@@ -2,14 +2,20 @@ package business.logic;
 
 import java.util.ArrayList;
 
+import business.entities.Categoria;
 import business.entities.Persona;
 import business.entities.TipoDeElemento;
+import data.DataCategoria;
 import data.DataTipoDeElemento;
 
 public class CtrlTipoDeElementoLogic {
 	private DataTipoDeElemento dataTdE;
-	private ArrayList<DataTipoDeElemento> tdes; 
+	private ArrayList<TipoDeElemento> tdes; 
 	
+	public CtrlTipoDeElementoLogic(){
+		dataTdE = new DataTipoDeElemento();
+		tdes = new ArrayList<TipoDeElemento>();
+	}
 	
 	public TipoDeElemento getOne(int id_elemento)throws Exception{
 		TipoDeElemento tde = new TipoDeElemento();
