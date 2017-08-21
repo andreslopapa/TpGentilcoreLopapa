@@ -44,14 +44,17 @@ public class DataElemento {
 		return elems;	
 	}
 	
+
+	
 	public ArrayList<Elemento> getSome(int indice,int cantTraer)throws SQLException,AppDataException{
 		PreparedStatement pstmt=null;
 		ResultSet res=null;
 		ArrayList<Elemento> elementos=new ArrayList<Elemento>();
 		try{
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "select* from elemento "
-					+ "limit ?,?");//usar lo del ID
+				pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+						+ "select* from elemento "
+						+ "limit ?,?");
+			
 			pstmt.setInt(1, indice);
 			pstmt.setInt(2, cantTraer);
 			res=pstmt.executeQuery();
@@ -79,9 +82,148 @@ public class DataElemento {
 			}
 		}
 		return elementos;
-		
 	}
 	
+	public ArrayList<Elemento> getSome(String nombre,int indice,int cantTraer)throws SQLException,AppDataException{
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+		ArrayList<Elemento> elementos=new ArrayList<Elemento>();
+		try{
+			if(nombre==null || nombre.isEmpty()){
+				pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+						+ "select* from elemento "
+						+ "where nombre is null "
+						+ "limit ?,?");
+				pstmt.setInt(1, indice);
+				pstmt.setInt(2, cantTraer);
+			}else{
+
+				pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+						+ "select* from elemento "
+						+ "where nombre like ? "
+						+ "limit ?,?");
+				pstmt.setString(1, nombre+"%");
+				pstmt.setInt(2, indice);
+				pstmt.setInt(3, cantTraer);
+			}
+			
+			res=pstmt.executeQuery();
+			if(res!=null){
+				while(res.next()){
+					Elemento ele=new Elemento();
+					ele.setId_elemento(res.getInt("id_elemento"));
+					ele.setNombre(res.getString("nombre"));
+					ele.setTipo(new DataTipoDeElemento().getOne(res.getInt("id_tipodeelemento")));
+					elementos.add(ele);
+				}
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al traer un grupo de elementos por nombre");
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				if(res!=null){res.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerrar Conexion,ResultSet o PreparedStatement");
+			}
+		}
+		return elementos;
+	}
+
+	public ArrayList<Elemento> getSome(int idTipo,int indice,int cantTraer)throws SQLException,AppDataException{
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+		ArrayList<Elemento> elementos=new ArrayList<Elemento>();
+		try{
+				pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+						+ "select* from elemento "
+						+ "where id_tipodeelemento=? "
+						+ "limit ?,?");
+			pstmt.setInt(1, idTipo);
+			pstmt.setInt(2, indice);
+			pstmt.setInt(3, cantTraer);
+			res=pstmt.executeQuery();
+			if(res!=null){
+				while(res.next()){
+					Elemento ele=new Elemento();
+					ele.setId_elemento(res.getInt("id_elemento"));
+					ele.setNombre(res.getString("nombre"));
+					ele.setTipo(new DataTipoDeElemento().getOne(res.getInt("id_tipodeelemento")));
+					elementos.add(ele);
+				}
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al traer un grupo de elementos por Tipo");
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				if(res!=null){res.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerrar Conexion,ResultSet o PreparedStatement");
+			}
+		}
+		return elementos;
+	}
+	
+	public ArrayList<Elemento> getSome(String nombre,int idTipo,int indice,int cantTraer)throws SQLException,AppDataException{
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+		ArrayList<Elemento> elementos=new ArrayList<Elemento>();
+		try{
+			if(nombre==null || nombre.isEmpty()){
+				pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+						+ "select* from elemento "
+						+ "where nombre is null and id_tipodeelemento=? "
+						+ "limit ?,?");
+				pstmt.setInt(1, idTipo);
+				pstmt.setInt(2, indice);
+				pstmt.setInt(3, cantTraer);
+			}
+			else{
+				pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+						+ "select* from elemento "
+						+ "where nombre like ? and id_tipodeelemento=? "
+						+ "limit ?,?");
+			pstmt.setString(1, nombre+"%");
+			pstmt.setInt(2, idTipo);
+			pstmt.setInt(3, indice);
+			pstmt.setInt(4, cantTraer);
+			}
+				
+			res=pstmt.executeQuery();
+			if(res!=null){
+				while(res.next()){
+					Elemento ele=new Elemento();
+					ele.setId_elemento(res.getInt("id_elemento"));
+					ele.setNombre(res.getString("nombre"));
+					ele.setTipo(new DataTipoDeElemento().getOne(res.getInt("id_tipodeelemento")));
+					elementos.add(ele);
+				}
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al traer un grupo de elementos por Nombre y Tipo");
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				if(res!=null){res.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerrar Conexion,ResultSet o PreparedStatement");
+			}
+		}
+		return elementos;
+	}
 	
 	public int getCantidad()throws SQLException,AppDataException{
 		int cantidad=0;

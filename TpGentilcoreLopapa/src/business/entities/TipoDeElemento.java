@@ -54,4 +54,19 @@ public class TipoDeElemento {
 
 	public TipoDeElemento(){
 	}
+	
+	@Override
+	public String toString(){
+		return this.getNombre();
+	}
+	
+   @Override
+   public boolean equals(Object o){
+	   return (o instanceof TipoDeElemento && ((TipoDeElemento)o).getId()==this.getId());
+   }
+   
+   @Override
+   public int hashCode(){
+	   return ((Integer)this.getId()).hashCode();
+   }
 }

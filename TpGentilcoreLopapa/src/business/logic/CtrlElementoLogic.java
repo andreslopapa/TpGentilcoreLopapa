@@ -1,8 +1,9 @@
 package business.logic;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import business.entities.Elemento;
-import business.entities.Persona;
 import data.DataElemento;
 
 public class CtrlElementoLogic {
@@ -17,8 +18,16 @@ public class CtrlElementoLogic {
 		return dataElem.getAll();
 	}
 	
-	public ArrayList<Elemento> getSome(int indice,int cantidad)throws Exception{
-		return dataElem.getSome(indice, cantidad);
+	public ArrayList<Elemento> getSome(Elemento ele,int indice,int cantidad)throws Exception{
+		if(ele==null){return dataElem.getSome(indice, cantidad);}
+		if(ele.getNombre()!=null && ele.getTipo()!=null){
+			return dataElem.getSome(ele.getNombre(),ele.getTipo().getId(),indice, cantidad);}
+		if(ele.getNombre()!=null){return dataElem.getSome(ele.getNombre(), indice,cantidad);}
+		if(ele.getTipo()!=null){return dataElem.getSome(ele.getTipo().getId(), indice,cantidad);}
+		ArrayList<Elemento> elementos= new ArrayList<Elemento>();
+		elementos.add(dataElem.getOne(ele));
+		return elementos;
+		
 	}
 	
 	public int getCantidad()throws Exception{

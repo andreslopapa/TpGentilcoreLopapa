@@ -2,7 +2,6 @@ package business.logic;
 
 import java.util.ArrayList;
 
-import business.entities.Persona;
 import business.entities.TipoDeElemento;
 import data.DataTipoDeElemento;
 
@@ -10,6 +9,9 @@ public class CtrlTipoDeElementoLogic {
 	private DataTipoDeElemento dataTdE;
 	private ArrayList<DataTipoDeElemento> tdes; 
 	
+	public CtrlTipoDeElementoLogic(){
+		this.dataTdE=new DataTipoDeElemento();
+	}
 	
 	public TipoDeElemento getOne(int id_elemento)throws Exception{
 		TipoDeElemento tde = new TipoDeElemento();
@@ -37,4 +39,5 @@ public class CtrlTipoDeElementoLogic {
 	}
 	
 
+	
 }
