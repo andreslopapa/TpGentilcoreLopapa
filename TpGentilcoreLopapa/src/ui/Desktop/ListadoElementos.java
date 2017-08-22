@@ -149,6 +149,7 @@ public class ListadoElementos extends Listado implements IListados{
 		cboTipoBusqueda.addItem("Traer Todos");
 		
 		cboTipoElemento=new JComboBox();
+		this.cboTipoElemento.setSelectedIndex(-1);
 		getContentPane().add(cboTipoElemento,"cell 1 3 2 1");
 		JLabel lblTipo = new JLabel("Tipo de Elemento");
 		getContentPane().add(lblTipo, "cell 1 2 2 1,alignx left,aligny center");
@@ -196,8 +197,11 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		this.mapearDeForm();
 		try{
-		this.elementos=this.elementoLogic.getSome(elementoActual, 0, FilasTabla);
-		initDataBindings();}
+		//this.elementos=this.elementoLogic.getSome(elementoActual, 0, FilasTabla);
+			indiceActual=1;
+			this.Actualiza();
+			//initDataBindings();
+			}
 		catch(Exception ex){
 			JOptionPane.showMessageDialog(null, "Error al buscar\n"+ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}
@@ -223,8 +227,9 @@ public class ListadoElementos extends Listado implements IListados{
 				
 				
 				try {
-					this.elementos=elementoLogic.getSome(elementoActual,(indiceActual-1)*FilasTabla,FilasTabla);
-					initDataBindings();
+					//this.elementos=elementoLogic.getSome(elementoActual,(indiceActual-1)*FilasTabla,FilasTabla);
+					this.Actualiza();
+					//initDataBindings();
 					
 				} 
 				catch (Exception e) {
@@ -246,11 +251,13 @@ public class ListadoElementos extends Listado implements IListados{
 	public void Actualiza(){
 		try {
 			loadLists();
-			this.totalElementos=elementoLogic.getCantidad();
+			this.totalElementos=elementoLogic.getCantidad(elementoActual);
 			cantidadIndices=(int)Math.ceil((double)totalElementos/FilasTabla);
+			if(cantidadIndices==0){cantidadIndices=1;}
 			if(indiceActual>cantidadIndices){indiceActual=cantidadIndices;}
 			this.elementos=elementoLogic.getSome(elementoActual,(indiceActual-1)*FilasTabla,FilasTabla);//esto cambiarlo
 		    this.lblIndice.setText("de "+String.valueOf(cantidadIndices));
+		    initDataBindings();
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, "Error al actualizar datos\n"+ex.getMessage(), 
 					"Error", JOptionPane.ERROR_MESSAGE);
@@ -280,8 +287,9 @@ public class ListadoElementos extends Listado implements IListados{
 	
 	private void loadLists(){
 	 try {
+		int indice=cboTipoElemento.getSelectedIndex(); 
 		this.cboTipoElemento.setModel(new DefaultComboBoxModel(new CtrlTipoDeElementoLogic().getAll().toArray()));
-	    this.cboTipoElemento.setSelectedIndex(-1);
+	    this.cboTipoElemento.setSelectedIndex(indice);
 	 } catch (Exception e) {
 		JOptionPane.showMessageDialog(null, "Error al recuperar lista de tipos de elementos\n"+e.getMessage(),
 				"Error",JOptionPane.ERROR_MESSAGE);

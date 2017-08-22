@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import business.entities.Elemento;
+import business.entities.TipoDeElemento;
 import data.DataElemento;
+import data.DataTipoDeElemento;
 
 public class CtrlElementoLogic {
 	private DataElemento dataElem;
-	
-	
+	private DataTipoDeElemento dataTipoElem;
+		
 	public CtrlElementoLogic(){
-		dataElem = new DataElemento();			
+		dataElem = new DataElemento();		
+		dataTipoElem = new DataTipoDeElemento();
 	}
 	
 	public ArrayList<Elemento> getAll()throws Exception{
@@ -30,8 +33,14 @@ public class CtrlElementoLogic {
 		
 	}
 	
-	public int getCantidad()throws Exception{
-		return dataElem.getCantidad();
+	public int getCantidad(Elemento ele)throws Exception{
+		
+		if(ele==null){return dataElem.getCantidad();}
+		if(ele.getNombre()!=null && ele.getTipo()!=null){
+			return dataElem.getCantidad(ele.getNombre(),ele.getTipo().getId());}
+		if(ele.getNombre()!=null){return dataElem.getCantidad(ele.getNombre());}
+		if(ele.getTipo()!=null){return dataElem.getCantidad(ele.getTipo().getId());}
+		return 1;
 	}
 	
 	public void add(Elemento e) throws Exception{
@@ -48,7 +57,6 @@ public class CtrlElementoLogic {
 		return getOne(e);
 	}
 	
-	
 	public void update(Elemento e) throws Exception{
 		dataElem.update(e);
 	}
@@ -57,7 +65,8 @@ public class CtrlElementoLogic {
 		dataElem.delete(e);
 	}
 	
-
+	public ArrayList<TipoDeElemento> getTipoDeElemento() throws Exception{
+		return dataTipoElem.getAll();
+	}
+	
 }
-
-

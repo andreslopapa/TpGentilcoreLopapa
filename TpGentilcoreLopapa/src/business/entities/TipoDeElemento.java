@@ -3,8 +3,6 @@ package business.entities;
 import java.util.Date;
 
 public class TipoDeElemento {
-	
-	
 	private int id_tipodeelemento;
 	private String nombre;
 	private int cant_max_res_pen; 
@@ -55,10 +53,7 @@ public class TipoDeElemento {
 	public TipoDeElemento(){
 	}
 	
-	@Override
-	public String toString(){
-		return this.getNombre();
-	}
+	
 	
    @Override
    public boolean equals(Object o){
@@ -69,4 +64,12 @@ public class TipoDeElemento {
    public int hashCode(){
 	   return ((Integer)this.getId()).hashCode();
    }
+
+	public String toString(){
+		return id_tipodeelemento + "-" + nombre;}
+	
 }
+		
+	
+	
+
