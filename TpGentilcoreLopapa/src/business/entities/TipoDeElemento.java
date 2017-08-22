@@ -67,7 +67,6 @@ public class TipoDeElemento {
 
 	public String toString(){
 		return id_tipodeelemento + "-" + nombre;}
-	
 }
 		
 	

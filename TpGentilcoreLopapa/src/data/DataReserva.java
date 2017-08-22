@@ -2,6 +2,20 @@ package data;
 
 public class DataReserva {
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	//INSERT
 //insert into reserva(id_persona, id_elemento, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) values(2,3,20170820,20170824,'Se entregó con raya superior');
 
