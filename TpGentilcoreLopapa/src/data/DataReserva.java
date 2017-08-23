@@ -10,8 +10,10 @@ import business.entities.Reserva;
 import tools.AppDataException;
 
 public class DataReserva {
-
-	//OJO QUE NO FUNCIONA
+	/////////////////////////////////////////
+	////////////OJO QUE NO FUNCIONA//////////
+	/////////////////////////////////////////
+	
 	public void add(Reserva r)throws SQLException,AppDataException{
 		PreparedStatement pstmt = null;
 		ResultSet keyResultSet = null;
