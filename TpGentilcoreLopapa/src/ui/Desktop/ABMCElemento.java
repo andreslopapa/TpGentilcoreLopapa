@@ -68,9 +68,9 @@ public class ABMCElemento extends JFrame {
 	private JTextField textLimiteHoras;
 	private JLabel lblDasDeAnticipacin;
 	private JTextField textDiasDeAnticipacion;
-	private JLabel lblUpdateTipoElemento;
-	private JLabel lblCreateTipoElemento;
-	private JLabel lblBuscar_TipoElemento;
+//	private JLabel lblUpdateTipoElemento;
+//	private JLabel lblCreateTipoElemento;
+	//private JLabel lblBuscar_TipoElemento;
 
 	/**
 	 * Launch the application.
@@ -185,9 +185,15 @@ public class ABMCElemento extends JFrame {
 		comboBoxTipoElemento = new JComboBox();
 		
 		JButton btnBorrar = new JButton("");
+		btnBorrar.setToolTipText("Eliminar elemento");
+		btnBorrar.setBorderPainted(false);
+		btnBorrar.setBackground(Color.WHITE);
 		btnBorrar.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_delete_sweep_black_24dp_1x.png")));
 		
 		JButton btnModificar = new JButton("");
+		btnModificar.setToolTipText("Actualizar elemento");
+		btnModificar.setBackground(Color.WHITE);
+		btnModificar.setBorderPainted(false);
 		btnModificar.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/Update black .png")));
 		btnModificar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -197,6 +203,10 @@ public class ABMCElemento extends JFrame {
 		});
 		
 		JButton btnGuardar = new JButton("");
+		btnGuardar.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		btnGuardar.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnGuardar.setBorderPainted(false);
+		btnGuardar.setBorder(null);
 		btnGuardar.setForeground(Color.WHITE);
 		btnGuardar.setBackground(Color.WHITE);
 		btnGuardar.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_add_circle_black_24dp_1x.png")));
@@ -210,6 +220,9 @@ public class ABMCElemento extends JFrame {
 		
 	
 		JButton btnBuscar = new JButton("");
+		btnBuscar.setToolTipText("Buscar elemento");
+		btnBuscar.setBorderPainted(false);
+		btnBuscar.setBackground(Color.WHITE);
 		btnBuscar.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_search_black_24dp_1x.png")));
 	//	btnBuscar.setSelectedIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_search_black_24dp_1x.png")));
 		btnBuscar.setForeground(Color.WHITE);
@@ -237,20 +250,26 @@ public class ABMCElemento extends JFrame {
 		
 				
 				
-				JLabel lblAcaPodriaSer = new JLabel("El ID s\u00F3lo es para busqueda, \r\nal crear se asignar\u00E1 uno nuevo automaticamente");
-				lblAcaPodriaSer.setHorizontalAlignment(SwingConstants.CENTER);
+				JLabel lblAdvertencia = new JLabel("El ID s\u00F3lo es para busqueda, \r\nal crear se asignar\u00E1 uno nuevo automaticamente");
+				lblAdvertencia.setHorizontalAlignment(SwingConstants.CENTER);
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addGap(20)
 							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel_1.createSequentialGroup()
-									.addComponent(lblTipo, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblNombre, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
-									.addComponent(comboBoxTipoElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
+									.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panel_1.createSequentialGroup()
 									.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
@@ -261,18 +280,12 @@ public class ABMCElemento extends JFrame {
 											.addPreferredGap(ComponentPlacement.UNRELATED)
 											.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))))
 								.addGroup(gl_panel_1.createSequentialGroup()
-									.addComponent(lblNombre, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblTipo, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
-									.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))))
+									.addComponent(comboBoxTipoElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addGap(119)
-							.addComponent(lblAcaPodriaSer, GroupLayout.PREFERRED_SIZE, 412, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(lblAdvertencia, GroupLayout.PREFERRED_SIZE, 412, GroupLayout.PREFERRED_SIZE)))
 					.addGap(50))
 		);
 		gl_panel_1.setVerticalGroup(
@@ -290,10 +303,9 @@ public class ABMCElemento extends JFrame {
 							.addGroup(gl_panel_1.createSequentialGroup()
 								.addGap(3)
 								.addComponent(textIdElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(12)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGap(6)
 							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblNombre)
 								.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -304,12 +316,13 @@ public class ABMCElemento extends JFrame {
 									.addComponent(lblTipo, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
 								.addComponent(comboBoxTipoElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addGap(41))
-						.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING, false)
-							.addComponent(btnModificar, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(btnGuardar, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(btnBorrar, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblAcaPodriaSer, GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 23, Short.MAX_VALUE)
+								.addComponent(btnModificar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(btnBorrar))
+							.addPreferredGap(ComponentPlacement.RELATED)))
+					.addComponent(lblAdvertencia, GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
 					.addGap(10))
 		);
 		panel_1.setLayout(gl_panel_1);
@@ -323,7 +336,7 @@ public class ABMCElemento extends JFrame {
 		lblId_TipoElemento.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		textIdTipoDeElemento = new JTextField();
-		textIdTipoDeElemento.setToolTipText("El ID s\u00F3lo es para busqueda, ");
+		textIdTipoDeElemento.setToolTipText("El ID s\u00F3lo es para busqueda, al crear se asignar\u00E1 uno nuevo automaticamente");
 		textIdTipoDeElemento.setColumns(10);
 		
 		textNombreTipoElemento = new JTextField();
@@ -357,7 +370,10 @@ public class ABMCElemento extends JFrame {
 		textDiasDeAnticipacion.setToolTipText("Cantidad m\u00E1xima de d\u00EDas de anticipaci\u00F3n para ser reservados");
 		textDiasDeAnticipacion.setColumns(10);
 		
-		JLabel lblDeleteTipoElemento = new JLabel("");
+		JButton lblDeleteTipoElemento = new JButton("");
+		lblDeleteTipoElemento.setBorderPainted(false);
+		lblDeleteTipoElemento.setBackground(Color.WHITE);
+		lblDeleteTipoElemento.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_delete_sweep_black_24dp_1x.png")));
 		lblDeleteTipoElemento.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -369,11 +385,13 @@ public class ABMCElemento extends JFrame {
 			}
 		});
 		lblDeleteTipoElemento.setToolTipText("Eliminar Tipo de Elemento");
-		lblDeleteTipoElemento.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_delete_sweep_black_24dp_1x.png")));
 		
 		
-		lblUpdateTipoElemento = new JLabel("");
-		lblUpdateTipoElemento.setToolTipText("Editar Tipo de Elemento");
+		JButton lblUpdateTipoElemento = new JButton("");
+		lblUpdateTipoElemento.setToolTipText("Actualizar tipo de elemento");
+		lblUpdateTipoElemento.setBorderPainted(false);
+		lblUpdateTipoElemento.setBackground(Color.WHITE);
+		lblUpdateTipoElemento.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/Update black .png")));
 		lblUpdateTipoElemento.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -384,11 +402,13 @@ public class ABMCElemento extends JFrame {
 				}
 			}
 		});
-		lblUpdateTipoElemento.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/Update black .png")));
 		
 		
-		lblCreateTipoElemento = new JLabel("");
-		lblCreateTipoElemento.setToolTipText("Crear nuevo Tipo");
+		JButton lblCreateTipoElemento = new JButton("");
+		lblCreateTipoElemento.setToolTipText("El ID s\u00F3lo es para busqueda, al crear se asignar\u00E1 uno nuevo automaticamente");
+		lblCreateTipoElemento.setBorderPainted(false);
+		lblCreateTipoElemento.setBackground(Color.WHITE);
+		lblCreateTipoElemento.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_add_circle_black_24dp_1x.png")));
 		lblCreateTipoElemento.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -399,11 +419,16 @@ public class ABMCElemento extends JFrame {
 				}
 			}
 		});
-		lblCreateTipoElemento.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_add_circle_black_24dp_1x.png")));
 		
 		
-		lblBuscar_TipoElemento = new JLabel("");
-		lblBuscar_TipoElemento.setToolTipText("Buscar Tipo de Elemento");
+			
+		JButton lblBuscar_TipoElemento = new JButton("");
+		lblBuscar_TipoElemento.setToolTipText("Buscar tipo de elemento");
+		lblBuscar_TipoElemento.setBorderPainted(false);
+		lblBuscar_TipoElemento.setBackground(Color.WHITE);
+		lblBuscar_TipoElemento.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_search_black_24dp_1x.png")));
+		lblBuscar_TipoElemento.setForeground(Color.WHITE);
+		
 		lblBuscar_TipoElemento.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -414,49 +439,52 @@ public class ABMCElemento extends JFrame {
 				}
 			}
 		});
-		lblBuscar_TipoElemento.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_search_black_24dp_1x.png")));
+
 		GroupLayout gl_panelTipoDeElemento = new GroupLayout(panelTipoDeElemento);
 		gl_panelTipoDeElemento.setHorizontalGroup(
 			gl_panelTipoDeElemento.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblNombreTipoElemento, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblId_TipoElemento, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
-							.addComponent(lblA)
-							.addContainerGap())
 						.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
 							.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblTiposDeElementos)
+								.addComponent(lblNombreTipoElemento, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblId_TipoElemento, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
-									.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.TRAILING)
+									.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblTiposDeElementos)
 										.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
-											.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.TRAILING)
-												.addComponent(lblDasDeAnticipacin)
-												.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.TRAILING)
-													.addComponent(lblMaxResPendiente, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-													.addComponent(lblLimiteHoras)))
-											.addGap(18)
-											.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.TRAILING)
-												.addComponent(textCantMaxPerRes, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-												.addComponent(textLimiteHoras, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-												.addComponent(textDiasDeAnticipacion, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)))
-										.addComponent(textNombreTipoElemento, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
+											.addComponent(textNombreTipoElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(lblCreateTipoElemento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(lblUpdateTipoElemento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(lblDeleteTipoElemento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+											.addGap(74)))
+									.addGap(132))
+								.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
+									.addComponent(textIdTipoDeElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(lblCreateTipoElemento)
-									.addGap(18)
-									.addComponent(lblUpdateTipoElemento)
-									.addGap(18)
-									.addComponent(lblDeleteTipoElemento)))
-							.addGap(132))
+									.addComponent(lblBuscar_TipoElemento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+									.addContainerGap())))
 						.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
-							.addComponent(textIdTipoDeElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblBuscar_TipoElemento)
-							.addContainerGap())))
+							.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblDasDeAnticipacin)
+								.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.TRAILING)
+									.addComponent(lblMaxResPendiente, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+									.addComponent(lblLimiteHoras)))
+							.addGap(18)
+							.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.TRAILING)
+								.addComponent(textLimiteHoras, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+								.addComponent(textCantMaxPerRes, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+								.addComponent(textDiasDeAnticipacion, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
+							.addGap(326))
+						.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
+							.addComponent(lblA)
+							.addContainerGap(461, Short.MAX_VALUE))))
 		);
 		gl_panelTipoDeElemento.setVerticalGroup(
 			gl_panelTipoDeElemento.createParallelGroup(Alignment.LEADING)
@@ -472,14 +500,15 @@ public class ABMCElemento extends JFrame {
 							.addGap(20)
 							.addComponent(lblNombreTipoElemento))
 						.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
-							.addComponent(lblBuscar_TipoElemento)
-							.addGap(10)
+							.addComponent(lblBuscar_TipoElemento, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
 							.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblUpdateTipoElemento)
-								.addComponent(lblCreateTipoElemento)
-								.addComponent(lblDeleteTipoElemento)
+								.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(lblUpdateTipoElemento, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblCreateTipoElemento, GroupLayout.PREFERRED_SIZE, 22, Short.MAX_VALUE)
+									.addComponent(lblDeleteTipoElemento))
 								.addComponent(textNombreTipoElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addPreferredGap(ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
 					.addComponent(lblA)
 					.addGap(18)
 					.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.BASELINE)
