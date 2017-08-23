@@ -11,14 +11,14 @@ import tools.AppDataException;
 
 public class DataReserva {
 
-	
+	//OJO QUE NO FUNCIONA
 	public void add(Reserva r)throws SQLException,AppDataException{
 		PreparedStatement pstmt = null;
 		ResultSet keyResultSet = null;
 		try {
 
 //INSERT
-//insert into reserva(id_persona, id_elemento, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) values(2,3,20170820,20170824,'Se entregÛ con raya superior');
+//insert into reserva(id_persona, id_elemento, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) values(2,3,20170820,20170824,'Se entreg√≥ con raya superior');
 //en realidad se utilizan estos campos, pero algunos se actualizan solos
 // id_reserva, id_persona, id_elemento, fecha_hora_reserva_hecha, fecha_hora_desde_solicitada, fecha_hora_hasta_solicitada, fecha_hora_entregado, detalle
 
@@ -63,7 +63,7 @@ public class DataReserva {
 	
 	
 	//INSERT
-//insert into reserva(id_persona, id_elemento, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) values(2,3,20170820,20170824,'Se entregÛ con raya superior');
+//insert into reserva(id_persona, id_elemento, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) values(2,3,20170820,20170824,'Se entreg√≥ con raya superior');
 
 	
 	
@@ -76,7 +76,7 @@ select  per.apellido,
         DATE_FORMAT(fecha_hora_reserva_hecha,'%d/%m/%Y a las %H:%i') as 'Fecha y hora de fin de reserva',        
 		DATE_FORMAT(fecha_hora_desde_solicitada,'%d/%m/%Y a las %H:%i') as 'Fecha y hora de inicio de reserva', 
 		DATE_FORMAT(fecha_hora_hasta_solicitada,'%d/%m/%Y a las %H:%i') as 'Fecha y hora de fin de reserva', 
-		fecha_hora_entregado			//esta ser· null por defecto, posible validador para cuando no se finalizo la reserva, por lo tanto no tiene fecha de fin
+		fecha_hora_entregado			//esta ser√° null por defecto, posible validador para cuando no se finalizo la reserva, por lo tanto no tiene fecha de fin
         res.detalle,
         elem.nombre
 from reserva res
