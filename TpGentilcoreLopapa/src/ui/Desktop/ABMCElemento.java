@@ -187,20 +187,28 @@ public class ABMCElemento extends JFrame {
 		JButton btnBorrar = new JButton("Borrar");
 		
 		JButton btnModificar = new JButton("Modificar");
-		btnModificar.addMouseListener(new MouseAdapter() {
+		btnModificar.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				clickModificar();
+			public void actionPerformed(ActionEvent e) {
+				try {
+					clickModificar();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.setSelectedIcon(null);
 		btnGuardar.setToolTipText("El ID s\u00F3lo es para busqueda, al crear se asignar\u00E1 uno nuevo automaticamente");
-		btnGuardar.addMouseListener(new MouseAdapter() {
+		btnGuardar.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				clickGuardar();
+			public void actionPerformed(ActionEvent e) {
+				try {
+					clickGuardar();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -539,18 +547,18 @@ public class ABMCElemento extends JFrame {
 			e.setId_elemento(Integer.parseInt(this.textIdElemento.getText()));
 		}
 		e.setNombre(this.textNombreElemento.getText());
-	//	if (comboBoxTipoElemento.getSelectedIndex() != -1){
+		if (comboBoxTipoElemento.getSelectedIndex() != -1){
 			e.setTipo((TipoDeElemento) this.comboBoxTipoElemento.getSelectedItem());
-		//}
+		}
 		return e;
 	}
 	
 	private void mapearAForm(Elemento e){
 		this.textIdElemento.setText(Integer.toString((e.getId_elemento())));
 		this.textNombreElemento.setText(e.getNombre());
-		//if (e.getTipo()!=null){
+		if (e.getTipo()!=null){
 			this.comboBoxTipoElemento.setSelectedItem((TipoDeElemento) e.getTipo());
-	//	}
+		}
 	}
 	
 	private void limpiarTextoElemento(){
@@ -573,11 +581,11 @@ public class ABMCElemento extends JFrame {
 	
 	private TipoDeElemento mapearDeFormTdE(){
 		TipoDeElemento t = new TipoDeElemento();
-		t.setId(Integer.parseInt(this.textIdTipoDeElemento.getText()));
+		t.setId(Integer.parseInt(this.textIdTipoDeElemento.getText().trim()));
 		t.setNombre(this.textNombreTipoElemento.getText());
-		t.setCant_max_res_pen(Integer.parseInt(this.textCantMaxPerRes.getText()));
-		t.setDias_max_anticipacion(Integer.parseInt(this.textDiasDeAnticipacion.getText()));
-		t.setLimite_horas_res(Integer.parseInt(this.textLimiteHoras.getText()));
+		t.setCant_max_res_pen(Integer.parseInt(this.textCantMaxPerRes.getText().trim()));
+		t.setDias_max_anticipacion(Integer.parseInt(this.textDiasDeAnticipacion.getText().trim()));
+		t.setLimite_horas_res(Integer.parseInt(this.textLimiteHoras.getText().trim()));
 		return t;
 	}
 	
