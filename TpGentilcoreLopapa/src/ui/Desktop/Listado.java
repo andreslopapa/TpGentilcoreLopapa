@@ -9,4 +9,8 @@ public abstract class  Listado extends JInternalFrame{
 	protected int cantidadIndices;
 	protected int indiceActual;
 	
+	public Listado(){
+		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);
+		//esto saca la barra de arriba
+	}
 }

@@ -36,18 +36,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
+import javax.swing.JDesktopPane;
 
 public class ListadoElementos extends Listado implements IListados{
 	/**
 	 * @wbp.nonvisual location=127,137
 	 */
 	private CtrlElementoLogic elementoLogic;
-	private ArrayList<Elemento> elementos=null;
+	//private ArrayList<Elemento> elementos=null;
 	private int totalElementos;
 	private JTable table;
 	private JTextField txtIndice;
 	private JLabel lblIndice;
 	private Elemento elementoActual;
+	private ABMCElemento formElemento;
 	//hacr una clase listado de la que hereden 
 
 	/**
@@ -74,6 +76,7 @@ public class ListadoElementos extends Listado implements IListados{
 	private JTextField txtBuscar;
 	private JComboBox cboTipoElemento;
 	private JComboBox cboTipoBusqueda;
+	private JDesktopPane desktopPane;
 	
 	public static ListadoElementos getInstancia()throws Exception{
 		if(instancia==null){
@@ -124,9 +127,14 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		
 		lblIndice = new JLabel("de xxx");
-		getContentPane().setLayout(new MigLayout("", "[25%,grow][25%][][][50px:50px:50px,center][][][][25%][25%]", "[20px:20px:20px][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%][5%,baseline]"));
+		getContentPane().setLayout(new MigLayout("", "[5%,grow][25%][][][50px:50px:50px,center][][][][25%][45%,grow]", "[20px:20px:20px][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
 		
 		txtBuscar = new JTextField();
+		txtBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				buscarClick();
+			}
+		});
 		getContentPane().add(txtBuscar, "cell 1 0 6 1,alignx left,aligny bottom");
 		txtBuscar.setColumns(30);
 		LimitadorTxt.MaxCaracteres(45, txtBuscar);
@@ -141,7 +149,7 @@ public class ListadoElementos extends Listado implements IListados{
 		getContentPane().add(btnBuscar, "cell 1 1 2 1,alignx left,aligny top");
 		
 		cboTipoBusqueda = new JComboBox();
-		getContentPane().add(cboTipoBusqueda, "cell 1 1,alignx left,aligny top");
+		getContentPane().add(cboTipoBusqueda, "cell 1 1 2 1,alignx left,aligny top");
 		cboTipoBusqueda.addItem("Por Id");
 		cboTipoBusqueda.addItem("Por Nombre");
 		cboTipoBusqueda.addItem("Por Tipo");
@@ -153,6 +161,19 @@ public class ListadoElementos extends Listado implements IListados{
 		getContentPane().add(cboTipoElemento,"cell 1 3 2 1");
 		JLabel lblTipo = new JLabel("Tipo de Elemento");
 		getContentPane().add(lblTipo, "cell 1 2 2 1,alignx left,aligny center");
+		
+		desktopPane = new JDesktopPane();
+		try {
+			if(formElemento==null){formElemento=new ABMCElemento();}
+			desktopPane.add(formElemento);
+			formElemento.setVisible(true);
+			formElemento.setMaximum(true);
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error al tratar de insertar la ventana interna de elementos\n"+e.getMessage(),
+					"Error",JOptionPane.ERROR_MESSAGE);
+		}
+		getContentPane().add(desktopPane, "cell 9 4,grow");
 		
 //		JRadioButton rdbtnId = new JRadioButton("Por Id");
 //		getContentPane().add(rdbtnId, "flowx,cell 1 1,alignx left,aligny center");
@@ -255,7 +276,7 @@ public class ListadoElementos extends Listado implements IListados{
 			cantidadIndices=(int)Math.ceil((double)totalElementos/FilasTabla);
 			if(cantidadIndices==0){cantidadIndices=1;}
 			if(indiceActual>cantidadIndices){indiceActual=cantidadIndices;}
-			this.elementos=elementoLogic.getSome(elementoActual,(indiceActual-1)*FilasTabla,FilasTabla);//esto cambiarlo
+			this.elementoLogic.elementos=elementoLogic.getSome(elementoActual,(indiceActual-1)*FilasTabla,FilasTabla);//esto cambiarlo
 		    this.lblIndice.setText("de "+String.valueOf(cantidadIndices));
 		    initDataBindings();
 		} catch (Exception ex) {
@@ -266,7 +287,7 @@ public class ListadoElementos extends Listado implements IListados{
 	}
 	
 	public void initDataBindings() {
-		JTableBinding<Elemento, List<Elemento>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, elementos, table);
+		JTableBinding<Elemento, List<Elemento>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, this.elementoLogic.elementos, table);
 		//
 		BeanProperty<Elemento, Integer> elementoBeanProperty = BeanProperty.create("id_elemento");
 		jTableBinding.addColumnBinding(elementoBeanProperty).setColumnName("ID Elemento");

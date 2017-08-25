@@ -11,10 +11,12 @@ import data.DataTipoDeElemento;
 public class CtrlElementoLogic {
 	private DataElemento dataElem;
 	private DataTipoDeElemento dataTipoElem;
-		
+	public ArrayList<Elemento> elementos;	
+	
 	public CtrlElementoLogic(){
 		dataElem = new DataElemento();		
 		dataTipoElem = new DataTipoDeElemento();
+		elementos=new ArrayList<Elemento>();
 	}
 	
 	public ArrayList<Elemento> getAll()throws Exception{

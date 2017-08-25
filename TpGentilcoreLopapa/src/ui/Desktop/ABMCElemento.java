@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -42,7 +43,7 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JScrollBar;
 
-public class ABMCElemento extends JFrame {
+public class ABMCElemento extends JInternalFrame {
 	
 	CtrlElementoLogic ctrElemLogic = new CtrlElementoLogic();
 	CtrlTipoDeElementoLogic ctrTdELogic = new CtrlTipoDeElementoLogic();
@@ -96,7 +97,7 @@ public class ABMCElemento extends JFrame {
 	public ABMCElemento() throws Exception{
 		
 		this.setTitle("Sistema de gesti\u00F3n de reservas");
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(ABMCElemento.class.getResource("/ui/Desktop/cropped-3w2-web-dominios-hosting.png")));
+		//this.setIconImage(Toolkit.getDefaultToolkit().getImage(ABMCElemento.class.getResource("/ui/Desktop/cropped-3w2-web-dominios-hosting.png")));
 		this.setBackground(Color.WHITE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(100, 100, 782, 586);
@@ -452,44 +453,38 @@ public class ABMCElemento extends JFrame {
 								.addComponent(lblId_TipoElemento, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE))
 							.addGap(18)
 							.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblTiposDeElementos)
 								.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
-									.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblTiposDeElementos)
-										.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
-											.addComponent(textNombreTipoElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(lblCreateTipoElemento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(lblUpdateTipoElemento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(lblDeleteTipoElemento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-											.addGap(74)))
-									.addGap(132))
+									.addComponent(textNombreTipoElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(lblCreateTipoElemento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(lblUpdateTipoElemento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(lblDeleteTipoElemento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
 									.addComponent(textIdTipoDeElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(lblBuscar_TipoElemento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap())))
+									.addComponent(lblBuscar_TipoElemento, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
 							.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.TRAILING)
 								.addComponent(lblDasDeAnticipacin)
-								.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.TRAILING)
-									.addComponent(lblMaxResPendiente, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-									.addComponent(lblLimiteHoras)))
+								.addComponent(lblMaxResPendiente, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lblLimiteHoras))
 							.addGap(18)
 							.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textLimiteHoras, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-								.addComponent(textCantMaxPerRes, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-								.addComponent(textDiasDeAnticipacion, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
-							.addGap(326))
+								.addComponent(textLimiteHoras, GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+								.addComponent(textCantMaxPerRes, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+								.addComponent(textDiasDeAnticipacion, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
+							.addGap(120))
 						.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
 							.addComponent(lblA)
-							.addContainerGap(461, Short.MAX_VALUE))))
+							.addPreferredGap(ComponentPlacement.RELATED, 226, GroupLayout.PREFERRED_SIZE)))
+					.addGap(122))
 		);
 		gl_panelTipoDeElemento.setVerticalGroup(
 			gl_panelTipoDeElemento.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelTipoDeElemento.createSequentialGroup()
-					.addGap(7)
 					.addComponent(lblTiposDeElementos)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.LEADING)
@@ -522,11 +517,12 @@ public class ABMCElemento extends JFrame {
 					.addGroup(gl_panelTipoDeElemento.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textDiasDeAnticipacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblDasDeAnticipacin))
-					.addContainerGap())
+					.addGap(19))
 		);
 		panelTipoDeElemento.setLayout(gl_panelTipoDeElemento);
 		contentPane.setLayout(gl_contentPane);
 		cargarListas();
+		((javax.swing.plaf.basic.BasicInternalFrameUI) this.getUI()).setNorthPane(null);//esto saca la barra de arriba
 	}
 
 	
@@ -574,7 +570,7 @@ public class ABMCElemento extends JFrame {
 				ctrElemLogic.update(mapearDeForm());
 			JOptionPane.showMessageDialog(this, "Elemento actualizado", "", JOptionPane.INFORMATION_MESSAGE);
 			}else{
-				JOptionPane.showMessageDialog(this, "No se ha ingresado ningún elemento", "", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, "No se ha ingresado ningï¿½n elemento", "", JOptionPane.WARNING_MESSAGE);
 			}
 		} catch (Exception e) {
 			limpiarTextoElemento();
@@ -659,7 +655,7 @@ public class ABMCElemento extends JFrame {
 		try {
 			if(textIdTipoDeElemento.getText().length()>0){
 	            int reply = JOptionPane.showConfirmDialog(null,
-	                    "¿Desea actualizar el Tipo De Elemento ?", "Actualización", JOptionPane.YES_NO_OPTION);
+	                    "ï¿½Desea actualizar el Tipo De Elemento ?", "Actualizaciï¿½n", JOptionPane.YES_NO_OPTION);
 	            if (reply == JOptionPane.YES_OPTION){			
 	    			ctrTdELogic.update(this.mapearDeFormTdE());
 	    			limpiarTextoTipoElemento();
@@ -674,7 +670,7 @@ public class ABMCElemento extends JFrame {
 		try {
 			if(textIdTipoDeElemento.getText().length()>0){
 		            int reply = JOptionPane.showConfirmDialog(null,
-		                    "¿Desea eliminar el Tipo De Elemento ?", "Eliminación Tipo de Elemento", JOptionPane.YES_NO_OPTION);
+		                    "ï¿½Desea eliminar el Tipo De Elemento ?", "Eliminaciï¿½n Tipo de Elemento", JOptionPane.YES_NO_OPTION);
 		            if (reply == JOptionPane.YES_OPTION){			
 		            	ctrTdELogic.delete(this.mapearDeFormTdE());
 		    			limpiarTextoTipoElemento();
