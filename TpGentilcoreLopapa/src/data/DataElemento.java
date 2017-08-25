@@ -396,12 +396,12 @@ public class DataElemento {
 	
 	public Elemento getOne(int id_elem_p) throws SQLException, AppDataException{
 		Elemento e =null;
-		PreparedStatement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		DataTipoDeElemento dtde = new DataTipoDeElemento();
 		
 		try {
-			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
+			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
 					"select * from elemento where id_elemento=?"
 			/*		"select e.id_elemento, e.nombre_elemento, e.id_tipo"
 					+ " from elemento e "
@@ -409,8 +409,8 @@ public class DataElemento {
 					+ "  on e.id_tipo=tde.id_tipodeelemento "
 					+ " where e.id_elemento=? "*/
 					);
-			stmt.setInt(1,id_elem_p);
-			rs = stmt.executeQuery();
+			pstmt.setInt(1,id_elem_p);
+			rs = pstmt.executeQuery();
 			if(rs!=null && rs.next()){
 				e = new Elemento();
 				e.setId_elemento(rs.getInt("id_elemento"));
@@ -428,7 +428,7 @@ public class DataElemento {
 		finally{
 			try {
 				if(rs!=null) rs.close();
-				if(stmt!=null) stmt.close();
+				if(pstmt!=null) pstmt.close();
 				FactoryConexion.getInstancia().releaseConn();
 			} catch (SQLException sqlex) {
 				throw new AppDataException(sqlex, "Error al cerrar conexion en busqueda de elemento");
