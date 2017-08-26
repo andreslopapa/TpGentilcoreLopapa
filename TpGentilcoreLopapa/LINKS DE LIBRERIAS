@@ -1,0 +1,15 @@
+-JCalendar
+https://toedter.com/jcalendar/   
+    Pasos:
+      1- Descargar y descomprimir
+      2- Los archivos que se encuentran en la carpeta LIB hay que copiarlos y pegarlos en la carpeta LIB del proyecto.
+      3- Click derecho y build path --> add to build path
+      4- En el design , agregamos una nueva "category" en el "palette" 
+      4-1- Click derecho --> Palette Manager --> Add Category --> le das un nombre --> ok
+      4-2- Seleccionando la category que creaste --> Import Jar --> y clickeando el boton pequeño de arriba a la derecha  seleccionar desde el workspace --> ahi seleccionas el archivo jcalendar solamente.
+      4-3 listo. si no aparece pone recargar 
+
+-Table
+library http://www.java2s.com/Code/JarDownload/beansbinding/beansbinding-1.2.1.jar.zip
+
+-Conector a BD
