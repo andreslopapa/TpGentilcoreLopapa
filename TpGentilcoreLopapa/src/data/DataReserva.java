@@ -17,16 +17,17 @@ public class DataReserva {
 		PreparedStatement pstmt = null;
 		ResultSet keyResultSet = null;
 		try {
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(" "
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 					+ "insert into reserva("
-					+ "id_persona, "
-					+ "id_elemento, "
-				//	+ "fecha_hora_reserva_hecha"
-					+ " fecha_hora_desde_solicitada,"
-					+ "fecha_hora_hasta_solicitada, "
-					+ " fecha_hora_entregado, "
-					+ "detalle) "
-					+ "values(?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+						+ " id_persona, "
+						+ " id_elemento, "
+					//	+ " fecha_hora_reserva_hecha,"
+						+ " fecha_hora_desde_solicitada,"
+						+ " fecha_hora_hasta_solicitada, "
+					//	+ " fecha_hora_entregado, "				//este solo se usa para cuando el administrador, o quien sea, registre que se devolvió
+						+ " detalle) "
+					+ "values( ?,?,?,?,?); "
+						,PreparedStatement.RETURN_GENERATED_KEYS);
 		
 			pstmt.setInt(1,r.getPersona().getId());
 			pstmt.setInt(2, r.getElemento().getId_elemento());
@@ -34,13 +35,19 @@ public class DataReserva {
 						//Por ahi el tipo borro una reserva y quiere volver a ingresarla, no va a poder 
 						//ingresar cuando se hizo si se actualiza solo
 						//no se si vamos a hacerlo pero asi funcioan de cualquier forma
+			
+					//alberto
+					//el tipo cuando quiera ingresar una nueva reserva, se va a crear un nuevo registro en la BD y por lo tanto un nuevo timestamp de ese momento.
+					
+					// de todos modos me parece que no la vamos a necesitar a esta. xq yo la habia pensado para restar con el dato del tiempo que tiene TipoDeElemento
+					//O sea, "fecha_hora_reserva_hecha" se va a actualizar cuando se CREA la reserva. (o sea que ya paso todas las validaciones)
+					//pero la diferencia de tiempo que tenemos que hacer es una validacion que se hace antes que se crea la reserva.
+					//si vos la pensaste para usarla en otro momento la dejamos
 			pstmt.setDate(3, (java.sql.Date) r.getFecha_hora_desde_solicitada());
 			pstmt.setDate(4, (java.sql.Date) r.getFecha_hora_hasta_solicitada());
-			pstmt.setDate(6, (java.sql.Date)r.getFecha_hora_entregado());//si agrega una reserva borrada 
+		//	pstmt.setDate(5, (java.sql.Date)r.getFecha_hora_entregado());//si agrega una reserva borrada 
 			pstmt.setString(5,r.getDetalle());
-			pstmt.executeUpdate();		//execute no? El execute te hace cualquier cosa,el
-			//executequery solo consultas select y el executeupdate solo add update o delete
-			//es para q no metas la pata poner executeupdate
+			pstmt.executeUpdate();							//execute= ejecuta todo      /executequery solo consultas select   /executeupdate solo add update o delete
 			keyResultSet = pstmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
 				r.setId_reserva(keyResultSet.getInt(1));				
@@ -118,7 +125,7 @@ public class DataReserva {
 		ResultSet rs=null;
 		try{
 			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "select* from reserva where id_reserva=?;");
+					+ "select * from reserva where id_reserva=?;");
 			pstmt.setInt(1, r.getId_reserva());
 			rs=pstmt.executeQuery();
 			if(rs.next() && rs!=null){

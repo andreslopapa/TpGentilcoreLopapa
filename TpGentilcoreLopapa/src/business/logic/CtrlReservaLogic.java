@@ -2,6 +2,7 @@ package business.logic;
 
 import java.sql.SQLException;
 
+import business.entities.Persona;
 import business.entities.Reserva;
 import data.DataElemento;
 import data.DataPersona;
@@ -27,5 +28,21 @@ public class CtrlReservaLogic {
 		datRes.add(r);
 	}
 
+	public void update(Reserva r) throws SQLException, AppDataException{
+		datRes.update(r);
+	}
+
+	public void delete(Reserva r) throws SQLException, AppDataException{
+		datRes.delete(r);
+	}
+	
+	public Reserva getOne(Reserva r)throws Exception{
+		return datRes.getOne(r);
+	}	
+
+	
+
+	
+	
 }
 

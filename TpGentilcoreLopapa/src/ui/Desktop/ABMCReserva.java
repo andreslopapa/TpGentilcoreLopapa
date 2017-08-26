@@ -36,6 +36,10 @@ import java.text.ParseException;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
+import javax.swing.JTextArea;
+import javax.swing.border.LineBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.CompoundBorder;
 
 public class ABMCReserva {
 	
@@ -48,6 +52,7 @@ public class ABMCReserva {
 	private JTextField textElemento;
 	private JTextField textDesde;
 	private JTextField textHasta;
+	private JTextArea textAreaDetalle;
 	private CtrlElementoLogic ctrElemLogic;
 	private JComboBox comboBoxTiposDeElementos;
 
@@ -130,6 +135,11 @@ public class ABMCReserva {
 		
 		comboBoxTiposDeElementos = new JComboBox();
 		
+		textAreaDetalle = new JTextArea();
+		textAreaDetalle.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		
+		JLabel lblDetalle = new JLabel("Detalle");
+		
 		GroupLayout groupLayout = new GroupLayout(frmSistemaDeGestin.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -138,10 +148,11 @@ public class ABMCReserva {
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblElemento)
-								.addComponent(lblDesde)
-								.addComponent(lblHasta))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(lblDetalle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lblElemento, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lblHasta, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lblDesde, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
@@ -154,10 +165,10 @@ public class ABMCReserva {
 										.addComponent(lblFormatoYyyymmdd)
 										.addComponent(lblValidarQueSea)
 										.addComponent(lblDosOpcionesBuscar)))
-								.addComponent(comboBoxTiposDeElementos, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-							.addComponent(btnAceptar)
-							.addComponent(lblGestionarReservas)))
+								.addComponent(comboBoxTiposDeElementos, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnAceptar)))
+						.addComponent(lblGestionarReservas))
 					.addContainerGap(84, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -180,16 +191,20 @@ public class ABMCReserva {
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblHasta)
-								.addComponent(textHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(55)
-							.addComponent(btnAceptar))
+								.addComponent(textHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblDosOpcionesBuscar)
 							.addGap(18)
 							.addComponent(lblValidarQueSea)
 							.addGap(18)
 							.addComponent(lblFormatoYyyymmdd)))
-					.addContainerGap(127, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblDetalle))
+					.addGap(18)
+					.addComponent(btnAceptar)
+					.addContainerGap(100, Short.MAX_VALUE))
 				.addComponent(panelVerticalAzul, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
 		);
 		
@@ -249,7 +264,7 @@ public class ABMCReserva {
 	}
 	/*
 	private void cargarListaTdE(){
-			try {
+			try {	
 				this.comboBoxTiposDeElementos.setModel(new DefaultComboBoxModel(ctrElemLogic.getTipoDeElemento().toArray()));		//en el controlorador de reservas o de elemento??
 				this.comboBoxTiposDeElementos.setSelectedIndex(-1);
 			} catch (Exception e) {
@@ -273,10 +288,9 @@ public class ABMCReserva {
 		r.setPersona(pers);	
 		e.setId_elemento(Integer.parseInt(this.textElemento.getText()));
 		r.setElemento(e);
-		r.setFecha_hora_desde_solicitada(Date.valueOf(textDesde.getText()));
 		r.setFecha_hora_desde_solicitada(Date.valueOf((textDesde.getText())));
 		r.setFecha_hora_hasta_solicitada(Date.valueOf(textHasta.getText()));
-
+		r.setDetalle(this.textAreaDetalle.getText());
 		return r;
 	}
 	

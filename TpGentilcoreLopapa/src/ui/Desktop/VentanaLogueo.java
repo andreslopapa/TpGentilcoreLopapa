@@ -25,6 +25,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+
 import java.awt.Toolkit;
 
 public class VentanaLogueo {
@@ -83,7 +85,10 @@ public class VentanaLogueo {
 		pwfContrasenia = new JPasswordField();
 		pwfContrasenia.setColumns(10);
 		
-		JLabel lblIngresar = new JLabel("Ingresar");
+		JButton lblIngresar = new JButton("Ingresar");
+		lblIngresar.setContentAreaFilled(false);
+		lblIngresar.setBorderPainted(false);
+		lblIngresar.setBackground(new Color(0, 51, 102));
 		lblIngresar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

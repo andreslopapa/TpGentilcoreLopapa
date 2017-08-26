@@ -200,12 +200,13 @@ public class ABMCTipoDeElemento {
 							.addGap(18)
 							.addComponent(lblBuscar_TipoElemento))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(textCantMaxPerRes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(156)
-							.addComponent(lblNewLabel))
-						.addComponent(textLimiteHoras, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textDiasDeAnticipacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(226, Short.MAX_VALUE))
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(textDiasDeAnticipacion, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+								.addComponent(textLimiteHoras, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+								.addComponent(textCantMaxPerRes, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
+							.addGap(196)
+							.addComponent(lblNewLabel)))
+					.addContainerGap(107, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -236,8 +237,8 @@ public class ABMCTipoDeElemento {
 						.addComponent(lblLimiteHoras))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(textDiasDeAnticipacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblDasDeAnticipacin))
+						.addComponent(lblDasDeAnticipacin)
+						.addComponent(textDiasDeAnticipacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(273, Short.MAX_VALUE))
 		);
 		
