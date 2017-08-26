@@ -5,8 +5,8 @@ import java.util.Date;
 public class Reserva {
 
 	private int id_reserva;
-	private Persona id_persona;
-	private Elemento id_elemento;
+	private Persona persona;
+	private Elemento elemento;
 	private Date fecha_hora_reserva_hecha;
 	private Date fecha_hora_desde_solicitada;
 	private Date fecha_hora_hasta_solicitada;   
@@ -23,8 +23,8 @@ public class Reserva {
 			String detalle) {
 		super();
 		this.id_reserva = id_reserva;
-		this.id_persona = id_persona;
-		this.id_elemento = id_elemento;
+		this.persona = id_persona;
+		this.elemento = id_elemento;
 		this.fecha_hora_reserva_hecha = fecha_hora_reserva_hecha;
 		this.fecha_hora_desde_solicitada = fecha_hora_desde_solicitada;
 		this.fecha_hora_hasta_solicitada = fecha_hora_hasta_solicitada;
@@ -40,18 +40,18 @@ public class Reserva {
 	}
 
 
-	public Persona getId_persona() {
-		return id_persona;
+	public Persona getPersona() {
+		return persona;
 	}
-	public void setId_persona(Persona id_persona) {
-		this.id_persona = id_persona;
+	public void setPersona(Persona id_persona) {
+		this.persona = id_persona;
 	}
 
-	public Elemento getId_elemento() {
-		return id_elemento;
+	public Elemento getElemento() {
+		return elemento;
 	}
-	public void setId_elemento(Elemento id_elemento) {
-		this.id_elemento = id_elemento;
+	public void setElemento(Elemento id_elemento) {
+		this.elemento = id_elemento;
 	}
 
 	public Date getFecha_hora_reserva_hecha() {

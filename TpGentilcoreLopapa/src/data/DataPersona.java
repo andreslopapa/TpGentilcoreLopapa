@@ -127,7 +127,7 @@ public class DataPersona{
 				p.setCategoria(dc.getOne(idCat));
 			}
 		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex, "Error al buscar una persona");
+			throw new AppDataException(sqlex, "Error al buscar una persona por dni");
 		}
 		finally{
 			try {
@@ -141,6 +141,81 @@ public class DataPersona{
 		return p;
 	}	
 	
+	public Persona getOne(Persona per) throws Exception{
+		Persona p = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		DataCategoria dc = new DataCategoria();
+		try {
+			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select * from persona where id_persona=?");
+			pstmt.setInt(1, per.getId());
+			rs = pstmt.executeQuery();
+			if(rs!=null && rs.next()){
+				p= new Persona();
+				p.setId(rs.getInt("id_persona"));
+				p.setNombre(rs.getString("nombre"));
+				p.setApellido(rs.getString("apellido"));
+				p.setDni(rs.getString("dni"));
+				p.setUsuario(rs.getString("usuario"));		
+				p.setContrasenia(rs.getString("contrasenia"));						
+				p.setEmail(rs.getString("email"));
+				p.setHabilitado(rs.getBoolean("habilitado"));
+				int idCat= rs.getInt("id_categoria");
+				p.setCategoria(dc.getOne(idCat));
+			}
+		} catch (SQLException sqlex) {
+			throw new AppDataException(sqlex, "Error al buscar una persona por id");
+		}
+		finally{
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException sqlex) {
+				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+			}
+		}
+		return p;
+	}	
+	
+	public Persona getOne(int id) throws Exception{
+		Persona p = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		DataCategoria dc = new DataCategoria();
+		try {
+			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select * from persona where id_persona=?");
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+			if(rs!=null && rs.next()){
+				p= new Persona();
+				p.setId(rs.getInt("id_persona"));
+				p.setNombre(rs.getString("nombre"));
+				p.setApellido(rs.getString("apellido"));
+				p.setDni(rs.getString("dni"));
+				p.setUsuario(rs.getString("usuario"));		
+				p.setContrasenia(rs.getString("contrasenia"));							
+				p.setEmail(rs.getString("email"));
+				p.setHabilitado(rs.getBoolean("habilitado"));
+				int idCat= rs.getInt("id_categoria");
+				p.setCategoria(dc.getOne(idCat));
+			}
+		} catch (SQLException sqlex) {
+			throw new AppDataException(sqlex, "Error al buscar una persona por id");
+		}
+		finally{
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException sqlex) {
+				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+			}
+		}
+		return p;
+	}	
 	
 	public void add(Persona p)throws SQLException,AppDataException{
 		PreparedStatement pstmt = null;

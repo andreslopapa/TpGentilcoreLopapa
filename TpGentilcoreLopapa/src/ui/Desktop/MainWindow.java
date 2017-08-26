@@ -23,10 +23,8 @@ public class MainWindow {
 
 	private JFrame frmSistemaDeReservas;
 	private JDesktopPane desktopPane;
-
-	/**
-	 * Launch the application.
-	 */
+	private static ListadoElementos le;
+    //agregar los listados que faltan
 	public static void main(Persona per) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -102,21 +100,24 @@ public class MainWindow {
 		mnArchivo.add(mntmSalir);
 	}
 
-	protected void listadoElementosClick() {
-		ListadoElementos le=null;
+	public void listadoElementosClick() {
+	    
 		try {
+			if(le==null){
 			le = ListadoElementos.getInstancia();
-		} catch (Exception e1) {
-			JOptionPane.showMessageDialog(null, "Errpr al llamar a la ventana que lista elementos",
-					"Error",JOptionPane.ERROR_MESSAGE);
-		}
-		desktopPane.add(le);
-		le.setVisible(true);
-		try {
-			le.setMaximum(true);
-		} catch (PropertyVetoException e) {
+			desktopPane.add(le);
+			le.setVisible(true);
+			le.setMaximum(true);}
+		} 
+		catch(PropertyVetoException e){
 			JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}
+		catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana que lista elementos",
+					"Error",JOptionPane.ERROR_MESSAGE);
+		}
+		
+	
 		
 	}
 

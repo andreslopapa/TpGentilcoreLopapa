@@ -2,10 +2,8 @@ package business.logic;
 
 import java.util.ArrayList;
 
-import business.entities.Categoria;
-import business.entities.Persona;
+
 import business.entities.TipoDeElemento;
-import data.DataCategoria;
 import data.DataTipoDeElemento;
 
 public class CtrlTipoDeElementoLogic {
@@ -43,4 +41,5 @@ public class CtrlTipoDeElementoLogic {
 	}
 	
 
+	
 }

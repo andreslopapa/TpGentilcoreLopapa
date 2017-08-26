@@ -125,7 +125,7 @@ public class ABMCTipoDeElemento {
 		lblUpdateTipoElemento.setBorderPainted(false);
 		lblUpdateTipoElemento.setContentAreaFilled(false);
 		lblUpdateTipoElemento.setBackground(Color.WHITE);
-		lblUpdateTipoElemento.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_create_black_24dp_1x.png")));
+		lblUpdateTipoElemento.setIcon(new ImageIcon(ABMCTipoDeElemento.class.getResource("/ui/Desktop/Update black .png")));
 		lblUpdateTipoElemento.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

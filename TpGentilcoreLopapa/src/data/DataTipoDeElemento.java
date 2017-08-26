@@ -93,8 +93,7 @@ public class DataTipoDeElemento {
 		ResultSet res=null;
 		try{
 			stmt= FactoryConexion.getInstancia().getConn().createStatement();
-			res=stmt.executeQuery("select id_tipodeelemento,nombre,cantmaxrespen,limite_horas_res,dias_max_anticipacion "
-					+ " from tipodeelemento; ");
+			res=stmt.executeQuery("select* from tipodeelemento; ");
 			if(res!=null){
 				while(res.next()){
 					TipoDeElemento te=new TipoDeElemento();

@@ -25,7 +25,15 @@ public class CtrlPersonaLogic {
 	public Persona getByDni(Persona p) throws Exception{
 		return this.dataPer.getByDni(p);
 	}
-		
+	
+	public Persona getOne(Persona p)throws Exception{
+			return dataPer.getOne(p);
+	}
+	
+	public Persona getOne(int id)throws Exception{
+		return dataPer.getOne(id);
+	}
+	
 	public Persona getByDni(String dni) throws Exception{
 		Persona p = new Persona();
 		p.setDni(dni);

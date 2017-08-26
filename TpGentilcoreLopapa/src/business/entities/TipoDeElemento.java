@@ -53,19 +53,22 @@ public class TipoDeElemento {
 	public TipoDeElemento(){
 	}
 	
-	@Override
-	public String toString() {
-		return id_tipodeelemento + "-" + nombre;
-		//id_tipodeelemento + " - " + dias_max_anticipacion + " días " + limite_horas_res + "hs -" +
-	}
 	
-	@Override
-	public boolean equals(Object o){
-		return (o instanceof TipoDeElemento && ((TipoDeElemento)o).getId()==this.getId());
-	}
 	
-	@Override
-	public int hashCode(){
-		return ((Integer) this.getId()).hashCode();
-	}
+   @Override
+   public boolean equals(Object o){
+	   return (o instanceof TipoDeElemento && ((TipoDeElemento)o).getId()==this.getId());
+   }
+   
+   @Override
+   public int hashCode(){
+	   return ((Integer)this.getId()).hashCode();
+   }
+
+	public String toString(){
+		return id_tipodeelemento + "-" + nombre;}
 }
+		
+	
+	
+
