@@ -1,3 +1,4 @@
+
 -JCalendar
 https://toedter.com/jcalendar/   
     Pasos:
@@ -7,7 +8,12 @@ https://toedter.com/jcalendar/
       4- En el design , agregamos una nueva "category" en el "palette" 
       4-1- Click derecho --> Palette Manager --> Add Category --> le das un nombre --> ok
       4-2- Seleccionando la category que creaste --> Import Jar --> y clickeando el boton pequeño de arriba a la derecha  seleccionar desde el workspace --> ahi seleccionas el archivo jcalendar solamente.
-      4-3 listo. si no aparece pone recargar 
+      4-3 seleccionas todos
+      4-4 listo. si no aparece pone recargar 
+
+            yo me guie en este video: https://www.youtube.com/watch?v=qs-dy4ogIos
+            con la diferencia que este lo pega en una carpeta, y nosotros en el workspace como con Meca. 
+            Del mismo modo que cuando lo vas a importar lo importas desde el workspace
 
 -Table
 library http://www.java2s.com/Code/JarDownload/beansbinding/beansbinding-1.2.1.jar.zip
