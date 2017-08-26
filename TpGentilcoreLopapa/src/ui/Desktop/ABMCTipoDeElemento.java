@@ -169,6 +169,8 @@ public class ABMCTipoDeElemento {
 		
 		JLabel lblDasDeAnticipacin = new JLabel("D\u00EDas de anticipaci\u00F3n");
 		
+		JLabel lblNewLabel = new JLabel("Agregale la tabla y yo lo acomodo ");
+		
 		
 		
 		GroupLayout groupLayout = new GroupLayout(frmSistemaDeGestin.getContentPane());
@@ -197,10 +199,13 @@ public class ABMCTipoDeElemento {
 							.addComponent(textIdTipoDeElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(lblBuscar_TipoElemento))
-						.addComponent(textCantMaxPerRes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(textCantMaxPerRes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(156)
+							.addComponent(lblNewLabel))
 						.addComponent(textLimiteHoras, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textDiasDeAnticipacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(291, Short.MAX_VALUE))
+					.addContainerGap(226, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -223,7 +228,8 @@ public class ABMCTipoDeElemento {
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textCantMaxPerRes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblMaxResPendiente))
+						.addComponent(lblMaxResPendiente)
+						.addComponent(lblNewLabel))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textLimiteHoras, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
