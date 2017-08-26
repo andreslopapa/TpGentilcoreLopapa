@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Toolkit;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
@@ -17,7 +19,9 @@ import business.entities.Elemento;
 import business.entities.Persona;
 import business.entities.Reserva;
 import business.entities.TipoDeElemento;
+import business.logic.CtrlElementoLogic;
 import business.logic.CtrlReservaLogic;
+import business.logic.CtrlTipoDeElementoLogic;
 import tools.AppDataException;
 import tools.ParseoAFecha;
 
@@ -31,10 +35,12 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
+import javax.swing.JComboBox;
 
 public class ABMCReserva {
 	
-	CtrlReservaLogic resLogic;
+	CtrlReservaLogic resLogic = new CtrlReservaLogic();
+
 	
 	private JFrame frmSistemaDeGestin;
 	private JLabel lblElemento;
@@ -42,6 +48,8 @@ public class ABMCReserva {
 	private JTextField textElemento;
 	private JTextField textDesde;
 	private JTextField textHasta;
+	private CtrlElementoLogic ctrElemLogic;
+	private JComboBox comboBoxTiposDeElementos;
 
 	/**
 	 * Launch the application.
@@ -103,7 +111,7 @@ public class ABMCReserva {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					clickAceptar();
+					clickAceptar(per);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (AppDataException e) {
@@ -117,61 +125,79 @@ public class ABMCReserva {
 		JLabel lblDosOpcionesBuscar = new JLabel("Dos opciones: buscar en tabla o en lista");
 		
 		JLabel lblValidarQueSea = new JLabel("Validar que sean fechas, adem\u00E1s de los requerimientos");
+		
+		JLabel lblFormatoYyyymmdd = new JLabel("formato YYYY-MM-DD");
+		
+		comboBoxTiposDeElementos = new JComboBox();
+		
 		GroupLayout groupLayout = new GroupLayout(frmSistemaDeGestin.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(panelVerticalAzul, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(18)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblElemento)
-								.addComponent(lblDesde)
-								.addComponent(lblHasta))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(textHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblGestionarReservas)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(textDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addGap(80)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblDesde)
+										.addComponent(lblHasta)
+										.addComponent(lblElemento))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(textDesde)
+										.addComponent(textElemento)
+										.addComponent(textHasta, 170, 170, Short.MAX_VALUE)
+										.addComponent(comboBoxTiposDeElementos, 0, 170, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 										.addComponent(lblValidarQueSea)
-										.addComponent(lblDosOpcionesBuscar)))))
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(lblDosOpcionesBuscar)
+										.addComponent(lblFormatoYyyymmdd))
+									.addPreferredGap(ComponentPlacement.RELATED)))
+							.addGap(78))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnAceptar)
-							.addComponent(lblGestionarReservas)))
-					.addContainerGap(67, Short.MAX_VALUE))
+							.addGap(178))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(panelVerticalAzul, GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(24)
 					.addComponent(lblGestionarReservas)
-					.addGap(66)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(comboBoxTiposDeElementos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblElemento))
+					.addGap(4)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblElemento)
-								.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblDesde)
-								.addComponent(textDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblHasta)
-								.addComponent(textHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(55)
-							.addComponent(btnAceptar))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblDosOpcionesBuscar)
 							.addGap(18)
-							.addComponent(lblValidarQueSea)))
-					.addContainerGap(127, Short.MAX_VALUE))
-				.addComponent(panelVerticalAzul, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+							.addComponent(lblValidarQueSea)
+							.addGap(18)
+							.addComponent(lblFormatoYyyymmdd))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(25)
+									.addComponent(lblDesde))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(7)
+									.addComponent(textDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGap(14)
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblHasta)
+								.addComponent(textHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+					.addGap(50)
+					.addComponent(btnAceptar)
+					.addContainerGap(188, Short.MAX_VALUE))
 		);
 		
 		JLabel lbliconoReservas = new JLabel("");
@@ -222,25 +248,36 @@ public class ABMCReserva {
 		);
 		panelVerticalAzul.setLayout(gl_panelVerticalAzul);
 		frmSistemaDeGestin.getContentPane().setLayout(groupLayout);
-		frmSistemaDeGestin.setBounds(100, 100, 701, 442);
+		frmSistemaDeGestin.setBounds(100, 100, 807, 494);
 		frmSistemaDeGestin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		mapearAForm(per);				//El parametro per es la persona logueada que se envia como parametro desde el login
+		cargarListaTdE();
+	}
+	
+	private void cargarListaTdE(){
+			try {
+				this.comboBoxTiposDeElementos.setModel(new DefaultComboBoxModel(ctrElemLogic.getTipoDeElemento().toArray()));		//en el controlorador de reservas o de elemento??
+				this.comboBoxTiposDeElementos.setSelectedIndex(-1);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
 	}
 	
 	
-	private void clickAceptar() throws Exception, SQLException, AppDataException{
-		resLogic.add(this.mapearDeForm());		
+	private void clickAceptar(Persona pers) throws Exception, SQLException, AppDataException{
+		resLogic.add(this.mapearDeForm(pers));		
 	}
 	
 	
-	private Reserva mapearDeForm() throws ParseException{
+	private Reserva mapearDeForm(Persona pers) throws ParseException{
 		Reserva r = new Reserva();
-		Persona p = new Persona();
+		//Persona p = new Persona();
 		Elemento e = new Elemento();
 
-		p.setId(Integer.parseInt(this.textUsuario.getText()) );
-		r.setId_persona(p);	
+		//p.setId(Integer.parseInt(this.textUsuario.getText()) );
+		r.setId_persona(pers);	
 		e.setId_elemento(Integer.parseInt(this.textElemento.getText()));
 		r.setId_elemento(e);
 		r.setFecha_hora_desde_solicitada(Date.valueOf(textDesde.getText()));

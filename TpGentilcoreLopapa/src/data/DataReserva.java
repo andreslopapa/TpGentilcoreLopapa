@@ -29,6 +29,47 @@ public class DataReserva {
 		
 			pstmt.setInt(1,r.getId_persona().getId());
 			pstmt.setInt(2, r.getId_elemento().getId_elemento());
+			pstmt.setDate(3, (Date) r.getFecha_hora_desde_solicitada());
+			pstmt.setDate(4, (Date) r.getFecha_hora_hasta_solicitada());
+			pstmt.executeUpdate();		//execute no??
+			keyResultSet = pstmt.getGeneratedKeys();
+			if(keyResultSet!=null && keyResultSet.next()){
+				r.setId_reserva(keyResultSet.getInt(1));				
+			}
+		} catch (SQLException sqlex) {
+			throw new AppDataException(sqlex,"Error al crear reserva");
+		}
+		finally{
+			try {
+				if(keyResultSet!=null) keyResultSet.close();
+				if(pstmt!=null) pstmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException sqlex) {
+				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+			}
+		}
+	}
+	
+	
+	
+	/*
+	public void getOne(Reserva r)throws SQLException,AppDataException{
+		PreparedStatement pstmt = null;
+		ResultSet keyResultSet = null;
+		try {
+
+//INSERT
+//insert into reserva(id_persona, id_elemento, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) values(2,3,20170820,20170824,'Se entregó con raya superior');
+//en realidad se utilizan estos campos, pero algunos se actualizan solos
+// id_reserva, id_persona, id_elemento, fecha_hora_reserva_hecha, fecha_hora_desde_solicitada, fecha_hora_hasta_solicitada, fecha_hora_entregado, detalle
+
+			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
+					"insert into reserva(id_persona, id_elemento, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada) values(?,?,?,?)",
+					PreparedStatement.RETURN_GENERATED_KEYS
+					);
+		
+			pstmt.setInt(1,r.getId_persona().getId());
+			pstmt.setInt(2, r.getId_elemento().getId_elemento());
 			pstmt.setDate(3, java.sql.Date.valueOf("2013-09-04"));
 			pstmt.setDate(3, (Date) r.getFecha_hora_desde_solicitada());
 			pstmt.setDate(4, (Date) r.getFecha_hora_hasta_solicitada());
@@ -52,6 +93,7 @@ public class DataReserva {
 	}
 	
 	
+	*/
 	
 	
 	
