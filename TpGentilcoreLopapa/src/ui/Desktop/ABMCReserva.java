@@ -53,8 +53,6 @@ public class ABMCReserva {
 	private JLabel lblElemento;
 	private JTextField textUsuario;
 	private JTextField textElemento;
-	private JTextField textDesde;
-	private JTextField textHasta;
 	private JTextArea textAreaDetalle;
 	private CtrlElementoLogic ctrElemLogic;
 	private JComboBox comboBoxTiposDeElementos;
@@ -109,12 +107,6 @@ public class ABMCReserva {
 		textElemento = new JTextField();
 		textElemento.setColumns(10);
 		
-		textDesde = new JTextField();
-		textDesde.setColumns(10);
-		
-		textHasta = new JTextField();
-		textHasta.setColumns(10);
-		
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -133,9 +125,7 @@ public class ABMCReserva {
 		
 		JLabel lblDosOpcionesBuscar = new JLabel("Dos opciones: buscar en tabla o en lista");
 		
-		JLabel lblValidarQueSea = new JLabel("Validar que sean fechas, adem\u00E1s de los requerimientos");
-		
-		JLabel lblFormatoYyyymmdd = new JLabel("formato YYYY-MM-DD    2017-04-26");
+		JLabel lblValidarQueSea = new JLabel("Faltaria validar los requerimientos");
 		
 		comboBoxTiposDeElementos = new JComboBox();
 		
@@ -172,18 +162,12 @@ public class ABMCReserva {
 								.addComponent(btnAceptar)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(textElemento)
-										.addComponent(textDesde)
-										.addComponent(textHasta))
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(dateChooserHasta, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(dateChooserDesde, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
-									.addPreferredGap(ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+										.addComponent(dateChooserDesde, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
 									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-											.addComponent(lblFormatoYyyymmdd)
-											.addComponent(lblDosOpcionesBuscar))
+										.addComponent(lblDosOpcionesBuscar)
 										.addComponent(lblValidarQueSea))
 									.addPreferredGap(ComponentPlacement.RELATED))))
 						.addComponent(lblGestionarReservas))
@@ -201,32 +185,26 @@ public class ABMCReserva {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblDosOpcionesBuscar)
 							.addGap(18)
-							.addComponent(lblValidarQueSea)
-							.addGap(18)
-							.addComponent(lblFormatoYyyymmdd))
+							.addComponent(lblValidarQueSea))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblElemento)
 								.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(lblDesde)
-									.addComponent(textDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblDesde)
 								.addComponent(dateChooserDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGap(11)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(dateChooserHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(lblHasta)
-									.addComponent(textHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
-					.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(lblHasta))))
+					.addGap(10)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblDetalle))
 					.addGap(18)
 					.addComponent(btnAceptar)
-					.addContainerGap(135, Short.MAX_VALUE))
+					.addContainerGap(131, Short.MAX_VALUE))
 				.addComponent(panelVerticalAzul, GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
 		);
 		
