@@ -37,6 +37,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
+import java.awt.Color;
 
 public class ListadoElementos extends Listado implements IListados{
 	/**
@@ -86,12 +87,14 @@ public class ListadoElementos extends Listado implements IListados{
 	}
 	
 	public ListadoElementos() {
+		getContentPane().setBackground(Color.WHITE);
 		
 	    elementoActual=null;
 		elementoLogic=new CtrlElementoLogic();
-		setBounds(100, 100, 528, 444);
+		setBounds(100, 100, 556, 444);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.WHITE);
 		
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -163,6 +166,7 @@ public class ListadoElementos extends Listado implements IListados{
 		getContentPane().add(lblTipo, "cell 1 2 2 1,alignx left,aligny center");
 		
 		desktopPane = new JDesktopPane();
+		desktopPane.setBorder(null);
 		try {
 			if(formElemento==null){formElemento=new ABMCElemento();}
 			desktopPane.add(formElemento);
@@ -173,7 +177,7 @@ public class ListadoElementos extends Listado implements IListados{
 			JOptionPane.showMessageDialog(null, "Error al tratar de insertar la ventana interna de elementos\n"+e.getMessage(),
 					"Error",JOptionPane.ERROR_MESSAGE);
 		}
-		getContentPane().add(desktopPane, "cell 9 4,grow");
+		getContentPane().add(desktopPane, "cell 9 0 1 6,grow");
 		
 //		JRadioButton rdbtnId = new JRadioButton("Por Id");
 //		getContentPane().add(rdbtnId, "flowx,cell 1 1,alignx left,aligny center");

@@ -61,7 +61,7 @@ public class Ingreso {
 		frmLogin.getContentPane().setBackground(new Color(255, 255, 255));
 		frmLogin.setTitle("Login");
 
-		frmLogin.setBounds(100, 100, 400, 247);
+		frmLogin.setBounds(100, 100, 400, 275);
 		frmLogin.setLocationRelativeTo(null);
 		frmLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmLogin.getContentPane().setLayout(null);

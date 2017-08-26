@@ -56,7 +56,7 @@ public class ABMCElemento extends JInternalFrame {
 	private JLabel lblNombre;
 	private JLabel lblIconoElemento;
 	private JLabel lblTipo;
-	private JComboBox comboBoxTipoElemento;
+	private JComboBox cboTipoElemento;
 	private JTextField textIdTipoDeElemento;
 	private JLabel lblId_TipoElemento;
 	private JTextField textNombreTipoElemento;
@@ -102,7 +102,7 @@ public class ABMCElemento extends JInternalFrame {
 		//this.setIconImage(Toolkit.getDefaultToolkit().getImage(ABMCElemento.class.getResource("/ui/Desktop/cropped-3w2-web-dominios-hosting.png")));
 		this.setBackground(Color.WHITE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(100, 100, 782, 586);
+		this.setBounds(100, 100, 586, 282);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(2, 2, 2, 2));
@@ -159,21 +159,22 @@ public class ABMCElemento extends JInternalFrame {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 442, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panelBarraAzulLateral, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
-					.addGap(31)
-					.addComponent(panel_1, 0, 0, Short.MAX_VALUE)
-					.addGap(45))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 251, Short.MAX_VALUE)
-					.addGap(290))
-				.addComponent(panelBarraAzulLateral, GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
+					.addGap(11)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
+					.addGap(71))
+				.addComponent(panelBarraAzulLateral, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
 		);
 		
-		lblGestinDeElementos = new JLabel("Elementos");
+		lblGestinDeElementos = new JLabel("Crear nuevo elemento");
 		lblGestinDeElementos.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGestinDeElementos.setFont(new Font("Calibri", Font.BOLD, 18));
 		
@@ -195,7 +196,7 @@ public class ABMCElemento extends JInternalFrame {
 		lblTipo.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		
-		comboBoxTipoElemento = new JComboBox();
+		cboTipoElemento = new JComboBox();
 		
 		JButton btnBorrar = new JButton("");
 		btnBorrar.setToolTipText("Eliminar elemento");
@@ -255,65 +256,64 @@ public class ABMCElemento extends JInternalFrame {
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addGap(20)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(lblId, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblTipo, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblNombre, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE))
+					.addGap(10)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblGestinDeElementos)
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addComponent(lblNombre, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cboTipoElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
 							.addGap(18)
-							.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+							.addComponent(textIdElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblGestinDeElementos)
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addComponent(textIdElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addComponent(lblTipo, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(comboBoxTipoElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
-					.addGap(50))
+							.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)))
+					.addGap(149))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(5)
-					.addComponent(lblGestinDeElementos)
-					.addGap(18)
+					.addContainerGap()
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-						.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
-						.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-							.addGroup(gl_panel_1.createSequentialGroup()
-								.addGap(9)
-								.addComponent(lblId, GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE))
-							.addGroup(gl_panel_1.createSequentialGroup()
-								.addGap(3)
-								.addComponent(textIdElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addGap(12)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(lblGestinDeElementos)
+							.addGap(21)
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblId, GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
+								.addComponent(textIdElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(17))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(btnBuscar)
+							.addPreferredGap(ComponentPlacement.UNRELATED)))
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblNombre)
 								.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(20)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblTipo, GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
-								.addComponent(comboBoxTipoElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(41))
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addGap(20)
+									.addComponent(lblTipo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addGap(41))
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(cboTipoElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+							.addGap(65))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
 								.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 23, Short.MAX_VALUE)
 								.addComponent(btnModificar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 								.addComponent(btnBorrar))
-							.addPreferredGap(ComponentPlacement.RELATED)))
-					.addGap(65))
+							.addContainerGap())))
 		);
 		panel_1.setLayout(gl_panel_1);
 		
@@ -370,8 +370,8 @@ public class ABMCElemento extends JInternalFrame {
 	
 	private void cargarListas(){
 		try {
-			this.comboBoxTipoElemento.setModel(new DefaultComboBoxModel(ctrElemLogic.getTipoDeElemento().toArray()));
-			this.comboBoxTipoElemento.setSelectedIndex(-1);
+			this.cboTipoElemento.setModel(new DefaultComboBoxModel(ctrElemLogic.getTipoDeElemento().toArray()));
+			this.cboTipoElemento.setSelectedIndex(-1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -426,7 +426,7 @@ public class ABMCElemento extends JInternalFrame {
 		}
 		e.setNombre(this.textNombreElemento.getText());
 	//	if (comboBoxTipoElemento.getSelectedIndex() != -1){
-			e.setTipo((TipoDeElemento) this.comboBoxTipoElemento.getSelectedItem());
+			e.setTipo((TipoDeElemento) this.cboTipoElemento.getSelectedItem());
 		//}
 		return e;
 	}
@@ -435,7 +435,7 @@ public class ABMCElemento extends JInternalFrame {
 		this.textIdElemento.setText(Integer.toString((e.getId_elemento())));
 		this.textNombreElemento.setText(e.getNombre());
 		//if (e.getTipo()!=null){
-			this.comboBoxTipoElemento.setSelectedItem((TipoDeElemento) e.getTipo());
+			this.cboTipoElemento.setSelectedItem((TipoDeElemento) e.getTipo());
 	//	}
 	}
 	

@@ -63,9 +63,7 @@ public class DataReserva {
 				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
 			}
 		}
-	}
-	
-	
+	}	
 	
 	
 	public void delete(Reserva r)throws SQLException,AppDataException{
@@ -153,7 +151,7 @@ public class DataReserva {
 						+ " from reserva "
 						+ " where fecha_hora_entregado is null 	"
 						+ "		and id_persona=?"
-						+ "		  and datediff(fecha_hora_desde_solicitada,now()) > 0 ");
+						+ "		and datediff(fecha_hora_desde_solicitada,now()) > 0 ");
 			
 			stmt.setInt(1, p.getId());
 			rs = stmt.executeQuery(); 	
