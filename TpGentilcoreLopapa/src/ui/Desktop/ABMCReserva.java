@@ -140,6 +140,8 @@ public class ABMCReserva {
 		comboBoxTiposDeElementos = new JComboBox();
 		
 		textAreaDetalle = new JTextArea();
+		textAreaDetalle.setLineWrap(true);
+		textAreaDetalle.setFont(new Font("Calibri", Font.PLAIN, 12));
 		textAreaDetalle.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		
 		JLabel lblDetalle = new JLabel("Detalle");
@@ -308,21 +310,19 @@ public class ABMCReserva {
 		r.setPersona(pers);	
 		e.setId_elemento(Integer.parseInt(this.textElemento.getText()));
 		r.setElemento(e);
-		int vyearD = dateChooserDesde.getCalendar().get(Calendar.YEAR);
-		int vmonthD = 1+dateChooserDesde.getCalendar().get(Calendar.MONTH);
-		int vdayD = dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH);
-		String vfechaD = vyearD + "-" + vmonthD + "-" + vdayD;
-		r.setFecha_hora_desde_solicitada(Date.valueOf(vfechaD));	//el famoso provisorio. --> En vez de estas 5 lineas de codigo, Intenté con dateChooserHasta.getDate() pero no me dejaba convertir de java.util.Date a java.sql.date.. Luego vere otra forma "mejor"
+			int vyearD = dateChooserDesde.getCalendar().get(Calendar.YEAR);
+			int vmonthD = 1+dateChooserDesde.getCalendar().get(Calendar.MONTH);				//le sumo 1 porque january lo toma como 0 y explota tambien
+			int vdayD = dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH);
+			String vfechaD = vyearD + "-" + vmonthD + "-" + vdayD;
+		r.setFecha_hora_desde_solicitada(Date.valueOf(vfechaD));	//el famoso provisorio. --> En vez de estas 5 lineas de codigo, Intenté una mas linda con dateChooserHasta.getDate() como en la linea de abajo pero no me dejaba convertir de java.util.Date a java.sql.date.... Busqe y no encontre ayuda , Luego vere otra forma "mejor"
+		//r.setFecha_hora_desde_solicitada(Date.valueOf(textHasta.getText()));
 
-		int vyearH = dateChooserHasta.getCalendar().get(Calendar.YEAR);
-		int vmonthH = 1+dateChooserHasta.getCalendar().get(Calendar.MONTH);
-		int vdayH = dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH);
-		String vfechaH = vyearH + "-" + vmonthH + "-" + vdayH;
+			int vyearH = dateChooserHasta.getCalendar().get(Calendar.YEAR);
+			int vmonthH = 1+dateChooserHasta.getCalendar().get(Calendar.MONTH);
+			int vdayH = dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH);
+			String vfechaH = vyearH + "-" + vmonthH + "-" + vdayH;
 		r.setFecha_hora_hasta_solicitada(Date.valueOf(vfechaH));	//el famoso provisorio
 		
-		
-		//r.setFecha_hora_desde_solicitada(Date.valueOf((textDesde.getText())));
-		//r.setFecha_hora_hasta_solicitada(Date.valueOf(textHasta.getText()));
 		r.setDetalle(this.textAreaDetalle.getText());
 		return r;
 	}
