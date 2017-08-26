@@ -151,7 +151,10 @@ public class DataReserva {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(""
 						+ "select * "
 						+ " from reserva "
-						+ " where fecha_hora_entregado is null 	and id_persona=?");
+						+ " where fecha_hora_entregado is null 	"
+						+ "		and id_persona=?"
+						+ "		  and datediff(fecha_hora_desde_solicitada,now()) > 0 ");
+			
 			stmt.setInt(1, p.getId());
 			rs = stmt.executeQuery(); 	
 					if(rs!=null){
@@ -159,8 +162,8 @@ public class DataReserva {
 							Reserva r= new Reserva();
 							r.setPersona(p);
 							r.setId_reserva(rs.getInt("id_reserva"));
-							int idRes= rs.getInt("id_reserva");
-							r.setElemento(de.getOne(idRes));
+							int idEle= rs.getInt("id_elemento");
+							r.setElemento(de.getOne(idEle));
 							r.setFecha_hora_desde_solicitada(rs.getDate("fecha_hora_desde_solicitada"));
 							r.setFecha_hora_hasta_solicitada(rs.getDate("fecha_hora_hasta_solicitada"));
 							r.setFecha_hora_entregado(rs.getDate("fecha_hora_entregado"));
