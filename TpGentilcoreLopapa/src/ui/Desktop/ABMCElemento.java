@@ -199,6 +199,12 @@ public class ABMCElemento extends JInternalFrame {
 		cboTipoElemento = new JComboBox();
 		
 		JButton btnBorrar = new JButton("");
+		btnBorrar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				clickEliminar();
+			}
+		});
 		btnBorrar.setToolTipText("Eliminar elemento");
 		btnBorrar.setBorderPainted(false);
 		btnBorrar.setBackground(Color.WHITE);
@@ -396,7 +402,7 @@ public class ABMCElemento extends JInternalFrame {
 			if(textIdElemento.getText().length() >0){				
 			
 				ctrElemLogic.add(this.mapearDeForm());
-			JOptionPane.showMessageDialog(this, "Elemento guardado correctamente", "", JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(this, "Elemento guardado correctamente", "", JOptionPane.INFORMATION_MESSAGE);
 			}else{
 				JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "", JOptionPane.WARNING_MESSAGE);
 			}
@@ -412,12 +418,27 @@ public class ABMCElemento extends JInternalFrame {
 				ctrElemLogic.update(mapearDeForm());
 			JOptionPane.showMessageDialog(this, "Elemento actualizado", "", JOptionPane.INFORMATION_MESSAGE);
 			}else{
+				JOptionPane.showMessageDialog(this, "No se ha ingresado ning�n elemento", "", JOptionPane.INFORMATION_MESSAGE);
+			}
+		} catch (Exception e) {
+			limpiarTextoElemento();
+			JOptionPane.showMessageDialog(this, e.getMessage());		}
+	}
+	
+	
+	private void clickEliminar(){
+		try {
+			if(textIdElemento.getText().length() >0){
+				ctrElemLogic.delete(mapearDeForm());
+			JOptionPane.showMessageDialog(this, "Elemento eliminado", "", JOptionPane.INFORMATION_MESSAGE);
+			}else{
 				JOptionPane.showMessageDialog(this, "No se ha ingresado ning�n elemento", "", JOptionPane.WARNING_MESSAGE);
 			}
 		} catch (Exception e) {
 			limpiarTextoElemento();
 			JOptionPane.showMessageDialog(this, e.getMessage());		}
 	}
+	
 	
 	private Elemento mapearDeForm(){
 		Elemento e = new Elemento();		
@@ -430,6 +451,7 @@ public class ABMCElemento extends JInternalFrame {
 		//}
 		return e;
 	}
+
 	
 	private void mapearAForm(Elemento e){
 		this.textIdElemento.setText(Integer.toString((e.getId_elemento())));

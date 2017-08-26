@@ -87,6 +87,7 @@ public class ListadoElementos extends Listado implements IListados{
 	}
 	
 	public ListadoElementos() {
+		setBorder(null);
 		getContentPane().setBackground(Color.WHITE);
 		
 	    elementoActual=null;
@@ -166,6 +167,8 @@ public class ListadoElementos extends Listado implements IListados{
 		getContentPane().add(lblTipo, "cell 1 2 2 1,alignx left,aligny center");
 		
 		desktopPane = new JDesktopPane();
+		desktopPane.setIgnoreRepaint(true);
+		desktopPane.setForeground(Color.WHITE);
 		desktopPane.setBorder(null);
 		try {
 			if(formElemento==null){formElemento=new ABMCElemento();}
