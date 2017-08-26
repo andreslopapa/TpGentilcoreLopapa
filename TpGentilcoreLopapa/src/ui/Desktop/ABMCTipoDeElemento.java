@@ -177,8 +177,8 @@ public class ABMCTipoDeElemento {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-					.addGap(46)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
+					.addGap(37)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 						.addComponent(lblDasDeAnticipacin, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(lblId_TipoElemento, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -210,7 +210,6 @@ public class ABMCTipoDeElemento {
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(17)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
@@ -240,24 +239,36 @@ public class ABMCTipoDeElemento {
 						.addComponent(lblDasDeAnticipacin)
 						.addComponent(textDiasDeAnticipacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(273, Short.MAX_VALUE))
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
 		);
 		
 		JLabel lblIconoTdE = new JLabel("");
 		lblIconoTdE.setIcon(new ImageIcon(ABMCTipoDeElemento.class.getResource("/ui/Desktop/ic_devices_white_24dp_2x.png")));
+		
+		JLabel lblUsuarioLogueado = new JLabel("Usuario");
+		lblUsuarioLogueado.setIcon(new ImageIcon(ABMCTipoDeElemento.class.getResource("/ui/Desktop/ic_person_pin_white_24dp_1x.png")));
+		lblUsuarioLogueado.setForeground(Color.WHITE);
+		lblUsuarioLogueado.setFont(new Font("Calibri", Font.PLAIN, 12));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(23)
+					.addContainerGap(20, Short.MAX_VALUE)
 					.addComponent(lblIconoTdE)
-					.addContainerGap(23, Short.MAX_VALUE))
+					.addGap(25))
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblUsuarioLogueado, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(20, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblIconoTdE)
-					.addContainerGap(434, Short.MAX_VALUE))
+					.addGap(32)
+					.addComponent(lblUsuarioLogueado, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(344, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
 		frmSistemaDeGestin.getContentPane().setLayout(groupLayout);

@@ -69,6 +69,8 @@ public class ABMCElemento extends JInternalFrame {
 	private JTextField textLimiteHoras;
 	private JLabel lblDasDeAnticipacin;
 	private JTextField textDiasDeAnticipacion;
+	private JLabel lblUsuario;
+	private JLabel lblUsuarioLogueado;
 //	private JLabel lblUpdateTipoElemento;
 //	private JLabel lblCreateTipoElemento;
 	//private JLabel lblBuscar_TipoElemento;
@@ -112,19 +114,40 @@ public class ABMCElemento extends JInternalFrame {
 		lblIconoElemento = new JLabel("");
 		lblIconoElemento.setHorizontalAlignment(SwingConstants.CENTER);
 		lblIconoElemento.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_devices_white_24dp_2x.png")));
+		
+		lblUsuario = new JLabel("Usuario");
+		lblUsuario.setFont(new Font("Calibri", Font.PLAIN, 12));
+		lblUsuario.setForeground(Color.WHITE);
+		lblUsuario.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_person_pin_white_24dp_1x.png")));
+		
+		lblUsuarioLogueado = new JLabel("Este usuario se pasaria por parametro como con reserva en caso de usarlo");
+		lblUsuarioLogueado.setForeground(Color.WHITE);
 		GroupLayout gl_panelBarraAzulLateral = new GroupLayout(panelBarraAzulLateral);
 		gl_panelBarraAzulLateral.setHorizontalGroup(
-			gl_panelBarraAzulLateral.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panelBarraAzulLateral.createSequentialGroup()
-					.addContainerGap(31, Short.MAX_VALUE)
-					.addComponent(lblIconoElemento, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
-					.addGap(28))
+			gl_panelBarraAzulLateral.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelBarraAzulLateral.createSequentialGroup()
+					.addContainerGap(20, Short.MAX_VALUE)
+					.addComponent(lblUsuario)
+					.addGap(24))
+				.addGroup(Alignment.LEADING, gl_panelBarraAzulLateral.createSequentialGroup()
+					.addGroup(gl_panelBarraAzulLateral.createParallelGroup(Alignment.TRAILING)
+						.addGroup(Alignment.LEADING, gl_panelBarraAzulLateral.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblUsuarioLogueado, 0, 0, Short.MAX_VALUE))
+						.addGroup(Alignment.LEADING, gl_panelBarraAzulLateral.createSequentialGroup()
+							.addGap(24)
+							.addComponent(lblIconoElemento, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(20, Short.MAX_VALUE))
 		);
 		gl_panelBarraAzulLateral.setVerticalGroup(
 			gl_panelBarraAzulLateral.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelBarraAzulLateral.createSequentialGroup()
 					.addComponent(lblIconoElemento, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(317, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblUsuario)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblUsuarioLogueado, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(338, Short.MAX_VALUE))
 		);
 		panelBarraAzulLateral.setLayout(gl_panelBarraAzulLateral);
 		
@@ -136,18 +159,18 @@ public class ABMCElemento extends JInternalFrame {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(panelBarraAzulLateral, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelBarraAzulLateral, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
+					.addGap(31)
 					.addComponent(panel_1, 0, 0, Short.MAX_VALUE)
 					.addGap(45))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addComponent(panelBarraAzulLateral, GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 251, Short.MAX_VALUE)
 					.addGap(290))
+				.addComponent(panelBarraAzulLateral, GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
 		);
 		
 		lblGestinDeElementos = new JLabel("Elementos");

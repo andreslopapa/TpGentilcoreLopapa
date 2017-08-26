@@ -33,6 +33,8 @@ import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Calendar;
+
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
@@ -40,6 +42,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
+import com.toedter.calendar.JDateChooser;
 
 public class ABMCReserva {
 	
@@ -55,7 +58,8 @@ public class ABMCReserva {
 	private JTextArea textAreaDetalle;
 	private CtrlElementoLogic ctrElemLogic;
 	private JComboBox comboBoxTiposDeElementos;
-
+	private JDateChooser dateChooserDesde;
+	private JDateChooser dateChooserHasta;
 	/**
 	 * Launch the application.
 	 */
@@ -140,6 +144,12 @@ public class ABMCReserva {
 		
 		JLabel lblDetalle = new JLabel("Detalle");
 		
+		dateChooserDesde = new JDateChooser();
+		dateChooserDesde.setDateFormatString("yyyy/MM/dd");
+		
+		dateChooserHasta = new JDateChooser();
+		dateChooserHasta.setDateFormatString("yyyy/MM/dd");
+		
 		GroupLayout groupLayout = new GroupLayout(frmSistemaDeGestin.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -155,21 +165,27 @@ public class ABMCReserva {
 								.addComponent(lblDesde, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(comboBoxTiposDeElementos, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnAceptar)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 										.addComponent(textElemento)
 										.addComponent(textDesde)
 										.addComponent(textHasta))
-									.addGap(80)
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblFormatoYyyymmdd)
-										.addComponent(lblValidarQueSea)
-										.addComponent(lblDosOpcionesBuscar)))
-								.addComponent(comboBoxTiposDeElementos, GroupLayout.PREFERRED_SIZE, 127, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnAceptar)))
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(dateChooserHasta, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(dateChooserDesde, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
+									.addPreferredGap(ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addComponent(lblFormatoYyyymmdd)
+											.addComponent(lblDosOpcionesBuscar))
+										.addComponent(lblValidarQueSea))
+									.addPreferredGap(ComponentPlacement.RELATED))))
 						.addComponent(lblGestionarReservas))
-					.addContainerGap(84, Short.MAX_VALUE))
+					.addContainerGap(57, GroupLayout.PREFERRED_SIZE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -181,31 +197,35 @@ public class ABMCReserva {
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblElemento)
-								.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblDesde)
-								.addComponent(textDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblHasta)
-								.addComponent(textHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(lblDosOpcionesBuscar)
 							.addGap(18)
 							.addComponent(lblValidarQueSea)
 							.addGap(18)
-							.addComponent(lblFormatoYyyymmdd)))
+							.addComponent(lblFormatoYyyymmdd))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblElemento)
+								.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+									.addComponent(lblDesde)
+									.addComponent(textDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(dateChooserDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(dateChooserHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+									.addComponent(lblHasta)
+									.addComponent(textHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblDetalle))
 					.addGap(18)
 					.addComponent(btnAceptar)
-					.addContainerGap(100, Short.MAX_VALUE))
-				.addComponent(panelVerticalAzul, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+					.addContainerGap(135, Short.MAX_VALUE))
+				.addComponent(panelVerticalAzul, GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
 		);
 		
 		JLabel lbliconoReservas = new JLabel("");
@@ -256,7 +276,7 @@ public class ABMCReserva {
 		);
 		panelVerticalAzul.setLayout(gl_panelVerticalAzul);
 		frmSistemaDeGestin.getContentPane().setLayout(groupLayout);
-		frmSistemaDeGestin.setBounds(100, 100, 701, 442);
+		frmSistemaDeGestin.setBounds(100, 100, 785, 477);
 		frmSistemaDeGestin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		mapearAForm(per);				//El parametro per es la persona logueada que se envia como parametro desde el login
@@ -288,8 +308,21 @@ public class ABMCReserva {
 		r.setPersona(pers);	
 		e.setId_elemento(Integer.parseInt(this.textElemento.getText()));
 		r.setElemento(e);
-		r.setFecha_hora_desde_solicitada(Date.valueOf((textDesde.getText())));
-		r.setFecha_hora_hasta_solicitada(Date.valueOf(textHasta.getText()));
+		int vyearD = dateChooserDesde.getCalendar().get(Calendar.YEAR);
+		int vmonthD = 1+dateChooserDesde.getCalendar().get(Calendar.MONTH);
+		int vdayD = dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH);
+		String vfechaD = vyearD + "-" + vmonthD + "-" + vdayD;
+		r.setFecha_hora_desde_solicitada(Date.valueOf(vfechaD));	//el famoso provisorio. --> En vez de estas 5 lineas de codigo, Intenté con dateChooserHasta.getDate() pero no me dejaba convertir de java.util.Date a java.sql.date.. Luego vere otra forma "mejor"
+
+		int vyearH = dateChooserHasta.getCalendar().get(Calendar.YEAR);
+		int vmonthH = 1+dateChooserHasta.getCalendar().get(Calendar.MONTH);
+		int vdayH = dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH);
+		String vfechaH = vyearH + "-" + vmonthH + "-" + vdayH;
+		r.setFecha_hora_hasta_solicitada(Date.valueOf(vfechaH));	//el famoso provisorio
+		
+		
+		//r.setFecha_hora_desde_solicitada(Date.valueOf((textDesde.getText())));
+		//r.setFecha_hora_hasta_solicitada(Date.valueOf(textHasta.getText()));
 		r.setDetalle(this.textAreaDetalle.getText());
 		return r;
 	}

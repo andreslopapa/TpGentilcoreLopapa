@@ -25,6 +25,14 @@ public class CtrlReservaLogic {
 	
 	
 	public void add(Reserva r) throws SQLException, AppDataException{
+		/*Reserva res = new Reserva();
+		try {
+			//res=datRes.getOne(r);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//res.get*/
 		datRes.add(r);
 	}
 
@@ -39,6 +47,8 @@ public class CtrlReservaLogic {
 	public Reserva getOne(Reserva r)throws Exception{
 		return datRes.getOne(r);
 	}	
+	
+	
 
 	
 

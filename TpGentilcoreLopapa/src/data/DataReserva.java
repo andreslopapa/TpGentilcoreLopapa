@@ -32,20 +32,17 @@ public class DataReserva {
 			pstmt.setInt(1,r.getPersona().getId());
 			pstmt.setInt(2, r.getElemento().getId_elemento());
 		//	pstmt.setDate(3, (java.sql.Date)r.getFecha_hora_reserva_hecha());
-						//Por ahi el tipo borro una reserva y quiere volver a ingresarla, no va a poder 
-						//ingresar cuando se hizo si se actualiza solo
-						//no se si vamos a hacerlo pero asi funcioan de cualquier forma
-			
-					//alberto
+	
 					//el tipo cuando quiera ingresar una nueva reserva, se va a crear un nuevo registro en la BD y por lo tanto un nuevo timestamp de ese momento.
 					
 					// de todos modos me parece que no la vamos a necesitar a esta. xq yo la habia pensado para restar con el dato del tiempo que tiene TipoDeElemento
 					//O sea, "fecha_hora_reserva_hecha" se va a actualizar cuando se CREA la reserva. (o sea que ya paso todas las validaciones)
 					//pero la diferencia de tiempo que tenemos que hacer es una validacion que se hace antes que se crea la reserva.
 					//si vos la pensaste para usarla en otro momento la dejamos
-			pstmt.setDate(3, (java.sql.Date) r.getFecha_hora_desde_solicitada());
-			pstmt.setDate(4, (java.sql.Date) r.getFecha_hora_hasta_solicitada());
-		//	pstmt.setDate(5, (java.sql.Date)r.getFecha_hora_entregado());//si agrega una reserva borrada 
+			
+			pstmt.setString(3, String.valueOf( r.getFecha_hora_desde_solicitada()));
+			pstmt.setString(4, String.valueOf( r.getFecha_hora_hasta_solicitada()));
+		//	pstmt.setDate(5, (java.sql.Date)r.getFecha_hora_entregado());     //este solo se usa para cuando el administrador, o quien sea, registre que se devolvió
 			pstmt.setString(5,r.getDetalle());
 			pstmt.executeUpdate();							//execute= ejecuta todo      /executequery solo consultas select   /executeupdate solo add update o delete
 			keyResultSet = pstmt.getGeneratedKeys();
