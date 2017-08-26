@@ -245,9 +245,9 @@ public class ABMCReserva {
 		frmSistemaDeGestin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		mapearAForm(per);				//El parametro per es la persona logueada que se envia como parametro desde el login
-		cargarListaTdE();
+	//	cargarListaTdE();
 	}
-	
+	/*
 	private void cargarListaTdE(){
 			try {
 				this.comboBoxTiposDeElementos.setModel(new DefaultComboBoxModel(ctrElemLogic.getTipoDeElemento().toArray()));		//en el controlorador de reservas o de elemento??
@@ -256,7 +256,7 @@ public class ABMCReserva {
 				e.printStackTrace();
 			}
 		
-	}
+	}*/
 	
 	
 	private void clickAceptar(Persona pers) throws Exception, SQLException, AppDataException{
