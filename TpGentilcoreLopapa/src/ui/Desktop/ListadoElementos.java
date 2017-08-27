@@ -29,6 +29,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
+import tools.BotonLabel;
 import tools.Campo;
 import tools.LimitadorTxt;
 
@@ -39,6 +40,10 @@ import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.JToolBar;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
 public class ListadoElementos extends Listado implements IListados{
 	/**
@@ -146,7 +151,7 @@ public class ListadoElementos extends Listado implements IListados{
 		LimitadorTxt.MaxCaracteres(45, txtBuscar);
 		
 		ImageIcon buscarIcon=new ImageIcon(ListadoElementos.class.getResource("buscar.png"));
-		JButton btnBuscar = new JButton("Buscar",null);
+		JButton btnBuscar = new JButton("Buscar",buscarIcon);
 		btnBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -168,6 +173,8 @@ public class ListadoElementos extends Listado implements IListados{
 		this.cboTipoElemento.setSelectedIndex(-1);
 		getContentPane().add(cboTipoElemento,"cell 1 3 2 1");
 		JLabel lblTipo = new JLabel("Tipo de Elemento");
+		
+
 		getContentPane().add(lblTipo, "cell 1 2 2 1,alignx left,aligny center");
 		
 		desktopPane = new JDesktopPane();
@@ -184,7 +191,22 @@ public class ListadoElementos extends Listado implements IListados{
 			JOptionPane.showMessageDialog(null, "Error al tratar de insertar la ventana interna de elementos\n"+e.getMessage(),
 					"Error",JOptionPane.ERROR_MESSAGE);
 		}
-		getContentPane().add(desktopPane, "cell 9 0 1 6,grow");
+		
+		JToolBar toolBar = new JToolBar();
+		getContentPane().add(toolBar, "cell 5 3 4 1,alignx right,aligny center");
+		
+		
+		BotonLabel btnReservar=new BotonLabel("reservar.png","reservarFocus.png","reservarApretado.png");
+		BotonLabel btnAgregar=new BotonLabel("Agregar.png","AgregarFocus.png","AgregarApretado.png");
+		BotonLabel btnEditar=new BotonLabel("Editar.png","EditarFocus.png","EditarApretado.png");
+		BotonLabel btnBorrar=new BotonLabel("Borrar.png","BorrarFocus.png","BorrarApretado.png");
+
+		
+		toolBar.add(btnReservar);
+		toolBar.add(btnAgregar);
+		toolBar.add(btnEditar);
+		toolBar.add(btnBorrar);
+		getContentPane().add(desktopPane, "cell 9 4,grow");
 		
 //		JRadioButton rdbtnId = new JRadioButton("Por Id");
 //		getContentPane().add(rdbtnId, "flowx,cell 1 1,alignx left,aligny center");
