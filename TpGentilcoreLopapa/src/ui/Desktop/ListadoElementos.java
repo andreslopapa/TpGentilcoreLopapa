@@ -38,6 +38,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
 import java.awt.Color;
+import java.awt.Font;
 
 public class ListadoElementos extends Listado implements IListados{
 	/**
@@ -134,6 +135,7 @@ public class ListadoElementos extends Listado implements IListados{
 		getContentPane().setLayout(new MigLayout("", "[5%,grow][25%][][][50px:50px:50px,center][][][][25%][45%,grow]", "[20px:20px:20px][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
 		
 		txtBuscar = new JTextField();
+		txtBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
 		txtBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				buscarClick();
@@ -144,7 +146,8 @@ public class ListadoElementos extends Listado implements IListados{
 		LimitadorTxt.MaxCaracteres(45, txtBuscar);
 		
 		ImageIcon buscarIcon=new ImageIcon(ListadoElementos.class.getResource("buscar.png"));
-		JButton btnBuscar = new JButton("Buscar",buscarIcon);
+		JButton btnBuscar = new JButton("Buscar",null);
+		btnBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				buscarClick();
@@ -153,6 +156,7 @@ public class ListadoElementos extends Listado implements IListados{
 		getContentPane().add(btnBuscar, "cell 1 1 2 1,alignx left,aligny top");
 		
 		cboTipoBusqueda = new JComboBox();
+		cboTipoBusqueda.setFont(new Font("Calibri", Font.PLAIN, 12));
 		getContentPane().add(cboTipoBusqueda, "cell 1 1 2 1,alignx left,aligny top");
 		cboTipoBusqueda.addItem("Por Id");
 		cboTipoBusqueda.addItem("Por Nombre");

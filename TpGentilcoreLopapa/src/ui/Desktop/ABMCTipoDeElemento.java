@@ -272,7 +272,7 @@ public class ABMCTipoDeElemento {
 		);
 		panel.setLayout(gl_panel);
 		frmSistemaDeGestin.getContentPane().setLayout(groupLayout);
-		frmSistemaDeGestin.setBounds(100, 100, 807, 498);
+		frmSistemaDeGestin.setBounds(100, 100, 716, 297);
 		frmSistemaDeGestin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
