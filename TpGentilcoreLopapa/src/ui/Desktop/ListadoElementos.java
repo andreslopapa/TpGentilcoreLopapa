@@ -50,14 +50,19 @@ public class ListadoElementos extends Listado implements IListados{
 	 * @wbp.nonvisual location=127,137
 	 */
 	private CtrlElementoLogic elementoLogic;
-	//private ArrayList<Elemento> elementos=null;
 	private int totalElementos;
 	private JTable table;
 	private JTextField txtIndice;
 	private JLabel lblIndice;
 	private Elemento elementoActual;
 	private ABMCElemento formElemento;
-	//hacr una clase listado de la que hereden 
+    public enum TipoBusqueda{ POR_ID("Por Id"),POR_NOMBRE("Por Nombre"),
+    					     POR_TIPO("Por Tipo"),POR_NOMBRE_Y_TIPO("Por Nombre y Tipo"),
+    					     TRAER_TODOS("Traer Todos");
+    	private final String texto;
+    	private TipoBusqueda(final String texto){this.texto=texto;}
+    	@Override
+    	public String toString(){return texto;}}
 
 	/**
 	 * Launch the application.
@@ -106,7 +111,8 @@ public class ListadoElementos extends Listado implements IListados{
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getTableHeader().setResizingAllowed(false);
-		table.getTableHeader().setReorderingAllowed(false) ;
+		table.getTableHeader().setReorderingAllowed(false);
+		
 		scrollPane.setViewportView(table);
 		
 		JButton btnAnterior = new JButton("",new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/flechaizquierda.png")));
@@ -150,8 +156,8 @@ public class ListadoElementos extends Listado implements IListados{
 		txtBuscar.setColumns(30);
 		LimitadorTxt.MaxCaracteres(45, txtBuscar);
 		
-		ImageIcon buscarIcon=new ImageIcon(ListadoElementos.class.getResource("buscar.png"));
-		JButton btnBuscar = new JButton("Buscar",buscarIcon);
+		//ImageIcon buscarIcon=new ImageIcon(ListadoElementos.class.getResource("buscar.png"));
+		JButton btnBuscar = new JButton("Buscar",null);
 		btnBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -163,11 +169,11 @@ public class ListadoElementos extends Listado implements IListados{
 		cboTipoBusqueda = new JComboBox();
 		cboTipoBusqueda.setFont(new Font("Calibri", Font.PLAIN, 12));
 		getContentPane().add(cboTipoBusqueda, "cell 1 1 2 1,alignx left,aligny top");
-		cboTipoBusqueda.addItem("Por Id");
-		cboTipoBusqueda.addItem("Por Nombre");
-		cboTipoBusqueda.addItem("Por Tipo");
-		cboTipoBusqueda.addItem("Por Nombre y Tipo");
-		cboTipoBusqueda.addItem("Traer Todos");
+		cboTipoBusqueda.addItem(TipoBusqueda.POR_ID);
+		cboTipoBusqueda.addItem(TipoBusqueda.POR_NOMBRE);
+		cboTipoBusqueda.addItem(TipoBusqueda.POR_TIPO);
+		cboTipoBusqueda.addItem(TipoBusqueda.POR_NOMBRE_Y_TIPO);
+		cboTipoBusqueda.addItem(TipoBusqueda.TRAER_TODOS);
 		
 		cboTipoElemento=new JComboBox();
 		this.cboTipoElemento.setSelectedIndex(-1);
@@ -193,13 +199,18 @@ public class ListadoElementos extends Listado implements IListados{
 		}
 		
 		JToolBar toolBar = new JToolBar();
+		toolBar.setFloatable(false);
 		getContentPane().add(toolBar, "cell 5 3 4 1,alignx right,aligny center");
 		
 		
 		BotonLabel btnReservar=new BotonLabel("reservar.png","reservarFocus.png","reservarApretado.png");
+		btnReservar.setToolTipText("Reservar/Sacar Reserva");
 		BotonLabel btnAgregar=new BotonLabel("Agregar.png","AgregarFocus.png","AgregarApretado.png");
+		btnAgregar.setToolTipText("Agregar");
 		BotonLabel btnEditar=new BotonLabel("Editar.png","EditarFocus.png","EditarApretado.png");
+		btnEditar.setToolTipText("Editar");
 		BotonLabel btnBorrar=new BotonLabel("Borrar.png","BorrarFocus.png","BorrarApretado.png");
+		btnBorrar.setToolTipText("Eliminar");
 
 		
 		toolBar.add(btnReservar);
@@ -243,7 +254,8 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		
 		this.Actualiza();
-		initDataBindings();
+		//initDataBindings();
+		table.getColumnModel().getColumn(0).setPreferredWidth(5);
 		
 	}
 	protected void buscarClick() {
@@ -312,6 +324,7 @@ public class ListadoElementos extends Listado implements IListados{
 			this.elementoLogic.elementos=elementoLogic.getSome(elementoActual,(indiceActual-1)*FilasTabla,FilasTabla);//esto cambiarlo
 		    this.lblIndice.setText("de "+String.valueOf(cantidadIndices));
 		    initDataBindings();
+		    if(!this.elementoLogic.elementos.isEmpty()){table.setRowSelectionInterval(0,0);}
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, "Error al actualizar datos\n"+ex.getMessage(), 
 					"Error", JOptionPane.ERROR_MESSAGE);
@@ -352,26 +365,29 @@ public class ListadoElementos extends Listado implements IListados{
 	
 	private void mapearDeForm(){
 		elementoActual=new Elemento();
-		switch(this.cboTipoBusqueda.getSelectedItem().toString()){
-		case "Por Id":if(Campo.Valida(txtBuscar.getText(), Campo.tipo.ID)){
+		switch((TipoBusqueda)this.cboTipoBusqueda.getSelectedItem()){
+		case POR_ID:if(Campo.Valida(txtBuscar.getText(), Campo.tipo.ID)){
 			          elementoActual.setId_elemento(Integer.parseInt(this.txtBuscar.getText()));}
 			          break;
-		case "Por Nombre":
+		case POR_NOMBRE:
 			          elementoActual.setNombre(txtBuscar.getText());
 					  break;
-		case "Por Tipo":
+		case POR_TIPO:
 			          if(cboTipoElemento.getSelectedIndex()!=(-1)){
 			        	  elementoActual.setTipo((TipoDeElemento)cboTipoElemento.getSelectedItem());}
 			          else{JOptionPane.showMessageDialog(null, "Seleccione un tipo");}
 					  break;
-		case "Por Nombre y Tipo":
+		case POR_NOMBRE_Y_TIPO:
 				      if(cboTipoElemento.getSelectedIndex()!=(-1)){
 				    	  elementoActual.setNombre(txtBuscar.getText());
 				    	  elementoActual.setTipo((TipoDeElemento)cboTipoElemento.getSelectedItem());}
 				      else{JOptionPane.showMessageDialog(null, "Seleccione un tipo");}
 				      break;
-		case "Traer Todos":
+		case TRAER_TODOS:
 		default:elementoActual=null;break;
+		
+		
+		
 		
 		}
 		
