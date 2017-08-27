@@ -49,7 +49,7 @@ public class CtrlReservaLogic {
 	}*/
 	
 	public void updateParaCerrarRes(Reserva r) throws SQLException, AppDataException{
-		datRes.update(r);
+		datRes.updateParaCerrarRes(r);
 	}
 
 	public void delete(Reserva r) throws SQLException, AppDataException{
