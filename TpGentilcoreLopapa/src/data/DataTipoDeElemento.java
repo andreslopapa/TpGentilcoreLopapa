@@ -182,8 +182,11 @@ public class DataTipoDeElemento {
 	public void delete(TipoDeElemento te)throws SQLException,AppDataException{
 		PreparedStatement pstmt=null;
 		try{
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(" delete from tipodeelemento where id_tipodeelemento=?;");
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+					+ "delete from cat_tip where id_tipodeelemento=?;"
+					+ "delete from tipodeelemento where id_tipodeelemento=?;");
 			pstmt.setInt(1, te.getId());
+			pstmt.setInt(2, te.getId());
 			pstmt.executeUpdate();
 		}
 		catch(SQLException sqlex){

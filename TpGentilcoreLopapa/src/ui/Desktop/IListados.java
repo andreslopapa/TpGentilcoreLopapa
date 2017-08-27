@@ -9,6 +9,6 @@ public interface IListados {
 	public abstract void buscarXIndiceClick(String indiceCampo,Indice tipoIndice);
 	public abstract void initDataBindings();
 	public abstract void Actualiza();
-	
+	public abstract void buscarClick();
 	
 }

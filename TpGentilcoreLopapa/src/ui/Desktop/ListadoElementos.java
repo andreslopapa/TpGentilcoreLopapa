@@ -56,13 +56,14 @@ public class ListadoElementos extends Listado implements IListados{
 	private JLabel lblIndice;
 	private Elemento elementoActual;
 	private ABMCElemento formElemento;
-    public enum TipoBusqueda{ POR_ID("Por Id"),POR_NOMBRE("Por Nombre"),
+    public static enum TipoBusqueda{ POR_ID("Por Id"),POR_NOMBRE("Por Nombre"),
     					     POR_TIPO("Por Tipo"),POR_NOMBRE_Y_TIPO("Por Nombre y Tipo"),
     					     TRAER_TODOS("Traer Todos");
     	private final String texto;
     	private TipoBusqueda(final String texto){this.texto=texto;}
     	@Override
     	public String toString(){return texto;}}
+    private TipoBusqueda tipoBusquedaActual;
 
 	/**
 	 * Launch the application.
@@ -102,6 +103,7 @@ public class ListadoElementos extends Listado implements IListados{
 		getContentPane().setBackground(Color.WHITE);
 		
 	    elementoActual=null;
+	    tipoBusquedaActual=TipoBusqueda.TRAER_TODOS;
 		elementoLogic=new CtrlElementoLogic();
 		setBounds(100, 100, 556, 444);
 		
@@ -254,16 +256,16 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		
 		this.Actualiza();
-		//initDataBindings();
-		table.getColumnModel().getColumn(0).setPreferredWidth(5);
+
 		
 	}
-	protected void buscarClick() {
+	public void buscarClick() {
 		
 		
-		this.mapearDeForm();
+		
 		try{
 		//this.elementos=this.elementoLogic.getSome(elementoActual, 0, FilasTabla);
+			this.mapearDeForm();
 			indiceActual=1;
 			this.Actualiza();
 			//initDataBindings();
@@ -317,11 +319,13 @@ public class ListadoElementos extends Listado implements IListados{
 	public void Actualiza(){
 		try {
 			loadLists();
-			this.totalElementos=elementoLogic.getCantidad(elementoActual);
+			this.totalElementos=elementoLogic.getCantidad(tipoBusquedaActual,elementoActual);
 			cantidadIndices=(int)Math.ceil((double)totalElementos/FilasTabla);
 			if(cantidadIndices==0){cantidadIndices=1;}
-			if(indiceActual>cantidadIndices){indiceActual=cantidadIndices;}
-			this.elementoLogic.elementos=elementoLogic.getSome(elementoActual,(indiceActual-1)*FilasTabla,FilasTabla);//esto cambiarlo
+			if(indiceActual>cantidadIndices){
+				indiceActual=cantidadIndices;}
+			this.txtIndice.setText(String.valueOf(indiceActual));
+			this.elementoLogic.elementos=elementoLogic.getSome(tipoBusquedaActual,elementoActual,(indiceActual-1)*FilasTabla,FilasTabla);//esto cambiarlo
 		    this.lblIndice.setText("de "+String.valueOf(cantidadIndices));
 		    initDataBindings();
 		    if(!this.elementoLogic.elementos.isEmpty()){table.setRowSelectionInterval(0,0);}
@@ -367,24 +371,30 @@ public class ListadoElementos extends Listado implements IListados{
 		elementoActual=new Elemento();
 		switch((TipoBusqueda)this.cboTipoBusqueda.getSelectedItem()){
 		case POR_ID:if(Campo.Valida(txtBuscar.getText(), Campo.tipo.ID)){
-			          elementoActual.setId_elemento(Integer.parseInt(this.txtBuscar.getText()));}
+			          elementoActual.setId_elemento(Integer.parseInt(this.txtBuscar.getText()));
+			          this.tipoBusquedaActual=TipoBusqueda.POR_ID;}
 			          break;
 		case POR_NOMBRE:
 			          elementoActual.setNombre(txtBuscar.getText());
+			          this.tipoBusquedaActual=TipoBusqueda.POR_NOMBRE;
 					  break;
 		case POR_TIPO:
 			          if(cboTipoElemento.getSelectedIndex()!=(-1)){
-			        	  elementoActual.setTipo((TipoDeElemento)cboTipoElemento.getSelectedItem());}
+			        	  elementoActual.setTipo((TipoDeElemento)cboTipoElemento.getSelectedItem());
+			        	  this.tipoBusquedaActual=TipoBusqueda.POR_TIPO;}
 			          else{JOptionPane.showMessageDialog(null, "Seleccione un tipo");}
 					  break;
 		case POR_NOMBRE_Y_TIPO:
 				      if(cboTipoElemento.getSelectedIndex()!=(-1)){
 				    	  elementoActual.setNombre(txtBuscar.getText());
-				    	  elementoActual.setTipo((TipoDeElemento)cboTipoElemento.getSelectedItem());}
+				    	  elementoActual.setTipo((TipoDeElemento)cboTipoElemento.getSelectedItem());
+				    	  this.tipoBusquedaActual=TipoBusqueda.POR_NOMBRE_Y_TIPO;}
 				      else{JOptionPane.showMessageDialog(null, "Seleccione un tipo");}
 				      break;
 		case TRAER_TODOS:
-		default:elementoActual=null;break;
+		default:elementoActual=null;
+				this.tipoBusquedaActual=TipoBusqueda.TRAER_TODOS;
+				break;
 		
 		
 		

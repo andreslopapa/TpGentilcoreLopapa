@@ -160,8 +160,10 @@ public class DataCategoria {
 	    PreparedStatement pstmt=null;
 		try{
 			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+					+ "delete from cat_tip where id_categoria=?;"
 					+ "delete from categoria where id_categoria=?");
 			pstmt.setInt(1, cat.getId());
+			pstmt.setInt(2, cat.getId());
 			pstmt.executeUpdate();
 		}
 		catch(SQLException sqlex){

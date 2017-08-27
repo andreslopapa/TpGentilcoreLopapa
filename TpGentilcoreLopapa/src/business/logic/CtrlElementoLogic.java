@@ -7,6 +7,8 @@ import business.entities.Elemento;
 import business.entities.TipoDeElemento;
 import data.DataElemento;
 import data.DataTipoDeElemento;
+import ui.Desktop.ListadoElementos;
+import ui.Desktop.ListadoElementos.TipoBusqueda;
 
 public class CtrlElementoLogic {
 	private DataElemento dataElem;
@@ -23,29 +25,32 @@ public class CtrlElementoLogic {
 		return dataElem.getAll();
 	}
 	
-	public ArrayList<Elemento> getSome(Elemento ele,int indice,int cantidad)throws Exception{
-		if(ele==null){return dataElem.getSome(indice, cantidad);}
-		if(ele.getNombre()!=null && ele.getTipo()!=null){
-			return dataElem.getSome(ele.getNombre(),ele.getTipo().getId(),indice, cantidad);}
-		if(ele.getNombre()!=null){return dataElem.getSome(ele.getNombre(), indice,cantidad);}
-		if(ele.getTipo()!=null){return dataElem.getSome(ele.getTipo().getId(), indice,cantidad);}
-		ArrayList<Elemento> elementos= new ArrayList<Elemento>();
-		Elemento elemento=dataElem.getOne(ele);
-		if(elemento!=null){
-			elementos.add(elemento);
-		}
-		return elementos;
+	public ArrayList<Elemento> getSome(ListadoElementos.TipoBusqueda tipob,Elemento ele,int indice,int cantidad)throws Exception{
+//		if(ele==null){return dataElem.getSome(indice, cantidad);}
+//		if(ele.getNombre()!=null && ele.getTipo()!=null){
+//			return dataElem.getSome(ele.getNombre(),ele.getTipo().getId(),indice, cantidad);}
+//		if(ele.getNombre()!=null){return dataElem.getSome(ele.getNombre(), indice,cantidad);}
+//		if(ele.getTipo()!=null){return dataElem.getSome(ele.getTipo().getId(), indice,cantidad);}
+//		ArrayList<Elemento> elementos= new ArrayList<Elemento>();
+//		Elemento elemento=dataElem.getOne(ele);
+//		if(elemento!=null){
+//			elementos.add(elemento);
+//		}
+//		return elementos;
+		return dataElem.getSome(tipob,ele,indice,cantidad);
 		
 	}
 	
-	public int getCantidad(Elemento ele)throws Exception{
+	public int getCantidad(ListadoElementos.TipoBusqueda tipob,Elemento ele)throws Exception{
 		
-		if(ele==null){return dataElem.getCantidad();}
-		if(ele.getNombre()!=null && ele.getTipo()!=null){
-			return dataElem.getCantidad(ele.getNombre(),ele.getTipo().getId());}
-		if(ele.getNombre()!=null){return dataElem.getCantidad(ele.getNombre());}
-		if(ele.getTipo()!=null){return dataElem.getCantidad(ele.getTipo().getId());}
-		return 1;
+//		if(ele==null){return dataElem.getCantidad();}
+//		if(ele.getNombre()!=null && ele.getTipo()!=null){
+//			return dataElem.getCantidad(ele.getNombre(),ele.getTipo().getId());}
+//		if(ele.getNombre()!=null){return dataElem.getCantidad(ele.getNombre());}
+//		if(ele.getTipo()!=null){return dataElem.getCantidad(ele.getTipo().getId());}
+//		return 1;
+		return dataElem.getCantidad(tipob,ele);
+		
 	}
 	
 	public void add(Elemento e) throws Exception{

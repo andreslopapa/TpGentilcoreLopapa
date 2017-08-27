@@ -90,8 +90,10 @@ public class DataPersona{
 		
 		try {
 			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-					"delete from persona where dni=?");
-			pstmt.setString(1,p.getDni());
+					"delete from reserva where id_persona=?;"
+					+ "delete from persona where dni=?;");
+			pstmt.setString(2,p.getDni());
+			pstmt.setInt(1, p.getId());
 			pstmt.executeUpdate();
 		} catch (SQLException sqlex) {
 			throw new AppDataException(sqlex, "Error al cerrar conexion o statement");
