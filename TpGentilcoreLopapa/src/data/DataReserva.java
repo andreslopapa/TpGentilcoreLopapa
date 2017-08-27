@@ -114,14 +114,15 @@ public class DataReserva {
 		}
 	}
 	
-
+	
+	//METODO PARA "ESTABLECER" LA FECHA DE DE FIN RESERVAS, ES DECIR, DAR POR FINALIZADA LA RESERVA
 	public void updateParaCerrarRes(Reserva r)throws SQLException,AppDataException{
-		PreparedStatement pstmt=null;
+		PreparedStatement pstmt=null;					
 		try{
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""	
 					+ " update reserva "
 					+ " set fecha_hora_entregado=? "
-					+ " where id_reserva=? and id_persona=? ");
+					+ " where id_reserva=? and id_persona=?");
 			
 			pstmt.setString(1, String.valueOf(r.getFecha_hora_entregado()));	
 			pstmt.setInt(2, r.getId_reserva());
@@ -183,7 +184,7 @@ public class DataReserva {
 	}
 	
 
-
+	//LISTADO DE RESERVAS PENDIENTES QUE TIENE UN USUARIO EN PARTICULAR
 	public ArrayList<Reserva> getPendientes(Persona p) throws SQLException,AppDataException{
 		PreparedStatement stmt = null;
 		ResultSet rs=null;
