@@ -103,7 +103,7 @@ public class DataPersona{
 	}
 	
 	
-	public Persona getByDni(Persona per) throws Exception{
+	public Persona getByDni(Persona per) throws SQLException,AppDataException{
 		Persona p = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -141,7 +141,7 @@ public class DataPersona{
 		return p;
 	}	
 	
-	public Persona getOne(Persona per) throws Exception{
+	public Persona getOne(Persona per) throws SQLException,AppDataException{
 		Persona p = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -179,7 +179,7 @@ public class DataPersona{
 		return p;
 	}	
 	
-	public Persona getOne(int id) throws Exception{
+	public Persona getOne(int id) throws SQLException,AppDataException{
 		Persona p = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

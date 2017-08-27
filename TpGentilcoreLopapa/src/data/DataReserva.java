@@ -120,11 +120,27 @@ public class DataReserva {
 				reserva=new Reserva();
 				reserva.setId_reserva(rs.getInt("id_reserva"));
 				reserva.setPersona(new DataPersona().getOne(rs.getInt("id_persona")));
+				reserva.setElemento(new DataElemento().getOne(rs.getInt("id_elemento")));
 				reserva.setFecha_hora_reserva_hecha(rs.getDate("fecha_hora_reserva_hecha"));
+				reserva.setFecha_hora_desde_solicitada(rs.getDate("fecha_hora_desde_solicitada"));
+				reserva.setFecha_hora_hasta_solicitada(rs.getDate("fecha_hora_hasta_solicitada"));
+				reserva.setFecha_hora_entregado(rs.getDate("fecha_hora_entregado"));
+				reserva.setDetalle(rs.getString("detalle"));
 			}
 		}
-		catch(SQLException sqlex){}
-		finally{}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al buscar una reserva");
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				if(rs!=null){rs.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al intentar cerrar conexion,ResultSet o PreparedStatement");
+			}
+		}
 		return reserva;
 	}
 	
