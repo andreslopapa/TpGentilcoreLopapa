@@ -3,6 +3,7 @@ package data;
 import java.util.ArrayList;
 import java.sql.*;
 import business.entities.Elemento;
+import business.entities.TipoDeElemento;
 import tools.AppDataException;
 import ui.Desktop.ListadoElementos;
 
@@ -53,7 +54,10 @@ public class DataElemento {
 			switch(tipob){
 			case POR_ID:
 						pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-						+ "select* from elemento where id_elemento=? "
+						+ "select* from elemento e "
+						+ "inner join tipodeelemento te "
+						+ "on e.id_tipodeelemento=te.id_tipodeelemento "
+						+ "where e.id_elemento=? "
 						+ "limit ?,?");
 						pstmt.setInt(1, elemento.getId_elemento());
 						pstmt.setInt(2, indice);
@@ -63,16 +67,20 @@ public class DataElemento {
 							String nombre=elemento.getNombre();
 							if(nombre==null || nombre.isEmpty()){
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-										+ "select* from elemento "
-										+ "where nombre is null "
+										+ "select* from elemento e "
+										+ "inner join tipodeelemento te "
+										+ "on e.id_tipodeelemento=te.id_tipodeelemento "
+										+ "where e.nombre is null "
 										+ "limit ?,?");
 								pstmt.setInt(1, indice);
 								pstmt.setInt(2, cantTraer);
 							}else{
 			
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-										+ "select* from elemento "
-										+ "where nombre like ? "
+										+ "select* from elemento e "
+										+ "inner join tipodeelemento te "
+										+ "on e.id_tipodeelemento=te.id_tipodeelemento "
+										+ "where e.nombre like ? "
 										+ "limit ?,?");
 								pstmt.setString(1, nombre+"%");
 								pstmt.setInt(2, indice);
@@ -82,8 +90,10 @@ public class DataElemento {
 			case POR_TIPO:
 							int idTipo=elemento.getTipo().getId();
 							pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-									+ "select* from elemento "
-									+ "where id_tipodeelemento=? "
+									+ "select* from elemento e "
+									+ "inner join tipodeelemento te "
+									+ "on e.id_tipodeelemento=te.id_tipodeelemento "
+									+ "where e.id_tipodeelemento=? "
 									+ "limit ?,?");
 							pstmt.setInt(1, idTipo);
 							pstmt.setInt(2, indice);
@@ -94,8 +104,10 @@ public class DataElemento {
 				String nom=elemento.getNombre();
 				if(nom==null || nom.isEmpty()){
 					pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-							+ "select* from elemento "
-							+ "where nombre is null and id_tipodeelemento=? "
+							+ "select* from elemento e "
+							+ "inner join tipodeelemento te "
+							+ "on e.id_tipodeelemento=te.id_tipodeelemento "
+							+ "where e.nombre is null and e.id_tipodeelemento=? "
 							+ "limit ?,?");
 					pstmt.setInt(1, idTipoele);
 					pstmt.setInt(2, indice);
@@ -103,8 +115,10 @@ public class DataElemento {
 				}
 				else{
 					pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-							+ "select* from elemento "
-							+ "where nombre like ? and id_tipodeelemento=? "
+							+ "select* from elemento e "
+							+ "inner join tipodeelemento te "
+							+ "on e.id_tipodeelemento=te.id_tipodeelemento "
+							+ "where e.nombre like ? and e.id_tipodeelemento=? "
 							+ "limit ?,?");
 				pstmt.setString(1, nom+"%");
 				pstmt.setInt(2, idTipoele);
@@ -115,7 +129,9 @@ public class DataElemento {
 			case TRAER_TODOS:
 			default:
 					pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-						+ "select* from elemento "
+						+ "select* from elemento e "
+						+ "inner join tipodeelemento te "
+						+ "on e.id_tipodeelemento=te.id_tipodeelemento "
 						+ "limit ?,?");
 					pstmt.setInt(1, indice);
 					pstmt.setInt(2, cantTraer);break;
@@ -126,7 +142,13 @@ public class DataElemento {
 					Elemento ele=new Elemento();
 					ele.setId_elemento(res.getInt("id_elemento"));
 					ele.setNombre(res.getString("nombre"));
-					ele.setTipo(new DataTipoDeElemento().getOne(res.getInt("id_tipodeelemento")));
+					TipoDeElemento te=new TipoDeElemento();
+					te.setId(res.getInt("id_tipodeelemento"));
+					te.setNombre(res.getString("nombre"));
+					te.setCant_max_res_pen(res.getInt("cantmaxrespen"));
+					te.setLimite_horas_res(res.getInt("limite_horas_res"));
+					te.setDias_max_anticipacion(res.getInt("dias_max_anticipacion"));
+					ele.setTipo(te);
 					elementos.add(ele);
 				}
 			}
