@@ -233,7 +233,7 @@ public class DataPersona{
 			pstmt.setString(6, p.getEmail());			
 			pstmt.setBoolean(7, p.isHabilitado());
 			pstmt.setInt(8, p.getCategoria().getId());
-			pstmt.executeUpdate();
+			pstmt.execute();
 			keyResultSet = pstmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
 				p.setId(keyResultSet.getInt(1));				

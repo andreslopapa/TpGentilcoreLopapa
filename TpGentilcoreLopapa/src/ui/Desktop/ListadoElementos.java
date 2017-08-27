@@ -37,6 +37,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.JDesktopPane;
+import java.awt.Color;
+import java.awt.Font;
 
 public class ListadoElementos extends Listado implements IListados{
 	/**
@@ -86,12 +88,15 @@ public class ListadoElementos extends Listado implements IListados{
 	}
 	
 	public ListadoElementos() {
+		setBorder(null);
+		getContentPane().setBackground(Color.WHITE);
 		
 	    elementoActual=null;
 		elementoLogic=new CtrlElementoLogic();
-		setBounds(100, 100, 528, 444);
+		setBounds(100, 100, 556, 444);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(Color.WHITE);
 		
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -130,6 +135,7 @@ public class ListadoElementos extends Listado implements IListados{
 		getContentPane().setLayout(new MigLayout("", "[5%,grow][25%][][][50px:50px:50px,center][][][][25%][45%,grow]", "[20px:20px:20px][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
 		
 		txtBuscar = new JTextField();
+		txtBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
 		txtBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				buscarClick();
@@ -140,7 +146,8 @@ public class ListadoElementos extends Listado implements IListados{
 		LimitadorTxt.MaxCaracteres(45, txtBuscar);
 		
 		ImageIcon buscarIcon=new ImageIcon(ListadoElementos.class.getResource("buscar.png"));
-		JButton btnBuscar = new JButton("Buscar",buscarIcon);
+		JButton btnBuscar = new JButton("Buscar",null);
+		btnBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				buscarClick();
@@ -149,6 +156,7 @@ public class ListadoElementos extends Listado implements IListados{
 		getContentPane().add(btnBuscar, "cell 1 1 2 1,alignx left,aligny top");
 		
 		cboTipoBusqueda = new JComboBox();
+		cboTipoBusqueda.setFont(new Font("Calibri", Font.PLAIN, 12));
 		getContentPane().add(cboTipoBusqueda, "cell 1 1 2 1,alignx left,aligny top");
 		cboTipoBusqueda.addItem("Por Id");
 		cboTipoBusqueda.addItem("Por Nombre");
@@ -163,6 +171,9 @@ public class ListadoElementos extends Listado implements IListados{
 		getContentPane().add(lblTipo, "cell 1 2 2 1,alignx left,aligny center");
 		
 		desktopPane = new JDesktopPane();
+		desktopPane.setIgnoreRepaint(true);
+		desktopPane.setForeground(Color.WHITE);
+		desktopPane.setBorder(null);
 		try {
 			if(formElemento==null){formElemento=new ABMCElemento();}
 			desktopPane.add(formElemento);
@@ -173,7 +184,7 @@ public class ListadoElementos extends Listado implements IListados{
 			JOptionPane.showMessageDialog(null, "Error al tratar de insertar la ventana interna de elementos\n"+e.getMessage(),
 					"Error",JOptionPane.ERROR_MESSAGE);
 		}
-		getContentPane().add(desktopPane, "cell 9 4,grow");
+		getContentPane().add(desktopPane, "cell 9 0 1 6,grow");
 		
 //		JRadioButton rdbtnId = new JRadioButton("Por Id");
 //		getContentPane().add(rdbtnId, "flowx,cell 1 1,alignx left,aligny center");

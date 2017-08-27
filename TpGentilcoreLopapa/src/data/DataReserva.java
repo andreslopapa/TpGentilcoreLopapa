@@ -1,9 +1,11 @@
 package data;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
 
 import business.entities.Persona;
 import business.entities.Reserva;
@@ -11,37 +13,40 @@ import tools.AppDataException;
 
 public class DataReserva {
 	
+	
+	
 	public void add(Reserva r)throws SQLException,AppDataException{
 		PreparedStatement pstmt = null;
 		ResultSet keyResultSet = null;
 		try {
-
-//INSERT
-//insert into reserva(id_persona, id_elemento, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) values(2,3,20170820,20170824,'Se entreg√≥ con raya superior');
-//en realidad se utilizan estos campos, pero algunos se actualizan solos
-// id_reserva, id_persona, id_elemento, fecha_hora_reserva_hecha, fecha_hora_desde_solicitada, fecha_hora_hasta_solicitada, fecha_hora_entregado, detalle
-
-//			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-//					"insert into reserva(id_persona, id_elemento, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) values(?,?,?,?)",
-//					PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "insert into reserva(id_persona, id_elemento,fecha_hora_reserva_hecha,"
-					+ " fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,"
-					+ "fecha_hora_entregado,detalle) values(?,?,?,?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
+					+ "insert into reserva("
+						+ " id_persona, "
+						+ " id_elemento, "
+					//	+ " fecha_hora_reserva_hecha,"
+						+ " fecha_hora_desde_solicitada,"
+						+ " fecha_hora_hasta_solicitada, "
+					//	+ " fecha_hora_entregado, "				//este solo se usa para cuando el administrador, o quien sea, registre que se devolviÛ
+						+ " detalle) "
+					+ "values( ?,?,?,?,?); "
+						,PreparedStatement.RETURN_GENERATED_KEYS);
 		
 			pstmt.setInt(1,r.getPersona().getId());
 			pstmt.setInt(2, r.getElemento().getId_elemento());
-			pstmt.setDate(3, (Date)r.getFecha_hora_reserva_hecha());
-			//Por ahi el tipo borro una reserva y quiere volver a ingresarla, no va a poder 
-			//ingresar cuando se hizo si se actualiza solo
-			//no se si vamos a hacerlo pero asi funcioan de cualquier forma
-			pstmt.setDate(4, (Date) r.getFecha_hora_desde_solicitada());
-			pstmt.setDate(5, (Date) r.getFecha_hora_hasta_solicitada());
-			pstmt.setDate(6, (Date)r.getFecha_hora_entregado());//si agrega una reserva borrada 
-			pstmt.setString(7,r.getDetalle());
-			pstmt.executeUpdate();		//execute no? El execute te hace cualquier cosa,el
-			//executequery solo consultas select y el executeupdate solo add update o delete
-			//es para q no metas la pata poner executeupdate
+		//	pstmt.setDate(3, (java.sql.Date)r.getFecha_hora_reserva_hecha());
+	
+					//el tipo cuando quiera ingresar una nueva reserva, se va a crear un nuevo registro en la BD y por lo tanto un nuevo timestamp de ese momento.
+					
+					// de todos modos me parece que no la vamos a necesitar a esta. xq yo la habia pensado para restar con el dato del tiempo que tiene TipoDeElemento
+					//O sea, "fecha_hora_reserva_hecha" se va a actualizar cuando se CREA la reserva. (o sea que ya paso todas las validaciones)
+					//pero la diferencia de tiempo que tenemos que hacer es una validacion que se hace antes que se crea la reserva.
+					//si vos la pensaste para usarla en otro momento la dejamos
+			
+			pstmt.setString(3, String.valueOf( r.getFecha_hora_desde_solicitada()));
+			pstmt.setString(4, String.valueOf( r.getFecha_hora_hasta_solicitada()));
+		//	pstmt.setDate(5, (java.sql.Date)r.getFecha_hora_entregado());     //este solo se usa para cuando el administrador, o quien sea, registre que se devolviÛ
+			pstmt.setString(5,r.getDetalle());
+			pstmt.executeUpdate();							//execute= ejecuta todo      /executequery solo consultas select   /executeupdate solo add update o delete
 			keyResultSet = pstmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){
 				r.setId_reserva(keyResultSet.getInt(1));				
@@ -58,7 +63,7 @@ public class DataReserva {
 				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
 			}
 		}
-	}
+	}	
 	
 	
 	public void delete(Reserva r)throws SQLException,AppDataException{
@@ -84,6 +89,8 @@ public class DataReserva {
 	}
 	
 	
+	
+	
 	public void update(Reserva r)throws SQLException,AppDataException{
 		PreparedStatement pstmt=null;
 		try{
@@ -107,13 +114,15 @@ public class DataReserva {
 		}
 	}
 	
-	public Reserva getOne(Reserva r)throws SQLException,AppDataException{
+	
+	
+	public Reserva getOne(Reserva r)throws Exception{
 		Reserva reserva=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		try{
 			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "select* from reserva where id_reserva=?;");
+					+ "select * from reserva where id_reserva=?;");
 			pstmt.setInt(1, r.getId_reserva());
 			rs=pstmt.executeQuery();
 			if(rs.next() && rs!=null){
@@ -144,33 +153,53 @@ public class DataReserva {
 		return reserva;
 	}
 	
-	
-	
-	
-	
-	//INSERT
-//insert into reserva(id_persona, id_elemento, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) values(2,3,20170820,20170824,'Se entreg√≥ con raya superior');
 
+
+	public ArrayList<Reserva> getPendientes(Persona p) throws SQLException,AppDataException{
+		PreparedStatement stmt = null;
+		ResultSet rs=null;
+		ArrayList<Reserva> res= new ArrayList<Reserva>();
+		DataElemento de = new DataElemento();
+		
+		try {
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(""
+						+ "select * "
+						+ " from reserva "
+						+ " where fecha_hora_entregado is null 	"
+						+ "		and id_persona=?"
+						+ "		and datediff(fecha_hora_desde_solicitada,now()) > 0 ");
+			
+			stmt.setInt(1, p.getId());
+			rs = stmt.executeQuery(); 	
+					if(rs!=null){
+						while(rs.next()){
+							Reserva r= new Reserva();
+							r.setPersona(p);
+							r.setId_reserva(rs.getInt("id_reserva"));
+							int idEle= rs.getInt("id_elemento");
+							r.setElemento(de.getOne(idEle));
+							r.setFecha_hora_desde_solicitada(rs.getDate("fecha_hora_desde_solicitada"));
+							r.setFecha_hora_hasta_solicitada(rs.getDate("fecha_hora_hasta_solicitada"));
+							r.setFecha_hora_entregado(rs.getDate("fecha_hora_entregado"));
+							r.setDetalle(rs.getString("detalle"));
+				
+							res.add(r);
+						}
+					}
+		} catch (SQLException sqlex) {
+			throw new AppDataException(sqlex, "Error al recuperar todas las reservas");
+		}
+		    finally{
+			try {
+				if(rs!=null) rs.close();
+				if(stmt!=null) stmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException sqlex) {
+				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+			}
+		}
+		return res;
+	}
 	
-	
-/*posible query //// con FORMATO*/
-/*
-select  per.apellido, 
-		per.nombre,
-		Concat(per.apellido, N', ',per.nombre) as 'Nombre y Apellido',
-		res.id_elemento, 
-        DATE_FORMAT(fecha_hora_reserva_hecha,'%d/%m/%Y a las %H:%i') as 'Fecha y hora de fin de reserva',        
-		DATE_FORMAT(fecha_hora_desde_solicitada,'%d/%m/%Y a las %H:%i') as 'Fecha y hora de inicio de reserva', 
-		DATE_FORMAT(fecha_hora_hasta_solicitada,'%d/%m/%Y a las %H:%i') as 'Fecha y hora de fin de reserva', 
-		fecha_hora_entregado			//esta ser√° null por defecto, posible validador para cuando no se finalizo la reserva, por lo tanto no tiene fecha de fin
-        res.detalle,
-        elem.nombre
-from reserva res
-	inner join persona per on per.id_persona = res.id_persona
-    inner join elemento elem on elem.id_elemento=res.id_elemento;    
-*/
-	
-	
-	
-	
+
 }
