@@ -114,6 +114,35 @@ public class DataReserva {
 		}
 	}
 	
+
+	public void updateParaCerrarRes(Reserva r)throws SQLException,AppDataException{
+		PreparedStatement pstmt=null;
+		try{
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+					+ " update reserva "
+					+ " set fecha_hora_entregado=? "
+					+ " where id_reserva=? and id_persona=? ");
+			
+			pstmt.setString(1, String.valueOf(r.getFecha_hora_entregado()));	
+			pstmt.setInt(2, r.getId_reserva());
+			pstmt.setInt(3, r.getPersona().getId());
+		
+			pstmt.executeUpdate();
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al modificar reserva");
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al intentar cerrar conexion o PreparedStatement");
+			}
+		}
+	}
+	
 	
 	
 	public Reserva getOne(Reserva r)throws Exception{

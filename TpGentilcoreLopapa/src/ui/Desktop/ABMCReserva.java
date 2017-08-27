@@ -97,21 +97,12 @@ public class ABMCReserva {
 		JLabel lblGestionarReservas = new JLabel("Gestionar Reserva");
 		lblGestionarReservas.setFont(new Font("Calibri", Font.BOLD, 20));
 		
-		lblElemento = new JLabel("Elemento");
-		
-		JLabel lblDesde = new JLabel("Desde");
-		
-		JLabel lblHasta = new JLabel("Hasta");
-		
-		textElemento = new JTextField();
-		textElemento.setColumns(10);
-		
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					clickAceptar(per);
+					clickCrearReserva(per);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				} catch (AppDataException e) {
@@ -122,9 +113,87 @@ public class ABMCReserva {
 			}
 		});
 		
-		JLabel lblDosOpcionesBuscar = new JLabel("Dos opciones: buscar en tabla o en lista");
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
 		
-		JLabel lblValidarQueSea = new JLabel("Faltaria validar los requerimientos");
+		JButton btnCrearReserva = new JButton("");
+		btnCrearReserva.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					clickCrearReserva(per);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (AppDataException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		btnCrearReserva.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Agregar.png")));
+		
+		JButton btnCerrarReserva = new JButton("");
+		btnCerrarReserva.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					clickModificarReserva(per);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} catch (AppDataException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		btnCerrarReserva.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Editar.png")));
+		
+		JButton btnCancelarSolicitud = new JButton("Cancelar Solicitud ");
+		btnCancelarSolicitud.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Borrar.png")));
+		
+		GroupLayout groupLayout = new GroupLayout(frmSistemaDeGestin.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(panelVerticalAzul, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(28)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnAceptar)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblGestionarReservas)
+									.addGap(31)
+									.addComponent(btnCrearReserva)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnCerrarReserva)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnCancelarSolicitud))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(panel, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(179, Short.MAX_VALUE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(23)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnCancelarSolicitud)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblGestionarReservas)
+							.addComponent(btnCrearReserva))
+						.addComponent(btnCerrarReserva))
+					.addGap(36)
+					.addComponent(btnAceptar)
+					.addGap(18)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+					.addGap(108))
+				.addComponent(panelVerticalAzul, GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+		);
 		
 		textAreaDetalle = new JTextArea();
 		textAreaDetalle.setLineWrap(true);
@@ -133,78 +202,78 @@ public class ABMCReserva {
 		
 		JLabel lblDetalle = new JLabel("Detalle");
 		
-		dateChooserDesde = new JDateChooser();
-		dateChooserDesde.setDateFormatString("yyyy/MM/dd");
+		JLabel lblHasta = new JLabel("Hasta");
 		
 		dateChooserHasta = new JDateChooser();
 		dateChooserHasta.setDateFormatString("yyyy/MM/dd");
 		
-		GroupLayout groupLayout = new GroupLayout(frmSistemaDeGestin.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panelVerticalAzul, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(lblDetalle, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(lblElemento, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(lblHasta))
-								.addComponent(lblDesde, GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE))
+		dateChooserDesde = new JDateChooser();
+		dateChooserDesde.setDateFormatString("yyyy/MM/dd");
+		
+		JLabel lblDesde = new JLabel("Desde");
+		
+		lblElemento = new JLabel("Elemento");
+		
+		textElemento = new JTextField();
+		textElemento.setColumns(10);
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(22)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblDetalle, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnAceptar)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-										.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(dateChooserHasta, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(dateChooserDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addGap(62)))
-							.addGap(201)
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblDosOpcionesBuscar)
-								.addComponent(lblValidarQueSea))
-							.addPreferredGap(ComponentPlacement.RELATED))
-						.addComponent(lblGestionarReservas))
-					.addContainerGap(57, GroupLayout.PREFERRED_SIZE))
+							.addComponent(textAreaDetalle))
+						.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
+							.addGroup(gl_panel.createSequentialGroup()
+								.addComponent(lblElemento)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(textElemento))
+							.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+								.addComponent(lblDesde, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(dateChooserDesde, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE))
+							.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+								.addComponent(lblHasta)
+								.addGap(20)
+								.addComponent(dateChooserHasta, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+					.addContainerGap())
 		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(24)
-					.addComponent(lblGestionarReservas)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(66)
-							.addComponent(lblDosOpcionesBuscar)
-							.addGap(18)
-							.addComponent(lblValidarQueSea))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(18)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-									.addComponent(lblElemento)
-									.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-									.addComponent(dateChooserDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblDesde))
-								.addGap(11)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addComponent(dateChooserHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblHasta)))
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(14)
+							.addComponent(lblElemento))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(17)
+							.addComponent(lblDesde))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(11)
+							.addComponent(dateChooserDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addGap(11)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblHasta)
+						.addComponent(dateChooserHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(11)
+							.addComponent(lblDetalle))
+						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(10)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDetalle))
-							.addGap(18)
-							.addComponent(btnAceptar)))
-					.addContainerGap(131, Short.MAX_VALUE))
-				.addComponent(panelVerticalAzul, GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
+							.addComponent(textAreaDetalle, GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)))
+					.addContainerGap())
 		);
+		panel.setLayout(gl_panel);
 		
 		JLabel lbliconoReservas = new JLabel("");
 		lbliconoReservas.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/ic_add_shopping_cart_white_24dp_2x.png")));
@@ -272,10 +341,21 @@ public class ABMCReserva {
 	}*/
 	
 	
-	private void clickAceptar(Persona pers) throws Exception, SQLException, AppDataException{
-		resLogic.add(this.mapearDeForm(pers));		
+	private void clickCrearReserva(Persona pers) throws Exception, SQLException, AppDataException{
+		try {
+			resLogic.add(this.mapearDeForm(pers));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
 	
+	private void clickModificarReserva(Persona pers) throws SQLException, AppDataException, ParseException{
+		try {
+			resLogic.updateParaCerrarRes(this.mapearDeForm(pers));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private Reserva mapearDeForm(Persona pers) throws ParseException{
 		Reserva r = new Reserva();

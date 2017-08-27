@@ -41,7 +41,14 @@ public class CtrlReservaLogic {
 		datRes.add(r);
 	}
 
+	
+	
+	/*
 	public void update(Reserva r) throws SQLException, AppDataException{
+		datRes.update(r);
+	}*/
+	
+	public void updateParaCerrarRes(Reserva r) throws SQLException, AppDataException{
 		datRes.update(r);
 	}
 
