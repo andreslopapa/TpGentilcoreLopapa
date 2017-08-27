@@ -30,7 +30,10 @@ public class CtrlElementoLogic {
 		if(ele.getNombre()!=null){return dataElem.getSome(ele.getNombre(), indice,cantidad);}
 		if(ele.getTipo()!=null){return dataElem.getSome(ele.getTipo().getId(), indice,cantidad);}
 		ArrayList<Elemento> elementos= new ArrayList<Elemento>();
-		elementos.add(dataElem.getOne(ele));
+		Elemento elemento=dataElem.getOne(ele);
+		if(elemento!=null){
+			elementos.add(elemento);
+		}
 		return elementos;
 		
 	}
