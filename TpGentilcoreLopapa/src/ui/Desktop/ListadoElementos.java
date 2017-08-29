@@ -65,7 +65,7 @@ public class ListadoElementos extends Listado implements IListados{
 	private JTextField txtIndice;
 	private JLabel lblIndice;
 	private Elemento elementoActual;
-	private ABMCElemento formElemento;
+	private ABMCElementoPrueba formElemento;
     public static enum TipoBusqueda{ POR_ID("Por Id"),POR_NOMBRE("Por Nombre"),
     					     POR_TIPO("Por Tipo"),POR_NOMBRE_Y_TIPO("Por Nombre y Tipo"),
     					     TRAER_TODOS("Traer Todos");
@@ -121,6 +121,12 @@ public class ListadoElementos extends Listado implements IListados{
 		scrollPane.setBackground(Color.WHITE);
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				mapearHaciaABMCClick();
+			}
+		});
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getTableHeader().setResizingAllowed(false);
 		table.getTableHeader().setReorderingAllowed(false);
@@ -155,7 +161,7 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		
 		lblIndice = new JLabel("de xxx");
-		getContentPane().setLayout(new MigLayout("", "[8%,grow][25%][grow][][][50px:50px:50px,center][][][][25%][42%,grow]", "[25px:25px:25px][][20px:20px:20px,grow][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
+		getContentPane().setLayout(new MigLayout("", "[8%,grow][25%][grow][][][50px:50px:50px,center][][][][25%][30%,grow]", "[25px:25px:25px][][20px:20px:20px,grow][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
 		
 		txtBuscar = new JTextField();
 		txtBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -237,7 +243,7 @@ public class ListadoElementos extends Listado implements IListados{
 		desktopPane.setForeground(Color.WHITE);
 		desktopPane.setBorder(null);
 		try {
-			if(formElemento==null){formElemento=new ABMCElemento();}
+			if(formElemento==null){formElemento=new ABMCElementoPrueba();}
 			desktopPane.add(formElemento);
 			formElemento.setVisible(true);
 			formElemento.setMaximum(true);
@@ -306,6 +312,14 @@ public class ListadoElementos extends Listado implements IListados{
 
 		
 	}
+	protected void mapearHaciaABMCClick() {
+		if(table.getSelectedRowCount()!=0){
+		int indiceElemento=this.table.convertRowIndexToModel(table.getSelectedRow());
+		this.formElemento.mapearAForm(this.elementoLogic.elementos.get((indiceElemento)));
+		}
+		
+	}
+
 	public void buscarClick() {
 		
 		
