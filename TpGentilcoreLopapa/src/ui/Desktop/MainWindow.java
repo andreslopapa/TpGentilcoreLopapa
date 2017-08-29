@@ -24,8 +24,9 @@ public class MainWindow {
 	private JFrame frmSistemaDeReservas;
 	private JDesktopPane desktopPane;
 	private static ListadoElementos le;
+	
     //agregar los listados que faltan
-	public static void main(Persona per) {
+	public static void main() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

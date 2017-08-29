@@ -44,6 +44,16 @@ import javax.swing.JToolBar;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.CompoundBorder;
 
 public class ListadoElementos extends Listado implements IListados{
 	/**
@@ -145,7 +155,7 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		
 		lblIndice = new JLabel("de xxx");
-		getContentPane().setLayout(new MigLayout("", "[5%,grow][25%][][][50px:50px:50px,center][][][][25%][45%,grow]", "[20px:20px:20px][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
+		getContentPane().setLayout(new MigLayout("", "[8%,grow][25%][grow][][][50px:50px:50px,center][][][][25%][42%,grow]", "[25px:25px:25px][][20px:20px:20px,grow][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
 		
 		txtBuscar = new JTextField();
 		txtBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -154,7 +164,44 @@ public class ListadoElementos extends Listado implements IListados{
 				buscarClick();
 			}
 		});
-		getContentPane().add(txtBuscar, "cell 1 0 6 1,alignx left,aligny bottom");
+		
+		JPanel panelBarraAzulLateral = new JPanel();
+		panelBarraAzulLateral.setBackground(new Color(0, 51, 102));
+		getContentPane().add(panelBarraAzulLateral, "cell 0 1 1 6,grow");
+		
+		JLabel lblIconoListadoEles = new JLabel("");
+		lblIconoListadoEles.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/ic_devices_white_24dp_2x.png")));
+
+		//		lblUsuario.setHorizontalAlignment(JLabel.CENTER);
+//		lblUsuario.setVerticalAlignment(SwingConstants.BOTTOM);
+		panelBarraAzulLateral.setLayout(new MigLayout("", "[64px]", "[48px][24px]"));
+		panelBarraAzulLateral.add(lblIconoListadoEles, "cell 0 0,alignx center,aligny top");
+		
+		JPanel panelBarraAzulSup = new JPanel();
+		panelBarraAzulSup.setBorder(null);
+		panelBarraAzulSup.setBackground(new Color(0,51,102));
+		getContentPane().add(panelBarraAzulSup, "cell 0 0 11 2,grow");
+		JLabel lblUsuario = new JLabel("   "+Ingreso.PersonaLogueada.getCategoria()+": "+Ingreso.PersonaLogueada.getApellido()+","+Ingreso.PersonaLogueada.getNombre());
+		lblUsuario.setForeground(new Color(255, 255, 255));
+		lblUsuario.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/ic_person_pin_white_24dp_1x.png")));
+		GroupLayout gl_panelBarraAzulSup = new GroupLayout(panelBarraAzulSup);
+		gl_panelBarraAzulSup.setHorizontalGroup(
+			gl_panelBarraAzulSup.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelBarraAzulSup.createSequentialGroup()
+					.addGap(22)
+					.addComponent(lblUsuario)
+					.addContainerGap(286, Short.MAX_VALUE))
+		);
+		gl_panelBarraAzulSup.setVerticalGroup(
+			gl_panelBarraAzulSup.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panelBarraAzulSup.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(lblUsuario))
+		);
+		panelBarraAzulSup.setLayout(gl_panelBarraAzulSup);
+		
+
+		getContentPane().add(txtBuscar, "cell 1 2 8 1,alignx left,aligny top");
 		txtBuscar.setColumns(30);
 		LimitadorTxt.MaxCaracteres(45, txtBuscar);
 		
@@ -166,11 +213,11 @@ public class ListadoElementos extends Listado implements IListados{
 				buscarClick();
 			}
 		});
-		getContentPane().add(btnBuscar, "cell 1 1 2 1,alignx left,aligny top");
+		getContentPane().add(btnBuscar, "cell 1 3 3 1,alignx left,aligny top");
 		
 		cboTipoBusqueda = new JComboBox();
 		cboTipoBusqueda.setFont(new Font("Calibri", Font.PLAIN, 12));
-		getContentPane().add(cboTipoBusqueda, "cell 1 1 2 1,alignx left,aligny top");
+		getContentPane().add(cboTipoBusqueda, "cell 1 3 3 1,alignx left,aligny top");
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_ID);
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_NOMBRE);
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_TIPO);
@@ -179,11 +226,11 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		cboTipoElemento=new JComboBox();
 		this.cboTipoElemento.setSelectedIndex(-1);
-		getContentPane().add(cboTipoElemento,"cell 1 3 2 1");
+		getContentPane().add(cboTipoElemento,"cell 1 5 3 1");
 		JLabel lblTipo = new JLabel("Tipo de Elemento");
 		
 
-		getContentPane().add(lblTipo, "cell 1 2 2 1,alignx left,aligny center");
+		getContentPane().add(lblTipo, "cell 1 4 3 1,alignx left,aligny center");
 		
 		desktopPane = new JDesktopPane();
 		desktopPane.setIgnoreRepaint(true);
@@ -202,7 +249,7 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
-		getContentPane().add(toolBar, "cell 5 3 4 1,alignx right,aligny center");
+		getContentPane().add(toolBar, "cell 6 5 4 1,alignx right,aligny center");
 		
 		
 		BotonLabel btnReservar=new BotonLabel("reservar.png","reservarFocus.png","reservarApretado.png");
@@ -219,7 +266,7 @@ public class ListadoElementos extends Listado implements IListados{
 		toolBar.add(btnAgregar);
 		toolBar.add(btnEditar);
 		toolBar.add(btnBorrar);
-		getContentPane().add(desktopPane, "cell 9 4,grow");
+		getContentPane().add(desktopPane, "cell 10 6,grow");
 		
 //		JRadioButton rdbtnId = new JRadioButton("Por Id");
 //		getContentPane().add(rdbtnId, "flowx,cell 1 1,alignx left,aligny center");
@@ -245,11 +292,11 @@ public class ListadoElementos extends Listado implements IListados{
 
 		
 		
-		getContentPane().add(txtIndice, "cell 4 5,alignx right,aligny center");
-		getContentPane().add(lblIndice, "cell 6 5,alignx left,aligny center");
-		getContentPane().add(btnAnterior, "cell 1 5,alignx right,aligny center");
-		getContentPane().add(btnSiguiente, "cell 8 5,alignx left,aligny center");
-		getContentPane().add(scrollPane, "cell 1 4 8 1,grow");
+		getContentPane().add(txtIndice, "cell 5 7,alignx right,aligny center");
+		getContentPane().add(lblIndice, "cell 7 7,alignx left,aligny center");
+		getContentPane().add(btnAnterior, "cell 3 7,alignx right,aligny center");
+		getContentPane().add(btnSiguiente, "cell 9 7,alignx left,aligny center");
+		getContentPane().add(scrollPane, "cell 1 6 9 1,grow");
 		
 		this.indiceActual=1;
 		txtIndice.setText(String.valueOf(indiceActual));

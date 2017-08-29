@@ -24,7 +24,7 @@ public class Ingreso {
 	private JTextField txtUsuario;
 	private CtrlPersonaLogic UsuLogic;
 	private JPasswordField pwfContrasenia;
-	
+	public static Persona PersonaLogueada;
 	/**
 	 * Launch the application.
 	 */
@@ -134,7 +134,8 @@ public class Ingreso {
 			if(usu!=null){
 				if(usu.isHabilitado()==true){
 					//JOptionPane.showMessageDialog(frmLogin, "Usuario encontrado", "", JOptionPane.INFORMATION_MESSAGE);
-					MainWindow.main(usu);
+					Ingreso.PersonaLogueada=usu;
+					MainWindow.main();
 					frmLogin.dispose();
 					//frmLogin.dispatchEvent(new WindowEvent(frmLogin, WindowEvent.WINDOW_CLOSING));
 				}else{
