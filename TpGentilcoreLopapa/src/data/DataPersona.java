@@ -86,20 +86,23 @@ public class DataPersona{
 
 	
 	public void delete(Persona p) throws SQLException,AppDataException{	/////////////preguntar si baja logica o baja fisica///////////////////////
-		PreparedStatement pstmt = null;
-		
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
 		try {
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(
-					"delete from reserva where id_persona=?;"
-					+ "delete from persona where dni=?;");
-			pstmt.setString(2,p.getDni());
-			pstmt.setInt(1, p.getId());
-			pstmt.executeUpdate();
+			pstmt1=FactoryConexion.getInstancia().getConn().prepareStatement(
+					"delete from reserva where id_persona=?;");
+			pstmt1.setInt(1, p.getId());
+			pstmt1.executeUpdate();
+			pstmt2=FactoryConexion.getInstancia().getConn().prepareStatement("delete from persona where dni=?;");
+			pstmt2.setString(1,p.getDni());
+			pstmt2.executeUpdate();
+			
 		} catch (SQLException sqlex) {
 			throw new AppDataException(sqlex, "Error al cerrar conexion o statement");
 		}
 		finally{
-			if(pstmt!=null){pstmt.close();}
+			if(pstmt1!=null){pstmt1.close();}
+			if(pstmt2!=null){pstmt2.close();}
 			FactoryConexion.getInstancia().releaseConn();
 		}
 	}

@@ -180,21 +180,24 @@ public class DataTipoDeElemento {
 	}
 	
 	public void delete(TipoDeElemento te)throws SQLException,AppDataException{
-		PreparedStatement pstmt=null;
+		PreparedStatement pstmt1=null;
+		PreparedStatement pstmt2=null;
 		try{
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "delete from cat_tip where id_tipodeelemento=?;"
-					+ "delete from tipodeelemento where id_tipodeelemento=?;");
-			pstmt.setInt(1, te.getId());
-			pstmt.setInt(2, te.getId());
-			pstmt.executeUpdate();
+			pstmt1=FactoryConexion.getInstancia().getConn().prepareStatement(""
+					+ "delete from cat_tip where id_tipodeelemento=?;");
+			pstmt1.setInt(1, te.getId());
+			pstmt1.executeUpdate();
+			pstmt2=FactoryConexion.getInstancia().getConn().prepareStatement("delete from tipodeelemento where id_tipodeelemento=?;");
+			pstmt2.setInt(1, te.getId());
+			pstmt2.executeUpdate();
 		}
 		catch(SQLException sqlex){
 			throw new AppDataException(sqlex,"Error al borrar tipo de elemento");
 		}
 		finally{
 			try{
-				if(pstmt!=null){pstmt.close();}
+				if(pstmt1!=null){pstmt1.close();}
+				if(pstmt2!=null){pstmt2.close();}
 				FactoryConexion.getInstancia().releaseConn();
 			}
 			catch(SQLException sqlex){
