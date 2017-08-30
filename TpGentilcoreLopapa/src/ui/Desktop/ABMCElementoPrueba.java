@@ -366,6 +366,11 @@ public class ABMCElementoPrueba extends ABMC {
 			this.lblGestionDeElementos.setText("Elemento");
 			this.accion=Action.OTHER;
 			this.limpiarTextoElemento();
+			try {
+				ListadoElementos.getInstancia().Actualiza();
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 

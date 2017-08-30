@@ -70,7 +70,7 @@ public class DataElemento {
 										+ "select* from elemento e "
 										+ "inner join tipodeelemento te "
 										+ "on e.id_tipodeelemento=te.id_tipodeelemento "
-										+ "where e.nombre is null "
+										+ "where e.nombre is null || e.nombre='' "
 										+ "limit ?,?");
 								pstmt.setInt(1, indice);
 								pstmt.setInt(2, cantTraer);
@@ -107,7 +107,7 @@ public class DataElemento {
 							+ "select* from elemento e "
 							+ "inner join tipodeelemento te "
 							+ "on e.id_tipodeelemento=te.id_tipodeelemento "
-							+ "where e.nombre is null and e.id_tipodeelemento=? "
+							+ "where (e.nombre is null || e.nombre='') and e.id_tipodeelemento=? "
 							+ "limit ?,?");
 					pstmt.setInt(1, idTipoele);
 					pstmt.setInt(2, indice);
