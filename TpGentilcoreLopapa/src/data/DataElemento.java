@@ -144,7 +144,7 @@ public class DataElemento {
 					ele.setNombre(res.getString("nombre"));
 					TipoDeElemento te=new TipoDeElemento();
 					te.setId(res.getInt("id_tipodeelemento"));
-					te.setNombre(res.getString("nombre"));
+					te.setNombre(res.getString("te.nombre"));
 					te.setCant_max_res_pen(res.getInt("cantmaxrespen"));
 					te.setLimite_horas_res(res.getInt("limite_horas_res"));
 					te.setDias_max_anticipacion(res.getInt("dias_max_anticipacion"));
@@ -660,21 +660,24 @@ public class DataElemento {
 	}
 	
 	public void delete(Elemento ele)throws SQLException,AppDataException{
-		PreparedStatement pstmt=null;
+		PreparedStatement pstmt1=null;
+		PreparedStatement pstmt2=null;
 		try{
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "delete from reserva where id_elemento=?;"
-					+ "delete from elemento where id_elemento=?");
-			pstmt.setInt(1, ele.getId_elemento());
-			pstmt.setInt(2, ele.getId_elemento());
-			pstmt.executeUpdate();
+			pstmt1=FactoryConexion.getInstancia().getConn().prepareStatement(""
+					+ "delete from reserva where id_elemento=?;");
+			pstmt1.setInt(1, ele.getId_elemento());
+			pstmt1.executeUpdate();
+			pstmt2=FactoryConexion.getInstancia().getConn().prepareStatement("delete from elemento where id_elemento=?");
+			pstmt2.setInt(1, ele.getId_elemento());
+			pstmt2.executeUpdate();
 		}
 		catch(SQLException sqlex){
 			throw new AppDataException(sqlex,"Error al borrar elemento");
 		}
 		finally{
 			try{
-				if(pstmt!=null){pstmt.close();}
+				if(pstmt1!=null){pstmt1.close();}
+				if(pstmt2!=null){pstmt2.close();}
 				FactoryConexion.getInstancia().releaseConn();
 			}
 			catch(SQLException sqlex){

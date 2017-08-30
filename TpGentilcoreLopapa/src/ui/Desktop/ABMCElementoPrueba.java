@@ -44,16 +44,15 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JScrollBar;
 
-public class ABMCElementoPrueba extends JInternalFrame {
+public class ABMCElementoPrueba extends ABMC {
 	
 	CtrlElementoLogic ctrElemLogic = new CtrlElementoLogic();
 	CtrlTipoDeElementoLogic ctrTdELogic = new CtrlTipoDeElementoLogic();
 
 	private JPanel contentPane;
-	private JTextField textIdElemento;
 	private JTextField textNombreElemento;
-	private JLabel lblGestinDeElementos;
-	private JLabel lblId;
+	private JLabel lblGestionDeElementos;
+	private JLabel lblIdTitulo;
 	private JLabel lblNombre;
 	private JLabel lblTipo;
 	private JComboBox cboTipoElemento;
@@ -69,13 +68,34 @@ public class ABMCElementoPrueba extends JInternalFrame {
 	private JTextField textLimiteHoras;
 	private JLabel lblDasDeAnticipacin;
 	private JTextField textDiasDeAnticipacion;
+	private Action accion;
+	private JLabel lblId;
+	private JButton btnAceptar;
 //	private JLabel lblUpdateTipoElemento;
 //	private JLabel lblCreateTipoElemento;
 	//private JLabel lblBuscar_TipoElemento;
+	private JButton btnCancelar;
 
-	/**
-	 * Launch the application.
-	 */
+	private static ABMCElementoPrueba instancia=null;
+	
+	public static ABMCElementoPrueba getInstancia(Action qAccion){
+		if(instancia==null){
+				try {
+					instancia=new ABMCElementoPrueba();
+				} 
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null,e.getMessage());
+				}
+			}
+		try{
+		instancia.preparaInstancia(qAccion);}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		}
+		return instancia;
+	}
+	
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -94,8 +114,61 @@ public class ABMCElementoPrueba extends JInternalFrame {
 	/**
 	 * Create the frame.
 	 */
+	public void preparaInstancia(Action qAccion)throws Exception{
+		this.accion=qAccion;
+		switch(accion){
+			case DELETE:btnAceptar.setVisible(true);
+						btnCancelar.setVisible(true);
+						btnAceptar.setText("Borrar");
+						this.lblGestionDeElementos.setText("Borrar Elemento");
+						break;
+			case UPDATE:btnAceptar.setVisible(true);
+						btnCancelar.setVisible(true);
+						btnAceptar.setText("Guardar");
+						this.lblGestionDeElementos.setText("Modificar Elemento");
+						break;
+			case ADD:
+				    this.limpiarTextoElemento();
+					btnAceptar.setVisible(true);
+					btnCancelar.setVisible(true);
+					btnAceptar.setText("Guardar");
+					this.lblGestionDeElementos.setText("Agregar Elemento");
+					break;
+			case OTHER:
+			default:this.lblGestionDeElementos.setText("Elemento");break;
+		}
+	}
+	
+	public ABMCElementoPrueba(Action qAccion)throws Exception{
+		//this();esto llama al constructor grandote
+		//this()=ABMCElementoPrueba.getInstancia();
+		this.accion=qAccion;
+		switch(accion){
+			case DELETE:btnAceptar.setVisible(true);
+						btnCancelar.setVisible(true);
+						btnAceptar.setText("Borrar");
+						this.lblGestionDeElementos.setText("Borrar Elemento");
+						break;
+			case UPDATE:btnAceptar.setVisible(true);
+						btnCancelar.setVisible(true);
+						btnAceptar.setText("Guardar");
+						this.lblGestionDeElementos.setText("Modificar Elemento");
+						break;
+			case ADD:
+				    this.limpiarTextoElemento();
+					btnAceptar.setVisible(true);
+					btnCancelar.setVisible(true);
+					btnAceptar.setText("Guardar");
+					this.lblGestionDeElementos.setText("Agregar Elemento");
+					break;
+			case OTHER:
+			default:this.lblGestionDeElementos.setText("Elemento");break;
+		}
+	}
+	
 	public ABMCElementoPrueba()throws Exception{
 		
+		this.accion=Action.OTHER;
 		this.setTitle("Sistema de gesti\u00F3n de reservas");
 		//this.setIconImage(Toolkit.getDefaultToolkit().getImage(ABMCElemento.class.getResource("/ui/Desktop/cropped-3w2-web-dominios-hosting.png")));
 		this.setBackground(Color.WHITE);
@@ -126,17 +199,13 @@ public class ABMCElementoPrueba extends JInternalFrame {
 					.addGap(48))
 		);
 		
-		lblGestinDeElementos = new JLabel("Elemento");
-		lblGestinDeElementos.setHorizontalAlignment(SwingConstants.LEFT);
-		lblGestinDeElementos.setFont(new Font("Calibri", Font.BOLD, 18));
+		lblGestionDeElementos = new JLabel("Elemento");
+		lblGestionDeElementos.setHorizontalAlignment(SwingConstants.LEFT);
+		lblGestionDeElementos.setFont(new Font("Calibri", Font.BOLD, 18));
 		
-		lblId = new JLabel("ID");
-		lblId.setToolTipText("El ID s\u00F3lo es para busqueda, al crear se asignar\u00E1 uno nuevo automaticamente");
-		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		textIdElemento = new JTextField();
-		textIdElemento.setToolTipText("El ID s\u00F3lo es para busqueda, al crear se asignar\u00E1 uno nuevo automaticamente");
-		textIdElemento.setColumns(10);
+		lblIdTitulo = new JLabel("ID:");
+		lblIdTitulo.setToolTipText("El ID s\u00F3lo es para busqueda, al crear se asignar\u00E1 uno nuevo automaticamente");
+		lblIdTitulo.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		textNombreElemento = new JTextField();
 		textNombreElemento.setColumns(10);
@@ -150,9 +219,22 @@ public class ABMCElementoPrueba extends JInternalFrame {
 		
 		cboTipoElemento = new JComboBox();
 		
-		JButton btnAceptar = new JButton("Aceptar");
+		btnAceptar = new JButton("Aceptar");
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AccionarClick();
+			}
+		});
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cancelarClick();
+			}
+		});
+		btnAceptar.setVisible(false);
+		btnCancelar.setVisible(false);
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		lblId = new JLabel("");
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.TRAILING)
@@ -161,34 +243,37 @@ public class ABMCElementoPrueba extends JInternalFrame {
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblId, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+								.addComponent(lblIdTitulo, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
 								.addComponent(lblNombre, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 							.addGap(10))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addComponent(lblTipo, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)))
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+							.addGroup(gl_panel_1.createSequentialGroup()
+								.addComponent(btnAceptar)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(btnCancelar)
+								.addContainerGap())
+							.addGroup(gl_panel_1.createSequentialGroup()
+								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+									.addComponent(lblGestionDeElementos)
+									.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+									.addComponent(cboTipoElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
+								.addGap(53)))
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addComponent(btnAceptar)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnCancelar)
-							.addContainerGap())
-						.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblGestinDeElementos)
-								.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-								.addComponent(cboTipoElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textIdElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
-							.addGap(53))))
+							.addComponent(lblId))))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addComponent(lblGestinDeElementos)
+					.addComponent(lblGestionDeElementos)
 					.addGap(33)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblId, GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
-						.addComponent(textIdElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblIdTitulo, GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
+						.addComponent(lblId))
 					.addGap(17)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNombre)
@@ -256,6 +341,36 @@ public class ABMCElementoPrueba extends JInternalFrame {
 	}
 
 	
+	protected void cancelarClick() {
+		this.btnAceptar.setVisible(false);
+		this.btnCancelar.setVisible(false);
+		this.lblGestionDeElementos.setText("Elemento");
+		this.accion=Action.OTHER;
+		this.limpiarTextoElemento();
+		
+	}
+
+
+
+	protected void AccionarClick() {
+		boolean resultado=false;
+		switch(accion){
+		case ADD:resultado=clickAgregar();break;
+		case UPDATE:resultado=clickModificar();break;
+		case DELETE:resultado=clickEliminar();break;
+		default:break;
+		}
+		if(resultado){
+			this.btnAceptar.setVisible(false);
+			this.btnCancelar.setVisible(false);
+			this.lblGestionDeElementos.setText("Elemento");
+			this.accion=Action.OTHER;
+			this.limpiarTextoElemento();
+		}
+	}
+
+
+
 	private void cargarListas(){
 		try {
 			this.cboTipoElemento.setModel(new DefaultComboBoxModel(ctrElemLogic.getTipoDeElemento().toArray()));
@@ -267,48 +382,104 @@ public class ABMCElementoPrueba extends JInternalFrame {
 		}
 	}
 	
-	protected void clickBuscarElemento() throws Exception{
-		try {
-			if(textIdElemento.getText().length() >0){
-			this.mapearAForm(ctrElemLogic.getOne(this.mapearDeForm()));
-			}else{
-			JOptionPane.showMessageDialog(this, "Debe ingresar un elemento a buscar", "", JOptionPane.INFORMATION_MESSAGE);
-			}
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
-			//JOptionPane.showMessageDialog(this, "No se pudo encontrar el elemento", "", JOptionPane.WARNING_MESSAGE);
-
-		}
-	}
+//	protected void clickBuscarElemento() throws Exception{
+//		try {
+//			if(textIdElemento.getText().length() >0){
+//			this.mapearAForm(ctrElemLogic.getOne(this.mapearDeForm()));
+//			}else{
+//			JOptionPane.showMessageDialog(this, "Debe ingresar un elemento a buscar", "", JOptionPane.INFORMATION_MESSAGE);
+//			}
+//		} catch (Exception e) {
+//			JOptionPane.showMessageDialog(this, e.getMessage());
+//			//JOptionPane.showMessageDialog(this, "No se pudo encontrar el elemento", "", JOptionPane.WARNING_MESSAGE);
+//
+//		}
+//	}
 	
 	
 	private Elemento mapearDeForm(){
 		Elemento e = new Elemento();		
 		//if(!this.textIdElemento.getText().isEmpty()){
-		if(Campo.Valida(this.textIdElemento.getText(), Campo.tipo.ID)){
-			e.setId_elemento(Integer.parseInt(this.textIdElemento.getText()));
+		//if(Campo.Valida(this.textIdElemento.getText(), Campo.tipo.ID)){
+		
+			if(lblId.isVisible() && !lblId.getText().isEmpty()){e.setId_elemento(Integer.parseInt(lblId.getText()));}
 			e.setNombre(this.textNombreElemento.getText());
 			if (this.cboTipoElemento.getSelectedIndex() != -1){
 				e.setTipo((TipoDeElemento) this.cboTipoElemento.getSelectedItem());
 			}
 			else{
 				JOptionPane.showMessageDialog(null, "Seleccione un tipo por favor");
+				return null;
 			}
-		}
+		
 		return e;
 	}
 
+	protected boolean clickAgregar(){
+		try {		
+						
+			Elemento ele=this.mapearDeForm();
+			if(ele!=null){
+				ctrElemLogic.add(this.mapearDeForm());
+				JOptionPane.showMessageDialog(null, "Elemento guardado correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+			    return true;
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error elemento no agregado\n"+e.getMessage());
+		}
+		return false;
+	}
+	
+	
+	protected boolean clickModificar(){
+		try {
+			Elemento ele=this.mapearDeForm();
+			if(ele!=null){
+				ctrElemLogic.update(ele);
+				JOptionPane.showMessageDialog(null, "Elemento actualizado", "", JOptionPane.INFORMATION_MESSAGE);
+				return true;
+				}
+			}
+		catch(Exception e) {
+			limpiarTextoElemento();
+			JOptionPane.showMessageDialog(null, e.getMessage());}
+		return false;
+		} 
+	
+	
+	
+	private boolean clickEliminar(){
+		try {
+			Elemento ele=this.mapearDeForm();
+			if(ele!=null){
+				ctrElemLogic.delete(ele);
+				JOptionPane.showMessageDialog(null, "Elemento eliminado", "", JOptionPane.INFORMATION_MESSAGE);
+				return true;
+				}
+			} catch (Exception e) {
+			limpiarTextoElemento();
+			JOptionPane.showMessageDialog(null, e.getMessage());}
+		return false;
+	}
 	
 	public void mapearAForm(Elemento e){
-		this.textIdElemento.setText(Integer.toString((e.getId_elemento())));
-		this.textNombreElemento.setText(e.getNombre());
-		if (e.getTipo()!=null){
-			this.cboTipoElemento.setSelectedItem((TipoDeElemento) e.getTipo());
-		}
+		if(e!=null){
+			if(accion==Action.OTHER){
+				this.lblId.setVisible(true);
+				this.lblId.setText(Integer.toString((e.getId_elemento())));
+				this.textNombreElemento.setText(e.getNombre());
+				if (e.getTipo()!=null){
+					this.cboTipoElemento.setSelectedItem((TipoDeElemento) e.getTipo());
+					}
+				}
+			}
+		else{
+			this.limpiarTextoElemento();
+			}
 	}
 	
 	private void limpiarTextoElemento(){
-		this.textIdElemento.setText("");
+		lblId.setVisible(false);
 		this.textNombreElemento.setText("");
 		cboTipoElemento.setSelectedIndex(-1);
 	}

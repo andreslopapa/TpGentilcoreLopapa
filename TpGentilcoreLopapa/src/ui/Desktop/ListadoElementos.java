@@ -32,6 +32,7 @@ import net.miginfocom.swing.MigLayout;
 import tools.BotonLabel;
 import tools.Campo;
 import tools.LimitadorTxt;
+import ui.Desktop.ABMC.Action;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -242,16 +243,7 @@ public class ListadoElementos extends Listado implements IListados{
 		desktopPane.setIgnoreRepaint(true);
 		desktopPane.setForeground(Color.WHITE);
 		desktopPane.setBorder(null);
-		try {
-			if(formElemento==null){formElemento=new ABMCElementoPrueba();}
-			desktopPane.add(formElemento);
-			formElemento.setVisible(true);
-			formElemento.setMaximum(true);
-			
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Error al tratar de insertar la ventana interna de elementos\n"+e.getMessage(),
-					"Error",JOptionPane.ERROR_MESSAGE);
-		}
+		abrirVentanaElemento(ABMC.Action.OTHER);
 		
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
@@ -259,12 +251,36 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		
 		BotonLabel btnReservar=new BotonLabel("reservar.png","reservarFocus.png","reservarApretado.png");
+		btnReservar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+			}
+		});
 		btnReservar.setToolTipText("Reservar/Sacar Reserva");
 		BotonLabel btnAgregar=new BotonLabel("Agregar.png","AgregarFocus.png","AgregarApretado.png");
+		btnAgregar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				abrirVentanaElemento(ABMC.Action.ADD);
+			}
+		});
 		btnAgregar.setToolTipText("Agregar");
 		BotonLabel btnEditar=new BotonLabel("Editar.png","EditarFocus.png","EditarApretado.png");
+		btnEditar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				abrirVentanaElemento(Action.UPDATE);
+			}
+		});
 		btnEditar.setToolTipText("Editar");
 		BotonLabel btnBorrar=new BotonLabel("Borrar.png","BorrarFocus.png","BorrarApretado.png");
+		btnBorrar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				abrirVentanaElemento(Action.DELETE);
+			}
+		});
 		btnBorrar.setToolTipText("Eliminar");
 
 		
@@ -311,6 +327,25 @@ public class ListadoElementos extends Listado implements IListados{
 		this.Actualiza();
 
 		
+	}
+
+	private void abrirVentanaElemento(ABMC.Action accion) {
+		try {
+//			if(formElemento==null){
+			
+			formElemento=ABMCElementoPrueba.getInstancia(accion);
+				
+			
+//					}
+			desktopPane.remove(formElemento);
+			desktopPane.add(formElemento);
+			formElemento.setVisible(true);
+			formElemento.setMaximum(true);
+			
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error al tratar de insertar la ventana interna de elementos\n"+e.getMessage(),
+					"Error",JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	protected void mapearHaciaABMCClick() {
 		if(table.getSelectedRowCount()!=0){
@@ -389,7 +424,15 @@ public class ListadoElementos extends Listado implements IListados{
 			this.elementoLogic.elementos=elementoLogic.getSome(tipoBusquedaActual,elementoActual,(indiceActual-1)*FilasTabla,FilasTabla);//esto cambiarlo
 		    this.lblIndice.setText("de "+String.valueOf(cantidadIndices));
 		    initDataBindings();
-		    if(!this.elementoLogic.elementos.isEmpty()){table.setRowSelectionInterval(0,0);}
+		    if(!this.elementoLogic.elementos.isEmpty()){
+		    	table.setRowSelectionInterval(0,0);
+		    	int indiceElemento=this.table.convertRowIndexToModel(table.getSelectedRow());
+				this.formElemento.mapearAForm(this.elementoLogic.elementos.get((indiceElemento)));
+		    	
+		    }
+		    else{
+		    	this.formElemento.mapearAForm(null);
+		    }
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, "Error al actualizar datos\n"+ex.getMessage(), 
 					"Error", JOptionPane.ERROR_MESSAGE);
