@@ -125,7 +125,8 @@ public class ListadoElementos extends Listado implements IListados{
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				mapearHaciaABMCClick();
+				if(formElemento.getAccion()==Action.OTHER){
+				mapearHaciaABMCClick();}
 			}
 		});
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -168,6 +169,7 @@ public class ListadoElementos extends Listado implements IListados{
 		txtBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
 		txtBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				buscarClick();
 			}
 		});
@@ -188,7 +190,7 @@ public class ListadoElementos extends Listado implements IListados{
 		panelBarraAzulSup.setBorder(null);
 		panelBarraAzulSup.setBackground(new Color(0,51,102));
 		getContentPane().add(panelBarraAzulSup, "cell 0 0 11 2,grow");
-		JLabel lblUsuario = new JLabel("   "+Ingreso.PersonaLogueada.getCategoria()+": "+Ingreso.PersonaLogueada.getApellido()+","+Ingreso.PersonaLogueada.getNombre());
+		JLabel lblUsuario = new JLabel(">>>"+Ingreso.PersonaLogueada.getCategoria()+": "+Ingreso.PersonaLogueada.getApellido()+","+Ingreso.PersonaLogueada.getNombre());
 		lblUsuario.setForeground(new Color(255, 255, 255));
 		lblUsuario.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/ic_person_pin_white_24dp_1x.png")));
 		GroupLayout gl_panelBarraAzulSup = new GroupLayout(panelBarraAzulSup);
@@ -333,10 +335,11 @@ public class ListadoElementos extends Listado implements IListados{
 		try {
 //			if(formElemento==null){
 			
+			this.mapearHaciaABMCClick();
 			formElemento=ABMCElementoPrueba.getInstancia(accion);
-				
+							
+//			}
 			
-//					}
 			desktopPane.remove(formElemento);
 			desktopPane.add(formElemento);
 			formElemento.setVisible(true);

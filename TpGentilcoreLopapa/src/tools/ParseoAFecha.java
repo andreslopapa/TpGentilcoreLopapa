@@ -2,6 +2,9 @@ package tools;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.swing.JOptionPane;
+
 import java.text.ParseException;
 
 
@@ -15,13 +18,14 @@ public class ParseoAFecha {
             try {
 				fechaDate = formato.parse(fecha);
 			} catch (Exception e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Error al intentar formatear fecha\n"+e.getMessage());
 			}
             
         return fechaDate;
     }
     
     //LO ESTABA PROBANDO PARA PARSEAR FECHAS, POR EL MOMENTO NO LO UTILICE (2017/08/26)
+    //vengo del futuro alberto,parsea la fecha o produciras un agujero en el espacio-tiempo
 	
 	
 }

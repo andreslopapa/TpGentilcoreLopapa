@@ -708,4 +708,30 @@ public class DataElemento {
 		}
 	}
 	
+	public int getMaxId()throws SQLException,AppDataException{
+		int id=-1;
+		Statement stmt=null;
+		ResultSet res=null;
+		try{
+			stmt=FactoryConexion.getInstancia().getConn().createStatement();
+			res=stmt.executeQuery("select max(id_elemento) from elemento;");
+			if(res.next() && res!=null){
+				id=res.getInt(1);
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al buscar el Id mas grande entre los elementos\n"+sqlex.getMessage());
+		}
+		finally{
+			try{
+			if(stmt!=null){stmt.close();}
+			if(res!=null){stmt.close();}
+			FactoryConexion.getInstancia().releaseConn();}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,sqlex.getMessage());
+			}
+		}
+		return id;
+		
+	}
 }

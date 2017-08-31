@@ -128,7 +128,7 @@ public class ABMCElementoPrueba extends ABMC {
 						this.lblGestionDeElementos.setText("Modificar Elemento");
 						break;
 			case ADD:
-				    this.limpiarTextoElemento();
+				    this.lblId.setText(String.valueOf(ctrElemLogic.getMaxId()+1));
 					btnAceptar.setVisible(true);
 					btnCancelar.setVisible(true);
 					btnAceptar.setText("Guardar");
@@ -139,32 +139,32 @@ public class ABMCElementoPrueba extends ABMC {
 		}
 	}
 	
-	public ABMCElementoPrueba(Action qAccion)throws Exception{
-		//this();esto llama al constructor grandote
-		//this()=ABMCElementoPrueba.getInstancia();
-		this.accion=qAccion;
-		switch(accion){
-			case DELETE:btnAceptar.setVisible(true);
-						btnCancelar.setVisible(true);
-						btnAceptar.setText("Borrar");
-						this.lblGestionDeElementos.setText("Borrar Elemento");
-						break;
-			case UPDATE:btnAceptar.setVisible(true);
-						btnCancelar.setVisible(true);
-						btnAceptar.setText("Guardar");
-						this.lblGestionDeElementos.setText("Modificar Elemento");
-						break;
-			case ADD:
-				    this.limpiarTextoElemento();
-					btnAceptar.setVisible(true);
-					btnCancelar.setVisible(true);
-					btnAceptar.setText("Guardar");
-					this.lblGestionDeElementos.setText("Agregar Elemento");
-					break;
-			case OTHER:
-			default:this.lblGestionDeElementos.setText("Elemento");break;
-		}
-	}
+//	public ABMCElementoPrueba(Action qAccion)throws Exception{
+//		//this();esto llama al constructor grandote
+//		//this()=ABMCElementoPrueba.getInstancia();
+//		this.accion=qAccion;
+//		switch(accion){
+//			case DELETE:btnAceptar.setVisible(true);
+//						btnCancelar.setVisible(true);
+//						btnAceptar.setText("Borrar");
+//						this.lblGestionDeElementos.setText("Borrar Elemento");
+//						break;
+//			case UPDATE:btnAceptar.setVisible(true);
+//						btnCancelar.setVisible(true);
+//						btnAceptar.setText("Guardar");
+//						this.lblGestionDeElementos.setText("Modificar Elemento");
+//						break;
+//			case ADD:
+//				    this.limpiarTextoElemento();
+//					btnAceptar.setVisible(true);
+//					btnCancelar.setVisible(true);
+//					btnAceptar.setText("Guardar");
+//					this.lblGestionDeElementos.setText("Agregar Elemento");
+//					break;
+//			case OTHER:
+//			default:this.lblGestionDeElementos.setText("Elemento");break;
+//		}
+//	}
 	
 	public ABMCElementoPrueba()throws Exception{
 		
@@ -250,27 +250,28 @@ public class ABMCElementoPrueba extends ABMC {
 							.addComponent(lblTipo, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)))
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-							.addGroup(gl_panel_1.createSequentialGroup()
-								.addComponent(btnAceptar)
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(btnCancelar)
-								.addContainerGap())
-							.addGroup(gl_panel_1.createSequentialGroup()
-								.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-									.addComponent(lblGestionDeElementos)
-									.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-									.addComponent(cboTipoElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
-								.addGap(53)))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addComponent(btnAceptar)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnCancelar))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cboTipoElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
+							.addGap(53))
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblId))))
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblGestionDeElementos)
+								.addComponent(lblId))))
+					.addGap(37))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(27)
 					.addComponent(lblGestionDeElementos)
-					.addGap(33)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblIdTitulo, GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
 						.addComponent(lblId))
@@ -282,7 +283,7 @@ public class ABMCElementoPrueba extends ABMC {
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(cboTipoElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblTipo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(23)
+					.addGap(26)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnAceptar)
 						.addComponent(btnCancelar))
@@ -469,14 +470,14 @@ public class ABMCElementoPrueba extends ABMC {
 	
 	public void mapearAForm(Elemento e){
 		if(e!=null){
-			if(accion==Action.OTHER){
+//			if(accion==Action.OTHER){
 				this.lblId.setVisible(true);
 				this.lblId.setText(Integer.toString((e.getId_elemento())));
 				this.textNombreElemento.setText(e.getNombre());
 				if (e.getTipo()!=null){
 					this.cboTipoElemento.setSelectedItem((TipoDeElemento) e.getTipo());
 					}
-				}
+//				}
 			}
 		else{
 			this.limpiarTextoElemento();
@@ -487,5 +488,15 @@ public class ABMCElementoPrueba extends ABMC {
 		lblId.setVisible(false);
 		this.textNombreElemento.setText("");
 		cboTipoElemento.setSelectedIndex(-1);
+	}
+
+
+	public Action getAccion() {
+		return accion;
+	}
+
+
+	public void setAccion(Action accion) {
+		this.accion = accion;
 	}
 }

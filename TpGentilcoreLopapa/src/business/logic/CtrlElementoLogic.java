@@ -25,6 +25,9 @@ public class CtrlElementoLogic {
 		return dataElem.getAll();
 	}
 	
+	public int getMaxId()throws Exception{
+		return dataElem.getMaxId();
+	}
 	public ArrayList<Elemento> getSome(ListadoElementos.TipoBusqueda tipob,Elemento ele,int indice,int cantidad)throws Exception{
 //		if(ele==null){return dataElem.getSome(indice, cantidad);}
 //		if(ele.getNombre()!=null && ele.getTipo()!=null){
