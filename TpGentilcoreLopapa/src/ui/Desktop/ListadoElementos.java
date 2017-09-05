@@ -212,7 +212,7 @@ public class ListadoElementos extends Listado implements IListados{
 
 		getContentPane().add(txtBuscar, "cell 1 2 8 1,alignx left,aligny top");
 		txtBuscar.setColumns(30);
-		LimitadorTxt.MaxCaracteres(45, txtBuscar);
+		LimitadorTxt.MaxCaracteres(LimitadorTxt.Campo.ELENOM, txtBuscar);
 		
 		//ImageIcon buscarIcon=new ImageIcon(ListadoElementos.class.getResource("buscar.png"));
 		JButton btnBuscar = new JButton("Buscar",null);

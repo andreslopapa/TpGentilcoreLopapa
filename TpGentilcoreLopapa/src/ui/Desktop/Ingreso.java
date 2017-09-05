@@ -77,7 +77,7 @@ public class Ingreso {
 				loguea();
 			}
 		});
-		LimitadorTxt.MaxCaracteres(20, txtUsuario);
+		LimitadorTxt.MaxCaracteres(LimitadorTxt.Campo.PERUSUARIO, txtUsuario);
 		txtUsuario.setBounds(161, 86, 168, 19);
 		
 		fondo.add(txtUsuario);
@@ -111,7 +111,7 @@ public class Ingreso {
 				loguea();
 			}
 		});
-		LimitadorTxt.MaxCaracteres(20, pwfContrasenia);
+		LimitadorTxt.MaxCaracteres(LimitadorTxt.Campo.PERPASS, pwfContrasenia);
 		pwfContrasenia.setBounds(162, 132, 167, 19);
 		fondo.add(pwfContrasenia);
 		
