@@ -128,6 +128,8 @@ public class ABMCElementoPrueba extends ABMC {
 						this.lblGestionDeElementos.setText("Modificar Elemento");
 						break;
 			case ADD:
+				    this.limpiarTextoElemento();
+				    this.lblId.setVisible(true);
 				    this.lblId.setText(String.valueOf(ctrElemLogic.getMaxId()+1));
 					btnAceptar.setVisible(true);
 					btnCancelar.setVisible(true);
@@ -348,7 +350,11 @@ public class ABMCElementoPrueba extends ABMC {
 		this.lblGestionDeElementos.setText("Elemento");
 		this.accion=Action.OTHER;
 		this.limpiarTextoElemento();
-		
+		try {
+			ListadoElementos.getInstancia().mapearHaciaABMCClick();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,e.getMessage());
+		}
 	}
 
 

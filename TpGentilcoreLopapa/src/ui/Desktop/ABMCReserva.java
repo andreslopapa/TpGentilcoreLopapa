@@ -3,6 +3,8 @@ package ui.Desktop;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+
 import java.awt.Color;
 import java.awt.Toolkit;
 
@@ -46,7 +48,7 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ABMCReserva {
+public class ABMCReserva extends JInternalFrame{
 	
 	CtrlReservaLogic resLogic = new CtrlReservaLogic();
 
@@ -431,7 +433,7 @@ public class ABMCReserva {
 				int vmonthD = 1+dateChooserDesde.getCalendar().get(Calendar.MONTH);				//le sumo 1 porque january lo toma como 0 y explota tambien
 				int vdayD = dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH);
 				String vfechaD = vyearD + "-" + vmonthD + "-" + vdayD;
-		r.setFecha_hora_desde_solicitada(Date.valueOf(vfechaD));	//el famoso provisorio. --> En vez de estas 5 lineas de codigo, Intenté una mas linda con dateChooserHasta.getDate() como en la linea de abajo pero no me dejaba convertir de java.util.Date a java.sql.date.... Busqe y no encontre ayuda , Luego vere otra forma "mejor"
+		r.setFecha_hora_desde_solicitada(Date.valueOf(vfechaD));	//el famoso provisorio. --> En vez de estas 5 lineas de codigo, Intentï¿½ una mas linda con dateChooserHasta.getDate() como en la linea de abajo pero no me dejaba convertir de java.util.Date a java.sql.date.... Busqe y no encontre ayuda , Luego vere otra forma "mejor"
 		//r.setFecha_hora_desde_solicitada(Date.valueOf(textHasta.getText()));
 
 				int vyearH = dateChooserHasta.getCalendar().get(Calendar.YEAR);

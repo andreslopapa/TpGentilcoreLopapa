@@ -43,6 +43,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JToolBar;
 import java.awt.event.MouseMotionAdapter;
+import java.beans.PropertyVetoException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import javax.swing.JPanel;
@@ -67,6 +68,7 @@ public class ListadoElementos extends Listado implements IListados{
 	private JLabel lblIndice;
 	private Elemento elementoActual;
 	private ABMCElementoPrueba formElemento;
+	private ABMCReserva formReserva;
     public static enum TipoBusqueda{ POR_ID("Por Id"),POR_NOMBRE("Por Nombre"),
     					     POR_TIPO("Por Tipo"),POR_NOMBRE_Y_TIPO("Por Nombre y Tipo"),
     					     TRAER_TODOS("Traer Todos");
@@ -256,7 +258,7 @@ public class ListadoElementos extends Listado implements IListados{
 		btnReservar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
+				abrirVentanaReserva();
 			}
 		});
 		btnReservar.setToolTipText("Reservar/Sacar Reserva");
@@ -331,6 +333,18 @@ public class ListadoElementos extends Listado implements IListados{
 		
 	}
 
+	protected void abrirVentanaReserva() {
+		formReserva=new ABMCReserva(Ingreso.PersonaLogueada);
+		desktopPane.add(formReserva);
+		formReserva.setVisible(true);
+		try {
+			formReserva.setMaximum(true);
+		} catch (PropertyVetoException e) {
+			JOptionPane.showMessageDialog(null, "Error al intentar ingresar la ventana interna de Reserva\n"+e.getMessage());
+		}
+		
+	}
+
 	private void abrirVentanaElemento(ABMC.Action accion) {
 		try {
 //			if(formElemento==null){
@@ -339,8 +353,8 @@ public class ListadoElementos extends Listado implements IListados{
 			formElemento=ABMCElementoPrueba.getInstancia(accion);
 							
 //			}
-			
-			desktopPane.remove(formElemento);
+			desktopPane.removeAll();
+			//esktopPane.remove(formElemento);
 			desktopPane.add(formElemento);
 			formElemento.setVisible(true);
 			formElemento.setMaximum(true);
