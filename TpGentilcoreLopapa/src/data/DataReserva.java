@@ -23,17 +23,17 @@ public class DataReserva {
 					+ "insert into reserva("
 						+ " id_persona, "
 						+ " id_elemento, "
-					//	+ " fecha_hora_reserva_hecha,"
+						+ " fecha_hora_reserva_hecha,"
 						+ " fecha_hora_desde_solicitada,"
 						+ " fecha_hora_hasta_solicitada, "
-					//	+ " fecha_hora_entregado, "				//este solo se usa para cuando el administrador, o quien sea, registre que se devolvió
+					//	+ " fecha_hora_entregado, "				//este solo se usa para cuando el administrador, o quien sea, registre que se devolviï¿½
 						+ " detalle) "
-					+ "values( ?,?,?,?,?); "
+					+ "values(?,?,?,?,?,?); "
 						,PreparedStatement.RETURN_GENERATED_KEYS);
 		
 			pstmt.setInt(1,r.getPersona().getId());
 			pstmt.setInt(2, r.getElemento().getId_elemento());
-		//	pstmt.setDate(3, (java.sql.Date)r.getFecha_hora_reserva_hecha());
+			pstmt.setString(3, String.valueOf(r.getFecha_hora_reserva_hecha()));
 	
 					//el tipo cuando quiera ingresar una nueva reserva, se va a crear un nuevo registro en la BD y por lo tanto un nuevo timestamp de ese momento.
 					
@@ -42,10 +42,10 @@ public class DataReserva {
 					//pero la diferencia de tiempo que tenemos que hacer es una validacion que se hace antes que se crea la reserva.
 					//si vos la pensaste para usarla en otro momento la dejamos
 			
-			pstmt.setString(3, String.valueOf( r.getFecha_hora_desde_solicitada()));
-			pstmt.setString(4, String.valueOf( r.getFecha_hora_hasta_solicitada()));
-		//	pstmt.setDate(5, (java.sql.Date)r.getFecha_hora_entregado());     //este solo se usa para cuando el administrador, o quien sea, registre que se devolvió
-			pstmt.setString(5,r.getDetalle());
+			pstmt.setString(4, String.valueOf( r.getFecha_hora_desde_solicitada()));
+			pstmt.setString(5, String.valueOf( r.getFecha_hora_hasta_solicitada()));
+		//	pstmt.setDate(5, (java.sql.Date)r.getFecha_hora_entregado());     //este solo se usa para cuando el administrador, o quien sea, registre que se devolviï¿½
+			pstmt.setString(6,r.getDetalle());
 			pstmt.executeUpdate();							//execute= ejecuta todo      /executequery solo consultas select   /executeupdate solo add update o delete
 			keyResultSet = pstmt.getGeneratedKeys();
 			if(keyResultSet!=null && keyResultSet.next()){

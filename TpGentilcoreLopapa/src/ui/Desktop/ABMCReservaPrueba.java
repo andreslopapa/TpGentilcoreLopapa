@@ -37,6 +37,7 @@ import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 import javax.swing.ImageIcon;
@@ -394,6 +395,12 @@ public class ABMCReservaPrueba extends JInternalFrame{
 				String vfechaH = vyearH + "-" + vmonthH + "-" + vdayH;
 		r.setFecha_hora_hasta_solicitada(Date.valueOf(vfechaH));	//el famoso provisorio
 		
+		
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+		int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+		String fecha = year + "-" +month + "-" + day;
+		r.setFecha_hora_reserva_hecha(Date.valueOf(fecha));
 		r.setDetalle(this.textAreaDetalle.getText());
 		return r;
 	}
