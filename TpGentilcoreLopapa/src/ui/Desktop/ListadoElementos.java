@@ -68,7 +68,7 @@ public class ListadoElementos extends Listado implements IListados{
 	private JLabel lblIndice;
 	private Elemento elementoActual;
 	private ABMCElementoPrueba formElemento;
-	private ABMCReserva formReserva;
+	private ABMCReservaPrueba formReserva;
     public static enum TipoBusqueda{ POR_ID("Por Id"),POR_NOMBRE("Por Nombre"),
     					     POR_TIPO("Por Tipo"),POR_NOMBRE_Y_TIPO("Por Nombre y Tipo"),
     					     TRAER_TODOS("Traer Todos");
@@ -334,10 +334,12 @@ public class ListadoElementos extends Listado implements IListados{
 	}
 
 	protected void abrirVentanaReserva() {
-		formReserva=new ABMCReserva(Ingreso.PersonaLogueada);
-		desktopPane.add(formReserva);
-		formReserva.setVisible(true);
+	
 		try {
+			formReserva=new ABMCReservaPrueba(Ingreso.PersonaLogueada);
+			desktopPane.removeAll();
+			desktopPane.add(formReserva);
+			formReserva.setVisible(true);
 			formReserva.setMaximum(true);
 		} catch (PropertyVetoException e) {
 			JOptionPane.showMessageDialog(null, "Error al intentar ingresar la ventana interna de Reserva\n"+e.getMessage());

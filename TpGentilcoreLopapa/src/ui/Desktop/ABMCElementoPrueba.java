@@ -103,7 +103,7 @@ public class ABMCElementoPrueba extends ABMC {
 					ABMCElemento frame = new ABMCElemento();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
 			}
 		});
