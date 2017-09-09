@@ -66,7 +66,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	private JDateChooser dateChooserFechaFinRes;
 	private JTextField textIdReserva;
 	private JPanel panel_EditarReserva;
-	int vvisible=1;
+	int visibleClickCrearReserva=1;
 	/**
 	 * Launch the application.
 	 */
@@ -112,11 +112,11 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		btnCrearReserva.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(vvisible==1){
-				vvisible=vvisible*(-1);
+				if(visibleClickCrearReserva==1){			
+				visibleClickCrearReserva=visibleClickCrearReserva*(-1);
 				panelCrearReserva.setVisible(true);
 				}else{
-					vvisible=vvisible*(-1);
+					visibleClickCrearReserva=visibleClickCrearReserva*(-1);
 					panelCrearReserva.setVisible(false);
 
 				}

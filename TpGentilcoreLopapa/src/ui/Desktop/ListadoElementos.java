@@ -56,6 +56,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 public class ListadoElementos extends Listado implements IListados{
 	/**
@@ -77,6 +78,9 @@ public class ListadoElementos extends Listado implements IListados{
     	@Override
     	public String toString(){return texto;}}
     private TipoBusqueda tipoBusquedaActual;
+    
+	private int visibleVentanaReserva=1;			//mostrar ocultar ventana
+
 
 	/**
 	 * Launch the application.
@@ -145,14 +149,6 @@ public class ListadoElementos extends Listado implements IListados{
 			}
 		});
 		
-		JButton btnSiguiente = new JButton("");
-		btnSiguiente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				buscarXIndiceClick(txtIndice.getText(), Indice.POSTERIOR);
-			}
-		});
-		btnSiguiente.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/flechaderecha.png")));
-		
 		txtIndice = new JTextField();
 		txtIndice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -165,7 +161,7 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		
 		lblIndice = new JLabel("de xxx");
-		getContentPane().setLayout(new MigLayout("", "[8%,grow][25%][grow][][][50px:50px:50px,center][][][26.00][5.40%][30%,grow]", "[25px:25px:25px][][20px:20px:20px,grow][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
+		getContentPane().setLayout(new MigLayout("", "[3%,grow][25%][grow][][][50px:50px:50px,center][14.00][48.00][159.00][2.88%][20%,grow]", "[25px:25px:25px][][20px:20px:20px,grow][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
 		
 		txtBuscar = new JTextField();
 		txtBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -178,7 +174,7 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		JPanel panelBarraAzulLateral = new JPanel();
 		panelBarraAzulLateral.setBackground(new Color(0, 51, 102));
-		getContentPane().add(panelBarraAzulLateral, "cell 0 1 1 6,grow");
+		getContentPane().add(panelBarraAzulLateral, "cell 0 1 1 6,alignx leading,growy");
 		
 		JLabel lblIconoListadoEles = new JLabel("");
 		lblIconoListadoEles.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/ic_devices_white_24dp_2x.png")));
@@ -224,6 +220,17 @@ public class ListadoElementos extends Listado implements IListados{
 				buscarClick();
 			}
 		});
+		
+		
+		BotonLabel btnReservar=new BotonLabel("reservar.png","reservarFocus.png","reservarApretado.png");
+		getContentPane().add(btnReservar, "cell 10 2");
+		btnReservar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				abrirVentanaReserva();
+			}
+		});
+		btnReservar.setToolTipText("Reservar/Sacar Reserva");
 		getContentPane().add(btnBuscar, "cell 1 3 3 1,alignx left,aligny top");
 		
 		cboTipoBusqueda = new JComboBox();
@@ -234,6 +241,17 @@ public class ListadoElementos extends Listado implements IListados{
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_TIPO);
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_NOMBRE_Y_TIPO);
 		cboTipoBusqueda.addItem(TipoBusqueda.TRAER_TODOS);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				abrirVentanaReserva();
+			}
+		});
+		lblNewLabel.setToolTipText("Ver/Ocultar");
+		lblNewLabel.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/ic_add_shopping_cart_black_24dp_1x.png")));
+		getContentPane().add(lblNewLabel, "cell 10 4");
 		
 		cboTipoElemento=new JComboBox();
 		this.cboTipoElemento.setSelectedIndex(-1);
@@ -246,22 +264,12 @@ public class ListadoElementos extends Listado implements IListados{
 		desktopPane = new JDesktopPane();
 		desktopPane.setIgnoreRepaint(true);
 		desktopPane.setForeground(Color.WHITE);
-		desktopPane.setBorder(null);
+		desktopPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		abrirVentanaElemento(ABMC.Action.OTHER);
 		
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		getContentPane().add(toolBar, "cell 6 5 4 1,alignx right,aligny center");
-		
-		
-		BotonLabel btnReservar=new BotonLabel("reservar.png","reservarFocus.png","reservarApretado.png");
-		btnReservar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				abrirVentanaReserva();
-			}
-		});
-		btnReservar.setToolTipText("Reservar/Sacar Reserva");
 		BotonLabel btnAgregar=new BotonLabel("Agregar.png","AgregarFocus.png","AgregarApretado.png");
 		btnAgregar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -286,9 +294,6 @@ public class ListadoElementos extends Listado implements IListados{
 			}
 		});
 		btnBorrar.setToolTipText("Eliminar");
-
-		
-		toolBar.add(btnReservar);
 		toolBar.add(btnAgregar);
 		toolBar.add(btnEditar);
 		toolBar.add(btnBorrar);
@@ -321,11 +326,19 @@ public class ListadoElementos extends Listado implements IListados{
 		getContentPane().add(txtIndice, "cell 5 7,alignx right,aligny center");
 		getContentPane().add(lblIndice, "cell 7 7,alignx left,aligny center");
 		getContentPane().add(btnAnterior, "cell 3 7,alignx right,aligny center");
-		getContentPane().add(btnSiguiente, "cell 9 7,alignx left,aligny center");
 		getContentPane().add(scrollPane, "cell 1 6 8 1,grow");
 		
 		this.indiceActual=1;
 		txtIndice.setText(String.valueOf(indiceActual));
+		
+		JButton btnSiguiente = new JButton("");
+		btnSiguiente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				buscarXIndiceClick(txtIndice.getText(), Indice.POSTERIOR);
+			}
+		});
+		btnSiguiente.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/flechaderecha.png")));
+		getContentPane().add(btnSiguiente, "cell 8 7,alignx left,aligny center");
 		
 		
 		this.Actualiza();
@@ -335,6 +348,9 @@ public class ListadoElementos extends Listado implements IListados{
 
 	protected void abrirVentanaReserva() {
 	
+		if(visibleVentanaReserva==1){			
+			visibleVentanaReserva=visibleVentanaReserva*(-1);
+		visibleVentanaReserva=-1;
 		try {
 			formReserva=new ABMCReservaPrueba(Ingreso.PersonaLogueada);
 			desktopPane.removeAll();
@@ -343,6 +359,12 @@ public class ListadoElementos extends Listado implements IListados{
 			formReserva.setMaximum(true);
 		} catch (PropertyVetoException e) {
 			JOptionPane.showMessageDialog(null, "Error al intentar ingresar la ventana interna de Reserva\n"+e.getMessage());
+		}
+		}else{
+			visibleVentanaReserva=visibleVentanaReserva*(-1);
+			formReserva.setVisible(false);
+			abrirVentanaElemento(ABMC.Action.OTHER);
+
 		}
 		
 	}
