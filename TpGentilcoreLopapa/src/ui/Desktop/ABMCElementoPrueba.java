@@ -394,7 +394,7 @@ public class ABMCElementoPrueba extends ABMC {
 	}
 	
 	
-	//se buscara por listado
+	//al final buscaremos por listado,este no
 //	protected void clickBuscarElemento() throws Exception{
 //		try {
 //			if(textIdElemento.getText().length() >0){

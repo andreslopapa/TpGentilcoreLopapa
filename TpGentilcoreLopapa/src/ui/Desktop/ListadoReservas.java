@@ -103,10 +103,10 @@ public class ListadoReservas extends Listado implements IListados{
 	private JDesktopPane desktopPane;
 	
 	public static ListadoReservas getInstancia()throws Exception{
-		if(instancia==null){
+		if(ListadoReservas.instancia==null){
 			ListadoReservas.instancia=new ListadoReservas();
 		}
-		return instancia;
+		return ListadoReservas.instancia;
 	}
 	
 	public ListadoReservas() {
