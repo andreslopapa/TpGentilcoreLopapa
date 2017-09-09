@@ -359,19 +359,48 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	
 	private void clickCrearReserva(Persona pers) throws Exception, SQLException, AppDataException{
 		try {
-			resLogic.add(this.mapearDeForm(pers));
+			if(textElemento.getText().length()>0 
+				&& dateChooserDesde.getCalendar().get(Calendar.YEAR)>0 
+				&& 1+dateChooserDesde.getCalendar().get(Calendar.MONTH) >0
+				&& dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH) >0
+				&& dateChooserHasta.getCalendar().get(Calendar.YEAR)>0 
+				&& 1+dateChooserHasta.getCalendar().get(Calendar.MONTH) >0
+				&& dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH) >0
+			  ){
+				resLogic.add(this.mapearDeForm(pers));
+				JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.OK_OPTION);
+			}else{
+					JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "", JOptionPane.INFORMATION_MESSAGE);				
+				}
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, e.getMessage());
 		}		
 	}
 	
+	
+	
+	
 	private void clickModificarReserva(Persona pers) throws SQLException, AppDataException, ParseException{
 		try {
-			resLogic.updateParaCerrarRes(this.mapearDeFormFechaFin(pers));
+			if(textIdReserva.getText().length()>0
+				&& dateChooserFechaFinRes.getCalendar().get(Calendar.YEAR)>0 
+				&& 1+dateChooserFechaFinRes.getCalendar().get(Calendar.MONTH) >0
+				&& dateChooserFechaFinRes.getCalendar().get(Calendar.DAY_OF_MONTH) >0)
+				{
+				resLogic.updateParaCerrarRes(this.mapearDeFormFechaFin(pers));
+				JOptionPane.showMessageDialog(this, "Reserva finalizada", "", JOptionPane.OK_OPTION);
+
+			}else{
+				JOptionPane.showMessageDialog(this, "Debe ingresar todos los campos", "", JOptionPane.INFORMATION_MESSAGE);				
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, e.getMessage());
+
 		}
 	}
+	
+	
+	
 	
 	private Reserva mapearDeForm(Persona pers) throws ParseException{
 		Reserva r = new Reserva();
