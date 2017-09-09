@@ -161,7 +161,7 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		
 		lblIndice = new JLabel("de xxx");
-		getContentPane().setLayout(new MigLayout("", "[3%,grow][25%][grow][][][50px:50px:50px,center][14.00][48.00][159.00][2.88%][20%,grow]", "[25px:25px:25px][][20px:20px:20px,grow][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
+		getContentPane().setLayout(new MigLayout("", "[7.91%,grow][25%][grow][][][50px:50px:50px,center][14.00][48.00][159.00][2.88%][20%,grow]", "[25px:25px:25px][][20px:20px:20px,grow][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
 		
 		txtBuscar = new JTextField();
 		txtBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -188,20 +188,20 @@ public class ListadoElementos extends Listado implements IListados{
 		panelBarraAzulSup.setBorder(null);
 		panelBarraAzulSup.setBackground(new Color(0,51,102));
 		getContentPane().add(panelBarraAzulSup, "cell 0 0 11 2,grow");
-		JLabel lblUsuario = new JLabel(">>>"+Ingreso.PersonaLogueada.getCategoria()+": "+Ingreso.PersonaLogueada.getApellido()+","+Ingreso.PersonaLogueada.getNombre());
+		JLabel lblUsuario = new JLabel(Ingreso.PersonaLogueada.getCategoria()+": "+Ingreso.PersonaLogueada.getApellido()+","+Ingreso.PersonaLogueada.getNombre());
 		lblUsuario.setForeground(new Color(255, 255, 255));
 		lblUsuario.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/ic_person_pin_white_24dp_1x.png")));
 		GroupLayout gl_panelBarraAzulSup = new GroupLayout(panelBarraAzulSup);
 		gl_panelBarraAzulSup.setHorizontalGroup(
 			gl_panelBarraAzulSup.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelBarraAzulSup.createSequentialGroup()
-					.addGap(22)
+				.addGroup(Alignment.TRAILING, gl_panelBarraAzulSup.createSequentialGroup()
+					.addContainerGap(343, Short.MAX_VALUE)
 					.addComponent(lblUsuario)
-					.addContainerGap(286, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		gl_panelBarraAzulSup.setVerticalGroup(
-			gl_panelBarraAzulSup.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panelBarraAzulSup.createSequentialGroup()
+			gl_panelBarraAzulSup.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelBarraAzulSup.createSequentialGroup()
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(lblUsuario))
 		);
@@ -339,26 +339,24 @@ public class ListadoElementos extends Listado implements IListados{
 
 	protected void abrirVentanaReserva() {
 	
-		if(visibleVentanaReserva==1){			
-			visibleVentanaReserva=visibleVentanaReserva*(-1);
-		visibleVentanaReserva=-1;
-		try {
-			formReserva=new ABMCReservaPrueba(Ingreso.PersonaLogueada);
-			desktopPane.removeAll();
-			desktopPane.add(formReserva);
-			formReserva.setVisible(true);
-			formReserva.setMaximum(true);
-		} catch (PropertyVetoException e) {
-			JOptionPane.showMessageDialog(null, "Error al intentar ingresar la ventana interna de Reserva\n"+e.getMessage());
-		}
-		}else{
-			visibleVentanaReserva=visibleVentanaReserva*(-1);
-			formReserva.setVisible(false);
-			abrirVentanaElemento(ABMC.Action.OTHER);
+	//	if(visibleVentanaReserva==1){									//las validaciones y multiplicaciones por -1 es para mostrar y ocultar con el mismo boton
+	//		visibleVentanaReserva=visibleVentanaReserva*(-1);
+	//	visibleVentanaReserva=-1;
+			try {
+				formReserva=new ABMCReservaPrueba(Ingreso.PersonaLogueada);
+				desktopPane.removeAll();
+				desktopPane.add(formReserva);
+				formReserva.setVisible(true);
+				formReserva.setMaximum(true);
+			}catch (PropertyVetoException e) {
+				JOptionPane.showMessageDialog(null, "Error al intentar ingresar la ventana interna de Reserva\n"+e.getMessage());
+			}
+	//	}else{
+	//		visibleVentanaReserva=visibleVentanaReserva*(-1);
+	//		formReserva.setVisible(false);
+	//		abrirVentanaElemento(ABMC.Action.OTHER);
 
-
-
-		}
+	//	}
 		
 	}
 
@@ -368,7 +366,7 @@ public class ListadoElementos extends Listado implements IListados{
 			
 			this.mapearHaciaABMCClick();
 			formElemento=ABMCElementoPrueba.getInstancia(accion);
-							
+			
 //			}
 			desktopPane.removeAll();
 			//esktopPane.remove(formElemento);

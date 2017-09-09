@@ -7,6 +7,7 @@ import tools.FormatoEmail;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JLabel;
@@ -39,7 +40,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class ABMCPersona {
+public class ABMCPersona extends JInternalFrame{
 
 	CtrlPersonaLogic perLogic = new CtrlPersonaLogic();
 	
@@ -79,13 +80,13 @@ public class ABMCPersona {
 
 	// Initialize the contents of the frame.
 	private void initialize() throws Exception {
-		frmSistemaDeGestin = new JFrame();
+		/*frmSistemaDeGestin = new JFrame();
 		frmSistemaDeGestin.setIconImage(Toolkit.getDefaultToolkit().getImage(ABMCPersona.class.getResource("/ui/Desktop/cropped-3w2-web-dominios-hosting.png")));
 		frmSistemaDeGestin.getContentPane().setBackground(Color.WHITE);
 		frmSistemaDeGestin.setFont(new Font("Calibri", Font.PLAIN, 12));
 		frmSistemaDeGestin.setTitle("SISTEMA DE GESTI\u00D3N DE RESERVAS");
 		frmSistemaDeGestin.setBounds(100, 100, 770, 451);
-		frmSistemaDeGestin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmSistemaDeGestin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
 		
 		JLabel lblUsuario = new JLabel("Usuario");
 		lblUsuario.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -323,7 +324,7 @@ public class ABMCPersona {
 					.addGap(258)
 					.addComponent(btnGuardar))
 		);
-		frmSistemaDeGestin.getContentPane().setLayout(groupLayout);
+	//	frmSistemaDeGestin.getContentPane().setLayout(groupLayout);
 		
 		cargarListas();		
 	}

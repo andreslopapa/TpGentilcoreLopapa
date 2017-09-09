@@ -24,6 +24,7 @@ public class MainWindow {
 	private JFrame frmSistemaDeReservas;
 	private JDesktopPane desktopPane;
 	private static ListadoElementos le;
+	private static ABMCPersona abmcper;			//proxima etapa debería llamar a listado persona
 	
     //agregar los listados que faltan
 	public static void main() {
@@ -79,6 +80,12 @@ public class MainWindow {
 		mnArchivo.add(mntmListadoReservas);
 		
 		JMenuItem mntmListadoPersonas = new JMenuItem("Listado Personas");
+		mntmListadoPersonas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				listadoPersonasClick();
+			}
+
+		});
 		mnArchivo.add(mntmListadoPersonas);
 		
 		JMenuItem mntmListadoTiposElementos = new JMenuItem("Listado Tipos de Elementos");
@@ -117,17 +124,47 @@ public class MainWindow {
 			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana que lista elementos",
 					"Error",JOptionPane.ERROR_MESSAGE);
 		}
-		
-	
-		
 	}
 
+	
+	public void listadoPersonasClick(){			//proxima etapa hacer listado de personas para que quede similar a listadoelementos, en lugar de abrir una nueva ventana
+		try {
+			if(le!=null){				
+				le.setVisible(false);
+				le.setMaximum(false);
+				desktopPane.remove(le);}
+			JOptionPane.showMessageDialog(null, "Se qiuto y se llamara a pers","Error",JOptionPane.ERROR_MESSAGE);
+
+
+			if(abmcper==null){
+			abmcper = new ABMCPersona();
+		//	abmcper.main();
+			desktopPane.add(abmcper);
+			abmcper.setVisible(true);
+			abmcper.setMaximum(true);}
+
+			/*	
+			*/
+			
+			}
+		 
+		catch(PropertyVetoException e){
+			JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		}
+		catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana de Personas",
+					"Error",JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	
+	
 	protected void salirClick() {
 		
-		frmSistemaDeReservas.dispose();
-		
-		
-		
+		frmSistemaDeReservas.dispose();		
 	}
 
+	
+	
+	
 }
