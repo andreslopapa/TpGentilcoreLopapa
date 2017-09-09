@@ -66,6 +66,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	private JDateChooser dateChooserFechaFinRes;
 	private JTextField textIdReserva;
 	private JPanel panel_EditarReserva;
+	int vvisible=1;
 	/**
 	 * Launch the application.
 	 */
@@ -111,7 +112,14 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		btnCrearReserva.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				if(vvisible==1){
+				vvisible=vvisible*(-1);
 				panelCrearReserva.setVisible(true);
+				}else{
+					vvisible=vvisible*(-1);
+					panelCrearReserva.setVisible(false);
+
+				}
 			}
 		});
 		
@@ -141,19 +149,16 @@ public class ABMCReservaPrueba extends JInternalFrame{
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblGestionarReservas)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 288, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)))
-							.addGap(45)
+								.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE))
+							.addGap(119)
 							.addComponent(panel_EditarReserva, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(btnCrearReserva)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnCerrarReserva)
-								.addGap(12)
-								.addComponent(btnCancelarSolicitud))))
-					.addContainerGap(85, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnCerrarReserva)
+							.addGap(12)
+							.addComponent(btnCancelarSolicitud)))
+					.addContainerGap(127, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -169,7 +174,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 						.addComponent(btnCancelarSolicitud)
 						.addComponent(btnCrearReserva)
 						.addComponent(btnCerrarReserva))
-					.addContainerGap(62, Short.MAX_VALUE))
+					.addContainerGap(63, Short.MAX_VALUE))
 		);
 		
 		textIdReserva = new JTextField();
@@ -284,57 +289,45 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		GroupLayout gl_panelCrearReserva = new GroupLayout(panelCrearReserva);
 		gl_panelCrearReserva.setHorizontalGroup(
 			gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelCrearReserva.createSequentialGroup()
-					.addGap(22)
-					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(gl_panelCrearReserva.createSequentialGroup()
-							.addComponent(lblElemento)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(textElemento))
-						.addGroup(gl_panelCrearReserva.createSequentialGroup()
-							.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblHasta)
-								.addComponent(lblDesde, GroupLayout.PREFERRED_SIZE, 44, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-								.addComponent(dateChooserDesde, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-								.addComponent(dateChooserHasta, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-						.addGroup(gl_panelCrearReserva.createSequentialGroup()
-							.addComponent(lblDetalle, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnSolicitarReserva)
-								.addComponent(textAreaDetalle, 0, 0, Short.MAX_VALUE))))
-					.addContainerGap(94, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_panelCrearReserva.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblElemento, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+						.addComponent(lblHasta, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+						.addComponent(lblDesde, GroupLayout.PREFERRED_SIZE, 56, Short.MAX_VALUE)
+						.addComponent(lblDetalle, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnSolicitarReserva)
+						.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING, false)
+							.addComponent(textAreaDetalle, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+							.addComponent(textElemento, Alignment.LEADING)
+							.addComponent(dateChooserHasta, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(dateChooserDesde, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)))
+					.addGap(103))
 		);
 		gl_panelCrearReserva.setVerticalGroup(
 			gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelCrearReserva.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblElemento)
+						.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(12)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelCrearReserva.createSequentialGroup()
-							.addGap(14)
-							.addComponent(lblElemento))
-						.addGroup(gl_panelCrearReserva.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addGap(11)
-					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-						.addComponent(dateChooserDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblDesde))
-					.addGap(11)
+						.addComponent(lblDesde, Alignment.TRAILING)
+						.addComponent(dateChooserDesde, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 						.addComponent(dateChooserHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblHasta))
-					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelCrearReserva.createSequentialGroup()
-							.addGap(11)
-							.addComponent(lblDetalle))
-						.addGroup(gl_panelCrearReserva.createSequentialGroup()
-							.addGap(10)
-							.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(18)
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblDetalle))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnSolicitarReserva)
-					.addGap(30))
+					.addGap(25))
 		);
 		panelCrearReserva.setVisible(false);
 		panelCrearReserva.setLayout(gl_panelCrearReserva);

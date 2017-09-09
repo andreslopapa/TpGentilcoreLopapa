@@ -16,23 +16,28 @@ values
 
 insert into tipodeelemento(nombre,cantmaxrespen,limite_horas_res,dias_max_anticipacion)
 values
-('electronico',3,72,8),
-('ropa',10,72,15),
-('inmueble',4,24,30),
-('vehiculo',2,48,30);
+('Electronico',3,72,8),
+('Ropa',10,72,15),
+('Inmueble',4,24,30),
+('Vehiculo',2,48,30);
 
 
 insert into elemento(nombre,id_tipodeelemento)
 values
-('computadora',1),('servidor',1),('plotter',1),('camara',1),
-('jeen',2),('corbata',2),('saco',2),('pantalon',2),('traje',2),('zapatos',2),('vestido',2),
-('canchita de futbol',3),('salon de eventos',3),('quinta',3),
-('auto deportivo',4),('auto familiar',4),('triciclo',4),('panzer',4),('moto',4);
+('Computadora',1),('Servidor',1),('Plotter',1),('Camara',1),
+('Jeen',2),('Corbata',2),('Saco',2),('Pantalon',2),('Traje',2),('Zapatos',2),('Vestido',2),
+('Canchita de futbol',3),('Salon de eventos',3),('Quinta',3),
+('Auto deportivo',4),('Auto familiar',4),('Triciclo',4),('Panzer',4),('Moto',4);
 
 
-insert into reserva(id_persona, id_elemento, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) 
+--ejemplo reserva no entregada
+insert into reserva(id_persona, id_elemento,fecha_hora_reserva_hecha, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) 
 values
-(2,3,20170820,20170824,'Se entregó con raya superior');
+(2,3,20170810,20170820,20170824,'Se entregó con raya superior');
+--ejemplo reserva entregada
+insert into reserva(id_persona, id_elemento,fecha_hora_reserva_hecha, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,fecha_hora_entregado, detalle) 
+values
+(2,3,20170810,20170820,20170824,20170824,'Se entregó con raya superior');
 
 
 

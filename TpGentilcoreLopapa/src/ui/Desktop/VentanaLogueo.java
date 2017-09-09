@@ -175,11 +175,11 @@ private void loguearse(String usuario, String pass){
 		Persona user = UsuLogic.getLoggedUser(usuario, pass);
 		if(user!=null){
 			if(user.isHabilitado()==true){		
-			ABMCReserva.main(user);			//le paso el usuario que se acaba de loguear para que  lo pueda utilizar ABMCReservaRicar
-			frmLogin.dispose();
-				
-			//	MainWindow.main(user);
-			//	frmLogin.dispose();
+			//ABMCReserva.main(user);			//le paso el usuario que se acaba de loguear para que  lo pueda utilizar ABMCReservaRicar
+		//	frmLogin.dispose();
+				Ingreso.PersonaLogueada=user;
+				MainWindow.main();
+				frmLogin.dispose();
 		}else{
 			JOptionPane.showMessageDialog(frmLogin, "Usuario no Habilitado", "", JOptionPane.WARNING_MESSAGE);
 			}

@@ -165,7 +165,7 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		
 		lblIndice = new JLabel("de xxx");
-		getContentPane().setLayout(new MigLayout("", "[8%,grow][25%][grow][][][50px:50px:50px,center][][][][25%][30%,grow]", "[25px:25px:25px][][20px:20px:20px,grow][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
+		getContentPane().setLayout(new MigLayout("", "[8%,grow][25%][grow][][][50px:50px:50px,center][][][26.00][5.40%][30%,grow]", "[25px:25px:25px][][20px:20px:20px,grow][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
 		
 		txtBuscar = new JTextField();
 		txtBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -292,7 +292,7 @@ public class ListadoElementos extends Listado implements IListados{
 		toolBar.add(btnAgregar);
 		toolBar.add(btnEditar);
 		toolBar.add(btnBorrar);
-		getContentPane().add(desktopPane, "cell 10 6,grow");
+		getContentPane().add(desktopPane, "cell 9 6 2 1,grow");
 		
 //		JRadioButton rdbtnId = new JRadioButton("Por Id");
 //		getContentPane().add(rdbtnId, "flowx,cell 1 1,alignx left,aligny center");
@@ -322,7 +322,7 @@ public class ListadoElementos extends Listado implements IListados{
 		getContentPane().add(lblIndice, "cell 7 7,alignx left,aligny center");
 		getContentPane().add(btnAnterior, "cell 3 7,alignx right,aligny center");
 		getContentPane().add(btnSiguiente, "cell 9 7,alignx left,aligny center");
-		getContentPane().add(scrollPane, "cell 1 6 9 1,grow");
+		getContentPane().add(scrollPane, "cell 1 6 8 1,grow");
 		
 		this.indiceActual=1;
 		txtIndice.setText(String.valueOf(indiceActual));
