@@ -393,6 +393,8 @@ public class ABMCElementoPrueba extends ABMC {
 		}
 	}
 	
+	
+	//se buscara por listado
 //	protected void clickBuscarElemento() throws Exception{
 //		try {
 //			if(textIdElemento.getText().length() >0){
