@@ -220,17 +220,6 @@ public class ListadoElementos extends Listado implements IListados{
 				buscarClick();
 			}
 		});
-		
-		
-		BotonLabel btnReservar=new BotonLabel("reservar.png","reservarFocus.png","reservarApretado.png");
-		getContentPane().add(btnReservar, "cell 10 2");
-		btnReservar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				abrirVentanaReserva();
-			}
-		});
-		btnReservar.setToolTipText("Reservar/Sacar Reserva");
 		getContentPane().add(btnBuscar, "cell 1 3 3 1,alignx left,aligny top");
 		
 		cboTipoBusqueda = new JComboBox();
@@ -241,17 +230,6 @@ public class ListadoElementos extends Listado implements IListados{
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_TIPO);
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_NOMBRE_Y_TIPO);
 		cboTipoBusqueda.addItem(TipoBusqueda.TRAER_TODOS);
-		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				abrirVentanaReserva();
-			}
-		});
-		lblNewLabel.setToolTipText("Ver/Ocultar");
-		lblNewLabel.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/ic_add_shopping_cart_black_24dp_1x.png")));
-		getContentPane().add(lblNewLabel, "cell 10 4");
 		
 		cboTipoElemento=new JComboBox();
 		this.cboTipoElemento.setSelectedIndex(-1);
@@ -270,6 +248,16 @@ public class ListadoElementos extends Listado implements IListados{
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		getContentPane().add(toolBar, "cell 6 5 4 1,alignx right,aligny center");
+		
+		
+		BotonLabel btnReservar=new BotonLabel("reservar.png","reservarFocus.png","reservarApretado.png");
+		btnReservar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				abrirVentanaReserva();
+			}
+		});
+		btnReservar.setToolTipText("Reservar/Sacar Reserva");
 		BotonLabel btnAgregar=new BotonLabel("Agregar.png","AgregarFocus.png","AgregarApretado.png");
 		btnAgregar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -294,6 +282,9 @@ public class ListadoElementos extends Listado implements IListados{
 			}
 		});
 		btnBorrar.setToolTipText("Eliminar");
+
+		
+		toolBar.add(btnReservar);
 		toolBar.add(btnAgregar);
 		toolBar.add(btnEditar);
 		toolBar.add(btnBorrar);
@@ -364,6 +355,8 @@ public class ListadoElementos extends Listado implements IListados{
 			visibleVentanaReserva=visibleVentanaReserva*(-1);
 			formReserva.setVisible(false);
 			abrirVentanaElemento(ABMC.Action.OTHER);
+
+
 
 		}
 		
