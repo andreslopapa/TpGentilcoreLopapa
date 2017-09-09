@@ -68,6 +68,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	private JTextField textIdReserva;
 	private JPanel panel_EditarReserva;
 	int visibleClickCrearReserva=1;
+	int visibleClickEditarReserva=1;
 	/**
 	 * Launch the application.
 	 */
@@ -88,31 +89,31 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	 * Create the application.
 	 */
 	public ABMCReservaPrueba(Persona per) {									//parametro
+
 		this.resLogic = new CtrlReservaLogic();
 		initialize(per);		
-		JOptionPane.showMessageDialog(null, "se abrio");//parametro
 		//cargarPersona(per);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(Persona per) {								//parametro
+	private void initialize(Persona per) {
+		setBorder(null);											
+		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null); //estas dos ultimas lineas quitan bordes y titulo
 		
-		
-		setTitle("Sistema de gesti\u00F3n de reservas");
 		getContentPane().setBackground(Color.WHITE);
 		
 		JLabel lblGestionarReservas = new JLabel("Gestionar Reserva");
-		lblGestionarReservas.setFont(new Font("Calibri", Font.BOLD, 20));
+		lblGestionarReservas.setFont(new Font("Calibri", Font.BOLD, 19));
 		
 		JPanel panelCrearReserva = new JPanel();
 		panelCrearReserva.setBackground(Color.WHITE);
 		
 		JButton btnCrearReserva = new JButton("");
-		btnCrearReserva.addMouseListener(new MouseAdapter() {
+		btnCrearReserva.addMouseListener(new MouseAdapter() {				
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseClicked(MouseEvent arg0) {					//multiplica por -1 para mostrar/ocultar. 
 				if(visibleClickCrearReserva==1){			
 				visibleClickCrearReserva=visibleClickCrearReserva*(-1);
 				panelCrearReserva.setVisible(true);
@@ -127,15 +128,21 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		btnCrearReserva.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Agregar.png")));
 		
 		JButton btnCerrarReserva = new JButton("");
-		btnCerrarReserva.addMouseListener(new MouseAdapter() {
+		btnCerrarReserva.addMouseListener(new MouseAdapter() {				
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				panel_EditarReserva.setVisible(true);
+			public void mouseClicked(MouseEvent arg0) {					//multiplica por -1 para mostrar/ocultar. 
+				if(visibleClickEditarReserva==1){			
+					visibleClickEditarReserva=visibleClickEditarReserva*(-1);
+					panel_EditarReserva.setVisible(true);
+				}else{
+					visibleClickEditarReserva=visibleClickEditarReserva*(-1);
+					panel_EditarReserva.setVisible(false);
+				}
 			}
 		});
 		btnCerrarReserva.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Editar.png")));
 		
-		JButton btnCancelarSolicitud = new JButton("Cancelar Solicitud ");
+		JButton btnCancelarSolicitud = new JButton("");
 		btnCancelarSolicitud.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Borrar.png")));
 		
 		panel_EditarReserva = new JPanel();
@@ -145,37 +152,38 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
+								.addComponent(panel_EditarReserva, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(41)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblGestionarReservas)
-								.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE))
-							.addGap(119)
-							.addComponent(panel_EditarReserva, GroupLayout.PREFERRED_SIZE, 299, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnCrearReserva)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnCerrarReserva)
-							.addGap(12)
-							.addComponent(btnCancelarSolicitud)))
-					.addContainerGap(127, Short.MAX_VALUE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnCrearReserva, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnCerrarReserva, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnCancelarSolicitud, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)))))
+					.addContainerGap(548, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(46)
+					.addGap(17)
 					.addComponent(lblGestionarReservas)
-					.addGap(12)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(panel_EditarReserva, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 249, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnCancelarSolicitud)
-						.addComponent(btnCrearReserva)
-						.addComponent(btnCerrarReserva))
-					.addContainerGap(63, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnCancelarSolicitud, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnCerrarReserva, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnCrearReserva, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 249, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(panel_EditarReserva, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
 		);
 		
 		textIdReserva = new JTextField();
@@ -189,7 +197,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		JLabel lblFinReserva = new JLabel("Fin reserva ");
 		lblFinReserva.setHorizontalAlignment(SwingConstants.RIGHT);
 		
-		JButton btnActualizar = new JButton("Actualizar");
+		JButton btnActualizar = new JButton("Cerrar reserva");
 		btnActualizar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -210,19 +218,18 @@ public class ABMCReservaPrueba extends JInternalFrame{
 			gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_EditarReserva.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_EditarReserva.createSequentialGroup()
 							.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textIdReserva, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED))
-						.addGroup(Alignment.LEADING, gl_panel_EditarReserva.createSequentialGroup()
+							.addComponent(textIdReserva, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
+						.addGroup(gl_panel_EditarReserva.createSequentialGroup()
 							.addComponent(lblFinReserva, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
-								.addComponent(btnActualizar)
-								.addComponent(dateChooserFechaFinRes, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))))
-					.addGap(102))
+								.addComponent(dateChooserFechaFinRes, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+								.addComponent(btnActualizar))))
+					.addGap(30))
 		);
 		gl_panel_EditarReserva.setVerticalGroup(
 			gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
@@ -237,7 +244,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 						.addComponent(dateChooserFechaFinRes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(btnActualizar)
-					.addContainerGap(101, Short.MAX_VALUE))
+					.addContainerGap(15, Short.MAX_VALUE))
 		);
 		panel_EditarReserva.setVisible(false);
 		panel_EditarReserva.setLayout(gl_panel_EditarReserva);
@@ -377,19 +384,20 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		e.setId_elemento(Integer.parseInt(this.textElemento.getText()));
 		r.setElemento(e);
 		
-				int vyearD = dateChooserDesde.getCalendar().get(Calendar.YEAR);
-				int vmonthD = 1+dateChooserDesde.getCalendar().get(Calendar.MONTH);				//le sumo 1 porque january lo toma como 0 y explota tambien
-				int vdayD = dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH);
-				String vfechaD = vyearD + "-" + vmonthD + "-" + vdayD;
-		r.setFecha_hora_desde_solicitada(Date.valueOf(vfechaD));	//el famoso provisorio. --> En vez de estas 5 lineas de codigo, Intent� una mas linda con dateChooserHasta.getDate() como en la linea de abajo pero no me dejaba convertir de java.util.Date a java.sql.date.... Busqe y no encontre ayuda , Luego vere otra forma "mejor"
+				int yearD = dateChooserDesde.getCalendar().get(Calendar.YEAR);
+				int monthD = 1+dateChooserDesde.getCalendar().get(Calendar.MONTH);				//le sumo 1 xq inicia el mes en cero (january lo toma como 0)
+				int dayD = dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH);
+				String fechaD = yearD + "-" + monthD + "-" + dayD;
+		r.setFecha_hora_desde_solicitada(Date.valueOf(fechaD));	//el famoso provisorio. --> En vez de estas 5 lineas de codigo, Intent� una mas linda con dateChooserHasta.getDate() como en la linea de abajo pero no me dejaba convertir de java.util.Date a java.sql.date.... Busqe y no encontre ayuda , Luego vere otra forma "mejor"
 		//r.setFecha_hora_desde_solicitada(Date.valueOf(textHasta.getText()));
 
-				int vyearH = dateChooserHasta.getCalendar().get(Calendar.YEAR);
-				int vmonthH = 1+dateChooserHasta.getCalendar().get(Calendar.MONTH);
-				int vdayH = dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH);
-				String vfechaH = vyearH + "-" + vmonthH + "-" + vdayH;
-		r.setFecha_hora_hasta_solicitada(Date.valueOf(vfechaH));	//el famoso provisorio
+				int yearH = dateChooserHasta.getCalendar().get(Calendar.YEAR);
+				int monthH = 1+dateChooserHasta.getCalendar().get(Calendar.MONTH);
+				int dayH = dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH);
+				String fechaH = yearH + "-" + monthH + "-" + dayH;
+		r.setFecha_hora_hasta_solicitada(Date.valueOf(fechaH));	//el famoso provisorio
 		
+
 	
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		int month = Calendar.getInstance().get(Calendar.MONTH)+1;
@@ -403,6 +411,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		r.setFecha_hora_reserva_hecha(formatter.parse(new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())));
 		JOptionPane.showMessageDialog(null, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()));
+
 		r.setDetalle(this.textAreaDetalle.getText());
 		return r;
 	}
@@ -417,7 +426,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		r.setPersona(pers);	
 	
 				int vyearE = dateChooserFechaFinRes.getCalendar().get(Calendar.YEAR);
-				int vmonthE = 1+dateChooserFechaFinRes.getCalendar().get(Calendar.MONTH);				//le sumo 1 porque january lo toma como 0 y explota tambien
+				int vmonthE = 1+dateChooserFechaFinRes.getCalendar().get(Calendar.MONTH);				//le sumo 1 xq inicia el mes en cero (january lo toma como 0) 
 				int vdayE = dateChooserFechaFinRes.getCalendar().get(Calendar.DAY_OF_MONTH);
 				String vfechaE = vyearE + "-" + vmonthE + "-" + vdayE;
 		r.setFecha_hora_entregado(Date.valueOf(vfechaE));			

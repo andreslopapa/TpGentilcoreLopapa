@@ -24,6 +24,7 @@ public class MainWindow {
 	private JFrame frmSistemaDeReservas;
 	private JDesktopPane desktopPane;
 	private static ListadoElementos le;
+	private static ABMCPersona abmcper;			//proxima etapa deber�a llamar a listado persona
 	
     //agregar los listados que faltan
 	public static void main() {
@@ -63,7 +64,7 @@ public class MainWindow {
 		JMenuBar menuBar = new JMenuBar();
 		frmSistemaDeReservas.setJMenuBar(menuBar);
 		
-		JMenu mnArchivo = new JMenu("Archivo");
+		JMenu mnArchivo = new JMenu("Inicio");
 		menuBar.add(mnArchivo);
 		
 		JMenuItem mntmListadoElementos = new JMenuItem("Listado Elementos");
@@ -78,16 +79,23 @@ public class MainWindow {
 		JMenuItem mntmListadoReservas = new JMenuItem("Listado Reservas");
 		mnArchivo.add(mntmListadoReservas);
 		
-		JMenuItem mntmListadoPersonas = new JMenuItem("Listado Personas");
-		mnArchivo.add(mntmListadoPersonas);
-		
+	
 		JMenuItem mntmListadoTiposElementos = new JMenuItem("Listado Tipos de Elementos");
 		mnArchivo.add(mntmListadoTiposElementos);
 		
 		JMenuItem mntmListadoCategorias = new JMenuItem("Listado Categorias");
 		mnArchivo.add(mntmListadoCategorias);
 		
-		JMenuItem mntmCambiarPass = new JMenuItem("Cambiar Contraseña");
+		JMenuItem mntmListadoPersonas = new JMenuItem("Administrar usuarios");
+		mntmListadoPersonas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				listadoPersonasClick();
+			}
+
+		});
+		mnArchivo.add(mntmListadoPersonas);
+		
+		JMenuItem mntmCambiarPass = new JMenuItem("Cambiar Contrase�a");
 		mnArchivo.add(mntmCambiarPass);
 		
 		JMenuItem mntmSalir = new JMenuItem("Salir");
@@ -102,32 +110,52 @@ public class MainWindow {
 	}
 
 	public void listadoElementosClick() {
-	    
 		try {
-			if(le==null){
+			desktopPane.removeAll();
 			le = ListadoElementos.getInstancia();
 			desktopPane.add(le);
 			le.setVisible(true);
-			le.setMaximum(true);}
+			le.setMaximum(true);
 		} 
+		catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana que lista elementos\n"+
+		                                e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		}
+		
+	}
+
+	
+	
+	public void listadoPersonasClick(){			//proxima etapa hacer listado de personas para que quede similar a listadoelementos
+		
+
+		try {
+			desktopPane.removeAll();
+							abmcper = new ABMCPersona();
+						//	abmcper.main();
+							desktopPane.add(abmcper);
+							abmcper.setVisible(true);
+							abmcper.setMaximum(true);
+							
+			
+			}		 
 		catch(PropertyVetoException e){
 			JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}
 		catch (Exception e1) {
-			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana que lista elementos",
+			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana de Personas",
 					"Error",JOptionPane.ERROR_MESSAGE);
 		}
-		
-	
-		
 	}
-
+	
+	
+	
 	protected void salirClick() {
 		
-		frmSistemaDeReservas.dispose();
-		
-		
-		
+		frmSistemaDeReservas.dispose();		
 	}
 
+	
+	
+	
 }

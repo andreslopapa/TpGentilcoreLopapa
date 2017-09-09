@@ -169,9 +169,10 @@ public class ABMCElementoPrueba extends ABMC {
 //	}
 	
 	public ABMCElementoPrueba()throws Exception{
+		setBorder(null);
+		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
 		
 		this.accion=Action.OTHER;
-		this.setTitle("Sistema de gesti\u00F3n de reservas");
 		//this.setIconImage(Toolkit.getDefaultToolkit().getImage(ABMCElemento.class.getResource("/ui/Desktop/cropped-3w2-web-dominios-hosting.png")));
 		this.setBackground(Color.WHITE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -358,7 +359,6 @@ public class ABMCElementoPrueba extends ABMC {
 	}
 
 
-
 	protected void AccionarClick() {
 		boolean resultado=false;
 		switch(accion){
@@ -382,7 +382,6 @@ public class ABMCElementoPrueba extends ABMC {
 	}
 
 
-
 	private void cargarListas(){
 		try {
 			this.cboTipoElemento.setModel(new DefaultComboBoxModel(ctrElemLogic.getTipoDeElemento().toArray()));
@@ -394,6 +393,8 @@ public class ABMCElementoPrueba extends ABMC {
 		}
 	}
 	
+	
+	//se buscara por listado
 //	protected void clickBuscarElemento() throws Exception{
 //		try {
 //			if(textIdElemento.getText().length() >0){
