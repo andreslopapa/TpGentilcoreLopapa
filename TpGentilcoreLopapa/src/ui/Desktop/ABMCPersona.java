@@ -139,7 +139,7 @@ public class ABMCPersona extends JInternalFrame{
 		lblCategoria.setFont(new Font("Calibri", Font.PLAIN, 14));
 
 		
-		JLabel lblGestinDeNuevo = new JLabel("Nuevo usuario");
+		JLabel lblGestinDeNuevo = new JLabel("Gesti\u00F3n de Usuarios");
 		lblGestinDeNuevo.setForeground(new Color(0, 51, 102));
 		lblGestinDeNuevo.setFont(new Font("Calibri", Font.BOLD, 18));
 		

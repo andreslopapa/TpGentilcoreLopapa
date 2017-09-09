@@ -64,7 +64,7 @@ public class MainWindow {
 		JMenuBar menuBar = new JMenuBar();
 		frmSistemaDeReservas.setJMenuBar(menuBar);
 		
-		JMenu mnArchivo = new JMenu("Archivo");
+		JMenu mnArchivo = new JMenu("Inicio");
 		menuBar.add(mnArchivo);
 		
 		JMenuItem mntmListadoElementos = new JMenuItem("Listado Elementos");
@@ -79,7 +79,14 @@ public class MainWindow {
 		JMenuItem mntmListadoReservas = new JMenuItem("Listado Reservas");
 		mnArchivo.add(mntmListadoReservas);
 		
-		JMenuItem mntmListadoPersonas = new JMenuItem("Listado Personas");
+	
+		JMenuItem mntmListadoTiposElementos = new JMenuItem("Listado Tipos de Elementos");
+		mnArchivo.add(mntmListadoTiposElementos);
+		
+		JMenuItem mntmListadoCategorias = new JMenuItem("Listado Categorias");
+		mnArchivo.add(mntmListadoCategorias);
+		
+		JMenuItem mntmListadoPersonas = new JMenuItem("Administrar usuarios");
 		mntmListadoPersonas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				listadoPersonasClick();
@@ -88,13 +95,7 @@ public class MainWindow {
 		});
 		mnArchivo.add(mntmListadoPersonas);
 		
-		JMenuItem mntmListadoTiposElementos = new JMenuItem("Listado Tipos de Elementos");
-		mnArchivo.add(mntmListadoTiposElementos);
-		
-		JMenuItem mntmListadoCategorias = new JMenuItem("Listado Categorias");
-		mnArchivo.add(mntmListadoCategorias);
-		
-		JMenuItem mntmCambiarPass = new JMenuItem("Cambiar ContraseÃ±a");
+		JMenuItem mntmCambiarPass = new JMenuItem("Cambiar Contraseña");
 		mnArchivo.add(mntmCambiarPass);
 		
 		JMenuItem mntmSalir = new JMenuItem("Salir");
@@ -109,7 +110,7 @@ public class MainWindow {
 	}
 
 	public void listadoElementosClick() {
-		try {									//este bloque de try/catch estaba probando borrar el anterior
+		try {									//este bloque de try/catch cierra/muestra abmcpersona.
 			if(abmcper!=null){				
 				abmcper.setVisible(false);
 				abmcper.setMaximum(false);
@@ -117,15 +118,12 @@ public class MainWindow {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "No se pudo cerrar ventana de persona",	"Error",JOptionPane.ERROR_MESSAGE);
 		}
-		
 		try {
 			if(le==null){
 			le = ListadoElementos.getInstancia();
 			desktopPane.add(le);
 			le.setVisible(true);
-			le.setMaximum(true);}
-			
-	
+			le.setMaximum(true);}	
 		} 
 		catch(PropertyVetoException e){
 			JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
@@ -136,9 +134,9 @@ public class MainWindow {
 	}
 
 	
+	
 	public void listadoPersonasClick(){			//proxima etapa hacer listado de personas para que quede similar a listadoelementos
-
-				try {
+				try {							//este bloque de try/catch cierra/muestra el ventana de listado de elementos.
 					if(le!=null){				
 						le.setVisible(false);
 						le.setMaximum(false);
