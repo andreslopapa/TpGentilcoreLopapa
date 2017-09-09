@@ -21,9 +21,9 @@ public class CtrlElementoLogic {
 		elementos=new ArrayList<Elemento>();
 	}
 	
-	public ArrayList<Elemento> getAll()throws Exception{
-		return dataElem.getAll();
-	}
+//	public ArrayList<Elemento> getAll()throws Exception{
+//		return dataElem.getAll();
+//	}
 	
 	public int getMaxId()throws Exception{
 		return dataElem.getMaxId();

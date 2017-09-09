@@ -3,6 +3,7 @@ package data;
 import java.util.ArrayList;
 import java.sql.*;
 import business.entities.Elemento;
+import business.entities.Reserva;
 import business.entities.TipoDeElemento;
 import tools.AppDataException;
 import ui.Desktop.ListadoElementos;
@@ -11,40 +12,40 @@ public class DataElemento {
 	//id_elemento, nombre, tipo
 	
 
-	public ArrayList<Elemento> getAll() throws SQLException, AppDataException{
-		Statement stmt = null;
-		ResultSet rs=null;
-		ArrayList<Elemento> elems= new ArrayList<Elemento>(); 
-		DataTipoDeElemento dtde = new DataTipoDeElemento();	
-		
-		try {
-			stmt = FactoryConexion.getInstancia().getConn().createStatement();
-			rs = stmt.executeQuery("select* from elemento");
-			if(rs!=null){
-				while(rs.next()){
-					Elemento el = new Elemento();
-					el.setNombre(rs.getString("nombre"));
-					el.setId_elemento(rs.getInt("id_elemento"));
-					int idTipEl = rs.getInt("id_tipodeelemento");
-					el.setTipo(dtde.getOne(idTipEl));
-					elems.add(el);				
-				}
-			}
-		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex, "Error al recuperar todos los elementos");
-		}
-		finally{
-				try {
-					if(rs!=null) rs.close();
-					if(stmt!=null) stmt.close();
-					FactoryConexion.getInstancia().releaseConn();
-				} catch (SQLException sqlex) {
-					throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement (Clase: DataElemento)");
-				}		
-		}
-		return elems;	
-	}
-	
+//	public ArrayList<Elemento> getAll() throws SQLException, AppDataException{
+//		Statement stmt = null;
+//		ResultSet rs=null;
+//		ArrayList<Elemento> elems= new ArrayList<Elemento>(); 
+//		DataTipoDeElemento dtde = new DataTipoDeElemento();	
+//		
+//		try {
+//			stmt = FactoryConexion.getInstancia().getConn().createStatement();
+//			rs = stmt.executeQuery("select* from elemento");
+//			if(rs!=null){
+//				while(rs.next()){
+//					Elemento el = new Elemento();
+//					el.setNombre(rs.getString("nombre"));
+//					el.setId_elemento(rs.getInt("id_elemento"));
+//					int idTipEl = rs.getInt("id_tipodeelemento");
+//					el.setTipo(dtde.getOne(idTipEl));
+//					elems.add(el);				
+//				}
+//			}
+//		} catch (SQLException sqlex) {
+//			throw new AppDataException(sqlex, "Error al recuperar todos los elementos");
+//		}
+//		finally{
+//				try {
+//					if(rs!=null) rs.close();
+//					if(stmt!=null) stmt.close();
+//					FactoryConexion.getInstancia().releaseConn();
+//				} catch (SQLException sqlex) {
+//					throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement (Clase: DataElemento)");
+//				}		
+//		}
+//		return elems;	
+//	}
+//	
 	public ArrayList<Elemento> getSome(ListadoElementos.TipoBusqueda tipob,Elemento elemento,int indice,int cantTraer)throws SQLException,AppDataException{
 		PreparedStatement pstmt=null;
 		ResultSet res=null;
@@ -55,6 +56,7 @@ public class DataElemento {
 			case POR_ID:
 						pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 						+ "select* from elemento e "
+						//+"left join reserva r on e.id_elemento=r.id_elemento "
 						+ "inner join tipodeelemento te "
 						+ "on e.id_tipodeelemento=te.id_tipodeelemento "
 						+ "where e.id_elemento=? "
@@ -68,6 +70,7 @@ public class DataElemento {
 							if(nombre==null || nombre.isEmpty()){
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 										+ "select* from elemento e "
+										//+"left join reserva r on e.id_elemento=r.id_elemento "
 										+ "inner join tipodeelemento te "
 										+ "on e.id_tipodeelemento=te.id_tipodeelemento "
 										+ "where e.nombre is null || e.nombre='' "
@@ -78,6 +81,7 @@ public class DataElemento {
 			
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 										+ "select* from elemento e "
+										//+"left join reserva r on e.id_elemento=r.id_elemento "
 										+ "inner join tipodeelemento te "
 										+ "on e.id_tipodeelemento=te.id_tipodeelemento "
 										+ "where e.nombre like ? "
@@ -91,6 +95,7 @@ public class DataElemento {
 							int idTipo=elemento.getTipo().getId();
 							pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 									+ "select* from elemento e "
+									//+"left join reserva r on e.id_elemento=r.id_elemento "
 									+ "inner join tipodeelemento te "
 									+ "on e.id_tipodeelemento=te.id_tipodeelemento "
 									+ "where e.id_tipodeelemento=? "
@@ -105,6 +110,7 @@ public class DataElemento {
 				if(nom==null || nom.isEmpty()){
 					pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 							+ "select* from elemento e "
+							//+"left join reserva r on e.id_elemento=r.id_elemento "
 							+ "inner join tipodeelemento te "
 							+ "on e.id_tipodeelemento=te.id_tipodeelemento "
 							+ "where (e.nombre is null || e.nombre='') and e.id_tipodeelemento=? "
@@ -116,6 +122,7 @@ public class DataElemento {
 				else{
 					pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 							+ "select* from elemento e "
+							//+"left join reserva r on e.id_elemento=r.id_elemento "
 							+ "inner join tipodeelemento te "
 							+ "on e.id_tipodeelemento=te.id_tipodeelemento "
 							+ "where e.nombre like ? and e.id_tipodeelemento=? "
@@ -130,6 +137,7 @@ public class DataElemento {
 			default:
 					pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 						+ "select* from elemento e "
+						//+"left join reserva r on e.id_elemento=r.id_elemento "
 						+ "inner join tipodeelemento te "
 						+ "on e.id_tipodeelemento=te.id_tipodeelemento "
 						+ "limit ?,?");
@@ -142,6 +150,7 @@ public class DataElemento {
 					Elemento ele=new Elemento();
 					ele.setId_elemento(res.getInt("id_elemento"));
 					ele.setNombre(res.getString("nombre"));
+					
 					TipoDeElemento te=new TipoDeElemento();
 					te.setId(res.getInt("id_tipodeelemento"));
 					te.setNombre(res.getString("te.nombre"));
@@ -149,6 +158,18 @@ public class DataElemento {
 					te.setLimite_horas_res(res.getInt("limite_horas_res"));
 					te.setDias_max_anticipacion(res.getInt("dias_max_anticipacion"));
 					ele.setTipo(te);
+//					Reserva reserva=null;
+//					if(!res.getString("r.id_elemento").isEmpty()){
+//						reserva=new Reserva();
+//						reserva.setId_reserva(res.getInt("id_reserva"));
+//						reserva.setPersona(new DataPersona().getOne(res.getInt("id_persona")));
+//						reserva.setElemento(new DataElemento().getOne(res.getInt("id_elemento")));
+//						reserva.setFecha_hora_reserva_hecha(res.getDate("fecha_hora_reserva_hecha"));
+//						reserva.setFecha_hora_desde_solicitada(res.getDate("fecha_hora_desde_solicitada"));
+//						reserva.setFecha_hora_hasta_solicitada(res.getDate("fecha_hora_hasta_solicitada"));
+//						reserva.setFecha_hora_entregado(res.getDate("fecha_hora_entregado"));
+//						reserva.setDetalle(res.getString("detalle"));
+//					}
 					elementos.add(ele);
 				}
 			}

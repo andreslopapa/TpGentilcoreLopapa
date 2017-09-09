@@ -4,7 +4,15 @@ public class Elemento {
 	private int id_elemento;
 	private String nombre; //este es opcional
 	private TipoDeElemento tipo;
-		
+	private Reserva reserva_elemento;
+	
+	public Reserva getReserva_elemento(){
+		return reserva_elemento;
+	}
+	
+	public void setReserva_elemento(Reserva res){
+		this.reserva_elemento=res;
+	}
 	public String getNombre() {
 		return nombre;
 	}
