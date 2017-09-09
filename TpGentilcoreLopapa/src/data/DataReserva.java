@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import business.entities.Persona;
@@ -33,9 +34,10 @@ public class DataReserva {
 		
 			pstmt.setInt(1,r.getPersona().getId());
 			pstmt.setInt(2, r.getElemento().getId_elemento());
-			pstmt.setString(3, String.valueOf(r.getFecha_hora_reserva_hecha()));
-	
-					//el tipo cuando quiera ingresar una nueva reserva, se va a crear un nuevo registro en la BD y por lo tanto un nuevo timestamp de ese momento.
+			//pstmt.setString(3, String.valueOf(new java.sql.Date(r.getFecha_hora_reserva_hecha().getTime())));
+			//pstmt.setString(3, String.valueOf(r.getFecha_hora_reserva_hecha()));
+			pstmt.setString(3, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getFecha_hora_reserva_hecha()));	
+			//el tipo cuando quiera ingresar una nueva reserva, se va a crear un nuevo registro en la BD y por lo tanto un nuevo timestamp de ese momento.
 					
 					// de todos modos me parece que no la vamos a necesitar a esta. xq yo la habia pensado para restar con el dato del tiempo que tiene TipoDeElemento
 					//O sea, "fecha_hora_reserva_hecha" se va a actualizar cuando se CREA la reserva. (o sea que ya paso todas las validaciones)

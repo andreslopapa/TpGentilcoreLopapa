@@ -37,6 +37,7 @@ import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 
@@ -355,6 +356,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 			resLogic.add(this.mapearDeForm(pers));
 		} catch (Exception e) {
 			e.printStackTrace();
+			//JOptionPane.showMessageDialog(null, "Error al crear reserva\n"+e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}		
 	}
 	
@@ -366,7 +368,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		}
 	}
 	
-	private Reserva mapearDeForm(Persona pers) throws ParseException{
+	private Reserva mapearDeForm(Persona pers) throws ParseException,Exception{
 		Reserva r = new Reserva();
 		//Persona p = new Persona();
 		Elemento e = new Elemento();
@@ -388,12 +390,19 @@ public class ABMCReservaPrueba extends JInternalFrame{
 				String vfechaH = vyearH + "-" + vmonthH + "-" + vdayH;
 		r.setFecha_hora_hasta_solicitada(Date.valueOf(vfechaH));	//el famoso provisorio
 		
-		
+	
 		int year = Calendar.getInstance().get(Calendar.YEAR);
 		int month = Calendar.getInstance().get(Calendar.MONTH)+1;
 		int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-		String fecha = year + "-" +month + "-" + day;
-		r.setFecha_hora_reserva_hecha(Date.valueOf(fecha));
+		int hora=Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+		int minutos=Calendar.getInstance().get(Calendar.MINUTE);
+		int segundos=Calendar.getInstance().get(Calendar.SECOND);
+//		String fecha = day + "/" +month + "/" + year +"/"+ hora+":"+minutos+":"+segundos;
+//		
+//		r.setFecha_hora_reserva_hecha(Date.valueOf(fecha));
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		r.setFecha_hora_reserva_hecha(formatter.parse(new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())));
+		JOptionPane.showMessageDialog(null, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()));
 		r.setDetalle(this.textAreaDetalle.getText());
 		return r;
 	}
