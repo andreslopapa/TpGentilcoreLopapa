@@ -98,8 +98,8 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(Persona per) {
-		setBorder(null);
-		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
+		setBorder(null);											
+		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null); //estas dos ultimas lineas quitan bordes y titulo
 		
 		getContentPane().setBackground(Color.WHITE);
 		

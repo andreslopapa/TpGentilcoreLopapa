@@ -109,45 +109,55 @@ public class MainWindow {
 	}
 
 	public void listadoElementosClick() {
-	    
+		try {									//este bloque de try/catch estaba probando borrar el anterior
+			if(abmcper!=null){				
+				abmcper.setVisible(false);
+				abmcper.setMaximum(false);
+				desktopPane.remove(abmcper);}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "No se pudo cerrar ventana de persona",	"Error",JOptionPane.ERROR_MESSAGE);
+		}
+		
 		try {
 			if(le==null){
 			le = ListadoElementos.getInstancia();
 			desktopPane.add(le);
 			le.setVisible(true);
 			le.setMaximum(true);}
+			
+	
 		} 
 		catch(PropertyVetoException e){
 			JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}
 		catch (Exception e1) {
-			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana que lista elementos",
-					"Error",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana que lista elementos",	"Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
 	
-	public void listadoPersonasClick(){			//proxima etapa hacer listado de personas para que quede similar a listadoelementos, en lugar de abrir una nueva ventana
+	public void listadoPersonasClick(){			//proxima etapa hacer listado de personas para que quede similar a listadoelementos
+
+				try {
+					if(le!=null){				
+						le.setVisible(false);
+						le.setMaximum(false);
+						desktopPane.remove(le);}
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "No se pudo cerrar ventana de elementos",	"Error",JOptionPane.ERROR_MESSAGE);
+				}
+
 		try {
-			if(le!=null){				
-				le.setVisible(false);
-				le.setMaximum(false);
-				desktopPane.remove(le);}
-			JOptionPane.showMessageDialog(null, "Se qiuto y se llamara a pers","Error",JOptionPane.ERROR_MESSAGE);
-
-
 			if(abmcper==null){
-			abmcper = new ABMCPersona();
-		//	abmcper.main();
-			desktopPane.add(abmcper);
-			abmcper.setVisible(true);
-			abmcper.setMaximum(true);}
-
-			/*	
-			*/
+							abmcper = new ABMCPersona();
+						//	abmcper.main();
+							desktopPane.add(abmcper);
+							abmcper.setVisible(true);
+							abmcper.setMaximum(true);
+							}
+			le=null;abmcper=null;
 			
-			}
-		 
+			}		 
 		catch(PropertyVetoException e){
 			JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}
