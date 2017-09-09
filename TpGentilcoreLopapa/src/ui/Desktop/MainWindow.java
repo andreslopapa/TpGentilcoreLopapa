@@ -76,15 +76,15 @@ public class MainWindow {
 		});
 		mnArchivo.add(mntmListadoElementos);
 		
-		JMenuItem mntmListadoReservas = new JMenuItem("Listado Reservas");
-		mnArchivo.add(mntmListadoReservas);
+		/*JMenuItem mntmListadoReservas = new JMenuItem("Listado Reservas");
+		mnArchivo.add(mntmListadoReservas);*/
 		
 	
-		JMenuItem mntmListadoTiposElementos = new JMenuItem("Listado Tipos de Elementos");
-		mnArchivo.add(mntmListadoTiposElementos);
+		/*JMenuItem mntmListadoTiposElementos = new JMenuItem("Listado Tipos de Elementos");
+		mnArchivo.add(mntmListadoTiposElementos);*/
 		
-		JMenuItem mntmListadoCategorias = new JMenuItem("Listado Categorias");
-		mnArchivo.add(mntmListadoCategorias);
+		/*JMenuItem mntmListadoCategorias = new JMenuItem("Listado Categorias");
+		mnArchivo.add(mntmListadoCategorias);*/
 		
 		JMenuItem mntmListadoPersonas = new JMenuItem("Administrar usuarios");
 		mntmListadoPersonas.addActionListener(new ActionListener() {
@@ -95,8 +95,8 @@ public class MainWindow {
 		});
 		mnArchivo.add(mntmListadoPersonas);
 		
-		JMenuItem mntmCambiarPass = new JMenuItem("Cambiar Contraseña");
-		mnArchivo.add(mntmCambiarPass);
+		/*JMenuItem mntmCambiarPass = new JMenuItem("Cambiar Contraseña");
+		mnArchivo.add(mntmCambiarPass);*/
 		
 		JMenuItem mntmSalir = new JMenuItem("Salir");
 		mntmSalir.addActionListener(new ActionListener() {
