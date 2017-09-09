@@ -343,7 +343,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		setBounds(100, 100, 785, 477);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		mapearAForm(per);				//per es la persona logueada que se envia como parametro desde el login
+	//	mapearAForm(per);				//per es la persona logueada que se envia como parametro desde el login
 	//	cargarListaTdE();
 	}
 	/*
@@ -436,10 +436,25 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	}
 	
 	
+	private void limpiarCampos(){
+		this.textElemento.setText(null);
+		this.dateChooserDesde.setDate(null);
+		this.dateChooserHasta.setDate(null);
+		this.textAreaDetalle.setText(null);
+		this.textIdReserva.setText(null);
+		this.dateChooserFechaFinRes.setDate(null);
+	}
 	
-	private void mapearAForm(Persona per){
-		//this.textUsuario.setText(p.getUsuario());
-		//this.comboCategoria.setSelectedItem((Categoria) p.getCategoria());
-		//this.chckbxHabilitado.setSelected(p.isHabilitado());
+	public void mapearAForm(Reserva res){
+		if(res!=null){
+		this.textElemento.setText(String.valueOf(res.getElemento().getId_elemento()));
+		this.dateChooserDesde.setDate(res.getFecha_hora_desde_solicitada());
+		this.dateChooserHasta.setDate(res.getFecha_hora_hasta_solicitada());
+		this.textAreaDetalle.setText(res.getDetalle());
+		this.textIdReserva.setText(String.valueOf(res.getId_reserva()));
+		this.dateChooserFechaFinRes.setDate(res.getFecha_hora_entregado());}
+		else{
+			this.limpiarCampos();
+		}
 	}
 }

@@ -12,22 +12,31 @@ import data.DataPersona;
 import data.DataReserva;
 import data.DataTipoDeElemento;
 import tools.AppDataException;
+import ui.Desktop.ListadoElementos;
+import ui.Desktop.ListadoReservas;
 
 public class CtrlReservaLogic {
 	private DataReserva datRes;
 	private DataPersona datPer;
 	private DataElemento datElem;
-	private ArrayList<Elemento> elems; 
+	public ArrayList<Reserva> reservas; 
 
 	
 	public CtrlReservaLogic(){
 
 		datRes = new DataReserva();
-		datPer = new DataPersona();
-		datElem = new DataElemento();
-		
+//		datPer = new DataPersona();
+//		datElem = new DataElemento();
+		reservas=new ArrayList<Reserva>();
 	}
 	
+	public ArrayList<Reserva> getSome(ListadoReservas.TipoBusqueda tipob,Reserva res,int indice,int cantidad)throws Exception{
+		return datRes.getSome(tipob, res, indice, cantidad);
+	}
+	
+	public int getCantidad(ListadoReservas.TipoBusqueda tipob,Reserva reserva)throws Exception{
+		return datRes.getCantidad(tipob, reserva);
+	}
 	
 	public void add(Reserva r) throws SQLException, AppDataException{
 		/*Reserva res = new Reserva();

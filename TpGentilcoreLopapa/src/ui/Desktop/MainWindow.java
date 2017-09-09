@@ -24,6 +24,7 @@ public class MainWindow {
 	private JFrame frmSistemaDeReservas;
 	private JDesktopPane desktopPane;
 	private static ListadoElementos le;
+	private static ListadoReservas lr;
 	private static ABMCPersona abmcper;			//proxima etapa deber�a llamar a listado persona
 	
     //agregar los listados que faltan
@@ -76,8 +77,14 @@ public class MainWindow {
 		});
 		mnArchivo.add(mntmListadoElementos);
 		
-		/*JMenuItem mntmListadoReservas = new JMenuItem("Listado Reservas");
-		mnArchivo.add(mntmListadoReservas);*/
+		JMenuItem mntmListadoReservas = new JMenuItem("Listado Reservas");
+		mntmListadoReservas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				listadoReservasClick();
+			}
+
+		});
+		mnArchivo.add(mntmListadoReservas);
 		
 	
 		/*JMenuItem mntmListadoTiposElementos = new JMenuItem("Listado Tipos de Elementos");
@@ -126,7 +133,19 @@ public class MainWindow {
 		
 	}
 
-	
+	public void listadoReservasClick(){
+		try{
+			desktopPane.removeAll();
+			lr=ListadoReservas.getInstancia();
+			desktopPane.add(lr);
+			lr.setVisible(true);
+			lr.setMaximum(true);
+		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana que lista reservas\n"+
+										ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		}
+	}
 	
 	public void listadoPersonasClick(){			//proxima etapa hacer listado de personas para que quede similar a listadoelementos
 		

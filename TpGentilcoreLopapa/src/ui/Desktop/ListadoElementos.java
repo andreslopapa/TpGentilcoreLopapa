@@ -69,7 +69,7 @@ public class ListadoElementos extends Listado implements IListados{
     	public String toString(){return texto;}}
     private TipoBusqueda tipoBusquedaActual;
     
-	private int visibleVentanaReserva=1;			//mostrar ocultar ventana
+	//private int visibleVentanaReserva=1;			//mostrar ocultar ventana
 
 
 	/**

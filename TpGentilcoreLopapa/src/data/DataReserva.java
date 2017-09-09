@@ -8,11 +8,181 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import business.entities.Elemento;
 import business.entities.Persona;
 import business.entities.Reserva;
+import business.entities.TipoDeElemento;
 import tools.AppDataException;
+import ui.Desktop.ListadoElementos;
+import ui.Desktop.ListadoReservas;
 
 public class DataReserva {
+	
+	
+	
+	
+	
+	
+	public ArrayList<Reserva> getSome(ListadoReservas.TipoBusqueda tipob,Reserva reserva,int indice,int cantTraer)throws SQLException,AppDataException{
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+		ArrayList<Reserva> reservas=new ArrayList<Reserva>();
+		try{
+			switch(tipob){
+			case POR_IDRESERVA:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select* from reserva r "
+								+ "inner join elemento e "
+								+ "on e.id_elemento=r.id_elemento "
+								+ "inner join persona p on p.id_persona=r.id_persona "
+								+ "where r.id_reserva=? "
+								+ "limit ?,?");
+								pstmt.setInt(1, reserva.getId_reserva());
+								pstmt.setInt(2, indice);
+								pstmt.setInt(3, cantTraer);
+								break;
+			case POR_IDELEMENTO:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select* from reserva r "
+								+ "inner join elemento e "
+								+ "on e.id_elemento=r.id_elemento "
+								+ "inner join persona p on p.id_persona=r.id_persona "
+								+ "where r.id_elemento=? "
+								+ "limit ?,?");
+								pstmt.setInt(1, reserva.getElemento().getId_elemento());
+								pstmt.setInt(2, indice);
+								pstmt.setInt(3, cantTraer);
+								break;
+			case POR_IDPERSONA:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select* from reserva r "
+								+ "inner join elemento e "
+								+ "on e.id_elemento=r.id_elemento "
+								+ "inner join persona p on p.id_persona=r.id_persona "
+								+ "where r.id_persona=? "
+								+ "limit ?,?");
+								pstmt.setInt(1, reserva.getPersona().getId());
+								pstmt.setInt(2, indice);
+								pstmt.setInt(3, cantTraer);
+								break;
+			case PENDIENTES:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select* from reserva r "
+								+ "inner join elemento e "
+								+ "on e.id_elemento=r.id_elemento "
+								+ "inner join persona p on p.id_persona=r.id_persona "
+								+ "where r.fecha_hora_entregado is null and "
+								+ "datediff(r.fecha_hora_hasta_solicitada,now())<0 "
+								+ "limit ?,?");
+								pstmt.setInt(1, indice);
+								pstmt.setInt(2, cantTraer);
+								break;
+			case TRAER_TODOS:
+			default:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select* from reserva r "
+								+ "inner join elemento e "
+								+ "on e.id_elemento=r.id_elemento "
+								+ "inner join persona p on p.id_persona=r.id_persona "
+								+ "limit ?,?");
+								pstmt.setInt(1, indice);
+								pstmt.setInt(2, cantTraer);
+								break;
+			}
+			res=pstmt.executeQuery();
+			if(res!=null){
+				while(res.next()){
+					Elemento ele=new DataElemento().getOne(res.getInt("r.id_elemento"));
+					Persona per=new DataPersona().getOne(res.getInt("r.id_persona"));
+					Reserva re=new Reserva();
+					re=new Reserva();
+					re.setId_reserva(res.getInt("r.id_reserva"));
+					re.setPersona(per);
+					re.setElemento(ele);
+					re.setFecha_hora_reserva_hecha(res.getDate("r.fecha_hora_reserva_hecha"));
+					re.setFecha_hora_desde_solicitada(res.getDate("r.fecha_hora_desde_solicitada"));
+					re.setFecha_hora_hasta_solicitada(res.getDate("r.fecha_hora_hasta_solicitada"));
+					re.setFecha_hora_entregado(res.getDate("r.fecha_hora_entregado"));
+					re.setDetalle(res.getString("r.detalle"));
+					
+					reservas.add(re);
+				}
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al traer las reservas\n"+sqlex.getMessage());
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				if(res!=null){res.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerrar Conexion,ResultSet o PreparedStatement");
+			}
+		}
+		return reservas;
+	}
+	
+	
+	
+	public int getCantidad(ListadoReservas.TipoBusqueda tipob,Reserva reserva)throws SQLException,AppDataException{
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+		int cantidad=0;
+		try{
+			switch(tipob){
+			case POR_IDRESERVA:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select count(*) from reserva r "
+								+ "where r.id_reserva=? ");
+								pstmt.setInt(1, reserva.getId_reserva());
+								break;
+			case POR_IDELEMENTO:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select count(*) from reserva r "
+								+ "where r.id_elemento=? ");
+								pstmt.setInt(1, reserva.getElemento().getId_elemento());
+								break;
+			case POR_IDPERSONA:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select count(*) from reserva r "
+								+ "where r.id_persona=? ");
+								pstmt.setInt(1, reserva.getPersona().getId());
+								break;
+			case PENDIENTES:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select count(*) from reserva r "
+								+ "where r.fecha_hora_entregado is null and "
+								+ "datediff(r.fecha_hora_hasta_solicitada,now())<0 ");
+								break;
+			case TRAER_TODOS:
+			default:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select count(*) from reserva ");
+								break;
+			}
+			res=pstmt.executeQuery();
+			if(res!=null && res.next()){
+				cantidad=res.getInt(1);
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al contar las reservas\n"+sqlex.getMessage());
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				if(res!=null){res.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerrar Conexion,ResultSet o PreparedStatement");
+			}
+		}
+		return cantidad;
+	}
 	
 	
 	
@@ -200,7 +370,7 @@ public class DataReserva {
 						+ " from reserva "
 						+ " where fecha_hora_entregado is null 	"
 						+ "		and id_persona=?"
-						+ "		and datediff(fecha_hora_desde_solicitada,now()) > 0 ");
+						+ "		and datediff(fecha_hora_desde_solicitada,now()) > 0 ");//hasta no sera?
 			
 			stmt.setInt(1, p.getId());
 			rs = stmt.executeQuery(); 	
