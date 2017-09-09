@@ -194,7 +194,7 @@ public class DataReserva {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(""
-						+ "select * "
+						+ "select * "				
 						+ " from reserva "
 						+ " where fecha_hora_entregado is null 	"
 						+ "		and id_persona=?"

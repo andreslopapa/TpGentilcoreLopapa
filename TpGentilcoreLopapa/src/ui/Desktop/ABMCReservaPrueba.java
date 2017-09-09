@@ -113,14 +113,14 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		btnCrearReserva.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent arg0) {					//multiplica por -1 para mostrar/ocultar. 
-				if(visibleClickCrearReserva==1){			
-				visibleClickCrearReserva=visibleClickCrearReserva*(-1);
+			//	if(visibleClickCrearReserva==1){			
+			//	visibleClickCrearReserva=visibleClickCrearReserva*(-1);
+				panel_EditarReserva.setVisible(false);
 				panelCrearReserva.setVisible(true);
-				}else{
-					visibleClickCrearReserva=visibleClickCrearReserva*(-1);
-					panelCrearReserva.setVisible(false);
-
-				}
+			//	}else{
+			//		visibleClickCrearReserva=visibleClickCrearReserva*(-1);
+			//		panelCrearReserva.setVisible(false);
+			//	}
 			}
 		});
 		
@@ -130,13 +130,14 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		btnCerrarReserva.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent arg0) {					//multiplica por -1 para mostrar/ocultar. 
-				if(visibleClickEditarReserva==1){			
-					visibleClickEditarReserva=visibleClickEditarReserva*(-1);
+			//	if(visibleClickEditarReserva==1){			
+			//		visibleClickEditarReserva=visibleClickEditarReserva*(-1);
+					panelCrearReserva.setVisible(false);
 					panel_EditarReserva.setVisible(true);
-				}else{
-					visibleClickEditarReserva=visibleClickEditarReserva*(-1);
-					panel_EditarReserva.setVisible(false);
-				}
+			//	}else{
+			//		visibleClickEditarReserva=visibleClickEditarReserva*(-1);
+			//		panel_EditarReserva.setVisible(false);
+			//	}
 			}
 		});
 		btnCerrarReserva.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Editar.png")));
@@ -153,11 +154,6 @@ public class ABMCReservaPrueba extends JInternalFrame{
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)
-								.addComponent(panel_EditarReserva, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(41)
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblGestionarReservas)
@@ -166,7 +162,13 @@ public class ABMCReservaPrueba extends JInternalFrame{
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnCerrarReserva, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnCancelarSolicitud, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)))))
+									.addComponent(btnCancelarSolicitud, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(panel_EditarReserva, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(548, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
@@ -180,9 +182,10 @@ public class ABMCReservaPrueba extends JInternalFrame{
 						.addComponent(btnCerrarReserva, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnCrearReserva, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_EditarReserva, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 249, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(panel_EditarReserva, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(124, Short.MAX_VALUE))
 		);
 		
 		textIdReserva = new JTextField();
