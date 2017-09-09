@@ -110,6 +110,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		panelCrearReserva.setBackground(Color.WHITE);
 		
 		JButton btnCrearReserva = new JButton("");
+		btnCrearReserva.setToolTipText("Reservar un elemento");
 		btnCrearReserva.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent arg0) {					//multiplica por -1 para mostrar/ocultar. 
@@ -127,6 +128,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		btnCrearReserva.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Agregar.png")));
 		
 		JButton btnCerrarReserva = new JButton("");
+		btnCerrarReserva.setToolTipText("Finalizar reserva");
 		btnCerrarReserva.addMouseListener(new MouseAdapter() {				
 			@Override
 			public void mouseClicked(MouseEvent arg0) {					//multiplica por -1 para mostrar/ocultar. 

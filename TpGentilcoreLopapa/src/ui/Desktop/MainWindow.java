@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JDesktopPane;
 import java.awt.BorderLayout;
+import java.awt.Toolkit;
 
 public class MainWindow {
 
@@ -52,12 +53,13 @@ public class MainWindow {
 	 */
 	private void initialize() {
 		frmSistemaDeReservas = new JFrame();
+		frmSistemaDeReservas.setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource("/ui/Desktop/cropped-3w2-web-dominios-hosting.png")));
 		frmSistemaDeReservas.setExtendedState(frmSistemaDeReservas.MAXIMIZED_BOTH);
 		frmSistemaDeReservas.getContentPane().setBackground(Color.WHITE);
 		
 		desktopPane = new JDesktopPane();
 		frmSistemaDeReservas.getContentPane().add(desktopPane, BorderLayout.CENTER);
-		frmSistemaDeReservas.setTitle("Sistema de Reservas");
+		frmSistemaDeReservas.setTitle("Sistema de Reservas Patalalas");
 		frmSistemaDeReservas.setBounds(100, 100, 450, 300);
 		frmSistemaDeReservas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

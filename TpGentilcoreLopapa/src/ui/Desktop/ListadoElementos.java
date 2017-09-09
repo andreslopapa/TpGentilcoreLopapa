@@ -174,7 +174,7 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		JPanel panelBarraAzulLateral = new JPanel();
 		panelBarraAzulLateral.setBackground(new Color(0, 51, 102));
-		getContentPane().add(panelBarraAzulLateral, "cell 0 1 1 6,alignx leading,growy");
+		getContentPane().add(panelBarraAzulLateral, "cell 0 0 1 7,alignx leading,growy");
 		
 		JLabel lblIconoListadoEles = new JLabel("");
 		lblIconoListadoEles.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/ic_devices_white_24dp_2x.png")));
@@ -183,32 +183,13 @@ public class ListadoElementos extends Listado implements IListados{
 //		lblUsuario.setVerticalAlignment(SwingConstants.BOTTOM);
 		panelBarraAzulLateral.setLayout(new MigLayout("", "[64px]", "[48px][24px]"));
 		panelBarraAzulLateral.add(lblIconoListadoEles, "cell 0 0,alignx center,aligny top");
-		
-		JPanel panelBarraAzulSup = new JPanel();
-		panelBarraAzulSup.setBorder(null);
-		panelBarraAzulSup.setBackground(new Color(0,51,102));
-		getContentPane().add(panelBarraAzulSup, "cell 0 0 11 2,grow");
 		JLabel lblUsuario = new JLabel(Ingreso.PersonaLogueada.getCategoria()+": "+Ingreso.PersonaLogueada.getApellido()+","+Ingreso.PersonaLogueada.getNombre());
-		lblUsuario.setForeground(new Color(255, 255, 255));
-		lblUsuario.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/ic_person_pin_white_24dp_1x.png")));
-		GroupLayout gl_panelBarraAzulSup = new GroupLayout(panelBarraAzulSup);
-		gl_panelBarraAzulSup.setHorizontalGroup(
-			gl_panelBarraAzulSup.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panelBarraAzulSup.createSequentialGroup()
-					.addContainerGap(343, Short.MAX_VALUE)
-					.addComponent(lblUsuario)
-					.addContainerGap())
-		);
-		gl_panelBarraAzulSup.setVerticalGroup(
-			gl_panelBarraAzulSup.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelBarraAzulSup.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(lblUsuario))
-		);
-		panelBarraAzulSup.setLayout(gl_panelBarraAzulSup);
+		getContentPane().add(lblUsuario, "cell 8 0");
+		lblUsuario.setForeground(new Color(0, 51, 102));
+		lblUsuario.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/ic_person_black_24dp_2x.png")));
 		
 
-		getContentPane().add(txtBuscar, "cell 1 2 8 1,alignx left,aligny bottom");
+		getContentPane().add(txtBuscar, "flowx,cell 1 2 7 1,alignx left,aligny bottom");
 		txtBuscar.setColumns(30);
 		LimitadorTxt.MaxCaracteres(LimitadorTxt.Campo.ELENOM, txtBuscar);
 		
