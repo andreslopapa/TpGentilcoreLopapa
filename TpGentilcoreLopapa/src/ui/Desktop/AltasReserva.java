@@ -132,10 +132,8 @@ public class AltasReserva extends JInternalFrame{
 		lblHasta.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		dateChooserHasta = new JDateChooser();
-		dateChooserHasta.setDateFormatString("yyyy/MM/dd");
 		
 		dateChooserDesde = new JDateChooser();
-		dateChooserDesde.setDateFormatString("yyyy/MM/dd");
 		
 		JLabel lblDesde = new JLabel("Desde");
 		lblDesde.setHorizontalAlignment(SwingConstants.RIGHT);

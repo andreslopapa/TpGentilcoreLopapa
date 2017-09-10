@@ -385,7 +385,11 @@ public class ListadoReservas extends Listado implements IListados{
 	protected void mapearHaciaABMCClick() {
 		if(table.getSelectedRowCount()!=0){
 		int indiceReserva=this.table.convertRowIndexToModel(table.getSelectedRow());
-		this.formReserva.mapearAForm(this.reservaLogic.reservas.get((indiceReserva)));
+		try {
+			this.formReserva.mapearAForm(this.reservaLogic.reservas.get((indiceReserva)));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
 		}
 		
 	}

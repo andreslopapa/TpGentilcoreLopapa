@@ -51,7 +51,7 @@ public class DataReserva {
 								+ "where r.id_elemento=? "
 								+ "order by r.fecha_hora_reserva_hecha desc "
 								+ "limit ?,?");
-								pstmt.setInt(1, reserva.getElemento().getId_elemento());
+								pstmt.setInt(1, reserva.getElemento()!=null?reserva.getElemento().getId_elemento():-1);
 								pstmt.setInt(2, indice);
 								pstmt.setInt(3, cantTraer);
 								break;
@@ -64,7 +64,7 @@ public class DataReserva {
 								+ "where r.id_persona=? "
 								+ "order by r.fecha_hora_reserva_hecha desc "
 								+ "limit ?,?");
-								pstmt.setInt(1, reserva.getPersona().getId());
+								pstmt.setInt(1, reserva.getPersona()!=null?reserva.getPersona().getId():-1);
 								pstmt.setInt(2, indice);
 								pstmt.setInt(3, cantTraer);
 								break;
@@ -148,13 +148,13 @@ public class DataReserva {
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 								+ "select count(*) from reserva r "
 								+ "where r.id_elemento=? ");
-								pstmt.setInt(1, reserva.getElemento().getId_elemento());
+								pstmt.setInt(1, reserva.getElemento()!=null?reserva.getElemento().getId_elemento():-1);
 								break;
 			case POR_IDPERSONA:
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 								+ "select count(*) from reserva r "
 								+ "where r.id_persona=? ");
-								pstmt.setInt(1, reserva.getPersona().getId());
+								pstmt.setInt(1, reserva.getPersona()!=null?reserva.getPersona().getId():-1);
 								break;
 			case PENDIENTES:
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
@@ -409,5 +409,32 @@ public class DataReserva {
 		return res;
 	}
 	
-
+	public int getMaxId()throws SQLException,AppDataException{
+		int id=-1;
+		Statement stmt=null;
+		ResultSet res=null;
+		try{
+			stmt=FactoryConexion.getInstancia().getConn().createStatement();
+			res=stmt.executeQuery("select max(id_reserva) from reserva;");
+			if(res.next() && res!=null){
+				id=res.getInt(1);
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al buscar el Id mas grande entre las reservas\n"+sqlex.getMessage());
+		}
+		finally{
+			try{
+			if(stmt!=null){stmt.close();}
+			if(res!=null){stmt.close();}
+			FactoryConexion.getInstancia().releaseConn();}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,sqlex.getMessage());
+			}
+		}
+		return id;
+		
+	}
+	   
+   
 }

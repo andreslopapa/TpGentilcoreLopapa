@@ -28,10 +28,11 @@ public class Campo {
 	}
 	
 	private static boolean validaFecha(String fecha){
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		try{
 		formatter.setLenient(false);
-		formatter.parse(fecha);}
+		formatter.parse(fecha);
+		}
 		catch(ParseException pe){
 			JOptionPane.showMessageDialog(null,"fecha invalida", "",JOptionPane.INFORMATION_MESSAGE);
 			return false;

@@ -50,7 +50,9 @@ public class CtrlReservaLogic {
 		datRes.add(r);
 	}
 
-	
+	public int getMaxId()throws Exception{
+		return datRes.getMaxId();
+	}
 	
 	/*
 	public void update(Reserva r) throws SQLException, AppDataException{
