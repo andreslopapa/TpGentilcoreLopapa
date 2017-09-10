@@ -27,6 +27,7 @@ import business.logic.CtrlElementoLogic;
 import business.logic.CtrlReservaLogic;
 import business.logic.CtrlTipoDeElementoLogic;
 import tools.AppDataException;
+import tools.Campo;
 import tools.ParseoAFecha;
 
 
@@ -69,14 +70,22 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	private JPanel panel_EditarReserva;
 	int visibleClickCrearReserva=1;
 	int visibleClickEditarReserva=1;
+	private static ABMCReservaPrueba instancia;
+	public static ABMCReservaPrueba getInstancia()throws Exception{
+		if(instancia==null){
+			instancia=new ABMCReservaPrueba();
+		}
+		return instancia;
+	}
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(Persona per) {								//parametro
+	public static void main() {								//parametro
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ABMCReservaPrueba window = new ABMCReservaPrueba(per);			//parametro
+					ABMCReservaPrueba window = new ABMCReservaPrueba();			//parametro
 					window.setVisible(true);
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null,e.getMessage());
@@ -88,17 +97,17 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	/**
 	 * Create the application.
 	 */
-	public ABMCReservaPrueba(Persona per) {									//parametro
+	public ABMCReservaPrueba() {									//parametro
 
 		this.resLogic = new CtrlReservaLogic();
-		initialize(per);		
+		initialize();		
 		//cargarPersona(per);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(Persona per) {
+	private void initialize() {
 		setBorder(null);											
 		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null); //estas dos ultimas lineas quitan bordes y titulo
 		
@@ -207,13 +216,13 @@ public class ABMCReservaPrueba extends JInternalFrame{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					clickModificarReserva(per);
+					clickModificarReserva();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				} catch (AppDataException e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
 			}
 		});
@@ -289,13 +298,13 @@ public class ABMCReservaPrueba extends JInternalFrame{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					clickCrearReserva(per);
+					clickCrearReserva();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				} catch (AppDataException e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
 			}
 		});
@@ -363,21 +372,14 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	}*/
 	
 	
-	private void clickCrearReserva(Persona pers) throws Exception, SQLException, AppDataException{
+	private void clickCrearReserva() throws Exception, SQLException,ParseException{
 		try {
-			if(textElemento.getText().length()>0 
-				&& dateChooserDesde.getCalendar().get(Calendar.YEAR)>0 
-				&& 1+dateChooserDesde.getCalendar().get(Calendar.MONTH) >0
-				&& dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH) >0
-				&& dateChooserHasta.getCalendar().get(Calendar.YEAR)>0 
-				&& 1+dateChooserHasta.getCalendar().get(Calendar.MONTH) >0
-				&& dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH) >0
-			  ){
-				resLogic.add(this.mapearDeForm(pers));
-				JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.OK_OPTION);
-			}else{
-					JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "", JOptionPane.INFORMATION_MESSAGE);				
-				}
+			if(Campo.Valida(this.textElemento.getText(),Campo.tipo.ID) 
+					&& Campo.Valida(((JTextField)dateChooserDesde.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)
+					&& Campo.Valida(((JTextField)dateChooserHasta.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)){
+				resLogic.add(this.mapearDeForm());
+				JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+			}
 		} catch (Exception e) {
 
 			JOptionPane.showMessageDialog(this, e.getMessage());
@@ -388,18 +390,14 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	
 	
 	
-	private void clickModificarReserva(Persona pers) throws SQLException, AppDataException, ParseException{
+	private void clickModificarReserva() throws Exception,SQLException, ParseException{
 		try {
-			if(textIdReserva.getText().length()>0
-				&& dateChooserFechaFinRes.getCalendar().get(Calendar.YEAR)>0 
-				&& 1+dateChooserFechaFinRes.getCalendar().get(Calendar.MONTH) >0
-				&& dateChooserFechaFinRes.getCalendar().get(Calendar.DAY_OF_MONTH) >0)
-				{
-				resLogic.updateParaCerrarRes(this.mapearDeFormFechaFin(pers));
-				JOptionPane.showMessageDialog(this, "Reserva finalizada", "", JOptionPane.OK_OPTION);
+			if(Campo.Valida(this.textIdReserva.getText(),Campo.tipo.ID)
+					&& Campo.Valida(((JTextField)dateChooserFechaFinRes.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)
+				){
+				resLogic.updateParaCerrarRes(this.mapearDeFormFechaFin(Ingreso.PersonaLogueada));
+				JOptionPane.showMessageDialog(this, "Reserva finalizada", "", JOptionPane.INFORMATION_MESSAGE);
 
-			}else{
-				JOptionPane.showMessageDialog(this, "Debe ingresar todos los campos", "", JOptionPane.INFORMATION_MESSAGE);				
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
@@ -408,13 +406,13 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	}
 	
 
-	private Reserva mapearDeForm(Persona pers) throws ParseException,Exception{
+	private Reserva mapearDeForm() throws Exception{
 
 		Reserva r = new Reserva();
 		//Persona p = new Persona();
 		Elemento e = new Elemento();
 
-		r.setPersona(pers);	
+		r.setPersona(Ingreso.PersonaLogueada);	
 		e.setId_elemento(Integer.parseInt(this.textElemento.getText()));
 		r.setElemento(e);
 		
@@ -433,12 +431,12 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		
 
 	
-		int year = Calendar.getInstance().get(Calendar.YEAR);
-		int month = Calendar.getInstance().get(Calendar.MONTH)+1;
-		int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-		int hora=Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-		int minutos=Calendar.getInstance().get(Calendar.MINUTE);
-		int segundos=Calendar.getInstance().get(Calendar.SECOND);
+//		int year = Calendar.getInstance().get(Calendar.YEAR);
+//		int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+//		int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+//		int hora=Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+//		int minutos=Calendar.getInstance().get(Calendar.MINUTE);
+//		int segundos=Calendar.getInstance().get(Calendar.SECOND);
 //		String fecha = day + "/" +month + "/" + year +"/"+ hora+":"+minutos+":"+segundos;
 //		
 //		r.setFecha_hora_reserva_hecha(Date.valueOf(fecha));
@@ -449,7 +447,7 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	}
 	
 	
-	private Reserva mapearDeFormFechaFin(Persona pers) throws ParseException{
+	private Reserva mapearDeFormFechaFin(Persona pers) throws Exception{
 		Reserva r = new Reserva();
 		//Persona p = new Persona();
 		Elemento e = new Elemento();

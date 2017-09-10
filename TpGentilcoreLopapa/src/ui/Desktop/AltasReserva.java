@@ -27,6 +27,7 @@ import business.logic.CtrlElementoLogic;
 import business.logic.CtrlReservaLogic;
 import business.logic.CtrlTipoDeElementoLogic;
 import tools.AppDataException;
+import tools.Campo;
 import tools.ParseoAFecha;
 
 
@@ -255,20 +256,14 @@ public class AltasReserva extends JInternalFrame{
 	
 	private void clickCrearReserva() throws Exception, SQLException, AppDataException{
 		try {
-			if(textElemento.getText().length()>0 
-				&& dateChooserDesde.getCalendar().get(Calendar.YEAR)>0 
-				&& 1+dateChooserDesde.getCalendar().get(Calendar.MONTH) >0
-				&& dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH) >0
-				&& dateChooserHasta.getCalendar().get(Calendar.YEAR)>0 
-				&& 1+dateChooserHasta.getCalendar().get(Calendar.MONTH) >0
-				&& dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH) >0
-			  ){
+			if(Campo.Valida(this.textElemento.getText(),Campo.tipo.ID) 
+				&& Campo.Valida(((JTextField)dateChooserDesde.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)
+				&& Campo.Valida(((JTextField)dateChooserHasta.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)){
+				
 				resLogic.add(this.mapearDeForm(Ingreso.PersonaLogueada));
 				JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
 				ListadoElementos.getInstancia().abrirVentanaElemento(ABMC.Action.OTHER);
-			}else{
-					JOptionPane.showMessageDialog(this,"Debe completar todos los campos","", JOptionPane.INFORMATION_MESSAGE);				
-				}
+			}
 		} catch (Exception e) {
 
 			JOptionPane.showMessageDialog(this, "Error\n"+e.getMessage());

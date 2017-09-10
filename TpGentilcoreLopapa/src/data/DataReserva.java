@@ -36,6 +36,7 @@ public class DataReserva {
 								+ "on e.id_elemento=r.id_elemento "
 								+ "inner join persona p on p.id_persona=r.id_persona "
 								+ "where r.id_reserva=? "
+								+ "order by r.fecha_hora_reserva_hecha desc "
 								+ "limit ?,?");
 								pstmt.setInt(1, reserva.getId_reserva());
 								pstmt.setInt(2, indice);
@@ -48,6 +49,7 @@ public class DataReserva {
 								+ "on e.id_elemento=r.id_elemento "
 								+ "inner join persona p on p.id_persona=r.id_persona "
 								+ "where r.id_elemento=? "
+								+ "order by r.fecha_hora_reserva_hecha desc "
 								+ "limit ?,?");
 								pstmt.setInt(1, reserva.getElemento().getId_elemento());
 								pstmt.setInt(2, indice);
@@ -60,6 +62,7 @@ public class DataReserva {
 								+ "on e.id_elemento=r.id_elemento "
 								+ "inner join persona p on p.id_persona=r.id_persona "
 								+ "where r.id_persona=? "
+								+ "order by r.fecha_hora_reserva_hecha desc "
 								+ "limit ?,?");
 								pstmt.setInt(1, reserva.getPersona().getId());
 								pstmt.setInt(2, indice);
@@ -73,6 +76,7 @@ public class DataReserva {
 								+ "inner join persona p on p.id_persona=r.id_persona "
 								+ "where r.fecha_hora_entregado is null and "
 								+ "datediff(r.fecha_hora_hasta_solicitada,now())<0 "
+								+ "order by r.fecha_hora_reserva_hecha desc "
 								+ "limit ?,?");
 								pstmt.setInt(1, indice);
 								pstmt.setInt(2, cantTraer);
@@ -84,6 +88,7 @@ public class DataReserva {
 								+ "inner join elemento e "
 								+ "on e.id_elemento=r.id_elemento "
 								+ "inner join persona p on p.id_persona=r.id_persona "
+								+ "order by r.fecha_hora_reserva_hecha desc "
 								+ "limit ?,?");
 								pstmt.setInt(1, indice);
 								pstmt.setInt(2, cantTraer);
