@@ -206,7 +206,7 @@ public class ABMCPersona extends JInternalFrame{
 		
 		JButton btnModificar = new JButton("");
 		btnModificar.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/Editar.png")));
-		btnModificar.setToolTipText("Actualizar datos del usuario del formulario");
+		btnModificar.setToolTipText("Actualizar datos del usuario");
 		btnModificar.setForeground(new Color(0, 51, 102));
 		btnModificar.addActionListener(new ActionListener() {
 			@Override
@@ -310,11 +310,21 @@ public class ABMCPersona extends JInternalFrame{
 		JButton btnReiniciarListado = new JButton("");
 		btnReiniciarListado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				cargarListaPersona();
+				cargarListaPersona();										
+				initDataBindings();
 			}
 		});
 
 		btnReiniciarListado.setIcon(new ImageIcon(ABMCPersona.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
+		
+		JButton btnLimpiarCampos = new JButton("Clear");
+		btnLimpiarCampos.setFont(new Font("Calibri", Font.PLAIN, 9));
+		btnLimpiarCampos.setIcon(null);
+		btnLimpiarCampos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarTexto();
+			}
+		});
 //		GroupLayout groupLayout = new GroupLayout(frmSistemaDeGestin.getContentPane());
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -324,61 +334,66 @@ public class ABMCPersona extends JInternalFrame{
 					.addGap(56)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblListadoDePersonas)
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(scrollPaneTablaPersona, GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addComponent(btnBotonquebusca, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-									.addComponent(btnReiniciarListado, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
-								.addGap(52))
-							.addGroup(groupLayout.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(lblHabilitado, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(lblDni, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblUsuario, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addGap(25)
-										.addComponent(lblContrasenia))
-									.addComponent(lblNombre, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-									.addComponent(lblApellido, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
-									.addComponent(lblCategoria, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addComponent(textUsuario, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-									.addComponent(passwordUsuarioField, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-									.addComponent(textNombre, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-									.addComponent(chckbxHabilitado, GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-										.addComponent(comboCategoria, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(textApellido, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE))
-									.addGroup(groupLayout.createSequentialGroup()
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-											.addGroup(groupLayout.createSequentialGroup()
-												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-													.addComponent(textEmail, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-													.addComponent(textDNI, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE))
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(btnBuscar, 0, 0, Short.MAX_VALUE))
-											.addGroup(groupLayout.createSequentialGroup()
-												.addGap(2)
-												.addComponent(lblGestinDeNuevo, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)))
-								.addGap(49)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addComponent(btnBuscarenlista, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-									.addComponent(lblMostrarListado))
-								.addGap(52)))))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(scrollPaneTablaPersona, GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(btnBotonquebusca, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnReiniciarListado, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(lblHabilitado, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblDni, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblUsuario, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addGap(25)
+											.addComponent(lblContrasenia))
+										.addComponent(lblNombre, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+										.addComponent(lblApellido, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+										.addComponent(lblCategoria, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(textUsuario, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+										.addComponent(passwordUsuarioField, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+										.addComponent(textNombre, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+												.addGroup(groupLayout.createSequentialGroup()
+													.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+														.addComponent(textEmail, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+														.addComponent(textDNI, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE))
+													.addPreferredGap(ComponentPlacement.UNRELATED)
+													.addComponent(btnBuscar, 0, 0, Short.MAX_VALUE))
+												.addGroup(groupLayout.createSequentialGroup()
+													.addGap(2)
+													.addComponent(lblGestinDeNuevo, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
+													.addPreferredGap(ComponentPlacement.RELATED)
+													.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)))
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+											.addComponent(chckbxHabilitado, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(comboCategoria, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(textApellido, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)))
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addPreferredGap(ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(btnBuscarenlista, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblMostrarListado)))
+										.addGroup(groupLayout.createSequentialGroup()
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(btnLimpiarCampos)))))
+							.addGap(52))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 764, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(34)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -402,15 +417,18 @@ public class ABMCPersona extends JInternalFrame{
 								.addGroup(groupLayout.createSequentialGroup()
 									.addComponent(lblGestinDeNuevo, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 									.addGap(23))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-										.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-										.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
-									.addGap(18))
-								.addGroup(groupLayout.createSequentialGroup()
-									.addComponent(lblMostrarListado)
-									.addPreferredGap(ComponentPlacement.RELATED)))
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+									.addGroup(groupLayout.createSequentialGroup()
+										.addComponent(btnLimpiarCampos)
+										.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblMostrarListado)
+										.addPreferredGap(ComponentPlacement.RELATED))
+									.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+											.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+											.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+											.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
+										.addGap(18))))
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addComponent(textDNI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -432,8 +450,8 @@ public class ABMCPersona extends JInternalFrame{
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(11)
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(chckbxHabilitado)
-								.addComponent(lblHabilitado))
+								.addComponent(lblHabilitado)
+								.addComponent(chckbxHabilitado))
 							.addGap(40)
 							.addComponent(lblListadoDePersonas)
 							.addGap(13)
@@ -566,6 +584,7 @@ public class ABMCPersona extends JInternalFrame{
 		this.passwordUsuarioField.setText("");
 		this.textEmail.setText("");
 		this.chckbxHabilitado.setSelected(false);
+		comboCategoria.setSelectedIndex(-1);
 	}
 	
 	
