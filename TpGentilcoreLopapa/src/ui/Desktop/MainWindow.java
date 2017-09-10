@@ -105,7 +105,7 @@ public class MainWindow {
 		});
 		mnArchivo.add(mntmListadoPersonas);
 		
-		
+/*
 		JMenuItem mntmListadoDePersonas = new JMenuItem("Listado Personas");
 		mntmListadoDePersonas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -113,7 +113,7 @@ public class MainWindow {
 			}
 		});
 		mnArchivo.add(mntmListadoDePersonas);
-
+*/
 
 //		JMenuItem mntmCambiarPass = new JMenuItem("Cambiar Contrase�a");
 //		mnArchivo.add(mntmCambiarPass);
@@ -159,7 +159,7 @@ public class MainWindow {
 		}
 	}
 	
-	
+	/*
 	public void listadoPersonasClickLISTA(){
 		try {
 		desktopPane.removeAll();
@@ -172,7 +172,7 @@ public class MainWindow {
 			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana que lista personas\n"+
 					ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}
-	}
+	}*/
 	
 	public void listadoPersonasClick(){			//proxima etapa hacer listado de personas para que quede similar a listadoelementos
 		

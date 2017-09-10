@@ -273,7 +273,7 @@ public class ABMCPersona extends JInternalFrame{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					buscaPersonaPrueba();
+					buscaPersona();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, "Error al apretar en botón Buscar\n"+e.getMessage());
 				}
@@ -308,6 +308,12 @@ public class ABMCPersona extends JInternalFrame{
 		lblListadoDePersonas.setFont(new Font("Calibri", Font.PLAIN, 18));
 		
 		JButton btnReiniciarListado = new JButton("");
+		btnReiniciarListado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cargarListaPersona();
+			}
+		});
+
 		btnReiniciarListado.setIcon(new ImageIcon(ABMCPersona.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 //		GroupLayout groupLayout = new GroupLayout(frmSistemaDeGestin.getContentPane());
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
@@ -573,7 +579,9 @@ public class ABMCPersona extends JInternalFrame{
 		return pers;
 	}
 	
-	public void clickMostrarListado(){
+	
+													///////////////////////////////////////////
+	public void clickMostrarListado(){		//ESTE NO FUNCIONA. PERO ESTARÏA COPADO QUE SI LO HAGA JAJA. HAY 
 
 		if(visibilidadTabla==1){
 			scrollPaneTablaPersona = new JScrollPane();	
@@ -588,7 +596,7 @@ public class ABMCPersona extends JInternalFrame{
 	}
 	
 	
-	public void buscaPersonaPrueba(){
+	public void buscaPersona(){
 		int indexPersona= tablePersona.convertRowIndexToModel(tablePersona.getSelectedRow());
 		this.showPersona(this.pers.get(indexPersona));
 
