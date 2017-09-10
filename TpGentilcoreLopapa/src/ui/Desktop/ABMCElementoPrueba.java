@@ -352,7 +352,7 @@ public class ABMCElementoPrueba extends ABMC {
 		this.accion=Action.OTHER;
 		this.limpiarTextoElemento();
 		try {
-			ListadoElementos.getInstancia().mapearHaciaABMCClick();
+			ListadoElementos.getInstancia().mapearHaciaABMCElementoClick();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,e.getMessage());
 		}

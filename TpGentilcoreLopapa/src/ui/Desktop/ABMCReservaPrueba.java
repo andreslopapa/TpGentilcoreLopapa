@@ -444,8 +444,6 @@ public class ABMCReservaPrueba extends JInternalFrame{
 //		r.setFecha_hora_reserva_hecha(Date.valueOf(fecha));
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		r.setFecha_hora_reserva_hecha(formatter.parse(new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())));
-		JOptionPane.showMessageDialog(null, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()));
-
 		r.setDetalle(this.textAreaDetalle.getText());
 		return r;
 	}
