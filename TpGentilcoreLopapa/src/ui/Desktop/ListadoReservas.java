@@ -44,6 +44,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JToolBar;
 import java.beans.PropertyVetoException;
+import java.sql.SQLException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import javax.swing.JPanel;
@@ -106,6 +107,7 @@ public class ListadoReservas extends Listado implements IListados{
 		if(ListadoReservas.instancia==null){
 			ListadoReservas.instancia=new ListadoReservas();
 		}
+		ListadoReservas.instancia.Actualiza();
 		return ListadoReservas.instancia;
 	}
 	
@@ -337,13 +339,20 @@ public class ListadoReservas extends Listado implements IListados{
 	//		visibleVentanaReserva=visibleVentanaReserva*(-1);
 	//	visibleVentanaReserva=-1;
 			try {
-				formReserva=new ABMCReservaPrueba(Ingreso.PersonaLogueada);
+				formReserva=ABMCReservaPrueba.getInstancia();
 				desktopPane.removeAll();
 				desktopPane.add(formReserva);
 				formReserva.setVisible(true);
 				formReserva.setMaximum(true);
 			}catch (PropertyVetoException e) {
 				JOptionPane.showMessageDialog(null, "Error al intentar ingresar la ventana interna de Reserva\n"+e.getMessage());
+			}
+			catch(SQLException sqlex){
+				JOptionPane.showMessageDialog(null, "Error al abrir ventana para reservar\n"+sqlex.getMessage(),
+											"Error",JOptionPane.ERROR_MESSAGE);
+			}
+			catch(Exception ex){
+				JOptionPane.showMessageDialog(null, ex.getMessage());
 			}
 	//	}else{
 	//		visibleVentanaReserva=visibleVentanaReserva*(-1);
@@ -376,7 +385,11 @@ public class ListadoReservas extends Listado implements IListados{
 	protected void mapearHaciaABMCClick() {
 		if(table.getSelectedRowCount()!=0){
 		int indiceReserva=this.table.convertRowIndexToModel(table.getSelectedRow());
-		this.formReserva.mapearAForm(this.reservaLogic.reservas.get((indiceReserva)));
+		try {
+			this.formReserva.mapearAForm(this.reservaLogic.reservas.get((indiceReserva)));
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
 		}
 		
 	}

@@ -27,8 +27,9 @@ import business.logic.CtrlElementoLogic;
 import business.logic.CtrlReservaLogic;
 import business.logic.CtrlTipoDeElementoLogic;
 import tools.AppDataException;
+import tools.Campo;
 import tools.ParseoAFecha;
-
+import ui.Desktop.ABMC.Action;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -52,7 +53,7 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ABMCReservaPrueba extends JInternalFrame{
+public class ABMCReservaPrueba extends ABMC{
 	
 	CtrlReservaLogic resLogic = new CtrlReservaLogic();
 
@@ -69,14 +70,29 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	private JPanel panel_EditarReserva;
 	int visibleClickCrearReserva=1;
 	int visibleClickEditarReserva=1;
+	private static ABMCReservaPrueba instancia;
+	private JButton btnReservarEliminar;
+	private JButton btnCancelarResEli;
+	private JButton btnActualizar;
+	private JButton btnCancelarCierre;
+	private Action accion;
+	private JPanel panelCrearEliminarReserva;
+	private JLabel lblIdReservaNumero;
+	public static ABMCReservaPrueba getInstancia()throws Exception{
+		if(instancia==null){
+			instancia=new ABMCReservaPrueba();
+		}
+		return instancia;
+	}
+	
 	/**
 	 * Launch the application.
 	 */
-	public static void main(Persona per) {								//parametro
+	public static void main() {								//parametro
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ABMCReservaPrueba window = new ABMCReservaPrueba(per);			//parametro
+					ABMCReservaPrueba window = new ABMCReservaPrueba();			//parametro
 					window.setVisible(true);
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null,e.getMessage());
@@ -88,17 +104,18 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	/**
 	 * Create the application.
 	 */
-	public ABMCReservaPrueba(Persona per) {									//parametro
+	public ABMCReservaPrueba() {									//parametro
 
 		this.resLogic = new CtrlReservaLogic();
-		initialize(per);		
+		initialize();		
 		//cargarPersona(per);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(Persona per) {
+	private void initialize() {
+		accion=Action.OTHER;
 		setBorder(null);											
 		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null); //estas dos ultimas lineas quitan bordes y titulo
 		
@@ -107,8 +124,8 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		JLabel lblGestionarReservas = new JLabel("Gestionar Reserva");
 		lblGestionarReservas.setFont(new Font("Calibri", Font.BOLD, 19));
 		
-		JPanel panelCrearReserva = new JPanel();
-		panelCrearReserva.setBackground(Color.WHITE);
+		panelCrearEliminarReserva = new JPanel();
+		panelCrearEliminarReserva.setBackground(Color.WHITE);
 		
 		JButton btnCrearReserva = new JButton("");
 		btnCrearReserva.setToolTipText("Reservar un elemento");
@@ -117,8 +134,11 @@ public class ABMCReservaPrueba extends JInternalFrame{
 			public void mouseClicked(MouseEvent arg0) {					//multiplica por -1 para mostrar/ocultar. 
 			//	if(visibleClickCrearReserva==1){			
 			//	visibleClickCrearReserva=visibleClickCrearReserva*(-1);
-				panel_EditarReserva.setVisible(false);
-				panelCrearReserva.setVisible(true);
+				try {
+					prepararVistaCrearReserva();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e.getMessage());
+				}
 			//	}else{
 			//		visibleClickCrearReserva=visibleClickCrearReserva*(-1);
 			//		panelCrearReserva.setVisible(false);
@@ -135,8 +155,11 @@ public class ABMCReservaPrueba extends JInternalFrame{
 			public void mouseClicked(MouseEvent arg0) {					//multiplica por -1 para mostrar/ocultar. 
 			//	if(visibleClickEditarReserva==1){			
 			//		visibleClickEditarReserva=visibleClickEditarReserva*(-1);
-					panelCrearReserva.setVisible(false);
-					panel_EditarReserva.setVisible(true);
+					try {
+						prepararVistaCerrarReserva();
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, e.getMessage());
+					}
 			//	}else{
 			//		visibleClickEditarReserva=visibleClickEditarReserva*(-1);
 			//		panel_EditarReserva.setVisible(false);
@@ -146,6 +169,11 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		btnCerrarReserva.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Editar.png")));
 		
 		JButton btnCancelarSolicitud = new JButton("");
+		btnCancelarSolicitud.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				prepararVistaEliminarReserva();
+			}
+		});
 		btnCancelarSolicitud.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Borrar.png")));
 		
 		panel_EditarReserva = new JPanel();
@@ -171,8 +199,8 @@ public class ABMCReservaPrueba extends JInternalFrame{
 							.addComponent(panel_EditarReserva, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 214, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(548, Short.MAX_VALUE))
+							.addComponent(panelCrearEliminarReserva, GroupLayout.PREFERRED_SIZE, 444, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(329, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -187,34 +215,42 @@ public class ABMCReservaPrueba extends JInternalFrame{
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel_EditarReserva, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 249, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(124, Short.MAX_VALUE))
+					.addComponent(panelCrearEliminarReserva, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		
 		textIdReserva = new JTextField();
 		textIdReserva.setColumns(10);
 		
-		JLabel lblId = new JLabel("ID");
+		JLabel lblId = new JLabel("ID Reserva");
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		dateChooserFechaFinRes = new JDateChooser();
 		
-		JLabel lblFinReserva = new JLabel("Fin reserva ");
+		JLabel lblFinReserva = new JLabel("Fecha Cierre");
 		lblFinReserva.setHorizontalAlignment(SwingConstants.RIGHT);
 		
-		JButton btnActualizar = new JButton("Cerrar reserva");
+		btnActualizar = new JButton("Cerrar reserva");
 		btnActualizar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					clickModificarReserva(per);
+					clickModificarReserva();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				} catch (AppDataException e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
+			}
+		});
+		
+		btnCancelarCierre = new JButton("Cancelar");
+		btnCancelarCierre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				cancelarCierreClick();
 			}
 		});
 		
@@ -222,19 +258,18 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		gl_panel_EditarReserva.setHorizontalGroup(
 			gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_EditarReserva.createSequentialGroup()
-					.addContainerGap()
+					.addGap(19)
 					.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_EditarReserva.createSequentialGroup()
-							.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 61, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textIdReserva, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
-						.addGroup(gl_panel_EditarReserva.createSequentialGroup()
-							.addComponent(lblFinReserva, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
-								.addComponent(dateChooserFechaFinRes, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-								.addComponent(btnActualizar))))
-					.addGap(30))
+						.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING, false)
+							.addComponent(lblId, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(lblFinReserva, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addComponent(btnActualizar))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(dateChooserFechaFinRes, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+						.addComponent(textIdReserva, 0, 0, Short.MAX_VALUE)
+						.addComponent(btnCancelarCierre, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(144))
 		);
 		gl_panel_EditarReserva.setVerticalGroup(
 			gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
@@ -247,9 +282,11 @@ public class ABMCReservaPrueba extends JInternalFrame{
 					.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblFinReserva)
 						.addComponent(dateChooserFechaFinRes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnActualizar)
-					.addContainerGap(15, Short.MAX_VALUE))
+					.addGap(12)
+					.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnActualizar)
+						.addComponent(btnCancelarCierre))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		panel_EditarReserva.setVisible(false);
 		panel_EditarReserva.setLayout(gl_panel_EditarReserva);
@@ -266,70 +303,89 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		lblHasta.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		dateChooserHasta = new JDateChooser();
-		dateChooserHasta.setDateFormatString("yyyy/MM/dd");
 		
 		dateChooserDesde = new JDateChooser();
-		dateChooserDesde.setDateFormatString("yyyy/MM/dd");
 		
 		JLabel lblDesde = new JLabel("Desde");
 		lblDesde.setHorizontalAlignment(SwingConstants.RIGHT);
 		
-		lblElemento = new JLabel("Elemento");
+		lblElemento = new JLabel("Elemento (Id)");
 		lblElemento.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		textElemento = new JTextField();
 		textElemento.setColumns(10);
 		
-		JButton btnSolicitarReserva = new JButton("Solicitar Reserva");
-		btnSolicitarReserva.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnSolicitarReserva.addMouseListener(new MouseAdapter() {
+		btnReservarEliminar = new JButton("Reservar");
+		btnReservarEliminar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					clickCrearReserva(per);
+					clickCrearEliminarReserva();
 				} catch (SQLException e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				} catch (AppDataException e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
 			}
 		});
-		GroupLayout gl_panelCrearReserva = new GroupLayout(panelCrearReserva);
+		btnReservarEliminar.setVisible(false);
+		
+		btnCancelarResEli = new JButton("Cancelar");
+		btnCancelarResEli.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cancelarReservaOEliminacion();
+			}
+		});
+		btnCancelarResEli.setVisible(false);
+		
+		JLabel lblReservaId = new JLabel("Reserva (Id)");
+		
+		lblIdReservaNumero = new JLabel("");
+		GroupLayout gl_panelCrearReserva = new GroupLayout(panelCrearEliminarReserva);
 		gl_panelCrearReserva.setHorizontalGroup(
-			gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panelCrearReserva.createSequentialGroup()
+			gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_panelCrearReserva.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblElemento, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-						.addComponent(lblHasta, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-						.addComponent(lblDesde, GroupLayout.PREFERRED_SIZE, 56, Short.MAX_VALUE)
-						.addComponent(lblDetalle, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnSolicitarReserva)
-						.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING, false)
-							.addComponent(textAreaDetalle, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-							.addComponent(textElemento, Alignment.LEADING)
-							.addComponent(dateChooserHasta, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(dateChooserDesde, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)))
-					.addGap(103))
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panelCrearReserva.createSequentialGroup()
+							.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblReservaId)
+								.addComponent(lblElemento)
+								.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(lblDesde, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblDetalle, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblHasta, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblIdReservaNumero)
+								.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING, false)
+									.addComponent(dateChooserHasta, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(dateChooserDesde, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(textElemento, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_panelCrearReserva.createSequentialGroup()
+							.addComponent(btnReservarEliminar)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnCancelarResEli)))
+					.addContainerGap(129, Short.MAX_VALUE))
 		);
 		gl_panelCrearReserva.setVerticalGroup(
 			gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelCrearReserva.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblElemento)
-						.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblReservaId)
+						.addComponent(lblIdReservaNumero))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
+						.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblElemento))
 					.addGap(12)
-					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblDesde, Alignment.TRAILING)
-						.addComponent(dateChooserDesde, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
+						.addComponent(dateChooserDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblDesde))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 						.addComponent(dateChooserHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -338,19 +394,23 @@ public class ABMCReservaPrueba extends JInternalFrame{
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblDetalle))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(btnSolicitarReserva)
-					.addGap(25))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnReservarEliminar)
+						.addComponent(btnCancelarResEli))
+					.addContainerGap(21, Short.MAX_VALUE))
 		);
-		panelCrearReserva.setVisible(false);
-		panelCrearReserva.setLayout(gl_panelCrearReserva);
+		//panelCrearReserva.setVisible(false);
+		panelCrearEliminarReserva.setLayout(gl_panelCrearReserva);
 		getContentPane().setLayout(groupLayout);
-		setBounds(100, 100, 785, 477);
+		setBounds(100, 100, 785, 508);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	//	mapearAForm(per);				//per es la persona logueada que se envia como parametro desde el login
 	//	cargarListaTdE();
 	}
+
+
 	/*
 	private void cargarListaTdE(){
 			try {	
@@ -363,21 +423,29 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	}*/
 	
 	
-	private void clickCrearReserva(Persona pers) throws Exception, SQLException, AppDataException{
+	private void clickCrearEliminarReserva() throws Exception, SQLException,ParseException{
 		try {
-			if(textElemento.getText().length()>0 
-				&& dateChooserDesde.getCalendar().get(Calendar.YEAR)>0 
-				&& 1+dateChooserDesde.getCalendar().get(Calendar.MONTH) >0
-				&& dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH) >0
-				&& dateChooserHasta.getCalendar().get(Calendar.YEAR)>0 
-				&& 1+dateChooserHasta.getCalendar().get(Calendar.MONTH) >0
-				&& dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH) >0
-			  ){
-				resLogic.add(this.mapearDeForm(pers));
-				JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.OK_OPTION);
-			}else{
-					JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "", JOptionPane.INFORMATION_MESSAGE);				
+			if(Campo.Valida(this.textElemento.getText(),Campo.tipo.ID) 
+					&& Campo.Valida(((JTextField)dateChooserDesde.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)
+					&& Campo.Valida(((JTextField)dateChooserHasta.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA))
+			{
+				if(accion==Action.ADD){
+					resLogic.add(this.mapearDeForm());
+					JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+				    ListadoReservas.getInstancia().Actualiza();
+				    accion=Action.OTHER;
+				    btnReservarEliminar.setVisible(false);
+				    btnCancelarResEli.setVisible(false);
+			    }
+				else if(accion==Action.DELETE){
+					resLogic.delete(this.mapearDeForm());
+					JOptionPane.showMessageDialog(this, "Reserva eliminada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+				    ListadoReservas.getInstancia().Actualiza();
+				    accion=Action.OTHER;
+				    btnReservarEliminar.setVisible(false);
+				    btnCancelarResEli.setVisible(false);
 				}
+			}
 		} catch (Exception e) {
 
 			JOptionPane.showMessageDialog(this, e.getMessage());
@@ -388,18 +456,17 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	
 	
 	
-	private void clickModificarReserva(Persona pers) throws SQLException, AppDataException, ParseException{
+	private void clickModificarReserva() throws Exception,SQLException, ParseException{
 		try {
-			if(textIdReserva.getText().length()>0
-				&& dateChooserFechaFinRes.getCalendar().get(Calendar.YEAR)>0 
-				&& 1+dateChooserFechaFinRes.getCalendar().get(Calendar.MONTH) >0
-				&& dateChooserFechaFinRes.getCalendar().get(Calendar.DAY_OF_MONTH) >0)
-				{
-				resLogic.updateParaCerrarRes(this.mapearDeFormFechaFin(pers));
-				JOptionPane.showMessageDialog(this, "Reserva finalizada", "", JOptionPane.OK_OPTION);
-
-			}else{
-				JOptionPane.showMessageDialog(this, "Debe ingresar todos los campos", "", JOptionPane.INFORMATION_MESSAGE);				
+			if(Campo.Valida(this.textIdReserva.getText(),Campo.tipo.ID)
+					&& Campo.Valida(((JTextField)dateChooserFechaFinRes.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)
+				){
+				resLogic.updateParaCerrarRes(this.mapearDeFormFechaFin(Ingreso.PersonaLogueada));
+				JOptionPane.showMessageDialog(this, "Reserva finalizada", "", JOptionPane.INFORMATION_MESSAGE);
+				ListadoReservas.getInstancia().Actualiza();
+				accion=Action.OTHER;
+				this.panel_EditarReserva.setVisible(false);
+				this.panelCrearEliminarReserva.setVisible(true);
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
@@ -408,13 +475,13 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	}
 	
 
-	private Reserva mapearDeForm(Persona pers) throws ParseException,Exception{
+	private Reserva mapearDeForm() throws Exception{
 
 		Reserva r = new Reserva();
 		//Persona p = new Persona();
 		Elemento e = new Elemento();
-
-		r.setPersona(pers);	
+        r.setId_reserva(Integer.parseInt(this.lblIdReservaNumero.getText()));
+		r.setPersona(Ingreso.PersonaLogueada);	
 		e.setId_elemento(Integer.parseInt(this.textElemento.getText()));
 		r.setElemento(e);
 		
@@ -433,25 +500,23 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		
 
 	
-		int year = Calendar.getInstance().get(Calendar.YEAR);
-		int month = Calendar.getInstance().get(Calendar.MONTH)+1;
-		int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-		int hora=Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-		int minutos=Calendar.getInstance().get(Calendar.MINUTE);
-		int segundos=Calendar.getInstance().get(Calendar.SECOND);
+//		int year = Calendar.getInstance().get(Calendar.YEAR);
+//		int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+//		int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+//		int hora=Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+//		int minutos=Calendar.getInstance().get(Calendar.MINUTE);
+//		int segundos=Calendar.getInstance().get(Calendar.SECOND);
 //		String fecha = day + "/" +month + "/" + year +"/"+ hora+":"+minutos+":"+segundos;
 //		
 //		r.setFecha_hora_reserva_hecha(Date.valueOf(fecha));
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		r.setFecha_hora_reserva_hecha(formatter.parse(new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())));
-		JOptionPane.showMessageDialog(null, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime()));
-
 		r.setDetalle(this.textAreaDetalle.getText());
 		return r;
 	}
 	
 	
-	private Reserva mapearDeFormFechaFin(Persona pers) throws ParseException{
+	private Reserva mapearDeFormFechaFin(Persona pers) throws Exception{
 		Reserva r = new Reserva();
 		//Persona p = new Persona();
 		Elemento e = new Elemento();
@@ -470,7 +535,8 @@ public class ABMCReservaPrueba extends JInternalFrame{
 	}
 	
 	
-	private void limpiarCampos(){
+	private void limpiarCampos()throws Exception{
+		this.lblIdReservaNumero.setText(null);
 		this.textElemento.setText(null);
 		this.dateChooserDesde.setDate(null);
 		this.dateChooserHasta.setDate(null);
@@ -479,16 +545,68 @@ public class ABMCReservaPrueba extends JInternalFrame{
 		this.dateChooserFechaFinRes.setDate(null);
 	}
 	
-	public void mapearAForm(Reserva res){
+	public void mapearAForm(Reserva res)throws Exception{
 		if(res!=null){
-		this.textElemento.setText(String.valueOf(res.getElemento().getId_elemento()));
-		this.dateChooserDesde.setDate(res.getFecha_hora_desde_solicitada());
-		this.dateChooserHasta.setDate(res.getFecha_hora_hasta_solicitada());
-		this.textAreaDetalle.setText(res.getDetalle());
-		this.textIdReserva.setText(String.valueOf(res.getId_reserva()));
-		this.dateChooserFechaFinRes.setDate(res.getFecha_hora_entregado());}
+			if(accion==Action.OTHER){
+				this.lblIdReservaNumero.setText(String.valueOf(res.getId_reserva()));
+				this.textElemento.setText(String.valueOf(res.getElemento().getId_elemento()));
+				this.dateChooserDesde.setDate(res.getFecha_hora_desde_solicitada());
+				this.dateChooserHasta.setDate(res.getFecha_hora_hasta_solicitada());
+				this.textAreaDetalle.setText(res.getDetalle());
+				this.textIdReserva.setText(String.valueOf(res.getId_reserva()));
+				this.dateChooserFechaFinRes.setDate(res.getFecha_hora_entregado());
+				}
+		}
 		else{
 			this.limpiarCampos();
 		}
+	}
+
+	private void cancelarCierreClick() {
+		accion=Action.OTHER;
+		panel_EditarReserva.setVisible(false);
+		panelCrearEliminarReserva.setVisible(true);
+		try {
+			ListadoReservas.getInstancia().mapearHaciaABMCClick();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+	}
+
+	private void cancelarReservaOEliminacion() {
+		btnReservarEliminar.setVisible(false);
+		btnCancelarResEli.setVisible(false);
+		accion=Action.OTHER;
+		try {
+			ListadoReservas.getInstancia().mapearHaciaABMCClick();
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, e1.getMessage());
+		}
+	}
+
+	private void prepararVistaCrearReserva() throws Exception {
+		btnReservarEliminar.setVisible(true);
+		btnCancelarResEli.setVisible(true);
+		btnReservarEliminar.setText("Reservar");
+		accion=Action.ADD;
+		limpiarCampos();
+		this.lblIdReservaNumero.setText(String.valueOf(this.resLogic.getMaxId()+1));
+		panel_EditarReserva.setVisible(false);
+		panelCrearEliminarReserva.setVisible(true);
+	}
+	protected void prepararVistaEliminarReserva() {
+		btnReservarEliminar.setVisible(true);
+		btnCancelarResEli.setVisible(true);
+		btnReservarEliminar.setText("Eliminar");
+		accion=Action.DELETE;
+		panel_EditarReserva.setVisible(false);
+		panelCrearEliminarReserva.setVisible(true);
+	}
+
+	private void prepararVistaCerrarReserva()throws Exception {
+		ListadoReservas.getInstancia().mapearHaciaABMCClick();
+		accion=Action.UPDATE;
+		panelCrearEliminarReserva.setVisible(false);
+		panel_EditarReserva.setVisible(true);
 	}
 }

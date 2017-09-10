@@ -1,5 +1,7 @@
 package tools;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,7 +9,7 @@ import javax.swing.JOptionPane;
 
 public class Campo {
 
-	public enum tipo{EMAIL,DNI,INDICE,ID,OTRO}
+	public enum tipo{EMAIL,DNI,INDICE,ID,FECHA,OTRO}
 	
 	public static boolean Valida(String campo,tipo tipoCampo){
 		if(campo.isEmpty() || campo==null){
@@ -19,12 +21,24 @@ public class Campo {
 		case DNI:return validaDni(campo);
 		case INDICE: return validaIndice(campo);
 		case ID:return validaId(campo);
+		case FECHA:return validaFecha(campo);
 		default:break;
 		}
 		return true;
 	}
 	
-	
+	private static boolean validaFecha(String fecha){
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		try{
+		formatter.setLenient(false);
+		formatter.parse(fecha);
+		}
+		catch(ParseException pe){
+			JOptionPane.showMessageDialog(null,"fecha invalida", "",JOptionPane.INFORMATION_MESSAGE);
+			return false;
+		}
+		return true;
+	}
 	private static boolean validaEmail(String email){
 		
         boolean valido = false;

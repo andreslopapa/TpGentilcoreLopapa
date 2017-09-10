@@ -59,7 +59,7 @@ public class ListadoElementos extends Listado implements IListados{
 	private JLabel lblIndice;
 	private Elemento elementoActual;
 	private ABMCElementoPrueba formElemento;
-	private ABMCReservaPrueba formReserva;
+	private AltasReserva formReserva;
     public static enum TipoBusqueda{ POR_ID("Por Id"),POR_NOMBRE("Por Nombre"),
     					     POR_TIPO("Por Tipo"),POR_NOMBRE_Y_TIPO("Por Nombre y Tipo"),
     					     TRAER_TODOS("Traer Todos");
@@ -68,6 +68,8 @@ public class ListadoElementos extends Listado implements IListados{
     	@Override
     	public String toString(){return texto;}}
     private TipoBusqueda tipoBusquedaActual;
+    
+    
     
 	//private int visibleVentanaReserva=1;			//mostrar ocultar ventana
 
@@ -122,7 +124,7 @@ public class ListadoElementos extends Listado implements IListados{
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				if(formElemento.getAccion()==Action.OTHER){
-				mapearHaciaABMCClick();}
+				mapearHaciaABMCElementoClick();}
 			}
 		});
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -176,7 +178,7 @@ public class ListadoElementos extends Listado implements IListados{
 		JLabel lblUsuario = new JLabel(Ingreso.PersonaLogueada.getCategoria()+": "+Ingreso.PersonaLogueada.getApellido()+","+Ingreso.PersonaLogueada.getNombre());
 		getContentPane().add(lblUsuario, "cell 8 0");
 		lblUsuario.setForeground(new Color(0, 51, 102));
-		lblUsuario.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/ic_person_black_24dp_2x.png")));
+		lblUsuario.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/ic_person_white_24dp_2x.png")));
 		
 
 		getContentPane().add(txtBuscar, "flowx,cell 1 2 7 1,alignx left,aligny bottom");
@@ -313,7 +315,8 @@ public class ListadoElementos extends Listado implements IListados{
 	//	if(visibleVentanaReserva==1){									//las validaciones y multiplicaciones por -1 es para mostrar y ocultar con el mismo boton
 	//		visibleVentanaReserva=visibleVentanaReserva*(-1);
 			try {
-				formReserva=new ABMCReservaPrueba(Ingreso.PersonaLogueada);
+				formReserva=new AltasReserva();
+				this.mapearHaciaAltasReservaClick();
 				desktopPane.removeAll();
 				desktopPane.add(formReserva);
 				formReserva.setVisible(true);
@@ -330,11 +333,11 @@ public class ListadoElementos extends Listado implements IListados{
 		
 	}
 
-	private void abrirVentanaElemento(ABMC.Action accion) {
+	public void abrirVentanaElemento(ABMC.Action accion) {
 		try {
 //			if(formElemento==null){
 			
-			this.mapearHaciaABMCClick();
+			this.mapearHaciaABMCElementoClick();
 			formElemento=ABMCElementoPrueba.getInstancia(accion);
 			
 //			}
@@ -349,7 +352,14 @@ public class ListadoElementos extends Listado implements IListados{
 					"Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	protected void mapearHaciaABMCClick() {
+	
+	protected void mapearHaciaAltasReservaClick(){
+		if(table.getSelectedRowCount()!=0){
+			int indiceElemento=this.table.convertRowIndexToModel(table.getSelectedRow());
+			this.formReserva.mapearAForm(this.elementoLogic.elementos.get((indiceElemento)).getId_elemento());
+			}
+	}
+	protected void mapearHaciaABMCElementoClick() {
 		if(table.getSelectedRowCount()!=0){
 		int indiceElemento=this.table.convertRowIndexToModel(table.getSelectedRow());
 		this.formElemento.mapearAForm(this.elementoLogic.elementos.get((indiceElemento)));
