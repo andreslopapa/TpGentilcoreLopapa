@@ -72,7 +72,7 @@ public class ListadoReservas extends Listado implements IListados{
     	@Override
     	public String toString(){return texto;}}
     private TipoBusqueda tipoBusquedaActual;
-    public ArrayList<Reserva> reservas=new ArrayList<Reserva>();
+    public ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 	//private int visibleVentanaReserva=1;			//mostrar ocultar ventana
 
 
@@ -454,7 +454,6 @@ public class ListadoReservas extends Listado implements IListados{
 		    	table.setRowSelectionInterval(0,0);
 		    	int indiceReserva=this.table.convertRowIndexToModel(table.getSelectedRow());
 				this.formReserva.mapearAForm(this.reservaLogic.reservas.get((indiceReserva)));
-		    	
 		    }
 		    else{
 		    	this.formReserva.mapearAForm(null);
@@ -462,8 +461,7 @@ public class ListadoReservas extends Listado implements IListados{
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, "Error al actualizar datos\n"+ex.getMessage(), 
 					"Error", JOptionPane.ERROR_MESSAGE);
-		}
-		
+		}		
 	}
 	
 //	public void initDataBindings() {
@@ -521,11 +519,7 @@ public class ListadoReservas extends Listado implements IListados{
 		case TRAER_TODOS:
 		default:reservaActual=null;
 				this.tipoBusquedaActual=TipoBusqueda.TRAER_TODOS;
-				break;
-		
-		
-		
-		
+				break;		
 		}
 		
 	} 

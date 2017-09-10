@@ -116,14 +116,26 @@ CREATE TABLE `persona` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+
+ALTER TABLE `basereservas`.`persona` 
+ADD UNIQUE INDEX `usuario_UNIQUE` (`usuario` ASC),
+ADD UNIQUE INDEX `dni_UNIQUE` (`dni` ASC);
+
 --
 -- Dumping data for table `persona`
 --
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES (1,'39927307','nawe','shopping','naweferoz','123',0,'tunawebienturro@gmail.com',3),(2,'11111111','kim','deal','lakimpiola','321',1,'kim_deal@hotmail.com',3),(3,'22222222','joe','santiago','santiagojoe','000',1,'joe_santiago@yahoo.com',2),(4,'33333333','black','francis','thepixies','1989',1,'hey@yahoo.com',2),(5,'44444444','adrian','meca','debo aprobar','alumnos',1,'estoschicospromueven@hotmail.com',1),(6,'55555555','Ricky','Tabacman','Ricardo','123',1,'soyricky@yahoo.com',1);
-/*!40000 ALTER TABLE `persona` ENABLE KEYS */;
+insert into persona(dni,nombre,apellido,usuario,contrasenia,habilitado,email,id_categoria) 
+values
+('39927307','Nahuel','Alvarez','NaweShopping','123',0,'naweShopping@gmail.com',3),
+('11111111','Elsa','Pallo','zapallito','321',1,'zapallito@hotmail.com',3),
+('22222222','Seba','Rantica','heilHitler','000',1,'bigotito@yahoo.com',2),
+('33333333','Fausto','Azzaretti','elOligarca','1989',1,'mauriPresidente@yahoo.com',2),
+('44444444','Adrian','Meca','AdrianMeca','alumnos',1,'estoschicospromueven@hotmail.com',1),
+('55555555','Ricky','Tabacman','Ricardo','123',1,'soyricky@yahoo.com',1),
+('66666666','Miguel','Oliveros Vega','cubaLibre','123',1,'cubaLibre@free.com',3);/*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -156,6 +168,14 @@ CREATE TABLE `reserva` (
 
 LOCK TABLES `reserva` WRITE;
 /*!40000 ALTER TABLE `reserva` DISABLE KEYS */;
+/*ejemplo reserva no entregada*/
+insert into reserva(id_persona, id_elemento,fecha_hora_reserva_hecha, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) 
+values
+(2,3,20170810,20170820,20170824,'Se entregÃ³ con raya superior');
+/*ejemplo reserva entregada*/
+insert into reserva(id_persona, id_elemento,fecha_hora_reserva_hecha, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,fecha_hora_entregado, detalle) 
+values
+(2,3,20170810,20170820,20170824,20170824,'Se finalizo la reserva y solucionó el problema');
 /*!40000 ALTER TABLE `reserva` ENABLE KEYS */;
 UNLOCK TABLES;
 

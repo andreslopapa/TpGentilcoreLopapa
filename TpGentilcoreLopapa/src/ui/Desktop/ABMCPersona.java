@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
@@ -39,10 +41,18 @@ import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JTable;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.SwingBindings;
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.jdesktop.beansbinding.BeanProperty;
+import javax.swing.JScrollPane;
 
 public class ABMCPersona extends JInternalFrame{
 
-	CtrlPersonaLogic perLogic = new CtrlPersonaLogic();
+	CtrlPersonaLogic ctrlPer = new CtrlPersonaLogic();
+	private ArrayList<Persona> pers;// = new ArrayList<>();
+	
 	
 	private JFrame frmSistemaDeGestin;
 	private JTextField textUsuario;
@@ -53,7 +63,12 @@ public class ABMCPersona extends JInternalFrame{
 	private JTextField textDNI;
 	private JComboBox comboCategoria;
 	private JCheckBox chckbxHabilitado; 
+	private JTable tablePersona;
+	private JScrollPane scrollPaneTablaPersona;
+	
+	private int visibilidadTabla=1;
 
+	
 	
 
 	/**
@@ -90,7 +105,7 @@ public class ABMCPersona extends JInternalFrame{
 		frmSistemaDeGestin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
 		
 		setBorder(null);											
-		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null); //estas dos ultimas lineas quitan bordes y titulo
+		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null); //estas dos ultimas lineas quitan bordes y barra superior de la ventana
 		
 		
 		JLabel lblUsuario = new JLabel("Usuario");
@@ -143,7 +158,9 @@ public class ABMCPersona extends JInternalFrame{
 		lblGestinDeNuevo.setForeground(new Color(0, 51, 102));
 		lblGestinDeNuevo.setFont(new Font("Calibri", Font.BOLD, 18));
 		
-		JButton btnGuardar = new JButton("Guardar");
+		JButton btnGuardar = new JButton("");
+		btnGuardar.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/Agregar.png")));
+		btnGuardar.setToolTipText("Crear nuevo usuario");
 		btnGuardar.setForeground(new Color(0, 51, 102));
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -170,7 +187,8 @@ public class ABMCPersona extends JInternalFrame{
 		textDNI = new JTextField();
 		textDNI.setColumns(10);
 		
-		JButton btnBuscar = new JButton("Buscar");
+		JButton btnBuscar = new JButton("");
+		btnBuscar.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/ic_search_black_24dp_1x.png")));
 		btnBuscar.setForeground(new Color(0, 51, 102));
 		btnBuscar.addActionListener(new ActionListener() {
 			@Override
@@ -186,7 +204,9 @@ public class ABMCPersona extends JInternalFrame{
 		 comboCategoria = new JComboBox();
 		 comboCategoria.setForeground(new Color(0, 51, 102));
 		
-		JButton btnModificar = new JButton("Modificar");
+		JButton btnModificar = new JButton("");
+		btnModificar.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/Editar.png")));
+		btnModificar.setToolTipText("Modificar datos del usuario del formulario");
 		btnModificar.setForeground(new Color(0, 51, 102));
 		btnModificar.addActionListener(new ActionListener() {
 			@Override
@@ -199,7 +219,9 @@ public class ABMCPersona extends JInternalFrame{
 			}
 		});
 		
-		JButton btnBorrar = new JButton("Borrar");
+		JButton btnBorrar = new JButton("");
+		btnBorrar.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/Borrar.png")));
+		btnBorrar.setToolTipText("Borrar usuario");
 		btnBorrar.setForeground(new Color(153, 0, 0));
 		btnBorrar.addActionListener(new ActionListener() {
 			@Override
@@ -207,12 +229,12 @@ public class ABMCPersona extends JInternalFrame{
 				try {
 					eliminarClick();
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Error al apretar en botón borrar\n"+e1.getMessage());
 				}
 			}
 		});
 		
-		chckbxHabilitado = new JCheckBox("   Habilitado");
+		chckbxHabilitado = new JCheckBox("");
 		chckbxHabilitado.setHorizontalAlignment(SwingConstants.LEFT);
 		chckbxHabilitado.setForeground(new Color(0, 51, 102));
 		chckbxHabilitado.setBackground(Color.WHITE);
@@ -239,55 +261,123 @@ public class ABMCPersona extends JInternalFrame{
 					.addContainerGap(377, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
+		
+		scrollPaneTablaPersona = new JScrollPane();
+		scrollPaneTablaPersona.setBackground(Color.WHITE);			
+
+		
+		JButton btnBotonquebusca = new JButton("");
+		btnBotonquebusca.setToolTipText("Seleccionar persona para visualizarla en formulario");
+		btnBotonquebusca.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/ic_touch_app_black.png")));
+		btnBotonquebusca.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					buscaPersonaPrueba();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Error al apretar en botón Buscar\n"+e.getMessage());
+				}
+			}
+		});
+		
+		JButton btnBuscarenlista = new JButton("");
+		btnBuscarenlista.setToolTipText("Mostrar listado para buscar");
+		btnBuscarenlista.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					clickMostrarListado();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Error con botón Mostrar Listado Personas\n"+e1.getMessage());
+				}
+			}
+		});
+		
+		btnBuscarenlista.setSelectedIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/buscaPersonaListad.png")));
+		btnBuscarenlista.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/buscaPersonaLista.png")));
+		
+		JLabel lblHabilitado = new JLabel("Habilitado");
+		lblHabilitado.setForeground(new Color(0, 51, 102));
+		lblHabilitado.setFont(new Font("Calibri", Font.PLAIN, 14));
+		lblHabilitado.setHorizontalAlignment(SwingConstants.RIGHT);
+		
+		JLabel lblMostrarListado = new JLabel("Mostrar listado");
+		
+		JLabel lblListadoDePersonas = new JLabel("Listado de Personas");
+		lblListadoDePersonas.setForeground(new Color(0, 51, 102));
+		lblListadoDePersonas.setFont(new Font("Calibri", Font.PLAIN, 18));
+		
+		JButton btnReiniciarListado = new JButton("");
+		btnReiniciarListado.setIcon(new ImageIcon(ABMCPersona.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 //		GroupLayout groupLayout = new GroupLayout(frmSistemaDeGestin.getContentPane());
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-					.addGap(89)
+					.addGap(56)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblDni, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblUsuario, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(25)
-							.addComponent(lblContrasenia))
-						.addComponent(lblNombre, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblApellido, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCategoria, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(25)
-							.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(6)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(groupLayout.createSequentialGroup()
-									.addGap(2)
-									.addComponent(lblGestinDeNuevo, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE))
-								.addComponent(textDNI, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textEmail, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textUsuario, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-								.addComponent(passwordUsuarioField, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textNombre, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textApellido, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-								.addComponent(comboCategoria, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-								.addComponent(chckbxHabilitado, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
-					.addGap(44)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(lblListadoDePersonas)
+						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+							.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(scrollPaneTablaPersona, GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+									.addComponent(btnBotonquebusca, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+									.addComponent(btnReiniciarListado, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE))
+								.addGap(52))
+							.addGroup(groupLayout.createSequentialGroup()
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(lblHabilitado, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblDni, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblUsuario, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+									.addGroup(groupLayout.createSequentialGroup()
+										.addGap(25)
+										.addComponent(lblContrasenia))
+									.addComponent(lblNombre, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+									.addComponent(lblApellido, GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+									.addComponent(lblCategoria, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+									.addComponent(textUsuario, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+									.addComponent(passwordUsuarioField, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+									.addComponent(textNombre, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+									.addComponent(chckbxHabilitado, GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+										.addComponent(comboCategoria, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(textApellido, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE))
+									.addGroup(groupLayout.createSequentialGroup()
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+											.addGroup(groupLayout.createSequentialGroup()
+												.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+													.addComponent(textEmail, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+													.addComponent(textDNI, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE))
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(btnBuscar, 0, 0, Short.MAX_VALUE))
+											.addGroup(groupLayout.createSequentialGroup()
+												.addGap(2)
+												.addComponent(lblGestinDeNuevo, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)))
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)))
+								.addGap(49)
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+									.addComponent(btnBuscarenlista, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblMostrarListado))
+								.addGap(52)))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(34)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(75)
+							.addGap(54)
 							.addComponent(lblDni, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 							.addGap(17)
 							.addComponent(lblEmail, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
@@ -300,73 +390,105 @@ public class ABMCPersona extends JInternalFrame{
 							.addGap(17)
 							.addComponent(lblApellido, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 							.addGap(17)
-							.addComponent(lblCategoria, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-							.addGap(78)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnBorrar)
-								.addComponent(btnModificar)))
+							.addComponent(lblCategoria, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(35)
-							.addComponent(lblGestinDeNuevo, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-							.addGap(23)
-							.addComponent(textDNI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(textEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(textUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(passwordUsuarioField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(textNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(textApellido, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(11)
-							.addComponent(comboCategoria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(19)
-							.addComponent(chckbxHabilitado))
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblGestinDeNuevo, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+									.addGap(23))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
+									.addGap(18))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblMostrarListado)
+									.addPreferredGap(ComponentPlacement.RELATED)))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(textDNI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(11)
+									.addComponent(textEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(11)
+									.addComponent(textUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(11)
+									.addComponent(passwordUsuarioField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(11)
+									.addComponent(textNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(11)
+									.addComponent(textApellido, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(11)
+									.addComponent(comboCategoria, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addComponent(btnBuscar)
+								.addComponent(btnBuscarenlista, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(72)
-							.addComponent(btnBuscar)
-							.addGap(258)
-							.addComponent(btnGuardar)))
-					.addGap(68))
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+							.addGap(11)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(chckbxHabilitado)
+								.addComponent(lblHabilitado))
+							.addGap(40)
+							.addComponent(lblListadoDePersonas)
+							.addGap(13)
+							.addComponent(scrollPaneTablaPersona, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(125)
+							.addComponent(btnBotonquebusca)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(btnReiniciarListado)))
+					.addGap(122))
 		);
+		
+		tablePersona = new JTable();
+		scrollPaneTablaPersona.setViewportView(tablePersona);
+		tablePersona.setFont(new Font("Calibri", Font.PLAIN, 14));
+		tablePersona.setBackground(Color.WHITE);
 	//	frmSistemaDeGestin.getContentPane().setLayout(groupLayout);
 		getContentPane().setLayout(groupLayout);
-		cargarListas();		
+		
+		cargarListas();		//Lista del combo
+
+
+		cargarListaPersona();	//Tabla									
+		initDataBindings();
+
+
 	}
 
 	private void cargarListas() {
 		try {//setModel:  es una representacion de los datos que tiene adentro. Como se ordeanan
 			//DefaultComboBoxModel:   recibe como parametro un array con los elementos a mostrar
-			this.comboCategoria.setModel(new DefaultComboBoxModel(perLogic.getCategorias().toArray()));
+			this.comboCategoria.setModel(new DefaultComboBoxModel(ctrlPer.getCategorias().toArray()));
 			this.comboCategoria.setSelectedIndex(-1);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(frmSistemaDeGestin, e.getMessage());
 		}
 	}
 	
+	//Crear nueva persona
 	protected void guardarClick(){
 		try {		
 			if(textDNI.getText().length() >0 && textUsuario.getText().length() >0 && passwordUsuarioField.getText().length() >0 
 					&& textNombre.getText().length() >0 && textApellido.getText().length() >0 &&  textEmail.getText().length()>0 ){				
 			if(!FormatoEmail.esEmailCorrecto(textEmail.getText())){JOptionPane.showMessageDialog(frmSistemaDeGestin, "Email incorrecto", "", JOptionPane.WARNING_MESSAGE); 
 			}else{
-			perLogic.add(this.mapearDeForm());
+			ctrlPer.add(this.mapearDeForm());
 			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario guardado correctamente", "", JOptionPane.OK_OPTION);}
 			}else{
 				JOptionPane.showMessageDialog(frmSistemaDeGestin, "Debe completar todos los campos", "", JOptionPane.WARNING_MESSAGE);
 			}
-		} catch (Exception e) {
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario y/o DNI ya existentes."+ex.getMessage());
+	    }catch (Exception e) {
 			JOptionPane.showMessageDialog(frmSistemaDeGestin, e.getMessage());
-		}
+		} 
 	}
 	
-	
+	//Buscar persona
 	protected void buscarClick(){
 		try {if(textDNI.getText().length() >0){
-			this.mapearAForm(perLogic.getByDni(this.mapearDeForm()));
+			this.mapearAForm(ctrlPer.getByDni(this.mapearDeForm()));
 			}else{
 				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningún usuario para buscar", "", JOptionPane.WARNING_MESSAGE);				
 			}
@@ -378,7 +500,7 @@ public class ABMCPersona extends JInternalFrame{
 	protected void modificarClick(){
 		try {
 			if(textDNI.getText().length() >0){
-			perLogic.update(mapearDeForm());
+			ctrlPer.update(mapearDeForm());
 			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario actualizado", "", JOptionPane.INFORMATION_MESSAGE);
 			}else{
 				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningún usuario", "", JOptionPane.WARNING_MESSAGE);
@@ -392,7 +514,7 @@ public class ABMCPersona extends JInternalFrame{
 	
 	protected void eliminarClick(){
 		try {if(textDNI.getText().length() >0){
-			perLogic.delete(mapearDeForm());
+			ctrlPer.delete(mapearDeForm());
 			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario eliminado", "", JOptionPane.INFORMATION_MESSAGE);
 			this.limpiarTexto();
 			}else{
@@ -438,7 +560,77 @@ public class ABMCPersona extends JInternalFrame{
 		this.passwordUsuarioField.setText("");
 		this.textEmail.setText("");
 		this.chckbxHabilitado.setSelected(false);
+	}
+	
+	
+	
+	protected ArrayList<Persona> cargarListaPersona(){
+		try {
+			pers= this.ctrlPer.getAll();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this,e.getMessage(),"Error al cargar Personas",JOptionPane.ERROR_MESSAGE);
+		}
+		return pers;
+	}
+	
+	public void clickMostrarListado(){
+
+		if(visibilidadTabla==1){
+			scrollPaneTablaPersona = new JScrollPane();	
+			scrollPaneTablaPersona.setVisible(true);
+			
+			visibilidadTabla=visibilidadTabla*-1;
+		}else{
+			scrollPaneTablaPersona.setVisible(false);
+			visibilidadTabla=visibilidadTabla*-1;
+		}
+		
+	}
+	
+	
+	public void buscaPersonaPrueba(){
+		int indexPersona= tablePersona.convertRowIndexToModel(tablePersona.getSelectedRow());
+		this.showPersona(this.pers.get(indexPersona));
 
 	}
+	
+	
+	public void showPersona(Persona p){
+		this.mapearAForm(p);
+		
+	}
 
+	protected void initDataBindings() {
+		JTableBinding<Persona, List<Persona>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, pers, tablePersona, "tablaPersonas");
+		//
+		BeanProperty<Persona, Integer> personaBeanProperty = BeanProperty.create("id");
+		jTableBinding.addColumnBinding(personaBeanProperty).setColumnName("ID");
+		//
+		BeanProperty<Persona, String> personaBeanProperty_1 = BeanProperty.create("dni");
+		jTableBinding.addColumnBinding(personaBeanProperty_1).setColumnName("DNI");
+		//
+		BeanProperty<Persona, String> personaBeanProperty_2 = BeanProperty.create("apellido");
+		jTableBinding.addColumnBinding(personaBeanProperty_2).setColumnName("Apellido");
+		//
+		BeanProperty<Persona, String> personaBeanProperty_3 = BeanProperty.create("nombre");
+		jTableBinding.addColumnBinding(personaBeanProperty_3).setColumnName("Nombre");
+		//
+		BeanProperty<Persona, String> personaBeanProperty_4 = BeanProperty.create("usuario");
+		jTableBinding.addColumnBinding(personaBeanProperty_4).setColumnName("Usuario");
+		//
+		BeanProperty<Persona, String> personaBeanProperty_5 = BeanProperty.create("contrasenia");
+		jTableBinding.addColumnBinding(personaBeanProperty_5).setColumnName("Contrase\u00F1a");
+		//
+		BeanProperty<Persona, String> personaBeanProperty_6 = BeanProperty.create("email");
+		jTableBinding.addColumnBinding(personaBeanProperty_6).setColumnName("Email");
+		//
+		BeanProperty<Persona, String> personaBeanProperty_7 = BeanProperty.create("categoria.descripcion");
+		jTableBinding.addColumnBinding(personaBeanProperty_7).setColumnName("Categoria");
+		//
+		BeanProperty<Persona, Boolean> personaBeanProperty_8 = BeanProperty.create("habilitado");
+		jTableBinding.addColumnBinding(personaBeanProperty_8).setColumnName("Habilitado");
+		//
+		jTableBinding.setEditable(false);
+		jTableBinding.bind();
+	}
 }

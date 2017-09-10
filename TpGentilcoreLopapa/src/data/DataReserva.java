@@ -17,11 +17,7 @@ import ui.Desktop.ListadoElementos;
 import ui.Desktop.ListadoReservas;
 
 public class DataReserva {
-	
-	
-	
-	
-	
+
 	
 	public ArrayList<Reserva> getSome(ListadoReservas.TipoBusqueda tipob,Reserva reserva,int indice,int cantTraer)throws SQLException,AppDataException{
 		PreparedStatement pstmt=null;
@@ -206,14 +202,7 @@ public class DataReserva {
 			pstmt.setInt(2, r.getElemento().getId_elemento());
 			//pstmt.setString(3, String.valueOf(new java.sql.Date(r.getFecha_hora_reserva_hecha().getTime())));
 			//pstmt.setString(3, String.valueOf(r.getFecha_hora_reserva_hecha()));
-			pstmt.setString(3, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getFecha_hora_reserva_hecha()));	
-			//el tipo cuando quiera ingresar una nueva reserva, se va a crear un nuevo registro en la BD y por lo tanto un nuevo timestamp de ese momento.
-					
-					// de todos modos me parece que no la vamos a necesitar a esta. xq yo la habia pensado para restar con el dato del tiempo que tiene TipoDeElemento
-					//O sea, "fecha_hora_reserva_hecha" se va a actualizar cuando se CREA la reserva. (o sea que ya paso todas las validaciones)
-					//pero la diferencia de tiempo que tenemos que hacer es una validacion que se hace antes que se crea la reserva.
-					//si vos la pensaste para usarla en otro momento la dejamos
-			
+			pstmt.setString(3, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getFecha_hora_reserva_hecha()));		
 			pstmt.setString(4, String.valueOf( r.getFecha_hora_desde_solicitada()));
 			pstmt.setString(5, String.valueOf( r.getFecha_hora_hasta_solicitada()));
 		//	pstmt.setDate(5, (java.sql.Date)r.getFecha_hora_entregado());     //este solo se usa para cuando el administrador, o quien sea, registre que se devolvi�
