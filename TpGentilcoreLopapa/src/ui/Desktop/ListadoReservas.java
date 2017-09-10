@@ -107,7 +107,7 @@ public class ListadoReservas extends Listado implements IListados{
 		if(ListadoReservas.instancia==null){
 			ListadoReservas.instancia=new ListadoReservas();
 		}
-		ListadoReservas.instancia.Actualiza();
+		//ListadoReservas.instancia.Actualiza();
 		return ListadoReservas.instancia;
 	}
 	

@@ -171,7 +171,11 @@ public class ABMCReservaPrueba extends ABMC{
 		JButton btnCancelarSolicitud = new JButton("");
 		btnCancelarSolicitud.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				prepararVistaEliminarReserva();
+				try {
+					prepararVistaEliminarReserva();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null,e1.getMessage());		
+					}
 			}
 		});
 		btnCancelarSolicitud.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Borrar.png")));
@@ -445,6 +449,7 @@ public class ABMCReservaPrueba extends ABMC{
 				    btnReservarEliminar.setVisible(false);
 				    btnCancelarResEli.setVisible(false);
 				}
+				ListadoReservas.getInstancia().Actualiza();
 			}
 		} catch (Exception e) {
 
@@ -467,6 +472,7 @@ public class ABMCReservaPrueba extends ABMC{
 				accion=Action.OTHER;
 				this.panel_EditarReserva.setVisible(false);
 				this.panelCrearEliminarReserva.setVisible(true);
+				ListadoReservas.getInstancia().Actualiza();
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
@@ -594,16 +600,19 @@ public class ABMCReservaPrueba extends ABMC{
 		panel_EditarReserva.setVisible(false);
 		panelCrearEliminarReserva.setVisible(true);
 	}
-	protected void prepararVistaEliminarReserva() {
+	protected void prepararVistaEliminarReserva()throws Exception {
+		accion=Action.OTHER;
+		ListadoReservas.getInstancia().mapearHaciaABMCClick();
+		accion=Action.DELETE;
 		btnReservarEliminar.setVisible(true);
 		btnCancelarResEli.setVisible(true);
 		btnReservarEliminar.setText("Eliminar");
-		accion=Action.DELETE;
 		panel_EditarReserva.setVisible(false);
 		panelCrearEliminarReserva.setVisible(true);
 	}
 
 	private void prepararVistaCerrarReserva()throws Exception {
+		accion=Action.OTHER;
 		ListadoReservas.getInstancia().mapearHaciaABMCClick();
 		accion=Action.UPDATE;
 		panelCrearEliminarReserva.setVisible(false);

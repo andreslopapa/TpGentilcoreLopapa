@@ -139,6 +139,7 @@ public class MainWindow {
 		try{
 			desktopPane.removeAll();
 			lr=ListadoReservas.getInstancia();
+			lr.Actualiza();
 			desktopPane.add(lr);
 			lr.setVisible(true);
 			lr.setMaximum(true);
