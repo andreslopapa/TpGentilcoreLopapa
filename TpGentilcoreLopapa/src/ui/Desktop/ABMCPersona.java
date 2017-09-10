@@ -206,7 +206,7 @@ public class ABMCPersona extends JInternalFrame{
 		
 		JButton btnModificar = new JButton("");
 		btnModificar.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/Editar.png")));
-		btnModificar.setToolTipText("Modificar datos del usuario del formulario");
+		btnModificar.setToolTipText("Actualizar datos del usuario del formulario");
 		btnModificar.setForeground(new Color(0, 51, 102));
 		btnModificar.addActionListener(new ActionListener() {
 			@Override
