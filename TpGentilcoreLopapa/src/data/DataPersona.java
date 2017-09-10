@@ -51,6 +51,45 @@ public class DataPersona{
 	}
 	
 
+	public void add(Persona p)throws SQLException,AppDataException{
+		PreparedStatement pstmt = null;
+		ResultSet keyResultSet = null;
+		try {
+			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
+					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado, id_categoria) values(?,?,?,?,?,?,?,?)",
+					PreparedStatement.RETURN_GENERATED_KEYS
+					);
+			pstmt.setString(1, p.getDni());
+			pstmt.setString(2, p.getNombre());
+			pstmt.setString(3, p.getApellido());
+			pstmt.setString(4, p.getUsuario());
+			pstmt.setString(5, p.getContrasenia());
+			pstmt.setString(6, p.getEmail());			
+			pstmt.setBoolean(7, p.isHabilitado());
+			pstmt.setInt(8, p.getCategoria().getId());
+			pstmt.execute();
+			keyResultSet = pstmt.getGeneratedKeys();
+			if(keyResultSet!=null && keyResultSet.next()){
+				p.setId(keyResultSet.getInt(1));				
+			}
+		} catch (SQLException sqlex) {
+			throw new AppDataException(sqlex,"Error al agregar persona. "
+					+ " Verifique que el usuario y/o DNI no existan, dichos registros deben ser únicos. "
+					+ " En caso de no poder resolver contáctese con Patalalas S.A.");
+		}
+		finally{
+			try {
+				if(keyResultSet!=null) keyResultSet.close();
+				if(pstmt!=null) pstmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException sqlex) {
+				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+			}
+		}
+	}
+	
+	
+	
 	public void update(Persona p) throws SQLException,AppDataException{
 	PreparedStatement stmt=null;
 		
@@ -72,7 +111,9 @@ public class DataPersona{
 			
 			
 		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex,"Error al modificar persona");
+			throw new AppDataException(sqlex,"Error al modificar persona. "
+					+ " Verifique que el usuario y/o DNI no existan, dichos registros deben ser únicos. "
+					+ " En caso de no poder resolverlo contáctese con Patalalas S.A.");
 		} 
 		finally {
 			try {
@@ -98,7 +139,8 @@ public class DataPersona{
 			pstmt2.executeUpdate();
 			
 		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex, "Error al cerrar conexion o statement");
+			throw new AppDataException(sqlex, "Error al eliminar persona"
+											+ " En caso de no poder resolverlo contáctese con Patalalas S.A.");
 		}
 		finally{
 			if(pstmt1!=null){pstmt1.close();}
@@ -132,7 +174,7 @@ public class DataPersona{
 				p.setCategoria(dc.getOne(idCat));
 			}
 		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex, "Error al buscar una persona por dni");
+			throw new AppDataException(sqlex, "Error al buscar una persona por dni.");
 		}
 		finally{
 			try {
@@ -221,41 +263,81 @@ public class DataPersona{
 		}
 		return p;
 	}	
-	
-	public void add(Persona p)throws SQLException,AppDataException{
+		
+	//Metodo que simula un PING para ver si hay un usuario con el mismo nombre 
+	public boolean getUsuarioPing(int usuario) throws SQLException,AppDataException{
+		
 		PreparedStatement pstmt = null;
-		ResultSet keyResultSet = null;
+		ResultSet rs = null;
+		int auxID=-1;
 		try {
 			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"insert into persona(dni, nombre, apellido, usuario, contrasenia, email, habilitado, id_categoria) values(?,?,?,?,?,?,?,?)",
-					PreparedStatement.RETURN_GENERATED_KEYS
-					);
-			pstmt.setString(1, p.getDni());
-			pstmt.setString(2, p.getNombre());
-			pstmt.setString(3, p.getApellido());
-			pstmt.setString(4, p.getUsuario());
-			pstmt.setString(5, p.getContrasenia());
-			pstmt.setString(6, p.getEmail());			
-			pstmt.setBoolean(7, p.isHabilitado());
-			pstmt.setInt(8, p.getCategoria().getId());
-			pstmt.execute();
-			keyResultSet = pstmt.getGeneratedKeys();
-			if(keyResultSet!=null && keyResultSet.next()){
-				p.setId(keyResultSet.getInt(1));				
+					"select idpersona "
+					+ " from persona "
+					+ " where usuario=?");
+			pstmt.setInt(1, usuario);
+			rs = pstmt.executeQuery();
+			if(rs!=null && rs.next()){
+				auxID=rs.getInt("id_persona");
 			}
 		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex,"Error al agregar persona");
+			throw new AppDataException(sqlex, "Error al buscar una persona por usuario");
 		}
 		finally{
 			try {
-				if(keyResultSet!=null) keyResultSet.close();
-				if(pstmt!=null) pstmt.close();
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
 				FactoryConexion.getInstancia().releaseConn();
 			} catch (SQLException sqlex) {
 				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
 			}
 		}
+		
+		if(auxID>0){
+		return true;
+		}else{
+			return false;
+		}			
 	}
+	
+	
+	
+	public boolean getDNIPing(int dni) throws SQLException,AppDataException{
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int auxID=-1;
+		try {
+			pstmt = FactoryConexion.getInstancia().getConn().prepareStatement(
+					"select idpersona "
+					+ " from persona "
+					+ " where dni=?");
+			pstmt.setInt(1, dni);
+			rs = pstmt.executeQuery();
+			if(rs!=null && rs.next()){
+				auxID=rs.getInt("id_persona");
+			}
+		} catch (SQLException sqlex) {
+			throw new AppDataException(sqlex, "Error al buscar una persona por usuario");
+		}
+		finally{
+			try {
+				if(rs!=null)rs.close();
+				if(pstmt!=null)pstmt.close();
+				FactoryConexion.getInstancia().releaseConn();
+			} catch (SQLException sqlex) {
+				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+			}
+		}
+		
+		if(auxID>0){
+		return true;
+		}else{
+			return false;
+		}		
+	}
+	
+	
 	
 	
 	public Persona getLoggedUser(String usuario,String pass)throws SQLException,AppDataException{

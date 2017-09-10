@@ -314,7 +314,6 @@ public class ListadoElementos extends Listado implements IListados{
 	
 	//	if(visibleVentanaReserva==1){									//las validaciones y multiplicaciones por -1 es para mostrar y ocultar con el mismo boton
 	//		visibleVentanaReserva=visibleVentanaReserva*(-1);
-	//	visibleVentanaReserva=-1;
 			try {
 				formReserva=new AltasReserva();
 				this.mapearHaciaAltasReservaClick();

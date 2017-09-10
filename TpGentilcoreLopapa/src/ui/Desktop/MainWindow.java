@@ -26,7 +26,8 @@ public class MainWindow {
 	private JDesktopPane desktopPane;
 	private static ListadoElementos le;
 	private static ListadoReservas lr;
-	private static ABMCPersona abmcper;			//proxima etapa deber�a llamar a listado persona
+	private static ABMCPersona abmcper;			
+	private static ListadoPersona lp;
 	
     //agregar los listados que faltan
 	public static void main() {
@@ -60,7 +61,7 @@ public class MainWindow {
 		
 		desktopPane = new JDesktopPane();
 		frmSistemaDeReservas.getContentPane().add(desktopPane, BorderLayout.CENTER);
-		frmSistemaDeReservas.setTitle("Sistema de Reservas Patalalas");
+		frmSistemaDeReservas.setTitle("Sistema de Reservas Patalalas ");
 		frmSistemaDeReservas.setBounds(100, 100, 450, 300);
 		frmSistemaDeReservas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -104,6 +105,15 @@ public class MainWindow {
 		});
 		mnArchivo.add(mntmListadoPersonas);
 		
+/*
+		JMenuItem mntmListadoDePersonas = new JMenuItem("Listado Personas");
+		mntmListadoDePersonas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				listadoPersonasClickLISTA();
+			}
+		});
+		mnArchivo.add(mntmListadoDePersonas);
+*/
 
 //		JMenuItem mntmCambiarPass = new JMenuItem("Cambiar Contrase�a");
 //		mnArchivo.add(mntmCambiarPass);
@@ -149,6 +159,21 @@ public class MainWindow {
 										ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
+	/*
+	public void listadoPersonasClickLISTA(){
+		try {
+		desktopPane.removeAll();
+		lp = new ListadoPersona();
+		desktopPane.add(lp);
+		lp.setVisible(true);	
+		lp.setMaximum(true);
+		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana que lista personas\n"+
+					ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		}
+	}*/
 	
 	public void listadoPersonasClick(){			//proxima etapa hacer listado de personas para que quede similar a listadoelementos
 		
