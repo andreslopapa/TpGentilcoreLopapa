@@ -72,6 +72,8 @@ public class MainWindow {
 		JMenu mnArchivo = new JMenu("Inicio");
 		menuBar.add(mnArchivo);
 		
+		
+		
 		JMenuItem mntmListadoElementos = new JMenuItem("Listado Elementos");
 		mntmListadoElementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -134,9 +136,9 @@ public class MainWindow {
 		menuBar.add(mnAcercaDe);
 		
 		JMenuItem mntmNosotros = new JMenuItem("Nosotros");
-		mntmNosotros.addMouseListener(new MouseAdapter() {
+		mntmNosotros.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void actionPerformed(ActionEvent arg0) {
 				informacionSistemaClick();
 			}
 		});

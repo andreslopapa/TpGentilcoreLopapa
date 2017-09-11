@@ -41,12 +41,12 @@ public class InformacionSistema extends JInternalFrame {
 		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null); //estas dos ultimas lineas quitan bordes y barra superior de la ventana
 		
 		getContentPane().setBackground(Color.WHITE);
-		setBounds(100, 100, 741, 430);
+		setBounds(100, 100, 816, 518);
 		
 		JLabel lblSistemaDeGestin = new JLabel("Sistema de gesti\u00F3n de Reservas ");
 		lblSistemaDeGestin.setFont(new Font("Calibri", Font.PLAIN, 18));
 		
-		JLabel lblSistemaRealizadoComo = new JLabel("Sistema realizado como Trabajo Pr\u00E1ctico para la C\u00E1tedra de Java durante el a\u00F1o 2017");
+		JLabel lblSistemaRealizadoComo = new JLabel("Sistema realizado como Trabajo Pr\u00E1ctico para la C\u00E1tedra de Java\r\n2017");
 		
 		JLabel lblAlumnos = new JLabel("Alumnos");
 		lblAlumnos.setFont(new Font("Calibri", Font.PLAIN, 16));
@@ -61,6 +61,9 @@ public class InformacionSistema extends JInternalFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 51, 102));
+		
+		JLabel lblHomTrabaj = new JLabel("");
+		lblHomTrabaj.setIcon(new ImageIcon(InformacionSistema.class.getResource("/ui/Desktop/hombres_trabajando.png")));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -71,10 +74,11 @@ public class InformacionSistema extends JInternalFrame {
 						.addComponent(lblSistemaDeGestin)
 						.addComponent(lblSistemaRealizadoComo)
 						.addComponent(lblUniversidadTecnolgicaNacional)
-						.addComponent(lblAlumnos)
 						.addComponent(lblAlbertoGentilcoreLegajo)
-						.addComponent(lblAndresLopapa))
-					.addContainerGap(252, Short.MAX_VALUE))
+						.addComponent(lblAndresLopapa)
+						.addComponent(lblAlumnos)
+						.addComponent(lblHomTrabaj, GroupLayout.PREFERRED_SIZE, 139, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(403, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -83,16 +87,18 @@ public class InformacionSistema extends JInternalFrame {
 					.addComponent(lblSistemaDeGestin)
 					.addGap(6)
 					.addComponent(lblSistemaRealizadoComo)
-					.addGap(6)
+					.addPreferredGap(ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
 					.addComponent(lblUniversidadTecnolgicaNacional)
-					.addGap(23)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblAlumnos)
-					.addGap(6)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblAlbertoGentilcoreLegajo)
-					.addGap(6)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblAndresLopapa)
-					.addContainerGap(240, Short.MAX_VALUE))
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblHomTrabaj, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
+					.addGap(217))
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
 		);
 		
 		JLabel lblNewLabel = new JLabel("");
