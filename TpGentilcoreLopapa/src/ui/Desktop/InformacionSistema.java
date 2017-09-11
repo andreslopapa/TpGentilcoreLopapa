@@ -11,6 +11,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import javax.swing.JSlider;
+import javax.swing.JPanel;
 
 public class InformacionSistema extends JInternalFrame {
 
@@ -39,7 +41,7 @@ public class InformacionSistema extends JInternalFrame {
 		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null); //estas dos ultimas lineas quitan bordes y barra superior de la ventana
 		
 		getContentPane().setBackground(Color.WHITE);
-		setBounds(100, 100, 544, 359);
+		setBounds(100, 100, 741, 430);
 		
 		JLabel lblSistemaDeGestin = new JLabel("Sistema de gesti\u00F3n de Reservas ");
 		lblSistemaDeGestin.setFont(new Font("Calibri", Font.PLAIN, 18));
@@ -56,39 +58,52 @@ public class InformacionSistema extends JInternalFrame {
 		lblAndresLopapa.setFont(new Font("Calibri", Font.PLAIN, 14));
 		
 		JLabel lblUniversidadTecnolgicaNacional = new JLabel("Universidad Tecnol\u00F3gica Nacional");
+		
+		JSlider slider = new JSlider();
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0, 51, 102));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(23)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblUniversidadTecnolgicaNacional)
+						.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblSistemaDeGestin)
 						.addComponent(lblSistemaRealizadoComo)
+						.addComponent(lblUniversidadTecnolgicaNacional)
 						.addComponent(lblAlumnos)
-						.addComponent(lblAndresLopapa)
-						.addComponent(lblAlbertoGentilcoreLegajo))
-					.addContainerGap(164, Short.MAX_VALUE))
+						.addComponent(lblAlbertoGentilcoreLegajo)
+						.addComponent(lblAndresLopapa))
+					.addContainerGap(252, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(29)
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap()
 					.addComponent(lblSistemaDeGestin)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(6)
 					.addComponent(lblSistemaRealizadoComo)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(6)
 					.addComponent(lblUniversidadTecnolgicaNacional)
 					.addGap(23)
 					.addComponent(lblAlumnos)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(6)
 					.addComponent(lblAlbertoGentilcoreLegajo)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(6)
 					.addComponent(lblAndresLopapa)
-					.addContainerGap(19, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+					.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(107))
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
 		);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(InformacionSistema.class.getResource("/tools/perrito.png")));
+		panel.add(lblNewLabel);
 		getContentPane().setLayout(groupLayout);
 
 	}
-
 }

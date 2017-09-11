@@ -188,17 +188,13 @@ public class MainWindow {
 	}*/
 	
 	public void listadoPersonasClick(){			//proxima etapa hacer listado de personas para que quede similar a listadoelementos
-		
-
-		try {
+		 try {
 			desktopPane.removeAll();
-							abmcper = new ABMCPersona();
+			abmcper = new ABMCPersona();
 						//	abmcper.main();
-							desktopPane.add(abmcper);
-							abmcper.setVisible(true);
-							abmcper.setMaximum(true);
-							
-			
+			desktopPane.add(abmcper);
+			abmcper.setVisible(true);
+			abmcper.setMaximum(true);
 			}		 
 		catch(PropertyVetoException e){
 			JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
@@ -216,14 +212,14 @@ public class MainWindow {
 			desktopPane.add(info);
 			info.setVisible(true);		
 			info.setMaximum(true);
-		} catch (PropertyVetoException e) {
-			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana de Informacion de sistema",
+		} 
+		catch (Exception e1) {
+			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana de Personas",
 					"Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
-	protected void salirClick() {
-		
+	protected void salirClick() {		
 		frmSistemaDeReservas.dispose();		
 	}
 }

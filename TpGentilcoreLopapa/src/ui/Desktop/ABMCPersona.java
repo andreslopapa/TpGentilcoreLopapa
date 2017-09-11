@@ -307,7 +307,7 @@ public class ABMCPersona extends JInternalFrame{
 		lblListadoDePersonas.setForeground(new Color(0, 51, 102));
 		lblListadoDePersonas.setFont(new Font("Calibri", Font.PLAIN, 18));
 		
-		JButton btnReiniciarListado = new JButton("");
+		JButton btnReiniciarListado = new JButton("Reiniciar");
 		btnReiniciarListado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				cargarListaPersona();										
@@ -315,7 +315,7 @@ public class ABMCPersona extends JInternalFrame{
 			}
 		});
 
-		btnReiniciarListado.setIcon(new ImageIcon(ABMCPersona.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
+		btnReiniciarListado.setIcon(null);
 		
 		JButton btnLimpiarCampos = new JButton("Clear");
 		btnLimpiarCampos.setFont(new Font("Calibri", Font.PLAIN, 9));
