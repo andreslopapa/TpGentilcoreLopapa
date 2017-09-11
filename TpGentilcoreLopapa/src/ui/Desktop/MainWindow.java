@@ -192,7 +192,7 @@ public class MainWindow {
 			JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}
 		catch (Exception e1) {
-			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana de Personas",
+			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana de Personas\n"+e1.getMessage(),
 					"Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
