@@ -229,7 +229,7 @@ public class ABMCPersona extends JInternalFrame{
 				try {
 					eliminarClick();
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Error al apretar en botón borrar\n"+e1.getMessage());
+					JOptionPane.showMessageDialog(null, "Error al apretar en botï¿½n borrar\n"+e1.getMessage());
 				}
 			}
 		});
@@ -275,7 +275,7 @@ public class ABMCPersona extends JInternalFrame{
 				try {
 					buscaPersona();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Error al apretar en botón Buscar\n"+e.getMessage());
+					JOptionPane.showMessageDialog(null, "Error al apretar en botï¿½n Buscar\n"+e.getMessage());
 				}
 			}
 		});
@@ -288,7 +288,7 @@ public class ABMCPersona extends JInternalFrame{
 				try {
 					clickMostrarListado();
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Error con botón Mostrar Listado Personas\n"+e1.getMessage());
+					JOptionPane.showMessageDialog(null, "Error con botï¿½n Mostrar Listado Personas\n"+e1.getMessage());
 				}
 			}
 		});
@@ -315,7 +315,7 @@ public class ABMCPersona extends JInternalFrame{
 			}
 		});
 
-		btnReiniciarListado.setIcon(new ImageIcon(ABMCPersona.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
+		//btnReiniciarListado.setIcon(new ImageIcon(ABMCPersona.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 		
 		JButton btnLimpiarCampos = new JButton("Clear");
 		btnLimpiarCampos.setFont(new Font("Calibri", Font.PLAIN, 9));
@@ -514,7 +514,7 @@ public class ABMCPersona extends JInternalFrame{
 		try {if(textDNI.getText().length() >0){
 			this.mapearAForm(ctrlPer.getByDni(this.mapearDeForm()));
 			}else{
-				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningún usuario para buscar", "", JOptionPane.WARNING_MESSAGE);				
+				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningï¿½n usuario para buscar", "", JOptionPane.WARNING_MESSAGE);				
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario inexistente", "", JOptionPane.WARNING_MESSAGE);
@@ -527,7 +527,7 @@ public class ABMCPersona extends JInternalFrame{
 			ctrlPer.update(mapearDeForm());
 			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario actualizado", "", JOptionPane.INFORMATION_MESSAGE);
 			}else{
-				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningún usuario", "", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningï¿½n usuario", "", JOptionPane.WARNING_MESSAGE);
 			}
 		} catch (Exception e) {
 			limpiarTexto();
@@ -542,7 +542,7 @@ public class ABMCPersona extends JInternalFrame{
 			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Usuario eliminado", "", JOptionPane.INFORMATION_MESSAGE);
 			this.limpiarTexto();
 			}else{
-				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningún usuario", "", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(frmSistemaDeGestin, "No se ha ingresado ningï¿½n usuario", "", JOptionPane.WARNING_MESSAGE);
 			}
 		} catch (Exception e) {
 			limpiarTexto();
@@ -600,7 +600,7 @@ public class ABMCPersona extends JInternalFrame{
 	
 	
 													///////////////////////////////////////////
-	public void clickMostrarListado(){		//ESTE NO FUNCIONA. PERO ESTARÏA COPADO QUE SI LO HAGA JAJA. HAY 
+	public void clickMostrarListado(){		//ESTE NO FUNCIONA. PERO ESTARï¿½A COPADO QUE SI LO HAGA JAJA. HAY 
 
 		if(visibilidadTabla==1){
 			scrollPaneTablaPersona = new JScrollPane();	
