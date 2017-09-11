@@ -28,6 +28,7 @@ public class MainWindow {
 	private static ListadoReservas lr;
 	private static ABMCPersona abmcper;			
 	private static ListadoPersona lp;
+	private static InformacionSistema info;
 	
     //agregar los listados que faltan
 	public static void main() {
@@ -128,6 +129,18 @@ public class MainWindow {
 		
 		
 		mnArchivo.add(mntmSalir);
+		
+		JMenu mnAcercaDe = new JMenu("Acerca de");
+		menuBar.add(mnAcercaDe);
+		
+		JMenuItem mntmNosotros = new JMenuItem("Nosotros");
+		mntmNosotros.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				informacionSistemaClick();
+			}
+		});
+		mnAcercaDe.add(mntmNosotros);
 	}
 
 	public void listadoElementosClick() {
@@ -197,14 +210,21 @@ public class MainWindow {
 		}
 	}
 	
-	
+	protected void informacionSistemaClick(){
+		try {
+			desktopPane.removeAll();
+			info = new InformacionSistema();
+			desktopPane.add(info);
+			info.setVisible(true);		
+			info.setMaximum(true);
+		} catch (PropertyVetoException e) {
+			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana de Informacion de sistema",
+					"Error",JOptionPane.ERROR_MESSAGE);
+		}
+	}
 	
 	protected void salirClick() {
 		
 		frmSistemaDeReservas.dispose();		
 	}
-
-	
-	
-	
 }
