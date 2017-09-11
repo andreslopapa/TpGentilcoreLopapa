@@ -59,8 +59,6 @@ public class InformacionSistema extends JInternalFrame {
 		
 		JLabel lblUniversidadTecnolgicaNacional = new JLabel("Universidad Tecnol\u00F3gica Nacional");
 		
-		JSlider slider = new JSlider();
-		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 51, 102));
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
@@ -70,7 +68,6 @@ public class InformacionSistema extends JInternalFrame {
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblSistemaDeGestin)
 						.addComponent(lblSistemaRealizadoComo)
 						.addComponent(lblUniversidadTecnolgicaNacional)
@@ -81,7 +78,7 @@ public class InformacionSistema extends JInternalFrame {
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblSistemaDeGestin)
 					.addGap(6)
@@ -94,9 +91,7 @@ public class InformacionSistema extends JInternalFrame {
 					.addComponent(lblAlbertoGentilcoreLegajo)
 					.addGap(6)
 					.addComponent(lblAndresLopapa)
-					.addPreferredGap(ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
-					.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(107))
+					.addContainerGap(240, Short.MAX_VALUE))
 				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
 		);
 		

@@ -314,8 +314,6 @@ public class ABMCPersona extends JInternalFrame{
 				initDataBindings();
 			}
 		});
-
-		btnReiniciarListado.setIcon(null);
 		
 		JButton btnLimpiarCampos = new JButton("Clear");
 		btnLimpiarCampos.setFont(new Font("Calibri", Font.PLAIN, 9));
