@@ -18,6 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,12 +42,14 @@ import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SpinnerDateModel;
 import javax.swing.JTable;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 
 public class ABMCPersona extends JInternalFrame{
 
@@ -103,6 +106,8 @@ public class ABMCPersona extends JInternalFrame{
 		frmSistemaDeGestin.setTitle("SISTEMA DE GESTI\u00D3N DE RESERVAS");
 		frmSistemaDeGestin.setBounds(100, 100, 770, 451);
 		frmSistemaDeGestin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
+		
+		
 		
 		setBorder(null);											
 		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null); //estas dos ultimas lineas quitan bordes y barra superior de la ventana
@@ -308,6 +313,8 @@ public class ABMCPersona extends JInternalFrame{
 		lblListadoDePersonas.setFont(new Font("Calibri", Font.PLAIN, 18));
 		
 		JButton btnReiniciarListado = new JButton("");
+		//btnReiniciarListado.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/ic_replay_black_24dp_1x.png")));
+		//btnReiniciarListado.setIcon(null);
 		btnReiniciarListado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				cargarListaPersona();										
@@ -315,11 +322,11 @@ public class ABMCPersona extends JInternalFrame{
 			}
 		});
 
-		//btnReiniciarListado.setIcon(new ImageIcon(ABMCPersona.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 		
-		JButton btnLimpiarCampos = new JButton("Clear");
+		JButton btnLimpiarCampos = new JButton("");
+		btnLimpiarCampos.setToolTipText("Limpiar formulario");
+		btnLimpiarCampos.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/escoba.png")));
 		btnLimpiarCampos.setFont(new Font("Calibri", Font.PLAIN, 9));
-		btnLimpiarCampos.setIcon(null);
 		btnLimpiarCampos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limpiarTexto();
@@ -340,8 +347,8 @@ public class ABMCPersona extends JInternalFrame{
 									.addComponent(scrollPaneTablaPersona, GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(btnBotonquebusca, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-										.addComponent(btnReiniciarListado, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)))
+										.addComponent(btnReiniciarListado, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnBotonquebusca, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)))
 								.addGroup(groupLayout.createSequentialGroup()
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 										.addComponent(lblHabilitado, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -388,12 +395,12 @@ public class ABMCPersona extends JInternalFrame{
 												.addComponent(lblMostrarListado)))
 										.addGroup(groupLayout.createSequentialGroup()
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(btnLimpiarCampos)))))
+											.addComponent(btnLimpiarCampos, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)))))
 							.addGap(52))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 764, Short.MAX_VALUE)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 770, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(34)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
@@ -413,22 +420,21 @@ public class ABMCPersona extends JInternalFrame{
 							.addGap(17)
 							.addComponent(lblCategoria, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(6)
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addComponent(lblGestinDeNuevo, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 									.addGap(23))
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(btnLimpiarCampos)
-										.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(lblMostrarListado)
-										.addPreferredGap(ComponentPlacement.RELATED))
-									.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-											.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-											.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-											.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))
-										.addGap(18))))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(lblMostrarListado)
+									.addPreferredGap(ComponentPlacement.RELATED))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+										.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+										.addComponent(btnLimpiarCampos, Alignment.LEADING))
+									.addGap(18)))
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
 									.addComponent(textDNI, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -460,9 +466,10 @@ public class ABMCPersona extends JInternalFrame{
 							.addGap(125)
 							.addComponent(btnBotonquebusca)
 							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(btnReiniciarListado)))
+							.addComponent(btnReiniciarListado, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)))
 					.addGap(122))
 		);
+		
 		
 		tablePersona = new JTable();
 		scrollPaneTablaPersona.setViewportView(tablePersona);

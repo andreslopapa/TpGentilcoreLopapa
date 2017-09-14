@@ -208,8 +208,8 @@ public class DataReserva {
 			//pstmt.setString(3, String.valueOf(new java.sql.Date(r.getFecha_hora_reserva_hecha().getTime())));
 			//pstmt.setString(3, String.valueOf(r.getFecha_hora_reserva_hecha()));
 			pstmt.setString(3, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getFecha_hora_reserva_hecha()));		
-			pstmt.setString(4, String.valueOf( r.getFecha_hora_desde_solicitada()));
-			pstmt.setString(5, String.valueOf( r.getFecha_hora_hasta_solicitada()));
+			pstmt.setString(4,new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format( r.getFecha_hora_desde_solicitada()));
+			pstmt.setString(5, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format( r.getFecha_hora_hasta_solicitada()));
 		//	pstmt.setDate(5, (java.sql.Date)r.getFecha_hora_entregado());     //este solo se usa para cuando el administrador, o quien sea, registre que se devolvi�
 			pstmt.setString(6,r.getDetalle());
 			pstmt.executeUpdate();							//execute= ejecuta todo      /executequery solo consultas select   /executeupdate solo add update o delete

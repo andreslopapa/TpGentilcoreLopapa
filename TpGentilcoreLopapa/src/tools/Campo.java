@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 public class Campo {
 
-	public enum tipo{EMAIL,DNI,INDICE,ID,FECHA,OTRO}
+	public enum tipo{EMAIL,DNI,INDICE,ID,FECHA,HORA,OTRO}
 	
 	public static boolean Valida(String campo,tipo tipoCampo){
 		if(campo.isEmpty() || campo==null){
@@ -22,11 +22,24 @@ public class Campo {
 		case INDICE: return validaIndice(campo);
 		case ID:return validaId(campo);
 		case FECHA:return validaFecha(campo);
+		case HORA:return validaHora(campo);
 		default:break;
 		}
 		return true;
 	}
 	
+	private static boolean validaHora(String hora){
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+		try{
+		formatter.setLenient(false);
+		formatter.parse(hora);
+		}
+		catch(ParseException pe){
+			JOptionPane.showMessageDialog(null,"hora invalida\n"+hora, "",JOptionPane.INFORMATION_MESSAGE);
+			return false;
+		}
+		return true;
+	}
 	private static boolean validaFecha(String fecha){
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		try{
@@ -34,7 +47,7 @@ public class Campo {
 		formatter.parse(fecha);
 		}
 		catch(ParseException pe){
-			JOptionPane.showMessageDialog(null,"fecha invalida", "",JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null,"fecha invalida\n"+fecha, "",JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		}
 		return true;

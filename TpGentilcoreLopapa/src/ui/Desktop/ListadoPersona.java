@@ -3,6 +3,7 @@ package ui.Desktop;
 import java.awt.EventQueue;
 import java.beans.PropertyVetoException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.JInternalFrame;
@@ -10,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTable;
+import javax.swing.SpinnerDateModel;
 
 import business.entities.Persona;
 import business.logic.CtrlPersonaLogic;
@@ -24,6 +26,8 @@ import javax.swing.JScrollBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+
 import java.awt.Color;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -89,6 +93,8 @@ public class ListadoPersona extends JInternalFrame {
 		getContentPane().add(panel, "cell 0 0 1 3,grow");
 		getContentPane().add(scrollPane_1, "cell 1 2,grow");
 		getContentPane().add(desktopPane, "cell 2 2 3 1,grow");
+		
+		
 		
 		abrirABMCReserva();
 

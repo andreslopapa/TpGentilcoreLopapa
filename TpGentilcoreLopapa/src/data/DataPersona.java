@@ -265,6 +265,7 @@ public class DataPersona{
 	}	
 		
 	//Metodo que simula un PING para ver si hay un usuario con el mismo nombre 
+	//POR EL MOMENTO NO LO UTILICE
 	public boolean getUsuarioPing(int usuario) throws SQLException,AppDataException{
 		
 		PreparedStatement pstmt = null;
@@ -300,8 +301,8 @@ public class DataPersona{
 		}			
 	}
 	
-	
-	
+	//Metodo que simula un PING para ver si hay un DNI ya existente
+	//POR EL MOMENTO NO LO UTILICE 
 	public boolean getDNIPing(int dni) throws SQLException,AppDataException{
 		
 		PreparedStatement pstmt = null;
