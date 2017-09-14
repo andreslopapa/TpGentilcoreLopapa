@@ -28,6 +28,7 @@ import business.logic.CtrlReservaLogic;
 import business.logic.CtrlTipoDeElementoLogic;
 import tools.AppDataException;
 import tools.Campo;
+import tools.LimitadorTxt;
 import tools.ParseoAFecha;
 
 
@@ -72,6 +73,8 @@ public class AltasReserva extends JInternalFrame{
 
 
 	private JSpinner timeSpinnerHasta;
+	private JLabel lblTiempoMaxRes;
+	private JLabel lblDiasMaxAnticip;
 	/**
 	 * Launch the application.
 	 */
@@ -94,6 +97,7 @@ public class AltasReserva extends JInternalFrame{
 	public AltasReserva() {									//parametro
 
 		this.resLogic = new CtrlReservaLogic();
+		
 		initialize();		
 		//cargarPersona(per);
 	}
@@ -115,21 +119,22 @@ public class AltasReserva extends JInternalFrame{
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(39, Short.MAX_VALUE))
+					.addComponent(panelCrearReserva, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(41)
-					.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 351, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(63, Short.MAX_VALUE))
+					.addContainerGap()
+					.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 402, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(41, Short.MAX_VALUE))
 		);
 		
 		textAreaDetalle = new JTextArea();
 		textAreaDetalle.setLineWrap(true);
 		textAreaDetalle.setFont(new Font("Calibri", Font.PLAIN, 12));
 		textAreaDetalle.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		LimitadorTxt.MaxCaracteres(LimitadorTxt.Campo.RESDETALLE, textAreaDetalle);
 		
 		JLabel lblDetalle = new JLabel("Detalle");
 		lblDetalle.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -182,25 +187,35 @@ public class AltasReserva extends JInternalFrame{
 			
 		});
 		
-	    timeSpinnerDesde = new JSpinner(new SpinnerDateModel());
-		JSpinner.DateEditor timeEditorDesde = new JSpinner.DateEditor(timeSpinnerDesde, "HH:mm:ss");
-		timeSpinnerDesde.setEditor(timeEditorDesde);
-		Calendar calendario=Calendar.getInstance();
-		calendario.set(2000, 1, 1, 0, 0, 0);
-		timeSpinnerDesde.setValue(calendario.getTime());
-		getContentPane().add(timeSpinnerDesde);
-		timeSpinnerDesde.setVisible(true);
-
-//timeSpinnerDesde=new JSpinner();
-//timeSpinnerHasta=new JSpinner();
+		JLabel lblTitDiasMaxAnticip = new JLabel("Dias maximos para anticipar:");
 		
-		timeSpinnerHasta = new JSpinner( new SpinnerDateModel() );
-		JSpinner.DateEditor timeEditorHasta = new JSpinner.DateEditor(timeSpinnerHasta, "HH:mm:ss");
-		timeSpinnerHasta.setEditor(timeEditorHasta);
-		calendario.set(2000, 1, 1, 23, 59, 59);
-		timeSpinnerHasta.setValue(calendario.getTime());
-		getContentPane().add(timeSpinnerHasta);
-		timeSpinnerHasta.setVisible(true);
+		lblDiasMaxAnticip = new JLabel("");
+		
+		JLabel lblTitTiempoMaxRes = new JLabel("Tiempo maximo de reserva:");
+		
+		lblTiempoMaxRes = new JLabel("");
+		
+//	    timeSpinnerDesde = new JSpinner(new SpinnerDateModel());
+//		JSpinner.DateEditor timeEditorDesde = new JSpinner.DateEditor(timeSpinnerDesde, "HH:mm:ss");
+//		timeSpinnerDesde.setEditor(timeEditorDesde);
+//		Calendar calendario=Calendar.getInstance();
+//		calendario.set(2000, 1, 1, 0, 0, 0);
+//		timeSpinnerDesde.setValue(calendario.getTime());
+//		getContentPane().add(timeSpinnerDesde);
+//		timeSpinnerDesde.setVisible(true);
+
+timeSpinnerDesde=new JSpinner();
+timeSpinnerHasta=new JSpinner();
+		
+		
+		
+//		timeSpinnerHasta = new JSpinner( new SpinnerDateModel() );
+//		JSpinner.DateEditor timeEditorHasta = new JSpinner.DateEditor(timeSpinnerHasta, "HH:mm:ss");
+//		timeSpinnerHasta.setEditor(timeEditorHasta);
+//		calendario.set(2000, 1, 1, 23, 59, 59);
+//		timeSpinnerHasta.setValue(calendario.getTime());
+//		getContentPane().add(timeSpinnerHasta);
+//		timeSpinnerHasta.setVisible(true);
 
 		
 		GroupLayout gl_panelCrearReserva = new GroupLayout(panelCrearReserva);
@@ -208,29 +223,43 @@ public class AltasReserva extends JInternalFrame{
 			gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelCrearReserva.createSequentialGroup()
 					.addContainerGap()
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblHasta, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+						.addComponent(lblDesde, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 88, Short.MAX_VALUE)
+						.addComponent(lblDetalle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+						.addComponent(lblElemento, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblElemento, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblHasta, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
-						.addComponent(lblDesde, GroupLayout.PREFERRED_SIZE, 66, Short.MAX_VALUE)
-						.addComponent(lblDetalle, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblGestionarReservas, GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-						.addComponent(textAreaDetalle, 0, 0, Short.MAX_VALUE)
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
-							.addComponent(btnSolicitarReserva)
+							.addComponent(lblTitDiasMaxAnticip)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnCancelar))
-						.addComponent(textElemento, 199, 199, 199)
+							.addComponent(lblDiasMaxAnticip)
+							.addGap(18))
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
-							.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(dateChooserHasta, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(dateChooserDesde, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
+							.addComponent(lblTitTiempoMaxRes)
 							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblTiempoMaxRes)
+							.addContainerGap())
+						.addGroup(Alignment.TRAILING, gl_panelCrearReserva.createSequentialGroup()
 							.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-								.addComponent(timeSpinnerHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(timeSpinnerDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addGap(30))
+								.addGroup(gl_panelCrearReserva.createSequentialGroup()
+									.addGap(4)
+									.addComponent(lblGestionarReservas, GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
+								.addComponent(textElemento, 199, 199, 199)
+								.addComponent(textAreaDetalle, 0, 0, Short.MAX_VALUE)
+								.addGroup(gl_panelCrearReserva.createSequentialGroup()
+									.addComponent(btnSolicitarReserva)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnCancelar))
+								.addGroup(gl_panelCrearReserva.createSequentialGroup()
+									.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING, false)
+										.addComponent(dateChooserHasta, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(dateChooserDesde, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
+										.addComponent(timeSpinnerHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(timeSpinnerDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
+							.addGap(30))))
 		);
 		gl_panelCrearReserva.setVerticalGroup(
 			gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
@@ -239,9 +268,17 @@ public class AltasReserva extends JInternalFrame{
 					.addComponent(lblGestionarReservas)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblElemento)
-						.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(11)
+						.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblElemento))
+					.addGap(39)
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblTitDiasMaxAnticip)
+						.addComponent(lblDiasMaxAnticip))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblTitTiempoMaxRes)
+						.addComponent(lblTiempoMaxRes))
+					.addGap(14)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 						.addComponent(timeSpinnerDesde, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblDesde, Alignment.TRAILING)
@@ -259,7 +296,7 @@ public class AltasReserva extends JInternalFrame{
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnSolicitarReserva)
 						.addComponent(btnCancelar))
-					.addGap(60))
+					.addGap(66))
 		);
 		panelCrearReserva.setLayout(gl_panelCrearReserva);
 		getContentPane().setLayout(groupLayout);
@@ -289,11 +326,19 @@ public class AltasReserva extends JInternalFrame{
 	
 	private void clickCrearReserva() throws Exception, SQLException, AppDataException{
 		try {
+			String fechaD=((JTextField)dateChooserDesde.getDateEditor().getUiComponent()).getText();
+			String fechaH=((JTextField)dateChooserHasta.getDateEditor().getUiComponent()).getText();
+			String horaD=((JSpinner.DefaultEditor)timeSpinnerDesde.getEditor()).getTextField().getText();
+			String horaH=((JSpinner.DefaultEditor)timeSpinnerHasta.getEditor()).getTextField().getText();
+			String fechaHoraD=fechaD+" "+horaD;
+			String fechaHoraH=fechaH+" "+horaH;
 			if(Campo.Valida(this.textElemento.getText(),Campo.tipo.ID) 
-				&& Campo.Valida(((JTextField)dateChooserDesde.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)
-				&& Campo.Valida(((JSpinner.DefaultEditor)timeSpinnerDesde.getEditor()).getTextField().getText(), Campo.tipo.HORA)
-				&& Campo.Valida(((JTextField)dateChooserHasta.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)
-				&& Campo.Valida(((JSpinner.DefaultEditor)timeSpinnerHasta.getEditor()).getTextField().getText(), Campo.tipo.HORA)){
+				&& Campo.Valida(fechaD, Campo.tipo.FECHA)
+				&& Campo.Valida(horaD, Campo.tipo.HORA)
+				&& Campo.Valida(fechaH, Campo.tipo.FECHA)
+				&& Campo.Valida(horaH, Campo.tipo.HORA)
+				&& this.validaFechas(fechaHoraD, fechaHoraH)
+					){
 				
 				resLogic.add(this.mapearDeForm(Ingreso.PersonaLogueada));
 				JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
@@ -346,10 +391,19 @@ public class AltasReserva extends JInternalFrame{
 		return r;
 	}
 
-	
+	private Boolean validaFechas(String fechaD,String fechaH)throws ParseException,Exception{
+		if(!this.resLogic.isFHastaMayorQFDesde(fechaD, fechaH)){
+			JOptionPane.showMessageDialog(null, "La fecha-hora hasta debe ser posterior a la fecha-hora "
+					+ "desde","",JOptionPane.INFORMATION_MESSAGE);
+			return false;
+		}
+		return true;
+	}
 	
 	private void limpiarCampos(){
 		this.textElemento.setText(null);
+		this.lblDiasMaxAnticip.setText(null);
+		this.lblTiempoMaxRes.setText(null);
 		this.dateChooserDesde.setDate(null);
 		this.dateChooserHasta.setDate(null);
 		this.textAreaDetalle.setText(null);
@@ -360,8 +414,10 @@ public class AltasReserva extends JInternalFrame{
 		timeSpinnerHasta.setValue(calendario.getTime());
 	}
 	
-	public void mapearAForm(int id_elemento){
-		this.textElemento.setText(String.valueOf(id_elemento));
+	public void mapearAForm(Elemento elemento){
+		this.textElemento.setText(String.valueOf(elemento.getId_elemento()));
+		this.lblDiasMaxAnticip.setText(String.valueOf(elemento.getTipo().getDias_max_anticipacion()));
+		this.lblTiempoMaxRes.setText(String.valueOf(elemento.getTipo().getLimite_horas_res()));
 	}
 	
 	public void mapearAForm(Reserva res){

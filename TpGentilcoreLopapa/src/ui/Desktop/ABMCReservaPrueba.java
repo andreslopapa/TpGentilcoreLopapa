@@ -28,6 +28,7 @@ import business.logic.CtrlReservaLogic;
 import business.logic.CtrlTipoDeElementoLogic;
 import tools.AppDataException;
 import tools.Campo;
+import tools.LimitadorTxt;
 import tools.ParseoAFecha;
 import ui.Desktop.ABMC.Action;
 
@@ -299,6 +300,7 @@ public class ABMCReservaPrueba extends ABMC{
 		textAreaDetalle.setLineWrap(true);
 		textAreaDetalle.setFont(new Font("Calibri", Font.PLAIN, 12));
 		textAreaDetalle.setBorder(new LineBorder(Color.LIGHT_GRAY));
+		LimitadorTxt.MaxCaracteres(LimitadorTxt.Campo.RESDETALLE, textAreaDetalle);
 		
 		JLabel lblDetalle = new JLabel("Detalle");
 		lblDetalle.setHorizontalAlignment(SwingConstants.RIGHT);

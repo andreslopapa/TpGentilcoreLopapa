@@ -114,7 +114,7 @@ public class ListadoElementos extends Listado implements IListados{
 	    elementoActual=null;
 	    tipoBusquedaActual=TipoBusqueda.TRAER_TODOS;
 		elementoLogic=new CtrlElementoLogic();
-		setBounds(100, 100, 556, 444);
+		setBounds(100, 100, 904, 479);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBackground(Color.WHITE);
@@ -176,7 +176,7 @@ public class ListadoElementos extends Listado implements IListados{
 		panelBarraAzulLateral.setLayout(new MigLayout("", "[64px]", "[48px][24px]"));
 		panelBarraAzulLateral.add(lblIconoListadoEles, "cell 0 0,alignx center,aligny top");
 		JLabel lblUsuario = new JLabel(Ingreso.PersonaLogueada.getCategoria()+": "+Ingreso.PersonaLogueada.getApellido()+","+Ingreso.PersonaLogueada.getNombre());
-		getContentPane().add(lblUsuario, "cell 8 0");
+		getContentPane().add(lblUsuario, "cell 10 0");
 		lblUsuario.setForeground(new Color(0, 51, 102));
 		lblUsuario.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/ic_person_white_24dp_2x.png")));
 		
@@ -220,7 +220,7 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
-		getContentPane().add(toolBar, "cell 6 5 4 1,alignx right,aligny center");
+		getContentPane().add(toolBar, "cell 6 5 3 1,alignx right,aligny center");
 		
 		
 		BotonLabel btnReservar=new BotonLabel("reservar.png","reservarFocus.png","reservarApretado.png");
@@ -356,7 +356,7 @@ public class ListadoElementos extends Listado implements IListados{
 	protected void mapearHaciaAltasReservaClick(){
 		if(table.getSelectedRowCount()!=0){
 			int indiceElemento=this.table.convertRowIndexToModel(table.getSelectedRow());
-			this.formReserva.mapearAForm(this.elementoLogic.elementos.get((indiceElemento)).getId_elemento());
+			this.formReserva.mapearAForm(this.elementoLogic.elementos.get((indiceElemento)));
 			}
 	}
 	protected void mapearHaciaABMCElementoClick() {

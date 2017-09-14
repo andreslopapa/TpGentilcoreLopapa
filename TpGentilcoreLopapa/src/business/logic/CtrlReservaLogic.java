@@ -1,6 +1,8 @@
 package business.logic;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import business.entities.Elemento;
@@ -50,6 +52,13 @@ public class CtrlReservaLogic {
 		datRes.add(r);
 	}
 
+	public Boolean isFHastaMayorQFDesde(String fechaHoraD,String fechaHoraH)throws Exception,ParseException{
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		return (formatter.parse(fechaHoraD).compareTo(formatter.parse(fechaHoraH)))>0?false:true;
+		
+	}
+	
 	public int getMaxId()throws Exception{
 		return datRes.getMaxId();
 	}
