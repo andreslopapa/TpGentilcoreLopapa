@@ -69,10 +69,22 @@ public class CtrlReservaLogic {
 	
 	public float getDaysBetween(Date fecha1,Date fecha2){
 		long diff=fecha1.getTime()-fecha2.getTime();//te da la diferencia en milisegundos
-		Calendar calendario=Calendar.getInstance();
-		calendario.setTime(fecha1);
 		float dias = (float)diff / (1000*60*60*24);
 		return dias;
+	}
+	
+	public float getHoursBetween(Date fecha1,Date fecha2){
+		long diff=fecha1.getTime()-fecha2.getTime();
+		float horas=(float)diff/(1000*60*60);
+		return horas;
+	}
+	
+	public Boolean noEsFechaPasada(Date fecha){
+		return fecha.compareTo(Calendar.getInstance().getTime())<0?false:true;
+	}
+	
+	public int getReservasEnIntervalo(int idEle,Date fechaD,Date fechaH)throws Exception{
+		return datRes.getReservasEnIntervalo(idEle, fechaD, fechaH);
 	}
 	
 	public int getMaxId()throws Exception{

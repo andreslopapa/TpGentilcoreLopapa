@@ -425,5 +425,37 @@ public class DataReserva {
 		
 	}
 	   
+	public int getReservasEnIntervalo(int idEle,Date fechaD,Date fechaH)throws AppDataException,SQLException,Exception{
+		int intersecciones=0;
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+		try{
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+					+ "select count(*) from reserva "
+					+ "where id_elemento=? and "
+					+ "((?>=fecha_hora_desde_solicitada and fecha_hora_hasta_solicitada>?) or "
+					+ "(?>fecha_hora_desde_solicitada and fecha_hora_hasta_solicitada>=?));");
+			pstmt.setInt(1, idEle);
+			pstmt.setString(2, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(fechaD));
+			pstmt.setString(3, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(fechaD));
+			pstmt.setString(4, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(fechaH));
+			pstmt.setString(5, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(fechaH));
+			res=pstmt.executeQuery();
+		
+			if(res!=null && res.next()){
+				intersecciones=res.getInt(1);
+			}
+		
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al verificar si se puede reservar en el intervalo fechaDesde-fechaHasta");
+		}
+		finally{
+			if(pstmt!=null){pstmt.close();}
+			if(res!=null){res.close();}
+			FactoryConexion.getInstancia().releaseConn();
+		}
+		return intersecciones;
+	}
    
 }

@@ -191,7 +191,7 @@ public class AltasReserva extends JInternalFrame{
 		
 		lblDiasMaxAnticip = new JLabel("");
 		
-		JLabel lblTitTiempoMaxRes = new JLabel("Tiempo maximo de reserva:");
+		JLabel lblTitTiempoMaxRes = new JLabel("Horas maximas de reserva:");
 		
 		lblTiempoMaxRes = new JLabel("");
 		
@@ -399,6 +399,22 @@ public class AltasReserva extends JInternalFrame{
 
 	private Boolean validaFechas(java.util.Date fechaD,java.util.Date fechaH)throws ParseException,Exception{
 		Calendar calendario=Calendar.getInstance();
+		if(!resLogic.noEsFechaPasada(fechaD)){
+			this.dateChooserDesde.setDate(null);
+			this.dateChooserHasta.setDate(null);
+			calendario.set(2000, 1, 1, 23, 59, 59);
+			timeSpinnerHasta.setValue(calendario.getTime());
+			calendario.set(2000, 1, 1, 0, 0, 0);
+			timeSpinnerDesde.setValue(calendario.getTime());
+			JOptionPane.showMessageDialog(null, "Fecha incorrecta: no puede reservar con "
+										+"una fecha-hora pasada","",
+					                    JOptionPane.INFORMATION_MESSAGE);
+			return false;
+		}
+		
+		//ojo la validacion de arriba no ponerla en el otro abm de reservas
+		
+		
 		if(!this.resLogic.isFHastaMayorQFDesde(fechaD, fechaH)){
 			this.dateChooserHasta.setDate(null);
 			calendario.set(2000, 1, 1, 23, 59, 59);
@@ -425,6 +441,26 @@ public class AltasReserva extends JInternalFrame{
 			
 			return false;
 		}
+		
+		int horasMaxRes=Integer.parseInt(lblTiempoMaxRes.getText());
+		float horasEntre=this.resLogic.getHoursBetween(fechaH, fechaD);
+		if(horasEntre>horasMaxRes){
+			
+			calendario.setTime(fechaD);
+			calendario.add(Calendar.HOUR_OF_DAY, horasMaxRes);
+			this.dateChooserHasta.setDate(calendario.getTime());
+			this.timeSpinnerHasta.setValue(calendario.getTime());
+			JOptionPane.showMessageDialog(null, "La reserva no puede durar mas de "
+										+horasMaxRes+" horas","",JOptionPane.INFORMATION_MESSAGE);
+			return false;
+		}
+		
+		if(this.resLogic.getReservasEnIntervalo(Integer.parseInt(textElemento.getText()), fechaD, fechaH)>0){
+			JOptionPane.showMessageDialog(null, 
+					"No se puede reservar en ese intervalo,otra reserva interfiere\n"
+					+ "Consulte las reservas del elemento","",JOptionPane.INFORMATION_MESSAGE);
+			return false;
+		}
 		return true;
 	}
 	
@@ -445,7 +481,7 @@ public class AltasReserva extends JInternalFrame{
 	public void mapearAForm(Elemento elemento){
 		this.textElemento.setText(String.valueOf(elemento.getId_elemento()));
 		this.lblDiasMaxAnticip.setText(String.valueOf(elemento.getTipo().getDias_max_anticipacion()));
-		this.lblTiempoMaxRes.setText(String.valueOf(elemento.getTipo().getLimite_horas_res())+" hs");
+		this.lblTiempoMaxRes.setText(String.valueOf(elemento.getTipo().getLimite_horas_res()));
 	}
 	
 	public void mapearAForm(Reserva res){
