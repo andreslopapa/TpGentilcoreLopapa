@@ -4,6 +4,12 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import javax.swing.JOptionPane;
+
+import org.joda.time.*;
 
 import business.entities.Elemento;
 import business.entities.Persona;
@@ -16,6 +22,8 @@ import data.DataTipoDeElemento;
 import tools.AppDataException;
 import ui.Desktop.ListadoElementos;
 import ui.Desktop.ListadoReservas;
+
+
 
 public class CtrlReservaLogic {
 	private DataReserva datRes;
@@ -52,11 +60,19 @@ public class CtrlReservaLogic {
 		datRes.add(r);
 	}
 
-	public Boolean isFHastaMayorQFDesde(String fechaHoraD,String fechaHoraH)throws Exception,ParseException{
+	public Boolean isFHastaMayorQFDesde(java.util.Date fechaHoraD,java.util.Date fechaHoraH)throws Exception,ParseException{
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		return (formatter.parse(fechaHoraD).compareTo(formatter.parse(fechaHoraH)))>0?false:true;
-		
+		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		//return (formatter.parse(fechaHoraD).compareTo(formatter.parse(fechaHoraH)))<0?true:false;
+		return fechaHoraD.compareTo(fechaHoraH)<0?true:false;
+	}
+	
+	public float getDaysBetween(Date fecha1,Date fecha2){
+		long diff=fecha1.getTime()-fecha2.getTime();//te da la diferencia en milisegundos
+		Calendar calendario=Calendar.getInstance();
+		calendario.setTime(fecha1);
+		float dias = (float)diff / (1000*60*60*24);
+		return dias;
 	}
 	
 	public int getMaxId()throws Exception{

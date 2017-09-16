@@ -43,6 +43,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
@@ -118,16 +119,15 @@ public class AltasReserva extends JInternalFrame{
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
 					.addComponent(panelCrearReserva, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
-					.addContainerGap())
+					.addGap(24))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
+					.addGap(21)
 					.addComponent(panelCrearReserva, GroupLayout.PREFERRED_SIZE, 402, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(41, Short.MAX_VALUE))
+					.addContainerGap(32, Short.MAX_VALUE))
 		);
 		
 		textAreaDetalle = new JTextArea();
@@ -195,63 +195,66 @@ public class AltasReserva extends JInternalFrame{
 		
 		lblTiempoMaxRes = new JLabel("");
 		
-//	    timeSpinnerDesde = new JSpinner(new SpinnerDateModel());
-//		JSpinner.DateEditor timeEditorDesde = new JSpinner.DateEditor(timeSpinnerDesde, "HH:mm:ss");
-//		timeSpinnerDesde.setEditor(timeEditorDesde);
-//		Calendar calendario=Calendar.getInstance();
-//		calendario.set(2000, 1, 1, 0, 0, 0);
-//		timeSpinnerDesde.setValue(calendario.getTime());
-//		getContentPane().add(timeSpinnerDesde);
-//		timeSpinnerDesde.setVisible(true);
+	    timeSpinnerDesde = new JSpinner(new SpinnerDateModel());
+		JSpinner.DateEditor timeEditorDesde = new JSpinner.DateEditor(timeSpinnerDesde, "HH:mm:ss");
+		timeSpinnerDesde.setEditor(timeEditorDesde);
+		Calendar calendario=Calendar.getInstance();
+		calendario.set(2000, 1, 1, 0, 0, 0);
+		timeSpinnerDesde.setValue(calendario.getTime());
+		getContentPane().add(timeSpinnerDesde);
+		timeSpinnerDesde.setVisible(true);
 
-timeSpinnerDesde=new JSpinner();
-timeSpinnerHasta=new JSpinner();
+//timeSpinnerDesde=new JSpinner();
+//timeSpinnerHasta=new JSpinner();
 		
 		
 		
-//		timeSpinnerHasta = new JSpinner( new SpinnerDateModel() );
-//		JSpinner.DateEditor timeEditorHasta = new JSpinner.DateEditor(timeSpinnerHasta, "HH:mm:ss");
-//		timeSpinnerHasta.setEditor(timeEditorHasta);
-//		calendario.set(2000, 1, 1, 23, 59, 59);
-//		timeSpinnerHasta.setValue(calendario.getTime());
-//		getContentPane().add(timeSpinnerHasta);
-//		timeSpinnerHasta.setVisible(true);
+		timeSpinnerHasta = new JSpinner( new SpinnerDateModel() );
+		JSpinner.DateEditor timeEditorHasta = new JSpinner.DateEditor(timeSpinnerHasta, "HH:mm:ss");
+		timeSpinnerHasta.setEditor(timeEditorHasta);
+		calendario.set(2000, 1, 1, 23, 59, 59);
+		timeSpinnerHasta.setValue(calendario.getTime());
+		getContentPane().add(timeSpinnerHasta);
+		timeSpinnerHasta.setVisible(true);
 
 		
 		GroupLayout gl_panelCrearReserva = new GroupLayout(panelCrearReserva);
 		gl_panelCrearReserva.setHorizontalGroup(
-			gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelCrearReserva.createSequentialGroup()
-					.addContainerGap()
+			gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_panelCrearReserva.createSequentialGroup()
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panelCrearReserva.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblElemento, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
 						.addComponent(lblHasta, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
 						.addComponent(lblDesde, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 88, Short.MAX_VALUE)
-						.addComponent(lblDetalle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
-						.addComponent(lblElemento, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
+						.addComponent(lblDetalle, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelCrearReserva.createSequentialGroup()
-							.addComponent(lblTitDiasMaxAnticip)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblDiasMaxAnticip)
-							.addGap(18))
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
 							.addComponent(lblTitTiempoMaxRes)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblTiempoMaxRes)
 							.addContainerGap())
+						.addGroup(gl_panelCrearReserva.createSequentialGroup()
+							.addComponent(textElemento, 199, 199, 199)
+							.addContainerGap())
 						.addGroup(Alignment.TRAILING, gl_panelCrearReserva.createSequentialGroup()
-							.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_panelCrearReserva.createSequentialGroup()
+									.addComponent(lblTitDiasMaxAnticip)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblDiasMaxAnticip)
+									.addGap(14))
+								.addGroup(Alignment.LEADING, gl_panelCrearReserva.createSequentialGroup()
 									.addGap(4)
 									.addComponent(lblGestionarReservas, GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
-								.addComponent(textElemento, 199, 199, 199)
-								.addComponent(textAreaDetalle, 0, 0, Short.MAX_VALUE)
-								.addGroup(gl_panelCrearReserva.createSequentialGroup()
+								.addComponent(textAreaDetalle, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+								.addGroup(Alignment.LEADING, gl_panelCrearReserva.createSequentialGroup()
 									.addComponent(btnSolicitarReserva)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnCancelar))
-								.addGroup(gl_panelCrearReserva.createSequentialGroup()
+								.addGroup(Alignment.LEADING, gl_panelCrearReserva.createSequentialGroup()
 									.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING, false)
 										.addComponent(dateChooserHasta, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addComponent(dateChooserDesde, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE))
@@ -259,18 +262,18 @@ timeSpinnerHasta=new JSpinner();
 									.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 										.addComponent(timeSpinnerHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(timeSpinnerDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-							.addGap(30))))
+							.addGap(42))))
 		);
 		gl_panelCrearReserva.setVerticalGroup(
 			gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelCrearReserva.createSequentialGroup()
-					.addGap(11)
+					.addContainerGap()
 					.addComponent(lblGestionarReservas)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGap(43)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblElemento))
-					.addGap(39)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTitDiasMaxAnticip)
 						.addComponent(lblDiasMaxAnticip))
@@ -296,7 +299,7 @@ timeSpinnerHasta=new JSpinner();
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnSolicitarReserva)
 						.addComponent(btnCancelar))
-					.addGap(66))
+					.addContainerGap(26, Short.MAX_VALUE))
 		);
 		panelCrearReserva.setLayout(gl_panelCrearReserva);
 		getContentPane().setLayout(groupLayout);
@@ -332,12 +335,14 @@ timeSpinnerHasta=new JSpinner();
 			String horaH=((JSpinner.DefaultEditor)timeSpinnerHasta.getEditor()).getTextField().getText();
 			String fechaHoraD=fechaD+" "+horaD;
 			String fechaHoraH=fechaH+" "+horaH;
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			formatter.setLenient(false);
 			if(Campo.Valida(this.textElemento.getText(),Campo.tipo.ID) 
 				&& Campo.Valida(fechaD, Campo.tipo.FECHA)
 				&& Campo.Valida(horaD, Campo.tipo.HORA)
 				&& Campo.Valida(fechaH, Campo.tipo.FECHA)
 				&& Campo.Valida(horaH, Campo.tipo.HORA)
-				&& this.validaFechas(fechaHoraD, fechaHoraH)
+				&& this.validaFechas(formatter.parse(fechaHoraD),formatter.parse(fechaHoraH))
 					){
 				
 				resLogic.add(this.mapearDeForm(Ingreso.PersonaLogueada));
@@ -365,12 +370,13 @@ timeSpinnerHasta=new JSpinner();
 		e.setId_elemento(Integer.parseInt(this.textElemento.getText()));
 		r.setElemento(e);
 		
-				SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				formatter.setLenient(false);
 				int yearD = dateChooserDesde.getCalendar().get(Calendar.YEAR);
 				int monthD = 1+dateChooserDesde.getCalendar().get(Calendar.MONTH);				//le sumo 1 xq inicia el mes en cero (january lo toma como 0)
 				int dayD = dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH);
 				String HoraD=((JSpinner.DefaultEditor)timeSpinnerDesde.getEditor()).getTextField().getText();
-				String fechaD = yearD + "/" + monthD + "/" + dayD;
+				String fechaD = dayD + "/" + monthD + "/" + yearD;
 				r.setFecha_hora_desde_solicitada(formatter.parse(fechaD+" "+HoraD));	
 				
 
@@ -379,22 +385,44 @@ timeSpinnerHasta=new JSpinner();
 				int dayH = dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH);
 				
 				String HoraH=((JSpinner.DefaultEditor)timeSpinnerHasta.getEditor()).getTextField().getText();
-				String fechaH = yearH + "/" + monthH + "/" + dayH;
+				String fechaH = dayH + "/" + monthH + "/" +yearH ;
 //				JSpinner.DateEditor timeEditorHasta = new JSpinner.DateEditor(timeSpinnerHasta, "HH:mm:ss");
 			
 //				r.setFecha_hora_hasta_solicitada(formatter.parse(fechaH+" "+timeEditorHasta.getFormat().format(timeSpinnerHasta.getValue())));	
 				r.setFecha_hora_hasta_solicitada(formatter.parse(fechaH+" "+HoraH));	
 
 		
-		r.setFecha_hora_reserva_hecha(formatter.parse(new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())));
+		r.setFecha_hora_reserva_hecha(formatter.parse(new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime())));
 		r.setDetalle(this.textAreaDetalle.getText());
 		return r;
 	}
 
-	private Boolean validaFechas(String fechaD,String fechaH)throws ParseException,Exception{
+	private Boolean validaFechas(java.util.Date fechaD,java.util.Date fechaH)throws ParseException,Exception{
+		Calendar calendario=Calendar.getInstance();
 		if(!this.resLogic.isFHastaMayorQFDesde(fechaD, fechaH)){
+			this.dateChooserHasta.setDate(null);
+			calendario.set(2000, 1, 1, 23, 59, 59);
+			timeSpinnerHasta.setValue(calendario.getTime());
 			JOptionPane.showMessageDialog(null, "La fecha-hora hasta debe ser posterior a la fecha-hora "
 					+ "desde","",JOptionPane.INFORMATION_MESSAGE);
+			return false;
+		}
+		
+		java.util.Date hoy=Calendar.getInstance().getTime();
+		int diasMaxAnt=Integer.parseInt(lblDiasMaxAnticip.getText());
+		float diasEntre=this.resLogic.getDaysBetween(fechaD,hoy);
+		if(diasEntre >diasMaxAnt){
+			calendario.setTime(hoy);
+			calendario.add(Calendar.DATE,diasMaxAnt);
+			JOptionPane.showMessageDialog(null, "No puede reservar este elemento luego del "
+					+ ""+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(calendario.getTime()),"",JOptionPane.INFORMATION_MESSAGE);
+			this.dateChooserDesde.setDate(calendario.getTime());
+			calendario.set(2000, 1, 1, 0, 0, 0);
+			timeSpinnerDesde.setValue(calendario.getTime());
+			this.dateChooserHasta.setDate(null);
+			calendario.set(2000, 1, 1, 23, 59, 59);
+			this.timeSpinnerHasta.setValue(calendario.getTime());
+			
 			return false;
 		}
 		return true;
@@ -417,7 +445,7 @@ timeSpinnerHasta=new JSpinner();
 	public void mapearAForm(Elemento elemento){
 		this.textElemento.setText(String.valueOf(elemento.getId_elemento()));
 		this.lblDiasMaxAnticip.setText(String.valueOf(elemento.getTipo().getDias_max_anticipacion()));
-		this.lblTiempoMaxRes.setText(String.valueOf(elemento.getTipo().getLimite_horas_res()));
+		this.lblTiempoMaxRes.setText(String.valueOf(elemento.getTipo().getLimite_horas_res())+" hs");
 	}
 	
 	public void mapearAForm(Reserva res){
