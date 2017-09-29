@@ -7,6 +7,9 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
@@ -105,6 +108,11 @@ public class InformacionSistema extends JInternalFrame {
 		lblNewLabel.setIcon(new ImageIcon(InformacionSistema.class.getResource("/tools/perrito.png")));
 		panel.add(lblNewLabel);
 		getContentPane().setLayout(groupLayout);
+		
+		
+		
+		
+
 
 	}
 }
