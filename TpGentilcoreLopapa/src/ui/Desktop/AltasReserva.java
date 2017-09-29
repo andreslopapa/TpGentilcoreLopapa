@@ -341,13 +341,17 @@ public class AltasReserva extends JInternalFrame{
 				&& Campo.Valida(fechaD, Campo.tipo.FECHA)
 				&& Campo.Valida(horaD, Campo.tipo.HORA)
 				&& Campo.Valida(fechaH, Campo.tipo.FECHA)
-				&& Campo.Valida(horaH, Campo.tipo.HORA)
-				&& this.validaFechas(formatter.parse(fechaHoraD),formatter.parse(fechaHoraH))
-					){
+				&& Campo.Valida(horaH, Campo.tipo.HORA)){
 				
-				resLogic.add(this.mapearDeForm(Ingreso.PersonaLogueada));
-				JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
-				ListadoElementos.getInstancia().abrirVentanaElemento(ABMC.Action.OTHER);
+					if(this.validaFechas(formatter.parse(fechaHoraD),formatter.parse(fechaHoraH))){
+					
+					resLogic.add(this.mapearDeForm(Ingreso.PersonaLogueada));
+					JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+					ListadoElementos.getInstancia().abrirVentanaElemento(ABMC.Action.OTHER);
+					}
+			}
+			else{
+				JOptionPane.showMessageDialog(null, Campo.Mensaje,"",JOptionPane.INFORMATION_MESSAGE);
 			}
 		} catch (Exception e) {
 

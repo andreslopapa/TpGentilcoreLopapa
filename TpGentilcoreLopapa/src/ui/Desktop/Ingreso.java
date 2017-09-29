@@ -158,7 +158,13 @@ public class Ingreso {
 //		    return false;
 //		}
 //		return true;
-		return (Campo.Valida(String.valueOf(pwfContrasenia.getPassword()),Campo.tipo.OTRO)
-				&& Campo.Valida(txtUsuario.getText(),Campo.tipo.OTRO));
+		if (Campo.Valida(String.valueOf(pwfContrasenia.getPassword()),Campo.tipo.OTRO)
+				&& Campo.Valida(txtUsuario.getText(),Campo.tipo.OTRO)){
+			return true;
+		}
+		else{
+			JOptionPane.showMessageDialog(null, Campo.Mensaje,"",JOptionPane.INFORMATION_MESSAGE);
+			return false;
+		}
 	}
 }

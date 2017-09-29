@@ -33,6 +33,7 @@ import tools.ParseoAFecha;
 import ui.Desktop.ABMC.Action;
 
 import javax.swing.JTextField;
+import javax.swing.SpinnerDateModel;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -53,6 +54,7 @@ import javax.swing.border.CompoundBorder;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JSpinner;
 
 public class ABMCReservaPrueba extends ABMC{
 	
@@ -79,6 +81,8 @@ public class ABMCReservaPrueba extends ABMC{
 	private Action accion;
 	private JPanel panelCrearEliminarReserva;
 	private JLabel lblIdReservaNumero;
+	private JSpinner timeSpinnerDesde;
+	private JSpinner timeSpinnerHasta;
 	public static ABMCReservaPrueba getInstancia()throws Exception{
 		if(instancia==null){
 			instancia=new ABMCReservaPrueba();
@@ -201,11 +205,10 @@ public class ABMCReservaPrueba extends ABMC{
 									.addComponent(btnCancelarSolicitud, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(panel_EditarReserva, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(panelCrearEliminarReserva, GroupLayout.PREFERRED_SIZE, 444, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(329, Short.MAX_VALUE))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(panel_EditarReserva, 0, 0, Short.MAX_VALUE)
+								.addComponent(panelCrearEliminarReserva, GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE))))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -349,10 +352,34 @@ public class ABMCReservaPrueba extends ABMC{
 		JLabel lblReservaId = new JLabel("Reserva (Id)");
 		
 		lblIdReservaNumero = new JLabel("");
+		
+		timeSpinnerDesde = new JSpinner(new SpinnerDateModel());
+		JSpinner.DateEditor timeEditorDesde = new JSpinner.DateEditor(timeSpinnerDesde, "HH:mm:ss");
+		timeSpinnerDesde.setEditor(timeEditorDesde);
+		Calendar calendario=Calendar.getInstance();
+		calendario.set(2000, 1, 1, 0, 0, 0);
+		timeSpinnerDesde.setValue(calendario.getTime());
+		getContentPane().add(timeSpinnerDesde);
+		timeSpinnerDesde.setVisible(true);
+
+//timeSpinnerDesde=new JSpinner();
+//timeSpinnerHasta=new JSpinner();
+		
+		
+		
+		timeSpinnerHasta = new JSpinner( new SpinnerDateModel() );
+		JSpinner.DateEditor timeEditorHasta = new JSpinner.DateEditor(timeSpinnerHasta, "HH:mm:ss");
+		timeSpinnerHasta.setEditor(timeEditorHasta);
+		calendario.set(2000, 1, 1, 23, 59, 59);
+		timeSpinnerHasta.setValue(calendario.getTime());
+		getContentPane().add(timeSpinnerHasta);
+		timeSpinnerHasta.setVisible(true);
+		
+		
 		GroupLayout gl_panelCrearReserva = new GroupLayout(panelCrearEliminarReserva);
 		gl_panelCrearReserva.setHorizontalGroup(
-			gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_panelCrearReserva.createSequentialGroup()
+			gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelCrearReserva.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
@@ -366,10 +393,15 @@ public class ABMCReservaPrueba extends ABMC{
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblIdReservaNumero)
-								.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(dateChooserHasta, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(dateChooserDesde, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(textElemento, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panelCrearReserva.createSequentialGroup()
+									.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING, false)
+										.addComponent(dateChooserHasta, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(dateChooserDesde, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(textElemento, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
+										.addComponent(timeSpinnerHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(timeSpinnerDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 								.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 198, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panelCrearReserva.createSequentialGroup()
 							.addComponent(btnReservarEliminar)
@@ -389,14 +421,17 @@ public class ABMCReservaPrueba extends ABMC{
 						.addComponent(textElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblElemento))
 					.addGap(12)
-					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
-						.addComponent(dateChooserDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblDesde))
+					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.TRAILING)
+							.addComponent(dateChooserDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblDesde))
+						.addComponent(timeSpinnerDesde, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
+						.addComponent(timeSpinnerHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(dateChooserHasta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblHasta))
-					.addGap(18)
+					.addGap(17)
 					.addGroup(gl_panelCrearReserva.createParallelGroup(Alignment.BASELINE)
 						.addComponent(textAreaDetalle, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblDetalle))
@@ -409,7 +444,7 @@ public class ABMCReservaPrueba extends ABMC{
 		//panelCrearReserva.setVisible(false);
 		panelCrearEliminarReserva.setLayout(gl_panelCrearReserva);
 		getContentPane().setLayout(groupLayout);
-		setBounds(100, 100, 785, 508);
+		setBounds(100, 100, 393, 508);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	//	mapearAForm(per);				//per es la persona logueada que se envia como parametro desde el login
@@ -453,6 +488,9 @@ public class ABMCReservaPrueba extends ABMC{
 				}
 				ListadoReservas.getInstancia().Actualiza();
 			}
+			else{
+				JOptionPane.showMessageDialog(null, Campo.Mensaje,"",JOptionPane.INFORMATION_MESSAGE);
+			}
 		} catch (Exception e) {
 
 			JOptionPane.showMessageDialog(this, e.getMessage());
@@ -475,6 +513,9 @@ public class ABMCReservaPrueba extends ABMC{
 				this.panel_EditarReserva.setVisible(false);
 				this.panelCrearEliminarReserva.setVisible(true);
 				ListadoReservas.getInstancia().Actualiza();
+			}
+			else{
+				JOptionPane.showMessageDialog(null, Campo.Mensaje,"",JOptionPane.INFORMATION_MESSAGE);
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
@@ -551,6 +592,11 @@ public class ABMCReservaPrueba extends ABMC{
 		this.textAreaDetalle.setText(null);
 		this.textIdReserva.setText(null);
 		this.dateChooserFechaFinRes.setDate(null);
+		Calendar calendario=Calendar.getInstance();
+		calendario.set(2000, 1, 1, 0, 0, 0);
+		timeSpinnerDesde.setValue(calendario.getTime());
+		calendario.set(2000, 1, 1, 23, 59, 59);
+		timeSpinnerHasta.setValue(calendario.getTime());
 	}
 	
 	public void mapearAForm(Reserva res)throws Exception{
@@ -563,6 +609,9 @@ public class ABMCReservaPrueba extends ABMC{
 				this.textAreaDetalle.setText(res.getDetalle());
 				this.textIdReserva.setText(String.valueOf(res.getId_reserva()));
 				this.dateChooserFechaFinRes.setDate(res.getFecha_hora_entregado());
+				timeSpinnerDesde.setValue(res.getFecha_hora_desde_solicitada());
+				timeSpinnerHasta.setValue(res.getFecha_hora_hasta_solicitada());
+				
 				}
 		}
 		else{

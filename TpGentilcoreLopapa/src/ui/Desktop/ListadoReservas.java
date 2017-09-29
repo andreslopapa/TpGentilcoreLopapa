@@ -33,8 +33,9 @@ import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
 import tools.BotonLabel;
 import tools.Campo;
+
 import tools.LimitadorTxt;
-import ui.Desktop.ABMC.Action;
+
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -51,9 +52,7 @@ import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.EmptyBorder;
-import org.jdesktop.beansbinding.ObjectProperty;
-import org.jdesktop.beansbinding.AutoBinding;
-import org.jdesktop.beansbinding.Bindings;
+
 
 public class ListadoReservas extends Listado implements IListados{
 	/**
@@ -67,7 +66,7 @@ public class ListadoReservas extends Listado implements IListados{
 	private Reserva reservaActual;
 	private ABMCReservaPrueba formReserva;
     public static enum TipoBusqueda{ POR_IDRESERVA("Por Id de la Reserva"),POR_IDELEMENTO("Por Id del elemento"),
-    								POR_IDPERSONA("Por Id de la Persona"),PENDIENTES("Pendientes"),TRAER_TODOS("Traer Todos");
+    								POR_IDPERSONA("Por Id de la Persona"),PENDIENTES("Pendientes"),VENCIDAS("Vencidas"),TRAER_TODOS("Traer Todos");
     	private final String texto;
     	private TipoBusqueda(final String texto){this.texto=texto;}
     	@Override
@@ -124,6 +123,7 @@ public class ListadoReservas extends Listado implements IListados{
 		scrollPane.setBackground(Color.WHITE);
 		
 		table = new JTable();
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
@@ -157,7 +157,7 @@ public class ListadoReservas extends Listado implements IListados{
 		
 		
 		lblIndice = new JLabel("de xxx");
-		getContentPane().setLayout(new MigLayout("", "[7.91%,grow][25%][grow][][][50px:50px:50px,center][14.00][48.00][159.00][2.88%][20%,grow]", "[25px:25px:25px][][20px:20px:20px,grow][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
+		getContentPane().setLayout(new MigLayout("", "[4%][25%][grow][][][50px:50px:50px,center][14.00][48.00][159.00][2.88%][20%,grow]", "[25px:25px:25px][][20px:20px:20px,grow][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
 		
 		txtBuscar = new JTextField();
 		txtBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -170,7 +170,7 @@ public class ListadoReservas extends Listado implements IListados{
 		
 		JPanel panelBarraAzulLateral = new JPanel();
 		panelBarraAzulLateral.setBackground(new Color(0, 51, 102));
-		getContentPane().add(panelBarraAzulLateral, "cell 0 1 1 6,alignx leading,growy");
+		getContentPane().add(panelBarraAzulLateral, "cell 0 1 1 6,grow");
 		
 		JLabel lblIconoListadoRes = new JLabel("");
 		lblIconoListadoRes.setIcon(new ImageIcon(ListadoReservas.class.getResource("/ui/Desktop/ic_devices_white_24dp_2x.png")));
@@ -224,7 +224,7 @@ public class ListadoReservas extends Listado implements IListados{
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_IDRESERVA);
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_IDELEMENTO);
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_IDPERSONA);
-		cboTipoBusqueda.addItem(TipoBusqueda.PENDIENTES);
+		cboTipoBusqueda.addItem(TipoBusqueda.VENCIDAS);
 		cboTipoBusqueda.addItem(TipoBusqueda.TRAER_TODOS);
 		
 //		cboTipoElemento=new JComboBox();
@@ -510,6 +510,7 @@ public class ListadoReservas extends Listado implements IListados{
 	
 	private void mapearDeForm()throws Exception{
 		reservaActual=new Reserva();
+		
 		switch((TipoBusqueda)this.cboTipoBusqueda.getSelectedItem()){
 		case POR_IDRESERVA:
 						  if(Campo.Valida(txtBuscar.getText(), Campo.tipo.ID)){
@@ -526,8 +527,8 @@ public class ListadoReservas extends Listado implements IListados{
 						  reservaActual.setPersona(new CtrlPersonaLogic().getOne(Integer.parseInt(txtBuscar.getText())));
 			        	  this.tipoBusquedaActual=TipoBusqueda.POR_IDPERSONA;}
 						  break;
-		case PENDIENTES:
-				    	  this.tipoBusquedaActual=TipoBusqueda.PENDIENTES;
+		case VENCIDAS:
+				    	  this.tipoBusquedaActual=TipoBusqueda.VENCIDAS;
 				    	  break;
 		case TRAER_TODOS:
 		default:reservaActual=null;
@@ -547,23 +548,34 @@ public class ListadoReservas extends Listado implements IListados{
 		//
 		BeanProperty<Reserva, Integer> reservaBeanProperty_2 = BeanProperty.create("elemento.id_elemento");
 		jTableBinding.addColumnBinding(reservaBeanProperty_2).setColumnName("Id Elemento");
+		
 		//
-		BeanProperty<Reserva, Date> reservaBeanProperty_3 = BeanProperty.create("fecha_hora_reserva_hecha");
-		jTableBinding.addColumnBinding(reservaBeanProperty_3).setColumnName("Fecha-Hora Reserva Hecha").setEditable(false);
+		BeanProperty<Reserva, String> reservaBeanProperty_3 = BeanProperty.create("fecha_hora_reserva_hecha");
+		jTableBinding.addColumnBinding(reservaBeanProperty_3).setColumnName("Fecha Reserva Hecha").setEditable(false);
+		
 		//
-		BeanProperty<Reserva, Date> reservaBeanProperty_4 = BeanProperty.create("fecha_hora_desde_solicitada");
+		BeanProperty<Reserva, String> reservaBeanProperty_4 = BeanProperty.create("fecha_hora_desde_solicitada");
 		jTableBinding.addColumnBinding(reservaBeanProperty_4).setColumnName("Fecha Desde");
 		//
-		BeanProperty<Reserva, Date> reservaBeanProperty_5 = BeanProperty.create("fecha_hora_hasta_solicitada");
+		BeanProperty<Reserva, String> reservaBeanProperty_5 = BeanProperty.create("fecha_hora_hasta_solicitada");
 		jTableBinding.addColumnBinding(reservaBeanProperty_5).setColumnName("Fecha Hasta");
 		//
-		BeanProperty<Reserva, Date> reservaBeanProperty_6 = BeanProperty.create("fecha_hora_entregado");
+		BeanProperty<Reserva, String> reservaBeanProperty_6 = BeanProperty.create("fecha_hora_entregado");
 		jTableBinding.addColumnBinding(reservaBeanProperty_6).setColumnName("Fecha Entrega");
 		//
-		BeanProperty<Reserva, String> reservaBeanProperty_7 = BeanProperty.create("detalle");
-		jTableBinding.addColumnBinding(reservaBeanProperty_7).setColumnName("Detalle");
+//		BeanProperty<Reserva, String> reservaBeanProperty_7 = BeanProperty.create("detalle");
+//		jTableBinding.addColumnBinding(reservaBeanProperty_7).setColumnName("Detalle");
 		//
 		jTableBinding.setEditable(false);
 		jTableBinding.bind();
+		
+		table.getColumnModel().getColumn(0).setPreferredWidth(80);
+		table.getColumnModel().getColumn(1).setPreferredWidth(80);
+		table.getColumnModel().getColumn(2).setPreferredWidth(80);
+		table.getColumnModel().getColumn(3).setMinWidth(150);;
+		table.getColumnModel().getColumn(4).setMinWidth(150);
+		table.getColumnModel().getColumn(5).setMinWidth(150);
+		table.getColumnModel().getColumn(6).setMinWidth(150);
+	
 	}
 }

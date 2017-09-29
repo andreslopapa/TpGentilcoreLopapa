@@ -419,6 +419,7 @@ public class ListadoElementos extends Listado implements IListados{
 			}
 		}
 		else{
+			JOptionPane.showMessageDialog(null, Campo.Mensaje,"",JOptionPane.INFORMATION_MESSAGE);
 			txtIndice.setText(String.valueOf(indiceActual));
 			
 		}
@@ -489,6 +490,9 @@ public class ListadoElementos extends Listado implements IListados{
 		case POR_ID:if(Campo.Valida(txtBuscar.getText(), Campo.tipo.ID)){
 			          elementoActual.setId_elemento(Integer.parseInt(this.txtBuscar.getText()));
 			          this.tipoBusquedaActual=TipoBusqueda.POR_ID;}
+					else{
+					  JOptionPane.showMessageDialog(null, Campo.Mensaje,"",JOptionPane.INFORMATION_MESSAGE);	
+					}
 			          break;
 		case POR_NOMBRE:
 			          elementoActual.setNombre(txtBuscar.getText());

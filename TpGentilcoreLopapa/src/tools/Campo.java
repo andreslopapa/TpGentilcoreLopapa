@@ -9,12 +9,15 @@ import javax.swing.JOptionPane;
 
 public class Campo {
 
+	public static String Mensaje;
 	public enum tipo{EMAIL,DNI,INDICE,ID,FECHA,HORA,OTRO}
 	
 	public static boolean Valida(String campo,tipo tipoCampo){
 		if(campo.isEmpty() || campo==null){
-			JOptionPane.showMessageDialog(null,"Complete todos los campos por favor", "", JOptionPane.INFORMATION_MESSAGE);
-			return false;}
+			//JOptionPane.showMessageDialog(null,"Complete todos los campos por favor", "", JOptionPane.INFORMATION_MESSAGE);
+			Mensaje="Complete todos los campos por favor";
+			return false;
+			}
 		
 		switch(tipoCampo){
 		case EMAIL:return validaEmail(campo);
@@ -35,7 +38,8 @@ public class Campo {
 		formatter.parse(hora);
 		}
 		catch(ParseException pe){
-			JOptionPane.showMessageDialog(null,"hora invalida\n"+hora, "",JOptionPane.INFORMATION_MESSAGE);
+			//JOptionPane.showMessageDialog(null,"hora invalida\n"+hora, "",JOptionPane.INFORMATION_MESSAGE);
+			Mensaje="hora invalida\n"+hora;
 			return false;
 		}
 		return true;
@@ -47,7 +51,8 @@ public class Campo {
 		formatter.parse(fecha);
 		}
 		catch(ParseException pe){
-			JOptionPane.showMessageDialog(null,"fecha invalida\n"+fecha, "",JOptionPane.INFORMATION_MESSAGE);
+			//JOptionPane.showMessageDialog(null,"fecha invalida\n"+fecha, "",JOptionPane.INFORMATION_MESSAGE);
+			Mensaje="fecha invalida\n"+fecha;
 			return false;
 		}
 		return true;
@@ -63,26 +68,36 @@ public class Campo {
            valido = true;  
         }
         else{
-        	JOptionPane.showMessageDialog(null, "Email invalido","",JOptionPane.INFORMATION_MESSAGE);
+        	//JOptionPane.showMessageDialog(null, "Email invalido","",JOptionPane.INFORMATION_MESSAGE);
+        	Mensaje="Email invalido";
         }
         return valido;
 	}
 	
 	private static boolean validaDni(String dni){
 		boolean correcto=dni.matches("[0-9]+");
-		if(!correcto){JOptionPane.showMessageDialog(null, "Dni invalido","",JOptionPane.INFORMATION_MESSAGE);}
+		if(!correcto){
+			//JOptionPane.showMessageDialog(null, "Dni invalido","",JOptionPane.INFORMATION_MESSAGE);
+			Mensaje="Dni invalido";
+		}
 		return correcto;
 	}
 	
 	private static boolean validaIndice(String indice){
 		boolean correcto=indice.matches("[1-9][0-9]*");
-		if(!correcto){JOptionPane.showMessageDialog(null, "El indice debe tener un valor numerico mayor a 0","",JOptionPane.INFORMATION_MESSAGE);}
+		if(!correcto){
+			//JOptionPane.showMessageDialog(null, "El indice debe tener un valor numerico mayor a 0","",JOptionPane.INFORMATION_MESSAGE);
+			Mensaje="El indice debe tener un valor numerico mayor a 0";
+		}
 	    return correcto;
 	}
 	
 	private static boolean validaId(String id){
 		boolean correcto=id.matches("[1-9][0-9]*");
-		if(!correcto){JOptionPane.showMessageDialog(null, "El id debe tener un valor numerico mayor a 0","",JOptionPane.INFORMATION_MESSAGE);}
+		if(!correcto){
+			//JOptionPane.showMessageDialog(null, "El id debe tener un valor numerico mayor a 0","",JOptionPane.INFORMATION_MESSAGE);
+			Mensaje="El id debe tener un valor numerico mayor a 0";
+		}
 		return correcto;
 	}
 }

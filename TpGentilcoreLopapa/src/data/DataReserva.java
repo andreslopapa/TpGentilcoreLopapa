@@ -19,7 +19,7 @@ import ui.Desktop.ListadoReservas;
 public class DataReserva {
 
 	
-	public ArrayList<Reserva> getSome(ListadoReservas.TipoBusqueda tipob,Reserva reserva,int indice,int cantTraer)throws SQLException,AppDataException{
+	public ArrayList<Reserva> getSome(ListadoReservas.TipoBusqueda tipob,Reserva reserva,int indice,int cantTraer)throws Exception,SQLException,AppDataException{
 		PreparedStatement pstmt=null;
 		ResultSet res=null;
 		ArrayList<Reserva> reservas=new ArrayList<Reserva>();
@@ -64,7 +64,11 @@ public class DataReserva {
 								pstmt.setInt(2, indice);
 								pstmt.setInt(3, cantTraer);
 								break;
-			case PENDIENTES:
+			case PENDIENTES:	
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select* from reserva r ");//completar 
+								break;
+			case VENCIDAS:
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 								+ "select* from reserva r "
 								+ "inner join elemento e "
@@ -100,10 +104,11 @@ public class DataReserva {
 					re.setId_reserva(res.getInt("r.id_reserva"));
 					re.setPersona(per);
 					re.setElemento(ele);
-					re.setFecha_hora_reserva_hecha(res.getDate("r.fecha_hora_reserva_hecha"));
-					re.setFecha_hora_desde_solicitada(res.getDate("r.fecha_hora_desde_solicitada"));
-					re.setFecha_hora_hasta_solicitada(res.getDate("r.fecha_hora_hasta_solicitada"));
-					re.setFecha_hora_entregado(res.getDate("r.fecha_hora_entregado"));
+					
+					re.setFecha_hora_reserva_hecha(res.getTimestamp("r.fecha_hora_reserva_hecha"));
+					re.setFecha_hora_desde_solicitada(res.getTimestamp("r.fecha_hora_desde_solicitada"));
+					re.setFecha_hora_hasta_solicitada(res.getTimestamp("r.fecha_hora_hasta_solicitada"));
+					re.setFecha_hora_entregado(res.getTimestamp("r.fecha_hora_entregado"));
 					re.setDetalle(res.getString("r.detalle"));
 					
 					reservas.add(re);
@@ -152,7 +157,7 @@ public class DataReserva {
 								+ "where r.id_persona=? ");
 								pstmt.setInt(1, reserva.getPersona()!=null?reserva.getPersona().getId():-1);
 								break;
-			case PENDIENTES:
+			case VENCIDAS:
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 								+ "select count(*) from reserva r "
 								+ "where r.fecha_hora_entregado is null and "
@@ -288,12 +293,11 @@ public class DataReserva {
 			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""	
 					+ " update reserva "
 					+ " set fecha_hora_entregado=? "
-					+ " where id_reserva=? "
-					+ " and id_persona=? ");
+					+ " where id_reserva=? ");
 
 			pstmt.setString(1, String.valueOf(r.getFecha_hora_entregado()));	
 			pstmt.setInt(2, r.getId_reserva());
-			pstmt.setInt(3, r.getPersona().getId());
+			
 		
 			pstmt.executeUpdate();
 		}
@@ -327,10 +331,11 @@ public class DataReserva {
 				reserva.setId_reserva(rs.getInt("id_reserva"));
 				reserva.setPersona(new DataPersona().getOne(rs.getInt("id_persona")));
 				reserva.setElemento(new DataElemento().getOne(rs.getInt("id_elemento")));
-				reserva.setFecha_hora_reserva_hecha(rs.getDate("fecha_hora_reserva_hecha"));
-				reserva.setFecha_hora_desde_solicitada(rs.getDate("fecha_hora_desde_solicitada"));
-				reserva.setFecha_hora_hasta_solicitada(rs.getDate("fecha_hora_hasta_solicitada"));
-				reserva.setFecha_hora_entregado(rs.getDate("fecha_hora_entregado"));
+				java.text.SimpleDateFormat formatter=new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				reserva.setFecha_hora_reserva_hecha(rs.getString("r.fecha_hora_reserva_hecha")!=null?formatter.parse(rs.getString("r.fecha_hora_reserva_hecha")):null);
+				reserva.setFecha_hora_desde_solicitada(rs.getString("r.fecha_hora_desde_solicitada")!=null?formatter.parse(rs.getString("r.fecha_hora_desde_solicitada")):null);
+				reserva.setFecha_hora_hasta_solicitada(rs.getString("r.fecha_hora_hasta_solicitada")!=null?formatter.parse(rs.getString("r.fecha_hora_hasta_solicitada")):null);
+				reserva.setFecha_hora_entregado(rs.getString("r.fecha_hora_entregado")!=null?formatter.parse(rs.getString("r.fecha_hora_entregado")):null);
 				reserva.setDetalle(rs.getString("detalle"));
 			}
 		}
@@ -352,51 +357,52 @@ public class DataReserva {
 	
 
 	//LISTADO DE RESERVAS PENDIENTES QUE TIENE UN USUARIO EN PARTICULAR
-	public ArrayList<Reserva> getPendientes(Persona p) throws SQLException,AppDataException{
-		PreparedStatement stmt = null;
-		ResultSet rs=null;
-		ArrayList<Reserva> res= new ArrayList<Reserva>();
-		DataElemento de = new DataElemento();
-		
-		try {
-			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(""
-						+ "select * "				
-						+ " from reserva "
-						+ " where fecha_hora_entregado is null 	"
-						+ "		and id_persona=?"
-						+ "		and datediff(fecha_hora_desde_solicitada,now()) > 0 ");//hasta no sera?
-			
-			stmt.setInt(1, p.getId());
-			rs = stmt.executeQuery(); 	
-					if(rs!=null){
-						while(rs.next()){
-							Reserva r= new Reserva();
-							r.setPersona(p);
-							r.setId_reserva(rs.getInt("id_reserva"));
-							int idEle= rs.getInt("id_elemento");
-							r.setElemento(de.getOne(idEle));
-							r.setFecha_hora_desde_solicitada(rs.getDate("fecha_hora_desde_solicitada"));
-							r.setFecha_hora_hasta_solicitada(rs.getDate("fecha_hora_hasta_solicitada"));
-							r.setFecha_hora_entregado(rs.getDate("fecha_hora_entregado"));
-							r.setDetalle(rs.getString("detalle"));
-				
-							res.add(r);
-						}
-					}
-		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex, "Error al recuperar todas las reservas");
-		}
-		    finally{
-			try {
-				if(rs!=null) rs.close();
-				if(stmt!=null) stmt.close();
-				FactoryConexion.getInstancia().releaseConn();
-			} catch (SQLException sqlex) {
-				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
-			}
-		}
-		return res;
-	}
+//	public ArrayList<Reserva> getPendientes(Persona p) throws Exception,SQLException,AppDataException{
+//		PreparedStatement stmt = null;
+//		ResultSet rs=null;
+//		ArrayList<Reserva> res= new ArrayList<Reserva>();
+//		DataElemento de = new DataElemento();
+//		
+//		try {
+//			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(""
+//						+ "select * "				
+//						+ " from reserva "
+//						+ " where fecha_hora_entregado is null 	"
+//						+ "		and id_persona=?"
+//						+ "		and datediff(fecha_hora_desde_solicitada,now()) > 0 ");//hasta no sera?
+//			
+//			stmt.setInt(1, p.getId());
+//			rs = stmt.executeQuery(); 	
+//					if(rs!=null){
+//						while(rs.next()){
+//							Reserva r= new Reserva();
+//							r.setPersona(p);
+//							r.setId_reserva(rs.getInt("id_reserva"));
+//							int idEle= rs.getInt("id_elemento");
+//							r.setElemento(de.getOne(idEle));
+//							java.text.SimpleDateFormat formatter=new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//							r.setFecha_hora_desde_solicitada(formatter.parse(rs.getString("fecha_hora_desde_solicitada")));
+//							r.setFecha_hora_hasta_solicitada(formatter.parse(rs.getString("fecha_hora_hasta_solicitada")));
+//							r.setFecha_hora_entregado(formatter.parse(rs.getString("fecha_hora_entregado")));
+//							r.setDetalle(rs.getString("detalle"));
+//				
+//							res.add(r);
+//						}
+//					}
+//		} catch (SQLException sqlex) {
+//			throw new AppDataException(sqlex, "Error al recuperar todas las reservas");
+//		}
+//		    finally{
+//			try {
+//				if(rs!=null) rs.close();
+//				if(stmt!=null) stmt.close();
+//				FactoryConexion.getInstancia().releaseConn();
+//			} catch (SQLException sqlex) {
+//				throw new AppDataException(sqlex, "Error al cerrar conexion, resultset o statement");
+//			}
+//		}
+//		return res;
+//	}
 	
 	public int getMaxId()throws SQLException,AppDataException{
 		int id=-1;
@@ -451,9 +457,13 @@ public class DataReserva {
 			throw new AppDataException(sqlex,"Error al verificar si se puede reservar en el intervalo fechaDesde-fechaHasta");
 		}
 		finally{
+			try{
 			if(pstmt!=null){pstmt.close();}
 			if(res!=null){res.close();}
-			FactoryConexion.getInstancia().releaseConn();
+			FactoryConexion.getInstancia().releaseConn();}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerrar conexion,resultset o preparedstatement");
+			}
 		}
 		return intersecciones;
 	}
