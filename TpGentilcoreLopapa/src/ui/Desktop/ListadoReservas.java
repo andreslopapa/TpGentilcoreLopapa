@@ -516,16 +516,25 @@ public class ListadoReservas extends Listado implements IListados{
 						  if(Campo.Valida(txtBuscar.getText(), Campo.tipo.ID)){
 				          reservaActual.setId_reserva(Integer.parseInt(this.txtBuscar.getText()));
 				          this.tipoBusquedaActual=TipoBusqueda.POR_IDRESERVA;}
+						  else{
+							  JOptionPane.showMessageDialog(null, Campo.Mensaje,"",JOptionPane.INFORMATION_MESSAGE);
+						  }
 				          break;
 		case POR_IDELEMENTO:
 						  if(Campo.Valida(txtBuscar.getText(), Campo.tipo.ID)){
 				          reservaActual.setElemento(new CtrlElementoLogic().getOne(Integer.parseInt(txtBuscar.getText())));
 				          this.tipoBusquedaActual=TipoBusqueda.POR_IDELEMENTO;}
+						  else{
+							  JOptionPane.showMessageDialog(null, Campo.Mensaje,"",JOptionPane.INFORMATION_MESSAGE);
+						  }
 						  break;
 		case POR_IDPERSONA:
 						  if(Campo.Valida(txtBuscar.getText(), Campo.tipo.ID)){
 						  reservaActual.setPersona(new CtrlPersonaLogic().getOne(Integer.parseInt(txtBuscar.getText())));
 			        	  this.tipoBusquedaActual=TipoBusqueda.POR_IDPERSONA;}
+						  else{
+							  JOptionPane.showMessageDialog(null, Campo.Mensaje,"",JOptionPane.INFORMATION_MESSAGE);
+						  }
 						  break;
 		case VENCIDAS:
 				    	  this.tipoBusquedaActual=TipoBusqueda.VENCIDAS;

@@ -56,18 +56,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSpinner;
 
-public class ABMCReservaPrueba extends ABMC{
+public class ABMCReservaPrueba extends FormReserva{
 	
-	CtrlReservaLogic resLogic = new CtrlReservaLogic();
-
-	
-	
-	private JLabel lblElemento;
+//	CtrlReservaLogic resLogic = new CtrlReservaLogic();
+//	private Elemento elementoActual;
+//	private JLabel lblElemento;
 	private JTextField textElemento;
-	private JTextArea textAreaDetalle;
-	private CtrlElementoLogic ctrElemLogic;
-	private JDateChooser dateChooserDesde;
-	private JDateChooser dateChooserHasta;
+//	private JTextArea textAreaDetalle;
+//	private CtrlElementoLogic ctrElemLogic;
+//	private JDateChooser dateChooserDesde;
+//	private JDateChooser dateChooserHasta;
 	private JDateChooser dateChooserFechaFinRes;
 	private JTextField textIdReserva;
 	private JPanel panel_EditarReserva;
@@ -81,8 +79,8 @@ public class ABMCReservaPrueba extends ABMC{
 	private Action accion;
 	private JPanel panelCrearEliminarReserva;
 	private JLabel lblIdReservaNumero;
-	private JSpinner timeSpinnerDesde;
-	private JSpinner timeSpinnerHasta;
+//	private JSpinner timeSpinnerDesde;
+//	private JSpinner timeSpinnerHasta;
 	public static ABMCReservaPrueba getInstancia()throws Exception{
 		if(instancia==null){
 			instancia=new ABMCReservaPrueba();
@@ -121,6 +119,7 @@ public class ABMCReservaPrueba extends ABMC{
 	 */
 	private void initialize() {
 		accion=Action.OTHER;
+		this.ctrElemLogic=new CtrlElementoLogic();
 		setBorder(null);											
 		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null); //estas dos ultimas lineas quitan bordes y titulo
 		
@@ -186,6 +185,7 @@ public class ABMCReservaPrueba extends ABMC{
 		btnCancelarSolicitud.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Borrar.png")));
 		
 		panel_EditarReserva = new JPanel();
+		panel_EditarReserva.setVisible(false);
 		panel_EditarReserva.setBackground(Color.WHITE);
 		
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
@@ -205,10 +205,9 @@ public class ABMCReservaPrueba extends ABMC{
 									.addComponent(btnCancelarSolicitud, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap()
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(panel_EditarReserva, 0, 0, Short.MAX_VALUE)
-								.addComponent(panelCrearEliminarReserva, GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE))))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addComponent(panelCrearEliminarReserva, GroupLayout.PREFERRED_SIZE, 359, GroupLayout.PREFERRED_SIZE))
+						.addComponent(panel_EditarReserva, GroupLayout.PREFERRED_SIZE, 369, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -296,7 +295,6 @@ public class ABMCReservaPrueba extends ABMC{
 						.addComponent(btnCancelarCierre))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
-		panel_EditarReserva.setVisible(false);
 		panel_EditarReserva.setLayout(gl_panel_EditarReserva);
 		
 		textAreaDetalle = new JTextArea();
@@ -468,32 +466,47 @@ public class ABMCReservaPrueba extends ABMC{
 		try {
 			if(Campo.Valida(this.textElemento.getText(),Campo.tipo.ID) 
 					&& Campo.Valida(((JTextField)dateChooserDesde.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)
-					&& Campo.Valida(((JTextField)dateChooserHasta.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA))
+					&& Campo.Valida(((JTextField)dateChooserHasta.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)
+					&& Campo.Valida(((JSpinner.DefaultEditor)timeSpinnerDesde.getEditor()).getTextField().getText(), Campo.tipo.HORA)
+					&& Campo.Valida(((JSpinner.DefaultEditor)timeSpinnerHasta.getEditor()).getTextField().getText(), Campo.tipo.HORA))
 			{
-				if(accion==Action.ADD){
-					resLogic.add(this.mapearDeForm());
-					JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
-				    ListadoReservas.getInstancia().Actualiza();
-				    accion=Action.OTHER;
-				    btnReservarEliminar.setVisible(false);
-				    btnCancelarResEli.setVisible(false);
-			    }
-				else if(accion==Action.DELETE){
-					resLogic.delete(this.mapearDeForm());
-					JOptionPane.showMessageDialog(this, "Reserva eliminada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
-				    ListadoReservas.getInstancia().Actualiza();
-				    accion=Action.OTHER;
-				    btnReservarEliminar.setVisible(false);
-				    btnCancelarResEli.setVisible(false);
+				
+				int id=Integer.parseInt(this.textElemento.getText());
+				Elemento ele=this.ctrElemLogic.getOne(id);
+				if(ele!=null){
+					    elementoActual=ele;
+						if(accion==Action.ADD){
+							if(this.validaFechas(this.getFechaD(), this.getFechaH())){
+								resLogic.add(this.mapearDeForm());
+								JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+							    ListadoReservas.getInstancia().Actualiza();
+							    accion=Action.OTHER;
+							    btnReservarEliminar.setVisible(false);
+							    btnCancelarResEli.setVisible(false);
+						    }
+					    }
+						else if(accion==Action.DELETE){
+							resLogic.delete(this.mapearDeForm());
+							JOptionPane.showMessageDialog(this, "Reserva eliminada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+						    ListadoReservas.getInstancia().Actualiza();
+						    accion=Action.OTHER;
+						    btnReservarEliminar.setVisible(false);
+						    btnCancelarResEli.setVisible(false);
+						}
+						ListadoReservas.getInstancia().Actualiza();
 				}
-				ListadoReservas.getInstancia().Actualiza();
+				else{
+					textElemento.setText(null);
+					JOptionPane.showMessageDialog(null, "El elemento no existe","",JOptionPane.INFORMATION_MESSAGE);
+				}
+				
 			}
 			else{
 				JOptionPane.showMessageDialog(null, Campo.Mensaje,"",JOptionPane.INFORMATION_MESSAGE);
 			}
 		} catch (Exception e) {
 
-			JOptionPane.showMessageDialog(this, e.getMessage());
+			JOptionPane.showMessageDialog(this, "Error:\n"+e.getMessage());
 
 		}		
 	}
@@ -524,45 +537,45 @@ public class ABMCReservaPrueba extends ABMC{
 	}
 	
 
-	private Reserva mapearDeForm() throws Exception{
-
-		Reserva r = new Reserva();
-		//Persona p = new Persona();
-		Elemento e = new Elemento();
-        r.setId_reserva(Integer.parseInt(this.lblIdReservaNumero.getText()));
-		r.setPersona(Ingreso.PersonaLogueada);	
-		e.setId_elemento(Integer.parseInt(this.textElemento.getText()));
-		r.setElemento(e);
-		
-				int yearD = dateChooserDesde.getCalendar().get(Calendar.YEAR);
-				int monthD = 1+dateChooserDesde.getCalendar().get(Calendar.MONTH);				//le sumo 1 xq inicia el mes en cero (january lo toma como 0)
-				int dayD = dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH);
-				String fechaD = yearD + "-" + monthD + "-" + dayD;
-		r.setFecha_hora_desde_solicitada(Date.valueOf(fechaD));	//el famoso provisorio. --> En vez de estas 5 lineas de codigo, Intent� una mas linda con dateChooserHasta.getDate() como en la linea de abajo pero no me dejaba convertir de java.util.Date a java.sql.date.... Busqe y no encontre ayuda , Luego vere otra forma "mejor"
-		//r.setFecha_hora_desde_solicitada(Date.valueOf(textHasta.getText()));
-
-				int yearH = dateChooserHasta.getCalendar().get(Calendar.YEAR);
-				int monthH = 1+dateChooserHasta.getCalendar().get(Calendar.MONTH);
-				int dayH = dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH);
-				String fechaH = yearH + "-" + monthH + "-" + dayH;
-		r.setFecha_hora_hasta_solicitada(Date.valueOf(fechaH));	//el famoso provisorio
-		
-
-	
-//		int year = Calendar.getInstance().get(Calendar.YEAR);
-//		int month = Calendar.getInstance().get(Calendar.MONTH)+1;
-//		int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-//		int hora=Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-//		int minutos=Calendar.getInstance().get(Calendar.MINUTE);
-//		int segundos=Calendar.getInstance().get(Calendar.SECOND);
-//		String fecha = day + "/" +month + "/" + year +"/"+ hora+":"+minutos+":"+segundos;
+//	private Reserva mapearDeForm() throws Exception{
+//
+//		Reserva r = new Reserva();
+//		//Persona p = new Persona();
+//		Elemento e = new Elemento();
+//        r.setId_reserva(Integer.parseInt(this.lblIdReservaNumero.getText()));
+//		r.setPersona(Ingreso.PersonaLogueada);	
+//		e.setId_elemento(Integer.parseInt(this.textElemento.getText()));
+//		r.setElemento(e);
 //		
-//		r.setFecha_hora_reserva_hecha(Date.valueOf(fecha));
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		r.setFecha_hora_reserva_hecha(formatter.parse(new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())));
-		r.setDetalle(this.textAreaDetalle.getText());
-		return r;
-	}
+//				int yearD = dateChooserDesde.getCalendar().get(Calendar.YEAR);
+//				int monthD = 1+dateChooserDesde.getCalendar().get(Calendar.MONTH);				//le sumo 1 xq inicia el mes en cero (january lo toma como 0)
+//				int dayD = dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH);
+//				String fechaD = yearD + "-" + monthD + "-" + dayD;
+//		r.setFecha_hora_desde_solicitada(Date.valueOf(fechaD));	//el famoso provisorio. --> En vez de estas 5 lineas de codigo, Intent� una mas linda con dateChooserHasta.getDate() como en la linea de abajo pero no me dejaba convertir de java.util.Date a java.sql.date.... Busqe y no encontre ayuda , Luego vere otra forma "mejor"
+//		//r.setFecha_hora_desde_solicitada(Date.valueOf(textHasta.getText()));
+//
+//				int yearH = dateChooserHasta.getCalendar().get(Calendar.YEAR);
+//				int monthH = 1+dateChooserHasta.getCalendar().get(Calendar.MONTH);
+//				int dayH = dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH);
+//				String fechaH = yearH + "-" + monthH + "-" + dayH;
+//		r.setFecha_hora_hasta_solicitada(Date.valueOf(fechaH));	//el famoso provisorio
+//		
+//
+//	
+////		int year = Calendar.getInstance().get(Calendar.YEAR);
+////		int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+////		int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+////		int hora=Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+////		int minutos=Calendar.getInstance().get(Calendar.MINUTE);
+////		int segundos=Calendar.getInstance().get(Calendar.SECOND);
+////		String fecha = day + "/" +month + "/" + year +"/"+ hora+":"+minutos+":"+segundos;
+////		
+////		r.setFecha_hora_reserva_hecha(Date.valueOf(fecha));
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+//		r.setFecha_hora_reserva_hecha(formatter.parse(new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Calendar.getInstance().getTime())));
+//		r.setDetalle(this.textAreaDetalle.getText());
+//		return r;
+//	}
 	
 	
 	private Reserva mapearDeFormFechaFin(Persona pers) throws Exception{
@@ -602,6 +615,7 @@ public class ABMCReservaPrueba extends ABMC{
 	public void mapearAForm(Reserva res)throws Exception{
 		if(res!=null){
 			if(accion==Action.OTHER){
+				this.elementoActual=res.getElemento();
 				this.lblIdReservaNumero.setText(String.valueOf(res.getId_reserva()));
 				this.textElemento.setText(String.valueOf(res.getElemento().getId_elemento()));
 				this.dateChooserDesde.setDate(res.getFecha_hora_desde_solicitada());

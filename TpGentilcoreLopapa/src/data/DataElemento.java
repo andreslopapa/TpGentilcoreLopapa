@@ -562,7 +562,7 @@ public class DataElemento {
 		return cantidad;
 	}
 
-	public Elemento getOne(Elemento elem) throws SQLException, AppDataException{
+	public Elemento getOne(Elemento elem) throws Exception,SQLException, AppDataException{
 		Elemento e =null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

@@ -70,12 +70,10 @@ public class AltasReserva extends JInternalFrame{
 	private JDateChooser dateChooserDesde;
 	private JDateChooser dateChooserHasta;
 	private JSpinner timeSpinnerDesde;
-
-
-
 	private JSpinner timeSpinnerHasta;
 	private JLabel lblTiempoMaxRes;
 	private JLabel lblDiasMaxAnticip;
+	private Elemento elementoActual;
 	/**
 	 * Launch the application.
 	 */
@@ -483,6 +481,7 @@ public class AltasReserva extends JInternalFrame{
 	}
 	
 	public void mapearAForm(Elemento elemento){
+		this.elementoActual=elemento;
 		this.textElemento.setText(String.valueOf(elemento.getId_elemento()));
 		this.lblDiasMaxAnticip.setText(String.valueOf(elemento.getTipo().getDias_max_anticipacion()));
 		this.lblTiempoMaxRes.setText(String.valueOf(elemento.getTipo().getLimite_horas_res()));
@@ -490,6 +489,7 @@ public class AltasReserva extends JInternalFrame{
 	
 	public void mapearAForm(Reserva res){
 		if(res!=null){
+		this.elementoActual=res.getElemento();
 		this.textElemento.setText(String.valueOf(res.getElemento().getId_elemento()));
 		this.dateChooserDesde.setDate(res.getFecha_hora_desde_solicitada());
 		this.dateChooserHasta.setDate(res.getFecha_hora_hasta_solicitada());
