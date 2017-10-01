@@ -193,6 +193,7 @@ public class ABMCPersona extends JInternalFrame{
 		textDNI.setColumns(10);
 		
 		JButton btnBuscar = new JButton("");
+		btnBuscar.setToolTipText("Buscar persona");
 		btnBuscar.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/ic_search_black_24dp_1x.png")));
 		btnBuscar.setForeground(new Color(0, 51, 102));
 		btnBuscar.addActionListener(new ActionListener() {
@@ -313,6 +314,8 @@ public class ABMCPersona extends JInternalFrame{
 		lblListadoDePersonas.setFont(new Font("Calibri", Font.PLAIN, 18));
 		
 		JButton btnReiniciarListado = new JButton("");
+		btnReiniciarListado.setToolTipText("Recargar tabla");
+		btnReiniciarListado.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/ic_replay_black_24dp_1x.png")));
 		//btnReiniciarListado.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/ic_replay_black_24dp_1x.png")));
 		//btnReiniciarListado.setIcon(null);
 		btnReiniciarListado.addActionListener(new ActionListener() {
