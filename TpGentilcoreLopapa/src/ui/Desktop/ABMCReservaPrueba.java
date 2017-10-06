@@ -3,12 +3,12 @@ package ui.Desktop;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
+
 
 import java.awt.Color;
-import java.awt.Toolkit;
 
-import javax.swing.DefaultComboBoxModel;
+
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
@@ -18,19 +18,15 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import business.entities.Categoria;
 import business.entities.Elemento;
 import business.entities.Persona;
 import business.entities.Reserva;
-import business.entities.TipoDeElemento;
 import business.logic.CtrlElementoLogic;
 import business.logic.CtrlReservaLogic;
-import business.logic.CtrlTipoDeElementoLogic;
 import tools.AppDataException;
 import tools.Campo;
 import tools.LimitadorTxt;
-import tools.ParseoAFecha;
-import ui.Desktop.ABMC.Action;
+
 
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
@@ -40,17 +36,12 @@ import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
 import com.toedter.calendar.JDateChooser;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -79,6 +70,7 @@ public class ABMCReservaPrueba extends FormReserva{
 	private Action accion;
 	private JPanel panelCrearEliminarReserva;
 	private JLabel lblIdReservaNumero;
+
 //	private JSpinner timeSpinnerDesde;
 //	private JSpinner timeSpinnerHasta;
 	public static ABMCReservaPrueba getInstancia()throws Exception{
@@ -201,7 +193,7 @@ public class ABMCReservaPrueba extends FormReserva{
 									.addComponent(btnCrearReserva, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnCerrarReserva, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
+								.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(btnCancelarSolicitud, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap()
@@ -347,7 +339,7 @@ public class ABMCReservaPrueba extends FormReserva{
 		});
 		btnCancelarResEli.setVisible(false);
 		
-		JLabel lblReservaId = new JLabel("Reserva (Id)");
+		 JLabel lblReservaId = new JLabel("Reserva (Id)");
 		
 		lblIdReservaNumero = new JLabel("");
 		
@@ -364,7 +356,8 @@ public class ABMCReservaPrueba extends FormReserva{
 //timeSpinnerHasta=new JSpinner();
 		
 		
-		
+//		lblElemento=new JLabel("Elemento(ID)");
+//		getContentPane().add(lblElemento);
 		timeSpinnerHasta = new JSpinner( new SpinnerDateModel() );
 		JSpinner.DateEditor timeEditorHasta = new JSpinner.DateEditor(timeSpinnerHasta, "HH:mm:ss");
 		timeSpinnerHasta.setEditor(timeEditorHasta);
@@ -375,7 +368,7 @@ public class ABMCReservaPrueba extends FormReserva{
 		
 		
 		GroupLayout gl_panelCrearReserva = new GroupLayout(panelCrearEliminarReserva);
-		gl_panelCrearReserva.setHorizontalGroup(
+	gl_panelCrearReserva.setHorizontalGroup(
 			gl_panelCrearReserva.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelCrearReserva.createSequentialGroup()
 					.addContainerGap()
@@ -441,12 +434,11 @@ public class ABMCReservaPrueba extends FormReserva{
 		);
 		//panelCrearReserva.setVisible(false);
 		panelCrearEliminarReserva.setLayout(gl_panelCrearReserva);
+		
 		getContentPane().setLayout(groupLayout);
 		setBounds(100, 100, 393, 508);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-	//	mapearAForm(per);				//per es la persona logueada que se envia como parametro desde el login
-	//	cargarListaTdE();
+
 	}
 
 
@@ -486,12 +478,16 @@ public class ABMCReservaPrueba extends FormReserva{
 						    }
 					    }
 						else if(accion==Action.DELETE){
-							resLogic.delete(this.mapearDeForm());
+							//elementoActual.setId_elemento(Integer.parseInt(textElemento.getText()));
+							Reserva res=this.mapearDeForm();
+							res.setId_reserva(Integer.parseInt(lblIdReservaNumero.getText()));
+							resLogic.delete(res);
 							JOptionPane.showMessageDialog(this, "Reserva eliminada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
 						    ListadoReservas.getInstancia().Actualiza();
 						    accion=Action.OTHER;
 						    btnReservarEliminar.setVisible(false);
 						    btnCancelarResEli.setVisible(false);
+						    editarComponentes(true);
 						}
 						ListadoReservas.getInstancia().Actualiza();
 				}
@@ -648,6 +644,7 @@ public class ABMCReservaPrueba extends FormReserva{
 		btnReservarEliminar.setVisible(false);
 		btnCancelarResEli.setVisible(false);
 		accion=Action.OTHER;
+		editarComponentes(true);
 		try {
 			ListadoReservas.getInstancia().mapearHaciaABMCClick();
 		} catch (Exception e1) {
@@ -674,6 +671,16 @@ public class ABMCReservaPrueba extends FormReserva{
 		btnReservarEliminar.setText("Eliminar");
 		panel_EditarReserva.setVisible(false);
 		panelCrearEliminarReserva.setVisible(true);
+		editarComponentes(false);
+	}
+
+	private void editarComponentes(Boolean opcion) {
+		this.textElemento.setEditable(opcion);
+		this.dateChooserDesde.setEnabled(opcion);
+		this.dateChooserHasta.setEnabled(opcion);
+		this.textAreaDetalle.setEditable(opcion);
+		this.timeSpinnerDesde.setEnabled(opcion);
+		this.timeSpinnerHasta.setEnabled(opcion);
 	}
 
 	private void prepararVistaCerrarReserva()throws Exception {

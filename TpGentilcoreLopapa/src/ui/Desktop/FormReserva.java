@@ -22,6 +22,8 @@ import business.logic.CtrlReservaLogic;
 
 
 public abstract class FormReserva extends ABMC{
+	public FormReserva() {
+	}
 
 	protected CtrlReservaLogic resLogic = new CtrlReservaLogic();
 	protected JLabel lblElemento;
@@ -37,11 +39,11 @@ public abstract class FormReserva extends ABMC{
 	protected Reserva mapearDeForm() throws ParseException,Exception{
 
 		Reserva r = new Reserva();
-		Elemento e = new Elemento();
+		//Elemento e = new Elemento();
 
 		r.setPersona(Ingreso.PersonaLogueada);	
-		e.setId_elemento(elementoActual.getId_elemento());
-		r.setElemento(e);
+		//e.setId_elemento(elementoActual.getId_elemento());
+		r.setElemento(elementoActual);
 		
 				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 				formatter.setLenient(false);
