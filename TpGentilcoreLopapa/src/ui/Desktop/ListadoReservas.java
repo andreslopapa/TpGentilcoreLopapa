@@ -110,7 +110,7 @@ public class ListadoReservas extends Listado implements IListados{
 		return ListadoReservas.instancia;
 	}
 	
-	public ListadoReservas() {
+	private ListadoReservas() {
 		setBorder(null);
 		getContentPane().setBackground(Color.WHITE);
 		

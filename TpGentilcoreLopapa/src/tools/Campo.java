@@ -10,6 +10,14 @@ import javax.swing.JOptionPane;
 public class Campo {
 
 	public static String Mensaje;
+	public static String getMensaje() {
+		return Mensaje;
+	}
+
+	public static void setMensaje(String mensaje) {
+		Mensaje = mensaje;
+	}
+
 	public enum tipo{EMAIL,DNI,INDICE,ID,FECHA,HORA,OTRO}
 	
 	public static boolean Valida(String campo,tipo tipoCampo){

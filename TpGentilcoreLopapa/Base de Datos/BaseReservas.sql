@@ -18,6 +18,7 @@
 --
 -- Table structure for table `cat_tip`
 --
+SET SQL_SAFE_UPDATES = 0;
 
 DROP TABLE IF EXISTS `cat_tip`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -175,7 +176,7 @@ values
 /*ejemplo reserva entregada*/
 insert into reserva(id_persona, id_elemento,fecha_hora_reserva_hecha, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,fecha_hora_entregado, detalle) 
 values
-(2,3,20170810,20170820,20170824,20170824,'Se finalizo la reserva y solucionó el problema');
+(2,3,20170810,20170820,20170824,20170824,'Se finalizo la reserva y solucionï¿½ el problema');
 /*!40000 ALTER TABLE `reserva` ENABLE KEYS */;
 UNLOCK TABLES;
 

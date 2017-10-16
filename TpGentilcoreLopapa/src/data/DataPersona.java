@@ -74,8 +74,8 @@ public class DataPersona{
 			}
 		} catch (SQLException sqlex) {
 			throw new AppDataException(sqlex,"Error al agregar persona. "
-					+ " Verifique que el usuario y/o DNI no existan, dichos registros deben ser únicos. "
-					+ " En caso de no poder resolver contáctese con Patalalas S.A.");
+					+ " Verifique que el usuario y/o DNI no existan, dichos registros deben ser unicos. "
+					+ " En caso de no poder resolver contactese con Patalalas S.A.");
 		}
 		finally{
 			try {
@@ -107,13 +107,13 @@ public class DataPersona{
 			stmt.setBoolean(7, p.isHabilitado());
 			stmt.setInt(8, p.getCategoria().getId());
 			stmt.setString(9, p.getDni());
-			stmt.executeUpdate();
-			
+			int rowsAffected=stmt.executeUpdate();
+			if(rowsAffected==0){throw new AppDataException(new Exception(""),"Persona Inexistente, no se pudo actualizar");}
 			
 		} catch (SQLException sqlex) {
 			throw new AppDataException(sqlex,"Error al modificar persona. "
-					+ " Verifique que el usuario y/o DNI no existan, dichos registros deben ser únicos. "
-					+ " En caso de no poder resolverlo contáctese con Patalalas S.A.");
+					+ " Verifique que el usuario y/o DNI no existan, dichos registros deben ser unicos. "
+					+ " En caso de no poder resolverlo contactese con Patalalas S.A.");
 		} 
 		finally {
 			try {
@@ -131,8 +131,10 @@ public class DataPersona{
 		PreparedStatement pstmt2 = null;
 		try {
 			pstmt1=FactoryConexion.getInstancia().getConn().prepareStatement(
-					"delete from reserva where id_persona=?;");
-			pstmt1.setInt(1, p.getId());
+					"delete from reserva "
+					+ "where id_persona in "
+					+ "(select id_persona from persona where dni=?);");
+			pstmt1.setString(1, p.getDni());
 			pstmt1.executeUpdate();
 			pstmt2=FactoryConexion.getInstancia().getConn().prepareStatement("delete from persona where dni=?;");
 			pstmt2.setString(1,p.getDni());
@@ -140,7 +142,7 @@ public class DataPersona{
 			
 		} catch (SQLException sqlex) {
 			throw new AppDataException(sqlex, "Error al eliminar persona"
-											+ " En caso de no poder resolverlo contáctese con Patalalas S.A.");
+											+ " En caso de no poder resolverlo contactese con Patalalas S.A.");
 		}
 		finally{
 			if(pstmt1!=null){pstmt1.close();}

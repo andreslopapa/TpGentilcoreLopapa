@@ -24,13 +24,13 @@ public class MainWindow {
 
 	private JFrame frmSistemaDeReservas;
 	private JDesktopPane desktopPane;
-	private static ListadoElementos le;
-	private static ListadoReservas lr;
-	private static ABMCPersona abmcper;			
-	private static ListadoPersona lp;
-	private static InformacionSistema info;
+	private ListadoElementos le;
+	private ListadoReservas lr;
+	private ABMCPersona abmcper;			
+	//private ListadoPersona lp;
+	private InformacionSistema info;
 	
-    //agregar los listados que faltan
+  
 	public static void main() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -38,7 +38,7 @@ public class MainWindow {
 					MainWindow window = new MainWindow();
 					window.frmSistemaDeReservas.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
 			}
 		});
@@ -193,8 +193,7 @@ public class MainWindow {
 	public void listadoPersonasClick(){			//proxima etapa hacer listado de personas para que quede similar a listadoelementos
 		 try {
 			desktopPane.removeAll();
-			abmcper = new ABMCPersona();
-						//	abmcper.main();
+			abmcper = ABMCPersona.getInstancia();
 			desktopPane.add(abmcper);
 			abmcper.setVisible(true);
 			abmcper.setMaximum(true);
@@ -205,7 +204,7 @@ public class MainWindow {
 		catch (Exception e1) {
 //			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana de Personas\n"+e1.getMessage(),
 //					"Error",JOptionPane.ERROR_MESSAGE);
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(null, e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	

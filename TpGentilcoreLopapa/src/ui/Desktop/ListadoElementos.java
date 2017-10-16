@@ -107,7 +107,7 @@ public class ListadoElementos extends Listado implements IListados{
 		return ListadoElementos.instancia;
 	}
 	
-	public ListadoElementos() {
+	private ListadoElementos() {
 		setBorder(null);
 		getContentPane().setBackground(Color.WHITE);
 		
