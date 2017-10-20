@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `BaseReservas` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `BaseReservas`;
 -- MySQL dump 10.13  Distrib 5.7.19, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: BaseReservas
@@ -16,35 +18,9 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `cat_tip`
---
-SET SQL_SAFE_UPDATES = 0;
-
-DROP TABLE IF EXISTS `cat_tip`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cat_tip` (
-  `id_categoria` int(11) NOT NULL,
-  `id_tipodeelemento` int(11) NOT NULL,
-  PRIMARY KEY (`id_categoria`,`id_tipodeelemento`),
-  KEY `fk_id_tipodeelemento_idx` (`id_tipodeelemento`),
-  CONSTRAINT `fk_CAT_TIP_Categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_CAT_TIP_Tipo` FOREIGN KEY (`id_tipodeelemento`) REFERENCES `tipodeelemento` (`id_tipodeelemento`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cat_tip`
---
-
-LOCK TABLES `cat_tip` WRITE;
-/*!40000 ALTER TABLE `cat_tip` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cat_tip` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `categoria`
 --
+SET SQL_SAFE_UPDATES = 0;
 
 DROP TABLE IF EXISTS `categoria`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -81,7 +57,7 @@ CREATE TABLE `elemento` (
   KEY `fk_idtipodeelemento_idx` (`id_tipodeelemento`),
   KEY `fk_id_tipo_idx` (`id_tipodeelemento`),
   CONSTRAINT `fk_Elemento_Tipo` FOREIGN KEY (`id_tipodeelemento`) REFERENCES `tipodeelemento` (`id_tipodeelemento`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +66,7 @@ CREATE TABLE `elemento` (
 
 LOCK TABLES `elemento` WRITE;
 /*!40000 ALTER TABLE `elemento` DISABLE KEYS */;
-INSERT INTO `elemento` VALUES (1,NULL,1),(2,NULL,1),(3,'computadora',1),(4,'servidor',1),(5,'plotter',1),(6,'camara',1),(7,'jeen',2),(8,'corbata',2),(9,'saco',2),(10,'pantalon',2),(11,'traje',2),(12,'zapatos',2),(13,'vestido',2),(14,'canchita de futbol',3),(15,'salon de eventos',3),(16,'quinta',3),(17,NULL,3),(18,NULL,3),(19,NULL,3),(20,'auto deportivo',4),(21,'auto familiar',4),(22,'triciclo',4),(23,'panzer',4),(24,'moto',4);
+INSERT INTO `elemento` VALUES (3,'computadora',1),(4,'servidor',1),(5,'plotter',1),(6,'camara 60mpx',1),(8,'corbata',2),(10,'pantalon2',2),(11,'traje',2),(12,'zapatos',2),(14,'canchita de futbol',3),(15,'salon de eventos',3),(16,'quinta',3),(17,NULL,3),(18,NULL,3),(19,NULL,3),(20,'auto deportivo',4),(21,'auto familiar',4),(22,'triciclo',4),(23,'panzer',4),(24,'moto',4),(25,'voodoo',4),(26,'ambulancia',4),(27,'autobus de prioneros',4),(28,'camion de bomberos',4),(29,'patrullero',4),(30,'minivan',4),(31,'kia rio',4),(32,'LAMBORGHINI aventator',4),(34,'boina',2),(35,'gorra',2),(36,'chaleco del gta',2),(37,'medias rositas',2),(38,'guantas de trabajo',2),(39,'cinto',2),(40,'computadora lenovo',1),(41,'poncho hippie sucio',2),(42,'',1),(43,'camiseta de boca',2),(44,'bug piola',1),(45,'sad',1),(46,'bugsito',1),(47,'',1),(48,'pava electrica',1),(49,'celu robado',1),(50,'celurobado2',1),(51,'',2),(52,'',2);
 /*!40000 ALTER TABLE `elemento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,15 +88,12 @@ CREATE TABLE `persona` (
   `email` varchar(45) NOT NULL,
   `id_categoria` int(11) NOT NULL,
   PRIMARY KEY (`id_persona`),
+  UNIQUE KEY `dni_UNIQUE` (`dni`),
+  UNIQUE KEY `usuario_UNIQUE` (`usuario`),
   KEY `fk_id_categoria_idx` (`id_categoria`),
   CONSTRAINT `fk_Persona_Categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
-
-ALTER TABLE `basereservas`.`persona` 
-ADD UNIQUE INDEX `usuario_UNIQUE` (`usuario` ASC),
-ADD UNIQUE INDEX `dni_UNIQUE` (`dni` ASC);
 
 --
 -- Dumping data for table `persona`
@@ -128,15 +101,8 @@ ADD UNIQUE INDEX `dni_UNIQUE` (`dni` ASC);
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-insert into persona(dni,nombre,apellido,usuario,contrasenia,habilitado,email,id_categoria) 
-values
-('39927307','Nahuel','Alvarez','NaweShopping','123',0,'naweShopping@gmail.com',3),
-('11111111','Elsa','Pallo','zapallito','321',1,'zapallito@hotmail.com',3),
-('22222222','Seba','Rantica','heilHitler','000',1,'bigotito@yahoo.com',2),
-('33333333','Fausto','Azzaretti','elOligarca','1989',1,'mauriPresidente@yahoo.com',2),
-('44444444','Adrian','Meca','AdrianMeca','alumnos',1,'estoschicospromueven@hotmail.com',1),
-('55555555','Ricky','Tabacman','Ricardo','123',1,'soyricky@yahoo.com',1),
-('66666666','Miguel','Oliveros Vega','cubaLibre','123',1,'cubaLibre@free.com',3);/*!40000 ALTER TABLE `persona` ENABLE KEYS */;
+INSERT INTO `persona` VALUES (2,'11111111','andres','lopapa','lopa','123',0,'andres@hotmail.com',2),(3,'22222222','joe','santiago','santiagojoe','000',1,'joe_santiago@yahoo.com',2),(4,'33333333','black','francis','thepixies','1989',1,'hey@yahoo.com',2),(5,'44444444','adrian','meca','soyelprofe','adrian',1,'promover@hotmail.com',1),(11,'38937308','Pity','Alvarez','intoxicados','fuego',1,'pilapila@hotmail.com',1);
+/*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -147,21 +113,21 @@ DROP TABLE IF EXISTS `reserva`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `reserva` (
-  `id_reserva` INT NOT NULL AUTO_INCREMENT,
   `id_persona` int(11) NOT NULL,
   `id_elemento` int(11) NOT NULL,
-  `fecha_hora_reserva_hecha` datetime NOT NULL,
   `fecha_hora_desde_solicitada` datetime NOT NULL,
+  `detalle` varchar(140) DEFAULT NULL,
   `fecha_hora_hasta_solicitada` datetime NOT NULL,
-  `fecha_hora_entregado` datetime NULL, 	
-  `detalle` varchar(80) DEFAULT NULL,
+  `id_reserva` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha_hora_entregado` datetime DEFAULT NULL,
+  `fecha_hora_reserva_hecha` datetime NOT NULL,
   PRIMARY KEY (`id_reserva`),
   KEY `fk_Reserva_Elemento_idx` (`id_elemento`),
+  KEY `fk_Reserva_Persona_idx` (`id_persona`),
   CONSTRAINT `fk_Reserva_Elemento` FOREIGN KEY (`id_elemento`) REFERENCES `elemento` (`id_elemento`) ON UPDATE CASCADE,
   CONSTRAINT `fk_Reserva_Persona` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 
 --
 -- Dumping data for table `reserva`
@@ -169,14 +135,7 @@ CREATE TABLE `reserva` (
 
 LOCK TABLES `reserva` WRITE;
 /*!40000 ALTER TABLE `reserva` DISABLE KEYS */;
-/*ejemplo reserva no entregada*/
-insert into reserva(id_persona, id_elemento,fecha_hora_reserva_hecha, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,detalle) 
-values
-(2,3,20170810,20170820,20170824,'Se entregó con raya superior');
-/*ejemplo reserva entregada*/
-insert into reserva(id_persona, id_elemento,fecha_hora_reserva_hecha, fecha_hora_desde_solicitada,fecha_hora_hasta_solicitada,fecha_hora_entregado, detalle) 
-values
-(2,3,20170810,20170820,20170824,20170824,'Se finalizo la reserva y solucion� el problema');
+INSERT INTO `reserva` VALUES (4,44,'2017-09-01 00:00:00','','2017-09-15 00:00:00',1,'2017-09-01 00:00:00','2017-08-08 00:00:00'),(4,5,'2017-09-01 00:00:00','','2017-09-16 00:00:00',3,NULL,'2017-09-09 13:01:04'),(4,23,'2017-09-01 00:00:00','','2017-09-22 00:00:00',4,NULL,'2017-09-09 19:34:56'),(4,44,'2017-09-01 00:00:00','','2017-09-15 00:00:00',5,NULL,'2017-09-09 19:35:08'),(4,6,'2017-09-01 00:00:00','','2017-09-16 00:00:00',6,NULL,'2017-09-09 19:38:15'),(4,44,'2017-09-01 00:00:00','','2017-09-15 00:00:00',7,NULL,'2017-09-09 19:40:08'),(4,6,'2017-09-08 00:00:00','dff','2017-09-21 00:00:00',8,NULL,'2017-09-09 20:11:52'),(4,50,'2017-09-01 00:00:00','asdas','2017-09-16 00:00:00',9,NULL,'2017-09-09 20:54:08'),(4,5,'2017-09-01 00:00:00','','2017-09-15 00:00:00',10,NULL,'2017-09-09 21:01:16'),(4,49,'2017-09-01 00:00:00','soy rambo','2017-09-02 00:00:00',14,NULL,'2017-09-09 21:09:44'),(4,44,'2017-09-02 00:00:00','','2017-09-22 00:00:00',25,'2017-09-08 00:00:00','2017-09-10 18:03:02'),(4,22,'2017-09-02 00:00:00','','2017-09-09 00:00:00',28,NULL,'2017-09-10 19:56:51'),(4,17,'2017-09-02 00:00:00','','2017-09-16 00:00:00',29,NULL,'2017-09-10 20:42:14'),(4,10,'2017-09-16 00:00:00','','2017-09-10 23:59:59',34,NULL,'2017-09-13 23:24:43'),(4,14,'2017-09-21 00:00:00','la del diego','2017-09-16 23:59:59',37,NULL,'2017-09-14 17:08:12'),(4,44,'2017-09-28 00:00:00','ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss','2017-09-16 23:59:59',38,NULL,'2017-09-14 17:24:14'),(4,45,'2017-09-02 00:00:00','','2017-09-02 23:59:59',43,'2017-09-01 00:00:00','2017-09-14 18:10:54'),(4,3,'2017-09-17 00:00:00','','2017-09-19 23:59:59',93,NULL,'2017-09-16 19:42:05'),(4,3,'2017-09-16 23:00:00','','2017-09-17 00:00:00',94,NULL,'2017-09-16 19:42:56'),(4,3,'2017-09-29 10:00:00','','2017-09-30 12:59:59',95,NULL,'2017-09-28 20:04:03'),(4,3,'2017-10-01 13:00:00','','2017-10-04 04:00:00',96,'2017-09-16 00:00:00','2017-09-28 20:05:24');
 /*!40000 ALTER TABLE `reserva` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,7 +152,9 @@ CREATE TABLE `tipodeelemento` (
   `cantmaxrespen` int(11) NOT NULL,
   `limite_horas_res` int(11) NOT NULL,
   `dias_max_anticipacion` int(11) NOT NULL,
-  PRIMARY KEY (`id_tipodeelemento`)
+  `only_encargados` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id_tipodeelemento`),
+  UNIQUE KEY `nombre_UNIQUE` (`nombre`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -203,7 +164,7 @@ CREATE TABLE `tipodeelemento` (
 
 LOCK TABLES `tipodeelemento` WRITE;
 /*!40000 ALTER TABLE `tipodeelemento` DISABLE KEYS */;
-INSERT INTO `tipodeelemento` VALUES (1,'electronico',3,72,8),(2,'ropa',10,72,15),(3,'inmueble',4,24,30),(4,'vehiculo',2,48,30);
+INSERT INTO `tipodeelemento` VALUES (1,'electronico',3,72,8,0),(2,'ropa',10,72,15,0),(3,'inmueble',4,24,30,0),(4,'vehiculo',2,48,30,0);
 /*!40000 ALTER TABLE `tipodeelemento` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -216,4 +177,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-08-15 20:54:12
+-- Dump completed on 2017-10-20  8:57:18
