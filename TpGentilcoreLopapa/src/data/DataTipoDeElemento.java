@@ -18,7 +18,7 @@ public class DataTipoDeElemento {
 		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select id_tipodeelemento, nombre, cantmaxrespen, limite_horas_res, dias_max_anticipacion "
+					"select * "
 					+ " from tipodeelemento "
 					+ " where id_tipodeelemento=? "); 	
 			stmt.setInt(1,tde_p.getId());
@@ -30,7 +30,7 @@ public class DataTipoDeElemento {
 				te.setCant_max_res_pen(rs.getInt("cantmaxrespen"));
 				te.setLimite_horas_res(rs.getInt("limite_horas_res"));
 				te.setDias_max_anticipacion(rs.getInt("dias_max_anticipacion"));
-				
+				te.setOnly_encargados(rs.getBoolean("only_encargados"));
 			}
 		} catch (SQLException sqlex) {
 			throw new AppDataException(sqlex,"Error al recuperar un tipo de elemento");
@@ -57,7 +57,7 @@ public class DataTipoDeElemento {
 		ResultSet rs = null;		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"select id_tipodeelemento,nombre,cantmaxrespen,limite_horas_res,dias_max_anticipacion "
+					"select* "
 					+ " from tipodeelemento "
 					+ " where id_tipodeelemento=? ");
 			stmt.setInt(1,tde_p);
@@ -68,7 +68,8 @@ public class DataTipoDeElemento {
 				te.setNombre(rs.getString("nombre"));
 				te.setCant_max_res_pen(rs.getInt("cantmaxrespen"));
 				te.setLimite_horas_res(rs.getInt("limite_horas_res"));
-				te.setDias_max_anticipacion(rs.getInt("dias_max_anticipacion"));				
+				te.setDias_max_anticipacion(rs.getInt("dias_max_anticipacion"));	
+				te.setOnly_encargados(rs.getBoolean("only_encargados"));
 			}
 		} catch (SQLException sqlex) {
 			throw new AppDataException(sqlex,"Error al recuperar un tipo de elemento");
@@ -102,6 +103,7 @@ public class DataTipoDeElemento {
 					te.setCant_max_res_pen(res.getInt("cantmaxrespen"));
 					te.setLimite_horas_res(res.getInt("limite_horas_res"));
 					te.setDias_max_anticipacion(res.getInt("dias_max_anticipacion"));
+					te.setOnly_encargados(res.getBoolean("only_encargados"));
 					tiposelementos.add(te);
 				}
 			}
@@ -128,11 +130,15 @@ public class DataTipoDeElemento {
 		ResultSet keyRes=null;
 		try{
 			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "insert into tipodeelemento(nombre,cantmaxrespen,limite_horas_res,dias_max_anticipacion) values(?,?,?,?);",PreparedStatement.RETURN_GENERATED_KEYS);
-			pstmt.setString(1, tde.getNombre());
-			pstmt.setInt(2, tde.getCant_max_res_pen());
-			pstmt.setInt(3, tde.getLimite_horas_res());
-			pstmt.setInt(4, tde.getDias_max_anticipacion());
+					+ "insert into tipodeelemento(id_tipodeelemento,nombre,cantmaxrespen,"
+					+ "limite_horas_res,dias_max_anticipacion,only_encargados) "
+					+ "values(?,?,?,?,?,?);",PreparedStatement.RETURN_GENERATED_KEYS);
+			pstmt.setInt(1, tde.getId());
+			pstmt.setString(2, tde.getNombre());
+			pstmt.setInt(3, tde.getCant_max_res_pen());
+			pstmt.setInt(4, tde.getLimite_horas_res());
+			pstmt.setInt(5, tde.getDias_max_anticipacion());
+			pstmt.setBoolean(6, tde.isOnly_encargados());
 			pstmt.executeUpdate();
 			keyRes=pstmt.getGeneratedKeys();
 			if(keyRes!=null && keyRes.next()){
@@ -140,7 +146,8 @@ public class DataTipoDeElemento {
 			}
 		}
 		catch(SQLException sqlex){
-			throw new AppDataException(sqlex,"Error al agregar tipo de elemento");
+			throw new AppDataException(sqlex,"Error al agregar tipo de elemento.\n"
+					+ "Verifique que el Id y el nombre sean unicos.");
 		}
 		finally{
 			try{
@@ -157,16 +164,25 @@ public class DataTipoDeElemento {
 	public void update(TipoDeElemento te)throws SQLException,AppDataException{
 		PreparedStatement pstmt=null;
 		try{
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement("update tipodeelemento set nombre=?, set cantmaxrespen=?, set limite_horas_res=?, set dias_max_anticipacion=?  where id_tipodeelemento=?");
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+					+ "update tipodeelemento set nombre=?, "
+					+ " cantmaxrespen=?,  limite_horas_res=?,"
+					+ " dias_max_anticipacion=?, only_encargados=? "
+					+ " where id_tipodeelemento=?");
 			pstmt.setString(1,te.getNombre() );
 			pstmt.setInt(2,te.getCant_max_res_pen() );
 			pstmt.setInt(3, te.getLimite_horas_res());
 			pstmt.setInt(4, te.getDias_max_anticipacion());
-			pstmt.setInt(5,te.getId());
-			pstmt.executeUpdate();
+			pstmt.setBoolean(5, te.isOnly_encargados());
+			pstmt.setInt(6,te.getId());
+			int rowsAffected=pstmt.executeUpdate();
+			if(rowsAffected==0){
+				throw new AppDataException(new Exception("Tipo de elemento inexistente\nno se pudo actualizar"),"Error");
+				}
 		}
 		catch(SQLException sqlex){
-			throw new AppDataException(sqlex,"Error al modificar tipo de elemento");
+			throw new AppDataException(sqlex,"Error al modificar tipo de elemento\n"
+					+ "Verifique que el nombre sea unico.");
 		}
 		finally{
 			try{
@@ -180,24 +196,21 @@ public class DataTipoDeElemento {
 	}
 	
 	public void delete(TipoDeElemento te)throws SQLException,AppDataException{
-		PreparedStatement pstmt1=null;
-		PreparedStatement pstmt2=null;
+		PreparedStatement pstmt=null;
 		try{
-			pstmt1=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "delete from cat_tip where id_tipodeelemento=?;");
-			pstmt1.setInt(1, te.getId());
-			pstmt1.executeUpdate();
-			pstmt2=FactoryConexion.getInstancia().getConn().prepareStatement("delete from tipodeelemento where id_tipodeelemento=?;");
-			pstmt2.setInt(1, te.getId());
-			pstmt2.executeUpdate();
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement("delete from tipodeelemento where id_tipodeelemento=?;");
+			pstmt.setInt(1, te.getId());
+			int rowsAffected=pstmt.executeUpdate();
+			if(rowsAffected==0){
+				throw new AppDataException(new Exception("Tipo de elemento inexistente\nNo se pudo eliminar"),"Error");
+			}
 		}
 		catch(SQLException sqlex){
 			throw new AppDataException(sqlex,"Error al borrar tipo de elemento");
 		}
 		finally{
 			try{
-				if(pstmt1!=null){pstmt1.close();}
-				if(pstmt2!=null){pstmt2.close();}
+				if(pstmt!=null){pstmt.close();}
 				FactoryConexion.getInstancia().releaseConn();
 			}
 			catch(SQLException sqlex){

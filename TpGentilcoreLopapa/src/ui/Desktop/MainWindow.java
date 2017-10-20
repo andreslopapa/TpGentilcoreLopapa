@@ -26,7 +26,8 @@ public class MainWindow {
 	private JDesktopPane desktopPane;
 	private ListadoElementos le;
 	private ListadoReservas lr;
-	private ABMCPersona abmcper;			
+	private ABMCPersona abmcper;	
+	private ABMCTipoDeElemento abmctde;
 	//private ListadoPersona lp;
 	private InformacionSistema info;
 	
@@ -99,7 +100,7 @@ public class MainWindow {
 		/*JMenuItem mntmListadoCategorias = new JMenuItem("Listado Categorias");
 		mnArchivo.add(mntmListadoCategorias);*/
 		
-		JMenuItem mntmListadoPersonas = new JMenuItem("Administrar usuarios");
+		JMenuItem mntmListadoPersonas = new JMenuItem("Administrar Usuarios");
 		mntmListadoPersonas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				listadoPersonasClick();
@@ -128,6 +129,15 @@ public class MainWindow {
 				salirClick();
 			}
 		});
+		
+		JMenuItem mntmAdministrarTiposDe = new JMenuItem("Administrar Tipos de Elementos");
+		mntmAdministrarTiposDe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				listadoTiposEClick();
+			}
+
+		});
+		mnArchivo.add(mntmAdministrarTiposDe);
 		
 		
 		mnArchivo.add(mntmSalir);
@@ -198,13 +208,23 @@ public class MainWindow {
 			abmcper.setVisible(true);
 			abmcper.setMaximum(true);
 			}		 
-		catch(PropertyVetoException e){
-			JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-		}
-		catch (Exception e1) {
+		catch (Exception e) {
 //			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana de Personas\n"+e1.getMessage(),
 //					"Error",JOptionPane.ERROR_MESSAGE);
-			JOptionPane.showMessageDialog(null, e1.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,"Error al llamar a la ventana que administra personas\n"+ e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public void listadoTiposEClick(){
+		try{
+			desktopPane.removeAll();
+			abmctde=ABMCTipoDeElemento.getInstancia();
+			desktopPane.add(abmctde);
+			abmctde.setVisible(true);
+			abmctde.setMaximum(true);
+		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana que administra tipos de elementos\n"+ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
@@ -217,7 +237,7 @@ public class MainWindow {
 			info.setMaximum(true);
 		} 
 		catch (Exception e1) {
-			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana de Personas",
+			JOptionPane.showMessageDialog(null, "Error al llamar a la ventana de Informacion del Sistema",
 					"Error",JOptionPane.ERROR_MESSAGE);
 			
 		}

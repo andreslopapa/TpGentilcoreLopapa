@@ -18,7 +18,7 @@ public class Campo {
 		Mensaje = mensaje;
 	}
 
-	public enum tipo{EMAIL,DNI,INDICE,ID,FECHA,HORA,OTRO}
+	public enum tipo{EMAIL,DNI,INDICE,ID,FECHA,HORA,MAXRESPEN,DIASANT,LIMHOR,OTRO}
 	
 	public static boolean Valida(String campo,tipo tipoCampo){
 		if(campo.isEmpty() || campo==null){
@@ -34,6 +34,9 @@ public class Campo {
 		case ID:return validaId(campo);
 		case FECHA:return validaFecha(campo);
 		case HORA:return validaHora(campo);
+		case MAXRESPEN:return validaMaxResPen(campo);
+		case DIASANT:return validaDiasAnt(campo);
+		case LIMHOR:return validaLimHor(campo);
 		default:break;
 		}
 		return true;
@@ -98,6 +101,30 @@ public class Campo {
 			Mensaje="El indice debe tener un valor numerico mayor a 0";
 		}
 	    return correcto;
+	}
+	
+	private static boolean validaMaxResPen(String maxResPen){
+		boolean correcto=maxResPen.matches("[1-9][0-9]*");
+		if(!correcto){
+			Mensaje="La cantidad maxima de reservas pendientes debe\nser un numero mayor a 0";
+		}
+		return correcto;
+	}
+	
+	private static boolean validaDiasAnt(String diasAnt){
+		boolean correcto=diasAnt.matches("[1-9][0-9]*");
+		if(!correcto){
+			Mensaje="La cantidad maxima de dias de anticipacion debe\nser un numero mayor a 0";
+		}
+		return correcto;
+	}
+	
+	private static boolean validaLimHor(String limHor){
+		boolean correcto=limHor.matches("[1-9][0-9]*");
+		if(!correcto){
+			Mensaje="El limite maximo de tiempo de reserva debe\nser un numero mayor a 0";
+		}
+		return correcto;
 	}
 	
 	private static boolean validaId(String id){

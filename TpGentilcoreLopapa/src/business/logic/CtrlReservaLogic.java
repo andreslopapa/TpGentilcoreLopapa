@@ -62,10 +62,11 @@ public class CtrlReservaLogic {
 
 	public Boolean isFHastaMayorQFDesde(java.util.Date fechaHoraD,java.util.Date fechaHoraH)throws Exception,ParseException{
 		
-		//SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		//return (formatter.parse(fechaHoraD).compareTo(formatter.parse(fechaHoraH)))<0?true:false;
+
 		return fechaHoraD.compareTo(fechaHoraH)<0?true:false;
 	}
+	
+	
 	
 	public float getDaysBetween(Date fecha1,Date fecha2){
 		long diff=fecha1.getTime()-fecha2.getTime();//te da la diferencia en milisegundos

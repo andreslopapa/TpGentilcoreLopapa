@@ -1,366 +1,617 @@
 package ui.Desktop;
 
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.Font;
+import tools.Campo;
+import business.entities.*;
+import business.logic.*;
+
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
+import javax.swing.JComboBox;
+import java.awt.Font;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
+import java.awt.Color;
+import java.awt.Component;
+import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
+import javax.swing.JPanel;
+import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JTable;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.SwingBindings;
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.jdesktop.beansbinding.BeanProperty;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import org.jdesktop.beansbinding.ObjectProperty;
 
-import business.entities.Elemento;
-import business.entities.TipoDeElemento;
-import business.logic.CtrlTipoDeElementoLogic;
+public class ABMCTipoDeElemento extends JInternalFrame{
 
-import java.awt.Toolkit;
-import javax.swing.JPanel;
+	CtrlTipoDeElementoLogic ctrlTde = new CtrlTipoDeElementoLogic();
+	private ArrayList<TipoDeElemento> tdes;// = new ArrayList<>();
+	
+	
+	private JFrame frmSistemaDeGestion;
+	private JTextField txtNombre;
+	private JTextField txtId;
+	private JTable tableTipos;
+	private JScrollPane scrollPaneTablaTipos;
+	
 
-public class ABMCTipoDeElemento {
-	CtrlTipoDeElementoLogic ctrTdELogic = new CtrlTipoDeElementoLogic();
 
-	private JFrame frmSistemaDeGestin;
-	private JTextField textIdTipoDeElemento;
-	private JTextField textNombreTipoElemento;
-	private JTextField textCantMaxPerRes;
-	private JTextField textLimiteHoras;
-	private JTextField textDiasDeAnticipacion;
+	private static ABMCTipoDeElemento Instancia=null;
+	private JButton btnReiniciarListado;
+	private JButton btnBotonquebusca;
+	private JCheckBox chckbxOnlyEncargados;
+	private JSpinner spinnerMaxResPen;
+	private JSpinner spinnerLimiteHoras;
+	private JSpinner spinnerDiasAnt;
+	public static ABMCTipoDeElemento getInstancia()throws Exception{
+		if(Instancia==null){
+			Instancia=new ABMCTipoDeElemento();
+		}
+		return Instancia;
+	}
+	
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					ABMCPersona window = new ABMCPersona();
+//					window.frmSistemaDeGestin.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+
+	 // Create the application.
+
+	private ABMCTipoDeElemento() throws Exception {
+		
+		getContentPane().setBackground(Color.WHITE);
+		setBorder(null);											
+		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null); //estas dos ultimas lineas quitan bordes y barra superior de la ventana
+		
+		
+		JLabel lblCantMaxResPen = new JLabel("Max reservas pendientes");
+		lblCantMaxResPen.setToolTipText("Es la cantidad maxima de elementos de este tipo \nque cada persona puede tener pendiente a futuro");
+		lblCantMaxResPen.setHorizontalAlignment(SwingConstants.LEFT);
+		lblCantMaxResPen.setForeground(new Color(0, 51, 102));
+		lblCantMaxResPen.setFont(new Font("Calibri", Font.PLAIN, 14));
+		
+		JLabel lblLimiteHorasRes = new JLabel("Limite de Horas");
+		lblLimiteHorasRes.setToolTipText("Limite maximo de tiempo de reserva (en horas)");
+
+		lblLimiteHorasRes.setHorizontalAlignment(SwingConstants.LEFT);
+		lblLimiteHorasRes.setForeground(new Color(0, 51, 102));
+		lblLimiteHorasRes.setFont(new Font("Calibri", Font.PLAIN, 14));
+		
+		JLabel lblNombre = new JLabel("Nombre");
+		lblNombre.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNombre.setForeground(new Color(0, 51, 102));
+		lblNombre.setFont(new Font("Calibri", Font.PLAIN, 14));
+		
+		txtNombre = new JTextField();
+		txtNombre.setColumns(10);
+		
+		JLabel lblDiasDeAnticipacion = new JLabel("Dias de Anticipacion");
+		lblDiasDeAnticipacion.setToolTipText("Cantidad maxima de dias de anticipacion para reservar este tipo");
+		lblDiasDeAnticipacion.setHorizontalAlignment(SwingConstants.LEFT);
+		lblDiasDeAnticipacion.setForeground(new Color(0, 51, 102));
+		lblDiasDeAnticipacion.setFont(new Font("Calibri", Font.PLAIN, 14));
+
+		
+		JLabel lblGestionDeTipos = new JLabel("GestiÃ³n de Tipos de Elementos");
+		lblGestionDeTipos.setForeground(new Color(0, 51, 102));
+		lblGestionDeTipos.setFont(new Font("Calibri", Font.BOLD, 18));
+		
+		JButton btnGuardar = new JButton("");
+		btnGuardar.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/Agregar.png")));
+		btnGuardar.setToolTipText("Crear nuevo tipo");
+		btnGuardar.setForeground(new Color(0, 51, 102));
+		btnGuardar.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e){
 				try {
-					ABMCTipoDeElemento window = new ABMCTipoDeElemento();
-					window.frmSistemaDeGestin.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+					guardarClick();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
 			}
 		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public ABMCTipoDeElemento() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frmSistemaDeGestin = new JFrame();
-		frmSistemaDeGestin.setTitle("Sistema de gesti\u00F3n de reservas");
-		frmSistemaDeGestin.setIconImage(Toolkit.getDefaultToolkit().getImage(ABMCTipoDeElemento.class.getResource("/ui/Desktop/cropped-3w2-web-dominios-hosting.png")));
-		frmSistemaDeGestin.getContentPane().setBackground(Color.WHITE);
+		
+	
+		
+		JLabel lblId = new JLabel("ID");
+		lblId.setHorizontalAlignment(SwingConstants.LEFT);
+		lblId.setForeground(new Color(0, 51, 102));
+		lblId.setFont(new Font("Calibri", Font.PLAIN, 14));
+		
+		txtId = new JTextField();
+		txtId.setColumns(10);
+		
+		JButton btnBuscar = new JButton("");
+		btnBuscar.setToolTipText("Buscar Tipo de Elemento");
+		btnBuscar.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/ic_search_black_24dp_1x.png")));
+		btnBuscar.setForeground(new Color(0, 51, 102));
+		btnBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					buscarClick();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
+			}
+		});
+		
+		JButton btnModificar = new JButton("");
+		btnModificar.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/Editar.png")));
+		btnModificar.setToolTipText("Actualizar datos del tipo");
+		btnModificar.setForeground(new Color(0, 51, 102));
+		btnModificar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					modificarClick();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
+			}
+		});
+		
+		JButton btnBorrar = new JButton("");
+		btnBorrar.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/Borrar.png")));
+		btnBorrar.setToolTipText("Borrar tipo de elemento");
+		btnBorrar.setForeground(new Color(153, 0, 0));
+		btnBorrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					eliminarClick();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Error al apretar en boton borrar\n"+e1.getMessage());
+				}
+			}
+		});
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 51, 102));
 		
-		textIdTipoDeElemento = new JTextField();
-		textIdTipoDeElemento.setColumns(10);
-		
-		JLabel lblId_TipoElemento = new JLabel("ID");
-		
-		JButton lblBuscar_TipoElemento = new JButton("");
-		lblBuscar_TipoElemento.setContentAreaFilled(false);
-		lblBuscar_TipoElemento.setBorder(null);
-		lblBuscar_TipoElemento.setBorderPainted(false);
-		lblBuscar_TipoElemento.setIcon(new ImageIcon(ABMCTipoDeElemento.class.getResource("/ui/Desktop/ic_search_black_24dp_1x.png")));
-		lblBuscar_TipoElemento.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					buscarTipoElemento();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-
-		
-		textNombreTipoElemento = new JTextField();
-		textNombreTipoElemento.setColumns(10);
-		
-		
-		
-		
-	
-		
-		
-		JLabel lblNombreTipoElemento = new JLabel("Nombre");
-		
-		JButton lblCreateTipoElemento = new JButton("");
-		lblCreateTipoElemento.setToolTipText("El ID s\u00F3lo es para busqueda, al crear se asignar\u00E1 uno nuevo automaticamente");
-		lblCreateTipoElemento.setBorderPainted(false);
-		lblCreateTipoElemento.setContentAreaFilled(false);
-		lblCreateTipoElemento.setBackground(Color.WHITE);
-		lblCreateTipoElemento.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_add_circle_black_24dp_1x.png")));
-		lblCreateTipoElemento.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				try {
-					clickAgregarTipoElemento();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		JButton lblUpdateTipoElemento = new JButton("");
-		lblUpdateTipoElemento.setToolTipText("Actualizar tipo de elemento");
-		lblUpdateTipoElemento.setBorderPainted(false);
-		lblUpdateTipoElemento.setContentAreaFilled(false);
-		lblUpdateTipoElemento.setBackground(Color.WHITE);
-		lblUpdateTipoElemento.setIcon(new ImageIcon(ABMCTipoDeElemento.class.getResource("/ui/Desktop/Update black .png")));
-		lblUpdateTipoElemento.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					clickActualizarTipoElemento();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		
-		JButton lblDeleteTipoElemento = new JButton("");
-		lblDeleteTipoElemento.setBorderPainted(false);
-		lblDeleteTipoElemento.setContentAreaFilled(false);
-		lblDeleteTipoElemento.setBackground(Color.WHITE);
-		lblDeleteTipoElemento.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_delete_sweep_black_24dp_1x.png")));
-		lblDeleteTipoElemento.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					clickEliminarTipoElemento();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		lblDeleteTipoElemento.setToolTipText("Eliminar Tipo de Elemento");
-		
-		textCantMaxPerRes = new JTextField();
-		textCantMaxPerRes.setColumns(10);
-		
-		JLabel lblMaxResPendiente = new JLabel("Max reservas pendientes");
-		
-		textLimiteHoras = new JTextField();
-		textLimiteHoras.setColumns(10);
-		
-		JLabel lblLimiteHoras = new JLabel("Limite de horas ");
-		
-		textDiasDeAnticipacion = new JTextField();
-		textDiasDeAnticipacion.setColumns(10);
-		
-		JLabel lblDasDeAnticipacin = new JLabel("D\u00EDas de anticipaci\u00F3n");
-		
-		JLabel lblNewLabel = new JLabel("Agregale la tabla y yo lo acomodo ");
-		
-		
-		
-		GroupLayout groupLayout = new GroupLayout(frmSistemaDeGestin.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-					.addGap(37)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(lblDasDeAnticipacin, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblId_TipoElemento, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblNombreTipoElemento, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-						.addComponent(lblMaxResPendiente, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblLimiteHoras, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(textNombreTipoElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblCreateTipoElemento, GroupLayout.PREFERRED_SIZE, 34, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblUpdateTipoElemento, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-							.addGap(6)
-							.addComponent(lblDeleteTipoElemento, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(textIdTipoDeElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblBuscar_TipoElemento))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(textDiasDeAnticipacion, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-								.addComponent(textLimiteHoras, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-								.addComponent(textCantMaxPerRes, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
-							.addGap(196)
-							.addComponent(lblNewLabel)))
-					.addContainerGap(107, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(17)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblBuscar_TipoElemento)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblId_TipoElemento)
-							.addComponent(textIdTipoDeElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(lblDeleteTipoElemento, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblUpdateTipoElemento, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblNombreTipoElemento)
-							.addComponent(textNombreTipoElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblCreateTipoElemento, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textCantMaxPerRes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblMaxResPendiente)
-						.addComponent(lblNewLabel))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textLimiteHoras, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblLimiteHoras))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblDasDeAnticipacin)
-						.addComponent(textDiasDeAnticipacion, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(273, Short.MAX_VALUE))
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
-		);
-		
-		JLabel lblIconoTdE = new JLabel("");
-		lblIconoTdE.setIcon(new ImageIcon(ABMCTipoDeElemento.class.getResource("/ui/Desktop/ic_devices_white_24dp_2x.png")));
-		
-		JLabel lblUsuarioLogueado = new JLabel("Usuario");
-		lblUsuarioLogueado.setIcon(new ImageIcon(ABMCTipoDeElemento.class.getResource("/ui/Desktop/ic_person_pin_white_24dp_1x.png")));
-		lblUsuarioLogueado.setForeground(Color.WHITE);
-		lblUsuarioLogueado.setFont(new Font("Calibri", Font.PLAIN, 12));
+		JLabel lblIconousuario = new JLabel("");
+		lblIconousuario.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lblIconousuario.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/ic_devices_white_24dp_2x.png")));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap(20, Short.MAX_VALUE)
-					.addComponent(lblIconoTdE)
-					.addGap(25))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblUsuarioLogueado, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(20, Short.MAX_VALUE))
+					.addGap(23)
+					.addComponent(lblIconousuario)
+					.addContainerGap(59, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblIconoTdE)
-					.addGap(32)
-					.addComponent(lblUsuarioLogueado, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(344, Short.MAX_VALUE))
+					.addGap(19)
+					.addComponent(lblIconousuario)
+					.addContainerGap(377, Short.MAX_VALUE))
 		);
 		panel.setLayout(gl_panel);
-		frmSistemaDeGestin.getContentPane().setLayout(groupLayout);
-		frmSistemaDeGestin.setBounds(100, 100, 716, 297);
-		frmSistemaDeGestin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-	
-	
-	
-	
-	//TIPOS DE ELEMENTOS	
-	private void mapearAFormTdE(TipoDeElemento t){
 		
-	//	this.textIdTipoDeElemento.setText(Integer.toString(t.getId()));
-		this.textNombreTipoElemento.setText(t.getNombre());
-		this.textCantMaxPerRes.setText(Integer.toString(t.getCant_max_res_pen()));
-		this.textDiasDeAnticipacion.setText(Integer.toString(t.getDias_max_anticipacion()));
-		this.textLimiteHoras.setText(Integer.toString(t.getLimite_horas_res()));
-	}
-	
-	private TipoDeElemento mapearDeFormTdE(){
-		TipoDeElemento t = new TipoDeElemento();
-		t.setId(Integer.parseInt(this.textIdTipoDeElemento.getText()));
-		t.setNombre(this.textNombreTipoElemento.getText());
-		t.setCant_max_res_pen(Integer.parseInt(this.textCantMaxPerRes.getText()));
-		t.setDias_max_anticipacion(Integer.parseInt(this.textDiasDeAnticipacion.getText()));
-		t.setLimite_horas_res(Integer.parseInt(this.textLimiteHoras.getText()));
-		return t;
-	}
-	
-	private void clickAgregarTipoElemento() throws Exception{
-		try {		
-			if(textNombreTipoElemento.getText().length() >0){				
+		scrollPaneTablaTipos = new JScrollPane();
+		scrollPaneTablaTipos.setBackground(Color.WHITE);			
+
+		
+		btnBotonquebusca = new JButton("");
+		btnBotonquebusca.setToolTipText("Seleccionar tipo para visualizar en formulario");
+		btnBotonquebusca.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/ic_touch_app_black.png")));
+		btnBotonquebusca.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					buscaTipo();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Error al apretar en boton Buscar\n"+e.getMessage());
+				}
+			}
+		});
+		
+		JButton btnBuscarenlista = new JButton("");
+		btnBuscarenlista.setToolTipText("Mostrar listado para buscar");
+		btnBuscarenlista.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					clickMostrarListado();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, "Error con boton Mostrar Listado Personas\n"+e1.getMessage());
+				}
+			}
+		});
+		
+		btnBuscarenlista.setSelectedIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/buscaPersonaListad.png")));
+		btnBuscarenlista.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/buscaPersonaLista.png")));
+		
+		JLabel lblListadoDeTipos = new JLabel("Listado de Tipos de Elementos");
+		lblListadoDeTipos.setForeground(new Color(0, 51, 102));
+		lblListadoDeTipos.setFont(new Font("Calibri", Font.PLAIN, 18));
+		
+		btnReiniciarListado = new JButton("");
+		btnReiniciarListado.setToolTipText("Recargar tabla");
+		btnReiniciarListado.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/ic_replay_black_24dp_1x.png")));
+
+		btnReiniciarListado.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				actualizarLista();
+			}
+
 			
-				ctrTdELogic.add(this.mapearDeFormTdE());
-			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Tipo de elemento guardado correctamente", "", JOptionPane.YES_OPTION);
-			}else{
-				JOptionPane.showMessageDialog(frmSistemaDeGestin, "Debes completar todos los campos, excepto el campo ID", "", JOptionPane.INFORMATION_MESSAGE);
+		});
+
+		
+		JButton btnLimpiarCampos = new JButton("");
+		btnLimpiarCampos.setToolTipText("Limpiar formulario");
+		btnLimpiarCampos.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/escoba.png")));
+		btnLimpiarCampos.setFont(new Font("Calibri", Font.PLAIN, 9));
+		btnLimpiarCampos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarTexto();
+			}
+		});
+		
+		spinnerMaxResPen = new JSpinner();
+		spinnerLimiteHoras = new JSpinner();
+		spinnerDiasAnt = new JSpinner();
+		
+		chckbxOnlyEncargados = new JCheckBox("Restringido a Encargados");
+		chckbxOnlyEncargados.setHorizontalAlignment(SwingConstants.LEFT);
+		chckbxOnlyEncargados.setBackground(Color.WHITE);
+		chckbxOnlyEncargados.setFont(new Font("Dialog", Font.PLAIN, 14));
+		chckbxOnlyEncargados.setForeground(new Color(0, 51, 102));
+		chckbxOnlyEncargados.setHorizontalTextPosition(SwingConstants.LEFT);
+//		GroupLayout groupLayout = new GroupLayout(frmSistemaDeGestin.getContentPane());
+		GroupLayout groupLayout = new GroupLayout(getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+					.addGap(74)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(chckbxOnlyEncargados, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())
+						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+							.addGroup(groupLayout.createSequentialGroup()
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+									.addGroup(groupLayout.createSequentialGroup()
+										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+											.addComponent(lblId)
+											.addComponent(lblNombre))
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+											.addGroup(groupLayout.createSequentialGroup()
+												.addComponent(txtId, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))))
+									.addGroup(groupLayout.createSequentialGroup()
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addComponent(lblCantMaxResPen, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+											.addComponent(lblLimiteHorasRes)
+											.addComponent(lblDiasDeAnticipacion))
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+											.addComponent(spinnerMaxResPen, GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+											.addComponent(spinnerLimiteHoras, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+											.addComponent(spinnerDiasAnt, Alignment.TRAILING))))
+								.addContainerGap(419, Short.MAX_VALUE))
+							.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(btnLimpiarCampos, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap())
+							.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(lblGestionDeTipos, GroupLayout.PREFERRED_SIZE, 393, GroupLayout.PREFERRED_SIZE)
+								.addGap(358))
+							.addGroup(groupLayout.createSequentialGroup()
+								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+									.addGroup(groupLayout.createSequentialGroup()
+										.addComponent(lblListadoDeTipos)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(btnBuscarenlista, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
+									.addGroup(groupLayout.createSequentialGroup()
+										.addComponent(scrollPaneTablaTipos, GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(btnBotonquebusca, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+										.addGap(46)))
+								.addGap(41))
+							.addGroup(groupLayout.createSequentialGroup()
+								.addComponent(btnReiniciarListado, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap()))))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 825, Short.MAX_VALUE)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(29)
+					.addComponent(lblGestionDeTipos, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+					.addGap(14)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(btnLimpiarCampos, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnGuardar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnModificar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnBorrar))
+					.addGap(27)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+							.addComponent(txtId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnBuscar))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(16)
+							.addComponent(lblNombre, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(11)
+							.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblCantMaxResPen, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+						.addComponent(spinnerMaxResPen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(14)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblLimiteHorasRes, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+						.addComponent(spinnerLimiteHoras, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblDiasDeAnticipacion, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+						.addComponent(spinnerDiasAnt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(chckbxOnlyEncargados)
+					.addPreferredGap(ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(lblListadoDeTipos)
+						.addComponent(btnBuscarenlista, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnBotonquebusca)
+						.addComponent(scrollPaneTablaTipos, GroupLayout.PREFERRED_SIZE, 243, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnReiniciarListado, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addGap(87))
+		);
+		
+		
+		tableTipos = new JTable();
+		tableTipos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tableTipos.getTableHeader().setResizingAllowed(false);
+		tableTipos.getTableHeader().setReorderingAllowed(false);
+		scrollPaneTablaTipos.setViewportView(tableTipos);
+		tableTipos.setFont(new Font("Calibri", Font.PLAIN, 14));
+		tableTipos.setBackground(Color.WHITE);
+
+		getContentPane().setLayout(groupLayout);
+
+
+		cargarListaTipos();	//Tabla									
+		initDataBindings();
+
+
+	}
+
+
+
+	protected void guardarClick(){
+		try {		
+			if(validaCampos()){
+		
+				ctrlTde.add(this.mapearDeForm());
+				actualizarLista();
+				JOptionPane.showMessageDialog(frmSistemaDeGestion, "Tipo guardado correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else{
+				JOptionPane.showMessageDialog(null, Campo.getMensaje(), "", JOptionPane.INFORMATION_MESSAGE);
+				}
+		} 
+		catch (Exception e) {
+			JOptionPane.showMessageDialog(frmSistemaDeGestion, e.getMessage());
+		} 
+	}
+
+	private boolean validaCampos() {
+		
+		
+		return (Campo.Valida(txtId.getText(), Campo.tipo.ID) && 
+		   Campo.Valida(txtNombre.getText(), Campo.tipo.OTRO) &&
+		   Campo.Valida(((JSpinner.DefaultEditor)spinnerMaxResPen.getEditor()).getTextField().getText(), Campo.tipo.MAXRESPEN) &&
+		   Campo.Valida(((JSpinner.DefaultEditor)spinnerDiasAnt.getEditor()).getTextField().getText(), Campo.tipo.DIASANT) &&
+		   Campo.Valida(((JSpinner.DefaultEditor)spinnerLimiteHoras.getEditor()).getTextField().getText(), Campo.tipo.LIMHOR));
+
+		
+	}
+	
+
+	protected void buscarClick(){
+		try {
+			
+			if(Campo.Valida(txtId.getText(), Campo.tipo.ID)){
+				TipoDeElemento te=ctrlTde.getOne(this.mapearDeForm());
+				if(te!=null){this.mapearAForm(te);}
+				else{ JOptionPane.showMessageDialog(null, "Tipo de elemento inexistente","",JOptionPane.INFORMATION_MESSAGE);}
+			}
+			else{
+				JOptionPane.showMessageDialog(null, Campo.getMensaje(), "", JOptionPane.INFORMATION_MESSAGE);				
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(frmSistemaDeGestin, e.getMessage());
+			JOptionPane.showMessageDialog(frmSistemaDeGestion,e.getMessage(), "", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+
+	protected void modificarClick(){
+		try {
+			if(this.validaCampos()){
+				ctrlTde.update(mapearDeForm());
+				actualizarLista();
+				JOptionPane.showMessageDialog(frmSistemaDeGestion, "Tipo de Elemento actualizado", "", JOptionPane.INFORMATION_MESSAGE);
+			}else{
+				JOptionPane.showMessageDialog(null, Campo.getMensaje(), "", JOptionPane.INFORMATION_MESSAGE);
+			}
+		} 
+		catch (Exception e) {
+			//limpiarTexto();
+			JOptionPane.showMessageDialog(frmSistemaDeGestion, e.getMessage(), "", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
 	
-	private void buscarTipoElemento() throws Exception{
+	protected void eliminarClick(){
 		try {
-			if(textIdTipoDeElemento.getText().length()>0){
-			this.mapearAFormTdE(ctrTdELogic.getOne(this.mapearDeFormTdE()));
+			if(Campo.Valida(txtId.getText(), Campo.tipo.ID)){
+				ctrlTde.delete(mapearDeForm());
+				actualizarLista();
+				JOptionPane.showMessageDialog(null, "Tipo eliminado", "", JOptionPane.INFORMATION_MESSAGE);
+				this.limpiarTexto();
 			}else{
-				JOptionPane.showMessageDialog(frmSistemaDeGestin, "Debes ingresar un ID del Tipo de Elemento a buscar", "", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, Campo.getMensaje(), "", JOptionPane.INFORMATION_MESSAGE);
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(frmSistemaDeGestin, e.getMessage());		}	
+			limpiarTexto();
+			JOptionPane.showMessageDialog(null, e.getMessage(), "", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 	
-	private void clickActualizarTipoElemento() throws Exception{
+	private TipoDeElemento mapearDeForm(){
+		TipoDeElemento tde=new TipoDeElemento();
+		tde.setId(Integer.parseInt(txtId.getText()));
+		tde.setNombre(this.txtNombre.getText());
+		tde.setCant_max_res_pen((Integer)spinnerMaxResPen.getValue());
+		tde.setDias_max_anticipacion((Integer)spinnerDiasAnt.getValue());
+		tde.setLimite_horas_res((Integer)spinnerLimiteHoras.getValue());
+		tde.setOnly_encargados(this.chckbxOnlyEncargados.isSelected());
+
+		return tde;
+		}
+	
+	private void mapearAForm(TipoDeElemento tde){
+		
+		this.txtId.setText(String.valueOf(tde.getId()));
+		this.txtNombre.setText(tde.getNombre());
+		this.spinnerMaxResPen.setValue(tde.getCant_max_res_pen());
+		this.spinnerDiasAnt.setValue(tde.getDias_max_anticipacion());
+		this.spinnerLimiteHoras.setValue(tde.getLimite_horas_res());
+		this.chckbxOnlyEncargados.setSelected(tde.isOnly_encargados());
+		
+}
+	
+	private void limpiarTexto(){
+		this.txtId.setText("");
+		this.txtNombre.setText("");
+		this.spinnerMaxResPen.setValue(10);
+		this.spinnerDiasAnt.setValue(10);
+		this.spinnerLimiteHoras.setValue(72);
+		this.chckbxOnlyEncargados.setSelected(false);
+	}
+	
+	
+	
+	protected ArrayList<TipoDeElemento> cargarListaTipos(){
 		try {
-			if(textIdTipoDeElemento.getText().length()>0){
-	            int reply = JOptionPane.showConfirmDialog(null,
-	                    "¿Desea actualizar el Tipo De Elemento ?", "Actualización", JOptionPane.YES_NO_OPTION);
-	            if (reply == JOptionPane.YES_OPTION){			
-	    			ctrTdELogic.update(this.mapearDeFormTdE());
-	    			limpiarTextoTipoElemento();
-	            }  
-			}else{
-				JOptionPane.showMessageDialog(frmSistemaDeGestin, "Debes ingresar un ID del Tipo de Elemento a buscar y actualizar", "", JOptionPane.INFORMATION_MESSAGE);
-		}} catch (Exception e) {
-			JOptionPane.showMessageDialog(frmSistemaDeGestin, e.getMessage());		}
+			tdes= this.ctrlTde.getAll();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this,e.getMessage(),"Error al cargar tipos de elementos",JOptionPane.ERROR_MESSAGE);
+		}
+		return tdes;
 	}
 	
-	private void clickEliminarTipoElemento() throws Exception{
-		try {
-			if(textIdTipoDeElemento.getText().length()>0){
-		            int reply = JOptionPane.showConfirmDialog(null,
-		                    "¿Desea eliminar el Tipo De Elemento ?", "Eliminación Tipo de Elemento", JOptionPane.YES_NO_OPTION);
-		            if (reply == JOptionPane.YES_OPTION){			
-		            	ctrTdELogic.delete(this.mapearDeFormTdE());
-		    			limpiarTextoTipoElemento();
-		            }            	
-		}else{
-			JOptionPane.showMessageDialog(frmSistemaDeGestin, "Debes ingresar un ID del Tipo de Elemento a buscar y eliminar", "", JOptionPane.INFORMATION_MESSAGE);
-		}} catch (Exception e) {
-			JOptionPane.showMessageDialog(frmSistemaDeGestin, e.getMessage());		}
+	
+													///////////////////////////////////////////
+	public void clickMostrarListado(){		//ESTE NO FUNCIONA. PERO ESTARï¿½A COPADO QUE SI LO HAGA JAJA. HAY 
+
+		if(this.scrollPaneTablaTipos.isVisible()){
+			this.scrollPaneTablaTipos.setVisible(false);
+			this.btnBotonquebusca.setVisible(false);
+			this.btnReiniciarListado.setVisible(false);
+			}
+		else{
+			this.scrollPaneTablaTipos.setVisible(true);
+			this.btnBotonquebusca.setVisible(true);
+			this.btnReiniciarListado.setVisible(true);
+		}
+//		if(visibilidadTabla==1){
+//			scrollPaneTablaPersona = new JScrollPane();	
+//			scrollPaneTablaPersona.setVisible(true);
+//			
+//			visibilidadTabla=visibilidadTabla*-1;
+//		}else{
+//			scrollPaneTablaPersona.setVisible(false);
+//			visibilidadTabla=visibilidadTabla*-1;
+//		}
+		
 	}
 	
-	private void limpiarTextoTipoElemento(){
-		this.textIdTipoDeElemento.setText("");
-		this.textNombreTipoElemento.setText("");
-		this.textCantMaxPerRes.setText("");
-		this.textDiasDeAnticipacion.setText("");
-		this.textLimiteHoras.setText("");
+	
+	public void buscaTipo(){
+		if(this.tableTipos.getSelectedRowCount()!=0){
+			int indexTipo= tableTipos.convertRowIndexToModel(tableTipos.getSelectedRow());
+			this.showTipo(this.tdes.get(indexTipo));}
+
 	}
 	
+	
+	public void showTipo(TipoDeElemento te){
+		this.mapearAForm(te);
+		
+	}
+	private void actualizarLista() {
+		cargarListaTipos();										
+		initDataBindings();
+	}
+	protected void initDataBindings() {
+		JTableBinding<TipoDeElemento, List<TipoDeElemento>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, tdes, tableTipos, "tablaTipos");
+		//
+		BeanProperty<TipoDeElemento, Integer> tipoDeElementoBeanProperty = BeanProperty.create("id");
+		jTableBinding.addColumnBinding(tipoDeElementoBeanProperty).setColumnName("ID").setEditable(false);
+		//
+		BeanProperty<TipoDeElemento, String> tipoDeElementoBeanProperty_1 = BeanProperty.create("nombre");
+		jTableBinding.addColumnBinding(tipoDeElementoBeanProperty_1).setColumnName("Nombre").setEditable(false);
+		//
+		BeanProperty<TipoDeElemento, Integer> tipoDeElementoBeanProperty_2 = BeanProperty.create("cant_max_res_pen");
+		jTableBinding.addColumnBinding(tipoDeElementoBeanProperty_2).setColumnName("Max Res Pen").setEditable(false);
+		//
+		BeanProperty<TipoDeElemento, Integer> tipoDeElementoBeanProperty_3 = BeanProperty.create("dias_max_anticipacion");
+		jTableBinding.addColumnBinding(tipoDeElementoBeanProperty_3).setColumnName("Dias Max Ant").setEditable(false);
+		//
+		ObjectProperty<TipoDeElemento> tipoDeElementoObjectProperty = ObjectProperty.create();
+		jTableBinding.addColumnBinding(tipoDeElementoObjectProperty).setColumnName("Limite Horas Res").setEditable(false);
+		//
+		BeanProperty<TipoDeElemento, Boolean> tipoDeElementoBeanProperty_4 = BeanProperty.create("only_encargados");
+		jTableBinding.addColumnBinding(tipoDeElementoBeanProperty_4).setColumnName("Solo Encargados").setEditable(false);
+		//
+		jTableBinding.setEditable(false);
+		jTableBinding.bind();
+	}
 }

@@ -3,7 +3,6 @@ package ui.Desktop;
 import tools.Campo;
 import business.entities.*;
 import business.logic.*;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -56,7 +55,7 @@ public class ABMCPersona extends JInternalFrame{
 	private JTable tablePersona;
 	private JScrollPane scrollPaneTablaPersona;
 	
-	private int visibilidadTabla=1;
+
 
 	private static ABMCPersona Instancia=null;
 	private JButton btnReiniciarListado;
@@ -162,17 +161,13 @@ public class ABMCPersona extends JInternalFrame{
 		btnGuardar.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/Agregar.png")));
 		btnGuardar.setToolTipText("Crear nuevo usuario");
 		btnGuardar.setForeground(new Color(0, 51, 102));
-		btnGuardar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		btnGuardar.addMouseListener(new MouseAdapter(){
 			@Override
 			public void mouseClicked(MouseEvent e){
 				try {
 					guardarClick();
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
 			}
 		});
@@ -197,7 +192,7 @@ public class ABMCPersona extends JInternalFrame{
 				try {
 					buscarClick();
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
 			}
 		});
@@ -215,7 +210,7 @@ public class ABMCPersona extends JInternalFrame{
 				try {
 					modificarClick();
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
 			}
 		});
@@ -230,7 +225,7 @@ public class ABMCPersona extends JInternalFrame{
 				try {
 					eliminarClick();
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Error al apretar en bot�n borrar\n"+e1.getMessage());
+					JOptionPane.showMessageDialog(null, "Error al apretar en boton borrar\n"+e1.getMessage());
 				}
 			}
 		});
@@ -245,7 +240,7 @@ public class ABMCPersona extends JInternalFrame{
 		
 		JLabel lblIconousuario = new JLabel("");
 		lblIconousuario.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblIconousuario.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/ic_person_add_white_24dp_2x.png")));
+		lblIconousuario.setIcon(new ImageIcon(ABMCPersona.class.getResource("/ui/Desktop/ic_devices_white_24dp_2x.png")));
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -276,7 +271,7 @@ public class ABMCPersona extends JInternalFrame{
 				try {
 					buscaPersona();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Error al apretar en bot�n Buscar\n"+e.getMessage());
+					JOptionPane.showMessageDialog(null, "Error al apretar en boton Buscar\n"+e.getMessage());
 				}
 			}
 		});
@@ -289,7 +284,7 @@ public class ABMCPersona extends JInternalFrame{
 				try {
 					clickMostrarListado();
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, "Error con bot�n Mostrar Listado Personas\n"+e1.getMessage());
+					JOptionPane.showMessageDialog(null, "Error con boton Mostrar Listado Personas\n"+e1.getMessage());
 				}
 			}
 		});

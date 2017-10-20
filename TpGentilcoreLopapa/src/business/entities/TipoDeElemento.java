@@ -8,7 +8,7 @@ public class TipoDeElemento {
 	private int cant_max_res_pen; 
 	private int limite_horas_res; //es el limite de tiempo de la reseva en horas
 	private int dias_max_anticipacion;//es la cantidad maxima de dias de anticipacion			
-	
+	private boolean only_encargados;
 	
 	public int getId() {
 		return id_tipodeelemento;
@@ -41,13 +41,20 @@ public class TipoDeElemento {
 		this.dias_max_anticipacion = dias_max_anticipacion;
 	}
 
+	public boolean isOnly_encargados() {
+		return only_encargados;
+	}
+	public void setOnly_encargados(boolean only_encargados) {
+		this.only_encargados = only_encargados;
+	}
 	public TipoDeElemento(int id, String nombre, int cant_max_res_pen, int limite_horas_res,
-			int dias_max_anticipacion) {
+			int dias_max_anticipacion,boolean solo_encargados) {
 		this.id_tipodeelemento = id;
 		this.nombre = nombre;
 		this.cant_max_res_pen = cant_max_res_pen;
 		this.limite_horas_res = limite_horas_res;
 		this.dias_max_anticipacion = dias_max_anticipacion;
+		this.only_encargados=solo_encargados;
 	}
 
 	public TipoDeElemento(){

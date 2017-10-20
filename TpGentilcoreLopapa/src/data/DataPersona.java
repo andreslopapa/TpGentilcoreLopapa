@@ -73,9 +73,8 @@ public class DataPersona{
 				p.setId(keyResultSet.getInt(1));				
 			}
 		} catch (SQLException sqlex) {
-			throw new AppDataException(sqlex,"Error al agregar persona. "
-					+ " Verifique que el usuario y/o DNI no existan, dichos registros deben ser unicos. "
-					+ " En caso de no poder resolver contactese con Patalalas S.A.");
+			throw new AppDataException(sqlex,"Error al agregar persona.\n"
+					+ " Verifique que el usuario y/o DNI no existan, dichos registros deben ser unicos.");
 		}
 		finally{
 			try {
@@ -108,7 +107,7 @@ public class DataPersona{
 			stmt.setInt(8, p.getCategoria().getId());
 			stmt.setString(9, p.getDni());
 			int rowsAffected=stmt.executeUpdate();
-			if(rowsAffected==0){throw new AppDataException(new Exception(""),"Persona Inexistente, no se pudo actualizar");}
+			if(rowsAffected==0){throw new AppDataException(new Exception("Persona Inexistente, no se pudo actualizar"),"Error");}
 			
 		} catch (SQLException sqlex) {
 			throw new AppDataException(sqlex,"Error al modificar persona. "
@@ -138,7 +137,10 @@ public class DataPersona{
 			pstmt1.executeUpdate();
 			pstmt2=FactoryConexion.getInstancia().getConn().prepareStatement("delete from persona where dni=?;");
 			pstmt2.setString(1,p.getDni());
-			pstmt2.executeUpdate();
+			int rowsAffected=pstmt2.executeUpdate();
+			if(rowsAffected==0){
+				throw new AppDataException(new Exception("Persona inexistente\nNo se pudo eliminar"),"Error");
+			}
 			
 		} catch (SQLException sqlex) {
 			throw new AppDataException(sqlex, "Error al eliminar persona"
