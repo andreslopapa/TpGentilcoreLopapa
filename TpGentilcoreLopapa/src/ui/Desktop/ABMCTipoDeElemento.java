@@ -47,7 +47,6 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 	
 	private JFrame frmSistemaDeGestion;
 	private JTextField txtNombre;
-	private JTextField txtId;
 	private JTable tableTipos;
 	private JScrollPane scrollPaneTablaTipos;
 	
@@ -139,16 +138,6 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 				}
 			}
 		});
-		
-	
-		
-		JLabel lblId = new JLabel("ID");
-		lblId.setHorizontalAlignment(SwingConstants.LEFT);
-		lblId.setForeground(new Color(0, 51, 102));
-		lblId.setFont(new Font("Calibri", Font.PLAIN, 14));
-		
-		txtId = new JTextField();
-		txtId.setColumns(10);
 		
 		JButton btnBuscar = new JButton("");
 		btnBuscar.setToolTipText("Buscar Tipo de Elemento");
@@ -298,64 +287,57 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 					.addGap(74)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(chckbxOnlyEncargados, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnLimpiarCampos, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap())
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addGroup(groupLayout.createSequentialGroup()
-										.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-											.addComponent(lblId)
-											.addComponent(lblNombre))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblGestionDeTipos, GroupLayout.PREFERRED_SIZE, 393, GroupLayout.PREFERRED_SIZE)
+							.addGap(358))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(scrollPaneTablaTipos, GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnBotonquebusca, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+									.addGap(46))
+								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(chckbxOnlyEncargados, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 130, GroupLayout.PREFERRED_SIZE))
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(lblNombre)
+											.addPreferredGap(ComponentPlacement.RELATED)
 											.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-											.addGroup(groupLayout.createSequentialGroup()
-												.addComponent(txtId, GroupLayout.PREFERRED_SIZE, 215, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))))
-									.addGroup(groupLayout.createSequentialGroup()
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-											.addComponent(lblCantMaxResPen, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
-											.addComponent(lblLimiteHorasRes)
-											.addComponent(lblDiasDeAnticipacion))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-											.addComponent(spinnerMaxResPen, GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-											.addComponent(spinnerLimiteHoras, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-											.addComponent(spinnerDiasAnt, Alignment.TRAILING))))
-								.addContainerGap(419, Short.MAX_VALUE))
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnLimpiarCampos, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap())
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(lblGestionDeTipos, GroupLayout.PREFERRED_SIZE, 393, GroupLayout.PREFERRED_SIZE)
-								.addGap(358))
-							.addGroup(groupLayout.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE))
+										.addGroup(groupLayout.createSequentialGroup()
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblCantMaxResPen, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblLimiteHorasRes)
+												.addComponent(lblDiasDeAnticipacion))
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+												.addComponent(spinnerMaxResPen, GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+												.addComponent(spinnerLimiteHoras, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+												.addComponent(spinnerDiasAnt, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 									.addGroup(groupLayout.createSequentialGroup()
 										.addComponent(lblListadoDeTipos)
 										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(btnBuscarenlista, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
-									.addGroup(groupLayout.createSequentialGroup()
-										.addComponent(scrollPaneTablaTipos, GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(btnBotonquebusca, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-										.addGap(46)))
-								.addGap(41))
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(btnReiniciarListado, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap()))))
+										.addComponent(btnBuscarenlista, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))))
+							.addGap(41))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnReiniciarListado, GroupLayout.PREFERRED_SIZE, 27, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 825, Short.MAX_VALUE)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(29)
 					.addComponent(lblGestionDeTipos, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
@@ -365,19 +347,18 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 						.addComponent(btnGuardar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnModificar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnBorrar))
-					.addGap(27)
+					.addPreferredGap(ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblId, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-							.addComponent(txtId, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(4)
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(16)
+									.addComponent(lblNombre, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGap(11)
+									.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
 						.addComponent(btnBuscar))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(16)
-							.addComponent(lblNombre, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(11)
-							.addComponent(txtNombre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCantMaxResPen, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
@@ -392,7 +373,7 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 						.addComponent(spinnerDiasAnt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(chckbxOnlyEncargados)
-					.addPreferredGap(ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lblListadoDeTipos)
 						.addComponent(btnBuscarenlista, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
@@ -445,8 +426,7 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 	private boolean validaCampos() {
 		
 		
-		return (Campo.Valida(txtId.getText(), Campo.tipo.ID) && 
-		   Campo.Valida(txtNombre.getText(), Campo.tipo.OTRO) &&
+		return (Campo.Valida(txtNombre.getText(), Campo.tipo.OTRO) &&
 		   Campo.Valida(((JSpinner.DefaultEditor)spinnerMaxResPen.getEditor()).getTextField().getText(), Campo.tipo.MAXRESPEN) &&
 		   Campo.Valida(((JSpinner.DefaultEditor)spinnerDiasAnt.getEditor()).getTextField().getText(), Campo.tipo.DIASANT) &&
 		   Campo.Valida(((JSpinner.DefaultEditor)spinnerLimiteHoras.getEditor()).getTextField().getText(), Campo.tipo.LIMHOR));
@@ -458,8 +438,8 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 	protected void buscarClick(){
 		try {
 			
-			if(Campo.Valida(txtId.getText(), Campo.tipo.ID)){
-				TipoDeElemento te=ctrlTde.getOne(this.mapearDeForm());
+			if(Campo.Valida(txtNombre.getText(), Campo.tipo.OTRO)){
+				TipoDeElemento te=ctrlTde.getByName(this.mapearDeForm());
 				if(te!=null){this.mapearAForm(te);}
 				else{ JOptionPane.showMessageDialog(null, "Tipo de elemento inexistente","",JOptionPane.INFORMATION_MESSAGE);}
 			}
@@ -490,7 +470,7 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 	
 	protected void eliminarClick(){
 		try {
-			if(Campo.Valida(txtId.getText(), Campo.tipo.ID)){
+			if(Campo.Valida(txtNombre.getText(), Campo.tipo.OTRO)){
 				ctrlTde.delete(mapearDeForm());
 				actualizarLista();
 				JOptionPane.showMessageDialog(null, "Tipo eliminado", "", JOptionPane.INFORMATION_MESSAGE);
@@ -506,7 +486,6 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 	
 	private TipoDeElemento mapearDeForm(){
 		TipoDeElemento tde=new TipoDeElemento();
-		tde.setId(Integer.parseInt(txtId.getText()));
 		tde.setNombre(this.txtNombre.getText());
 		tde.setCant_max_res_pen((Integer)spinnerMaxResPen.getValue());
 		tde.setDias_max_anticipacion((Integer)spinnerDiasAnt.getValue());
@@ -518,7 +497,7 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 	
 	private void mapearAForm(TipoDeElemento tde){
 		
-		this.txtId.setText(String.valueOf(tde.getId()));
+	
 		this.txtNombre.setText(tde.getNombre());
 		this.spinnerMaxResPen.setValue(tde.getCant_max_res_pen());
 		this.spinnerDiasAnt.setValue(tde.getDias_max_anticipacion());
@@ -528,7 +507,7 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 }
 	
 	private void limpiarTexto(){
-		this.txtId.setText("");
+		
 		this.txtNombre.setText("");
 		this.spinnerMaxResPen.setValue(10);
 		this.spinnerDiasAnt.setValue(10);

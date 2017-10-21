@@ -87,6 +87,43 @@ public class DataTipoDeElemento {
 		return te;
 	}
 	
+	public TipoDeElemento getByName(TipoDeElemento tde)throws Exception{
+		TipoDeElemento te=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		
+		try{
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement("select* from tipodeelemento "
+																		  + "where nombre=?;");
+			pstmt.setString(1, tde.getNombre());
+			rs=pstmt.executeQuery();
+			if(rs!=null && rs.next()){
+				te = new TipoDeElemento();
+				te.setId(rs.getInt("id_tipodeelemento"));
+				te.setNombre(rs.getString("nombre"));
+				te.setCant_max_res_pen(rs.getInt("cantmaxrespen"));
+				te.setLimite_horas_res(rs.getInt("limite_horas_res"));
+				te.setDias_max_anticipacion(rs.getInt("dias_max_anticipacion"));	
+				te.setOnly_encargados(rs.getBoolean("only_encargados"));
+			}
+					
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al recuperar un tipo de elemento por su nombre");
+		}
+		finally{
+			try{
+				if(rs!=null){rs.close();}
+				if(pstmt!=null){pstmt.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerrar PreparedStatement, Resultset o conexion");
+			}
+		}
+		return te;
+		
+	}
 	
 	public ArrayList<TipoDeElemento> getAll()throws SQLException,AppDataException{
 		ArrayList<TipoDeElemento> tiposelementos=new ArrayList<TipoDeElemento>();
@@ -130,15 +167,14 @@ public class DataTipoDeElemento {
 		ResultSet keyRes=null;
 		try{
 			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "insert into tipodeelemento(id_tipodeelemento,nombre,cantmaxrespen,"
+					+ "insert into tipodeelemento(nombre,cantmaxrespen,"
 					+ "limite_horas_res,dias_max_anticipacion,only_encargados) "
-					+ "values(?,?,?,?,?,?);",PreparedStatement.RETURN_GENERATED_KEYS);
-			pstmt.setInt(1, tde.getId());
-			pstmt.setString(2, tde.getNombre());
-			pstmt.setInt(3, tde.getCant_max_res_pen());
-			pstmt.setInt(4, tde.getLimite_horas_res());
-			pstmt.setInt(5, tde.getDias_max_anticipacion());
-			pstmt.setBoolean(6, tde.isOnly_encargados());
+					+ "values(?,?,?,?,?);",PreparedStatement.RETURN_GENERATED_KEYS);
+			pstmt.setString(1, tde.getNombre());
+			pstmt.setInt(2, tde.getCant_max_res_pen());
+			pstmt.setInt(3, tde.getLimite_horas_res());
+			pstmt.setInt(4, tde.getDias_max_anticipacion());
+			pstmt.setBoolean(5, tde.isOnly_encargados());
 			pstmt.executeUpdate();
 			keyRes=pstmt.getGeneratedKeys();
 			if(keyRes!=null && keyRes.next()){
@@ -147,7 +183,7 @@ public class DataTipoDeElemento {
 		}
 		catch(SQLException sqlex){
 			throw new AppDataException(sqlex,"Error al agregar tipo de elemento.\n"
-					+ "Verifique que el Id y el nombre sean unicos.");
+					+ "Verifique que el nombre sea unico.");
 		}
 		finally{
 			try{
@@ -165,24 +201,23 @@ public class DataTipoDeElemento {
 		PreparedStatement pstmt=null;
 		try{
 			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-					+ "update tipodeelemento set nombre=?, "
+					+ "update tipodeelemento set "
 					+ " cantmaxrespen=?,  limite_horas_res=?,"
 					+ " dias_max_anticipacion=?, only_encargados=? "
-					+ " where id_tipodeelemento=?");
-			pstmt.setString(1,te.getNombre() );
-			pstmt.setInt(2,te.getCant_max_res_pen() );
-			pstmt.setInt(3, te.getLimite_horas_res());
-			pstmt.setInt(4, te.getDias_max_anticipacion());
-			pstmt.setBoolean(5, te.isOnly_encargados());
-			pstmt.setInt(6,te.getId());
+					+ " where nombre=?");
+			
+			pstmt.setInt(1,te.getCant_max_res_pen() );
+			pstmt.setInt(2, te.getLimite_horas_res());
+			pstmt.setInt(3, te.getDias_max_anticipacion());
+			pstmt.setBoolean(4, te.isOnly_encargados());
+			pstmt.setString(5,te.getNombre());
 			int rowsAffected=pstmt.executeUpdate();
 			if(rowsAffected==0){
 				throw new AppDataException(new Exception("Tipo de elemento inexistente\nno se pudo actualizar"),"Error");
 				}
 		}
 		catch(SQLException sqlex){
-			throw new AppDataException(sqlex,"Error al modificar tipo de elemento\n"
-					+ "Verifique que el nombre sea unico.");
+			throw new AppDataException(sqlex,"Error al modificar tipo de elemento");
 		}
 		finally{
 			try{
@@ -198,8 +233,8 @@ public class DataTipoDeElemento {
 	public void delete(TipoDeElemento te)throws SQLException,AppDataException{
 		PreparedStatement pstmt=null;
 		try{
-			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement("delete from tipodeelemento where id_tipodeelemento=?;");
-			pstmt.setInt(1, te.getId());
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement("delete from tipodeelemento where nombre=?;");
+			pstmt.setString(1, te.getNombre());
 			int rowsAffected=pstmt.executeUpdate();
 			if(rowsAffected==0){
 				throw new AppDataException(new Exception("Tipo de elemento inexistente\nNo se pudo eliminar"),"Error");

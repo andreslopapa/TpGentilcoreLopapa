@@ -72,7 +72,7 @@ public class Campo {
 		
         boolean valido = false;
         
-        Pattern patronEmail = Pattern.compile("([a-z0-9]+(\\.?[a-z0-9])*)+@(([a-z]+)\\.([a-z]+))+");    
+        Pattern patronEmail = Pattern.compile("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$");    
         Matcher mEmail = patronEmail.matcher(email.toLowerCase());
         
         if (mEmail.matches()){
