@@ -66,7 +66,13 @@ public class CtrlReservaLogic {
 		return fechaHoraD.compareTo(fechaHoraH)<0?true:false;
 	}
 	
+	public Boolean isFCierreMayorQFDesde(java.util.Date fechaHoraC,java.util.Date fechaHoraD)throws Exception,ParseException{
+		return fechaHoraC.compareTo(fechaHoraD)<0?false:true;
+	}
 	
+	public Boolean isReservaPendiente(Reserva res)throws Exception{
+		return res.getFecha_hora_desde_solicitada().compareTo(Calendar.getInstance().getTime())<0?false:true;
+	}
 	
 	public float getDaysBetween(Date fecha1,Date fecha2){
 		long diff=fecha1.getTime()-fecha2.getTime();//te da la diferencia en milisegundos
@@ -91,6 +97,8 @@ public class CtrlReservaLogic {
 	public int getMaxId()throws Exception{
 		return datRes.getMaxId();
 	}
+	
+
 	
 	/*
 	public void update(Reserva r) throws SQLException, AppDataException{

@@ -224,6 +224,7 @@ public class ListadoReservas extends Listado implements IListados{
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_IDRESERVA);
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_IDELEMENTO);
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_IDPERSONA);
+		cboTipoBusqueda.addItem(TipoBusqueda.PENDIENTES);
 		cboTipoBusqueda.addItem(TipoBusqueda.VENCIDAS);
 		cboTipoBusqueda.addItem(TipoBusqueda.TRAER_TODOS);
 		
@@ -535,6 +536,9 @@ public class ListadoReservas extends Listado implements IListados{
 						  else{
 							  JOptionPane.showMessageDialog(null, Campo.Mensaje,"",JOptionPane.INFORMATION_MESSAGE);
 						  }
+						  break;
+		case PENDIENTES:
+						  this.tipoBusquedaActual=TipoBusqueda.PENDIENTES;
 						  break;
 		case VENCIDAS:
 				    	  this.tipoBusquedaActual=TipoBusqueda.VENCIDAS;

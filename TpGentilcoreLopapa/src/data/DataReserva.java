@@ -66,7 +66,15 @@ public class DataReserva {
 								break;
 			case PENDIENTES:	
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
-								+ "select* from reserva r ");//completar 
+								+ "select* from reserva r "
+								+ "inner join elemento e "
+								+ "on e.id_elemento=r.id_elemento "
+								+ "inner join persona p on p.id_persona=r.id_persona "
+								+ "where datediff(r.fecha_hora_desde_solicitada,now())>0 "
+								+ "order by r.fecha_hora_reserva_hecha desc "
+								+ "limit ?,?");
+								pstmt.setInt(1, indice);
+								pstmt.setInt(2, cantTraer);
 								break;
 			case VENCIDAS:
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
@@ -156,6 +164,11 @@ public class DataReserva {
 								+ "select count(*) from reserva r "
 								+ "where r.id_persona=? ");
 								pstmt.setInt(1, reserva.getPersona()!=null?reserva.getPersona().getId():-1);
+								break;
+			case PENDIENTES:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select count(*) from reserva r "
+								+ "where datediff(r.fecha_hora_desde_solicitada,now())>0 ");
 								break;
 			case VENCIDAS:
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
@@ -295,7 +308,7 @@ public class DataReserva {
 					+ " set fecha_hora_entregado=? "
 					+ " where id_reserva=? ");
 
-			pstmt.setString(1, String.valueOf(r.getFecha_hora_entregado()));	
+			pstmt.setString(1,  new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(r.getFecha_hora_entregado()));	
 			pstmt.setInt(2, r.getId_reserva());
 			
 		

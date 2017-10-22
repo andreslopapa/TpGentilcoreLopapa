@@ -36,6 +36,7 @@ import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import javax.swing.ImageIcon;
@@ -70,6 +71,8 @@ public class ABMCReservaPrueba extends FormReserva{
 	private Action accion;
 	private JPanel panelCrearEliminarReserva;
 	private JLabel lblIdReservaNumero;
+	protected JSpinner timeSpinnerCierre;
+	private Reserva resActual;
 
 //	private JSpinner timeSpinnerDesde;
 //	private JSpinner timeSpinnerHasta;
@@ -99,7 +102,7 @@ public class ABMCReservaPrueba extends FormReserva{
 	/**
 	 * Create the application.
 	 */
-	public ABMCReservaPrueba() {									//parametro
+	private ABMCReservaPrueba() {									//parametro
 
 		this.resLogic = new CtrlReservaLogic();
 		initialize();		
@@ -220,6 +223,7 @@ public class ABMCReservaPrueba extends FormReserva{
 		
 		textIdReserva = new JTextField();
 		textIdReserva.setColumns(10);
+		textIdReserva.setEditable(false);
 		
 		JLabel lblId = new JLabel("ID Reserva");
 		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -253,40 +257,52 @@ public class ABMCReservaPrueba extends FormReserva{
 			}
 		});
 		
+		timeSpinnerCierre = new JSpinner( new SpinnerDateModel() );
+		JSpinner.DateEditor timeEditorCierre = new JSpinner.DateEditor(timeSpinnerCierre, "HH:mm:ss");
+		timeSpinnerCierre.setEditor(timeEditorCierre);
+		timeSpinnerCierre.setValue(Calendar.getInstance().getTime());
+	    getContentPane().add(timeSpinnerCierre);
+		timeSpinnerCierre.setVisible(true);
+		
 		GroupLayout gl_panel_EditarReserva = new GroupLayout(panel_EditarReserva);
 		gl_panel_EditarReserva.setHorizontalGroup(
-			gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_EditarReserva.createSequentialGroup()
-					.addGap(19)
-					.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING, false)
-							.addComponent(lblId, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(lblFinReserva, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addComponent(btnActualizar))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(dateChooserFechaFinRes, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-						.addComponent(textIdReserva, 0, 0, Short.MAX_VALUE)
-						.addComponent(btnCancelarCierre, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addGap(144))
-		);
-		gl_panel_EditarReserva.setVerticalGroup(
-			gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_EditarReserva.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblId)
-						.addComponent(textIdReserva, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblFinReserva)
-						.addComponent(dateChooserFechaFinRes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(12)
-					.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnActualizar)
-						.addComponent(btnCancelarCierre))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+				gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panel_EditarReserva.createSequentialGroup()
+						.addGap(19)
+						.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(lblId, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lblFinReserva, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addGroup(gl_panel_EditarReserva.createSequentialGroup()
+								.addComponent(btnActualizar)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(dateChooserFechaFinRes, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+									.addComponent(textIdReserva, 0, 0, Short.MAX_VALUE)
+									.addComponent(btnCancelarCierre, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(timeSpinnerCierre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGap(234))
+			);
+			gl_panel_EditarReserva.setVerticalGroup(
+				gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panel_EditarReserva.createSequentialGroup()
+						.addContainerGap()
+						.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblId)
+							.addComponent(textIdReserva, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.LEADING)
+							.addComponent(lblFinReserva)
+							.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.BASELINE)
+								.addComponent(dateChooserFechaFinRes, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(timeSpinnerCierre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGap(12)
+						.addGroup(gl_panel_EditarReserva.createParallelGroup(Alignment.BASELINE)
+							.addComponent(btnActualizar)
+							.addComponent(btnCancelarCierre))
+						.addContainerGap(182, Short.MAX_VALUE))
+			);
 		panel_EditarReserva.setLayout(gl_panel_EditarReserva);
 		
 		textAreaDetalle = new JTextArea();
@@ -302,7 +318,6 @@ public class ABMCReservaPrueba extends FormReserva{
 		lblHasta.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		dateChooserHasta = new JDateChooser();
-		
 		dateChooserDesde = new JDateChooser();
 		
 		JLabel lblDesde = new JLabel("Desde");
@@ -356,8 +371,7 @@ public class ABMCReservaPrueba extends FormReserva{
 //timeSpinnerHasta=new JSpinner();
 		
 		
-//		lblElemento=new JLabel("Elemento(ID)");
-//		getContentPane().add(lblElemento);
+
 		timeSpinnerHasta = new JSpinner( new SpinnerDateModel() );
 		JSpinner.DateEditor timeEditorHasta = new JSpinner.DateEditor(timeSpinnerHasta, "HH:mm:ss");
 		timeSpinnerHasta.setEditor(timeEditorHasta);
@@ -512,16 +526,28 @@ public class ABMCReservaPrueba extends FormReserva{
 	
 	private void clickModificarReserva() throws Exception,SQLException, ParseException{
 		try {
-			if(Campo.Valida(this.textIdReserva.getText(),Campo.tipo.ID)
-					&& Campo.Valida(((JTextField)dateChooserFechaFinRes.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)
+			if(Campo.Valida(((JSpinner.DefaultEditor)timeSpinnerCierre.getEditor()).getTextField().getText(), Campo.tipo.HORA)
+				&& Campo.Valida(((JTextField)dateChooserFechaFinRes.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)
 				){
-				resLogic.updateParaCerrarRes(this.mapearDeFormFechaFin(Ingreso.PersonaLogueada));
-				JOptionPane.showMessageDialog(this, "Reserva finalizada", "", JOptionPane.INFORMATION_MESSAGE);
-				ListadoReservas.getInstancia().Actualiza();
-				accion=Action.OTHER;
-				this.panel_EditarReserva.setVisible(false);
-				this.panelCrearEliminarReserva.setVisible(true);
-				ListadoReservas.getInstancia().Actualiza();
+				
+				if(resLogic.isFCierreMayorQFDesde(this.getFechaCierre(),resActual.getFecha_hora_desde_solicitada())){
+					if(!resLogic.isReservaPendiente(resActual)){	
+						resLogic.updateParaCerrarRes(this.mapearDeFormFechaFin());
+						JOptionPane.showMessageDialog(this, "Reserva finalizada", "", JOptionPane.INFORMATION_MESSAGE);
+						ListadoReservas.getInstancia().Actualiza();
+						accion=Action.OTHER;
+						this.panel_EditarReserva.setVisible(false);
+						this.panelCrearEliminarReserva.setVisible(true);
+						ListadoReservas.getInstancia().Actualiza();
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "No se puede cerrar la reserva:aun no ha iniciado.");
+					}
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "La fecha de cierre debe ser posterior al inicio de la reserva");
+					this.dateChooserFechaFinRes.setDate(null);
+				}
 			}
 			else{
 				JOptionPane.showMessageDialog(null, Campo.Mensaje,"",JOptionPane.INFORMATION_MESSAGE);
@@ -574,21 +600,10 @@ public class ABMCReservaPrueba extends FormReserva{
 //	}
 	
 	
-	private Reserva mapearDeFormFechaFin(Persona pers) throws Exception{
+	private Reserva mapearDeFormFechaFin() throws Exception{
 		Reserva r = new Reserva();
-		//Persona p = new Persona();
-		Elemento e = new Elemento();
-		
 		r.setId_reserva(Integer.parseInt(this.textIdReserva.getText()));
-		r.setPersona(pers);	
-	
-				int vyearE = dateChooserFechaFinRes.getCalendar().get(Calendar.YEAR);
-				int vmonthE = 1+dateChooserFechaFinRes.getCalendar().get(Calendar.MONTH);				//le sumo 1 xq inicia el mes en cero (january lo toma como 0) 
-				int vdayE = dateChooserFechaFinRes.getCalendar().get(Calendar.DAY_OF_MONTH);
-				String vfechaE = vyearE + "-" + vmonthE + "-" + vdayE;
-		r.setFecha_hora_entregado(Date.valueOf(vfechaE));			
-		//el famoso provisorio.
-		
+		r.setFecha_hora_entregado(this.getFechaCierre());			
 		return r;
 	}
 	
@@ -606,11 +621,13 @@ public class ABMCReservaPrueba extends FormReserva{
 		timeSpinnerDesde.setValue(calendario.getTime());
 		calendario.set(2000, 1, 1, 23, 59, 59);
 		timeSpinnerHasta.setValue(calendario.getTime());
+		timeSpinnerCierre.setValue(Calendar.getInstance().getTime());
 	}
 	
 	public void mapearAForm(Reserva res)throws Exception{
 		if(res!=null){
 			if(accion==Action.OTHER){
+				resActual=res;
 				this.elementoActual=res.getElemento();
 				this.lblIdReservaNumero.setText(String.valueOf(res.getId_reserva()));
 				this.textElemento.setText(String.valueOf(res.getElemento().getId_elemento()));
@@ -621,8 +638,12 @@ public class ABMCReservaPrueba extends FormReserva{
 				this.dateChooserFechaFinRes.setDate(res.getFecha_hora_entregado());
 				timeSpinnerDesde.setValue(res.getFecha_hora_desde_solicitada());
 				timeSpinnerHasta.setValue(res.getFecha_hora_hasta_solicitada());
-				
+				if(res.getFecha_hora_entregado()!=null){
+					timeSpinnerCierre.setValue(res.getFecha_hora_entregado());}
+				else{
+					timeSpinnerCierre.setValue(Calendar.getInstance().getTime());
 				}
+			}
 		}
 		else{
 			this.limpiarCampos();
@@ -689,5 +710,14 @@ public class ABMCReservaPrueba extends FormReserva{
 		accion=Action.UPDATE;
 		panelCrearEliminarReserva.setVisible(false);
 		panel_EditarReserva.setVisible(true);
+	}
+	
+	private java.util.Date getFechaCierre()throws Exception{
+		String fechaC=((JTextField)dateChooserFechaFinRes.getDateEditor().getUiComponent()).getText();
+		String horaC=((JSpinner.DefaultEditor)timeSpinnerCierre.getEditor()).getTextField().getText();
+		String fechaHoraC=fechaC+" "+horaC;
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		formatter.setLenient(false);
+		return formatter.parse(fechaHoraC);
 	}
 }
