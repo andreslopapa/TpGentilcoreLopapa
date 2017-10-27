@@ -158,18 +158,6 @@ public class DataElemento {
 					te.setLimite_horas_res(res.getInt("limite_horas_res"));
 					te.setDias_max_anticipacion(res.getInt("dias_max_anticipacion"));
 					ele.setTipo(te);
-//					Reserva reserva=null;
-//					if(!res.getString("r.id_elemento").isEmpty()){
-//						reserva=new Reserva();
-//						reserva.setId_reserva(res.getInt("id_reserva"));
-//						reserva.setPersona(new DataPersona().getOne(res.getInt("id_persona")));
-//						reserva.setElemento(new DataElemento().getOne(res.getInt("id_elemento")));
-//						reserva.setFecha_hora_reserva_hecha(res.getDate("fecha_hora_reserva_hecha"));
-//						reserva.setFecha_hora_desde_solicitada(res.getDate("fecha_hora_desde_solicitada"));
-//						reserva.setFecha_hora_hasta_solicitada(res.getDate("fecha_hora_hasta_solicitada"));
-//						reserva.setFecha_hora_entregado(res.getDate("fecha_hora_entregado"));
-//						reserva.setDetalle(res.getString("detalle"));
-//					}
 					elementos.add(ele);
 				}
 			}
@@ -185,6 +173,68 @@ public class DataElemento {
 			}
 			catch(SQLException sqlex){
 				throw new AppDataException(sqlex,"Error al cerrar Conexion,ResultSet o PreparedStatement");
+			}
+		}
+		return elementos;
+	}
+	
+	public ArrayList<Elemento> getSome(Elemento elemento,java.util.Date fechaDisp,int indice,int cantTraer)throws SQLException,AppDataException,Exception{
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+		ArrayList<Elemento> elementos=new ArrayList<Elemento>();
+		try{
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+					+ "select ele.*,te.* "
+					+ "from elemento ele "
+					+ "left join reserva res "
+					+ "on ele.id_elemento=res.id_elemento "
+					+ "inner join tipodeelemento te "
+					+ "on te.id_tipodeelemento=ele.id_tipodeelemento "
+					+ "where te.nombre=? and  "
+					+ "(res.fecha_hora_desde_solicitada is null or  "
+					+ "	( "
+					+ "	(res.fecha_hora_desde_solicitada >? and res.fecha_hora_hasta_solicitada>?) "
+					+ "		or "
+					+ "	(res.fecha_hora_desde_solicitada<? and res.fecha_hora_hasta_solicitada<?) "
+					+ "	) "
+					+ ") "
+					+ "limit ?,?");
+			pstmt.setString(1, elemento.getTipo().getNombre());
+			pstmt.setString(2, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(fechaDisp));
+			pstmt.setString(3, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(fechaDisp));
+			pstmt.setString(4, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(fechaDisp));
+			pstmt.setString(5, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(fechaDisp));
+			pstmt.setInt(6, indice);
+			pstmt.setInt(7, cantTraer);
+			res=pstmt.executeQuery();
+			if(res!=null){
+				while(res.next()){
+					Elemento ele=new Elemento();
+					ele.setId_elemento(res.getInt("ele.id_elemento"));
+					ele.setNombre(res.getString("ele.nombre"));
+					
+					TipoDeElemento te=new TipoDeElemento();
+					te.setId(res.getInt("te.id_tipodeelemento"));
+					te.setNombre(res.getString("te.nombre"));
+					te.setCant_max_res_pen(res.getInt("te.cantmaxrespen"));
+					te.setLimite_horas_res(res.getInt("te.limite_horas_res"));
+					te.setDias_max_anticipacion(res.getInt("te.dias_max_anticipacion"));
+					ele.setTipo(te);
+					elementos.add(ele);
+				}
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al traer elementos de un tipo disponibles en una fecha");
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				if(res!=null){res.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerrar PreparedStatement,ResultSet o Conexion");
 			}
 		}
 		return elementos;
@@ -433,6 +483,51 @@ public class DataElemento {
 				FactoryConexion.getInstancia().releaseConn();}
 			catch(SQLException sqlex){
 				throw new AppDataException(sqlex,"Error al cerra Conexion,Statement o Resultset");
+			}
+		}
+		return cantidad;
+	}
+	
+	public int getCantidad(Elemento elemento,java.util.Date fechaDisp)throws SQLException,AppDataException{
+		int cantidad=0;
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+		try{
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+					+ "select count(*) "
+					+ "from elemento ele "
+					+ "left join reserva res "
+					+ "on ele.id_elemento=res.id_elemento "
+					+ "inner join tipodeelemento te "
+					+ "on te.id_tipodeelemento=ele.id_tipodeelemento "
+					+ "where te.nombre=? and  "
+					+ "(res.fecha_hora_desde_solicitada is null or  "
+					+ "	( "
+					+ "	(res.fecha_hora_desde_solicitada >? and res.fecha_hora_hasta_solicitada>?) "
+					+ "		or "
+					+ "	(res.fecha_hora_desde_solicitada<? and res.fecha_hora_hasta_solicitada<?) "
+					+ "	) "
+					+ ");");
+			pstmt.setString(1, elemento.getTipo().getNombre());
+			pstmt.setString(2, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(fechaDisp));
+			pstmt.setString(3, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(fechaDisp));
+			pstmt.setString(4, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(fechaDisp));
+			pstmt.setString(5, new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(fechaDisp));
+			res=pstmt.executeQuery();
+			if(res!=null && res.next()){
+				cantidad=res.getInt(1);
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al contar elementos buscados por tipo y fecha hora");
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				if(res!=null){res.close();}
+				FactoryConexion.getInstancia().releaseConn();}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerra Conexion,PreparedStatement o Resultset");
 			}
 		}
 		return cantidad;

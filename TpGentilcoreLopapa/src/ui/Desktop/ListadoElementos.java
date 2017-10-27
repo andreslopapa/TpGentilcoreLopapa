@@ -9,6 +9,7 @@ import javax.swing.JTable;
 import business.entities.Elemento;
 import business.entities.TipoDeElemento;
 import business.logic.CtrlElementoLogic;
+import business.logic.CtrlReservaLogic;
 import business.logic.CtrlTipoDeElementoLogic;
 
 
@@ -22,6 +23,7 @@ import org.jdesktop.beansbinding.BeanProperty;
 
 
 import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -41,12 +43,16 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JToolBar;
 import java.beans.PropertyVetoException;
+import java.text.SimpleDateFormat;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.EmptyBorder;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.JSpinner;
+import java.awt.Dimension;
 
 public class ListadoElementos extends Listado implements IListados{
 	/**
@@ -60,9 +66,10 @@ public class ListadoElementos extends Listado implements IListados{
 	private Elemento elementoActual;
 	private ABMCElementoPrueba formElemento;
 	private AltasReserva formReserva;
+	private Date fechaDisp;
     public static enum TipoBusqueda{ POR_ID("Por Id"),POR_NOMBRE("Por Nombre"),
     					     POR_TIPO("Por Tipo"),POR_NOMBRE_Y_TIPO("Por Nombre y Tipo"),
-    					     TRAER_TODOS("Traer Todos");
+    					     POR_TIPO_Y_FH("Por Tipo y FH Disponible"),TRAER_TODOS("Traer Todos");
     	private final String texto;
     	private TipoBusqueda(final String texto){this.texto=texto;}
     	@Override
@@ -104,6 +111,8 @@ public class ListadoElementos extends Listado implements IListados{
 	private BotonLabel btnAgregar;
 	private BotonLabel btnEditar;
 	private BotonLabel btnBorrar;
+	private JDateChooser dateChooserBusca;
+	private JSpinner timeSpinnerBusca;
 	
 	public static ListadoElementos getInstancia()throws Exception{
 		if(ListadoElementos.instancia==null){
@@ -117,6 +126,7 @@ public class ListadoElementos extends Listado implements IListados{
 		getContentPane().setBackground(Color.WHITE);
 		
 	    elementoActual=null;
+	    fechaDisp=null;
 	    tipoBusquedaActual=TipoBusqueda.TRAER_TODOS;
 		elementoLogic=new CtrlElementoLogic();
 		setBounds(100, 100, 904, 479);
@@ -158,7 +168,7 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		
 		lblIndice = new JLabel("de xxx");
-		getContentPane().setLayout(new MigLayout("", "[7.91%,grow][25%][grow][][][50px:50px:50px,center][][48.00][159.00][2.88%][20%,grow]", "[25px:25px:25px][][20px:30.00px:20px,grow][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
+		getContentPane().setLayout(new MigLayout("", "[7.91%,grow][30%][grow][][][50px:50px:50px,center][][48.00][159.00][2.88%][20%,grow]", "[25px:25px:25px][][20px:30.00px:20px,grow][45px:45px:45px][20px:20px:20px][30px:30px:30px][85%,grow][5%,baseline]"));
 		
 		txtBuscar = new JTextField();
 		txtBuscar.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -202,20 +212,21 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		cboTipoBusqueda = new JComboBox();
 		cboTipoBusqueda.setFont(new Font("Calibri", Font.PLAIN, 12));
-		getContentPane().add(cboTipoBusqueda, "cell 1 3 3 1,alignx left,aligny center");
+		getContentPane().add(cboTipoBusqueda, "cell 1 3 4 1,alignx left,aligny center");
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_ID);
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_NOMBRE);
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_TIPO);
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_NOMBRE_Y_TIPO);
+		cboTipoBusqueda.addItem(TipoBusqueda.POR_TIPO_Y_FH);
 		cboTipoBusqueda.addItem(TipoBusqueda.TRAER_TODOS);
 		
 		cboTipoElemento=new JComboBox();
 		this.cboTipoElemento.setSelectedIndex(-1);
-		getContentPane().add(cboTipoElemento,"cell 1 5 3 1");
-		JLabel lblTipo = new JLabel("Tipo de Elemento");
+		getContentPane().add(cboTipoElemento,"flowx,cell 1 5 3 1");
+		JLabel lblTipoFechaH = new JLabel("Tipo Elemento      Fecha-Hora disponible");
 		
 
-		getContentPane().add(lblTipo, "cell 1 4 3 1,alignx left,aligny center");
+		getContentPane().add(lblTipoFechaH, "cell 1 4 5 1,alignx left,aligny center");
 		
 		desktopPane = new JDesktopPane();
 		desktopPane.setIgnoreRepaint(true);
@@ -308,6 +319,22 @@ public class ListadoElementos extends Listado implements IListados{
 		});
 		btnSiguiente.setIcon(new ImageIcon(ListadoElementos.class.getResource("/ui/Desktop/flechaderecha.png")));
 		getContentPane().add(btnSiguiente, "cell 8 7,alignx left,aligny center");
+		
+		dateChooserBusca = new JDateChooser();
+		dateChooserBusca.setPreferredSize(new Dimension(104, 19));
+		dateChooserBusca.setSize(new Dimension(34, 19));
+		dateChooserBusca.setMinimumSize(new Dimension(24, 19));
+		getContentPane().add(dateChooserBusca, "cell 1 5 4 1,alignx right");
+		
+		timeSpinnerBusca  = new JSpinner( new SpinnerDateModel() );
+		JSpinner.DateEditor timeEditorBusca = new JSpinner.DateEditor(timeSpinnerBusca, "HH:mm:ss");
+		timeSpinnerBusca.setEditor(timeEditorBusca);
+		Calendar cal=Calendar.getInstance();
+		cal.setTime(Calendar.getInstance().getTime());
+		cal.add(Calendar.MINUTE, 10);
+		timeSpinnerBusca.setValue(cal.getTime());
+		
+		getContentPane().add(timeSpinnerBusca, "cell 1 5 3 1,alignx right");
 		
 		
 		this.Actualiza();
@@ -434,13 +461,13 @@ public class ListadoElementos extends Listado implements IListados{
 	public void Actualiza(){
 		try {
 			loadLists();
-			this.totalElementos=elementoLogic.getCantidad(tipoBusquedaActual,elementoActual);
+			this.totalElementos=elementoLogic.getCantidad(tipoBusquedaActual,elementoActual,fechaDisp);
 			cantidadIndices=(int)Math.ceil((double)totalElementos/FilasTabla);
 			if(cantidadIndices==0){cantidadIndices=1;}
 			if(indiceActual>cantidadIndices){
 				indiceActual=cantidadIndices;}
 			this.txtIndice.setText(String.valueOf(indiceActual));
-			this.elementoLogic.elementos=elementoLogic.getSome(tipoBusquedaActual,elementoActual,(indiceActual-1)*FilasTabla,FilasTabla);//esto cambiarlo
+			this.elementoLogic.elementos=elementoLogic.getSome(tipoBusquedaActual,elementoActual,fechaDisp,(indiceActual-1)*FilasTabla,FilasTabla);//esto cambiarlo
 		    this.lblIndice.setText("de "+String.valueOf(cantidadIndices));
 		    initDataBindings();
 		    if(!this.elementoLogic.elementos.isEmpty()){
@@ -517,6 +544,30 @@ public class ListadoElementos extends Listado implements IListados{
 				    	  this.tipoBusquedaActual=TipoBusqueda.POR_NOMBRE_Y_TIPO;}
 				      else{JOptionPane.showMessageDialog(null, "Seleccione un tipo");}
 				      break;
+		case POR_TIPO_Y_FH:
+					  if(cboTipoElemento.getSelectedIndex()!=(-1)){
+							  if(Campo.Valida(((JTextField)dateChooserBusca.getDateEditor().getUiComponent()).getText(), Campo.tipo.FECHA)
+								&& Campo.Valida(((JSpinner.DefaultEditor)timeSpinnerBusca.getEditor()).getTextField().getText(), Campo.tipo.HORA)	){
+								  try{
+								  if(new CtrlReservaLogic().noEsFechaPasada(getFechaB())){
+									  elementoActual.setTipo((TipoDeElemento)cboTipoElemento.getSelectedItem());
+									  fechaDisp=this.getFechaB();
+									  this.tipoBusquedaActual=TipoBusqueda.POR_TIPO_Y_FH;
+								  }
+								  else{
+									  JOptionPane.showMessageDialog(null, "La fecha-hora debe ser actual o futura\n"
+									  		+ "No puede reservar elementos con fecha pasada");
+								  }}
+								  catch(Exception ex){
+									  JOptionPane.showMessageDialog(null, "Error al preparar busqueda por tipo y fecha\n"+ex.getMessage());
+								  }
+							  }
+							  else{
+								  JOptionPane.showMessageDialog(null, Campo.getMensaje(),"",JOptionPane.INFORMATION_MESSAGE);
+							  }
+						  }
+					  else{JOptionPane.showMessageDialog(null, "Seleccione un tipo");}
+					  break;
 		case TRAER_TODOS:
 		default:elementoActual=null;
 				this.tipoBusquedaActual=TipoBusqueda.TRAER_TODOS;
@@ -529,6 +580,15 @@ public class ListadoElementos extends Listado implements IListados{
 		
 	} 
 	
+	private Date getFechaB() throws Exception{
+		String fechaB=((JTextField)dateChooserBusca.getDateEditor().getUiComponent()).getText();
+		String horaB=((JSpinner.DefaultEditor)timeSpinnerBusca.getEditor()).getTextField().getText();
+		String fechaHoraB=fechaB+" "+horaB;
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		formatter.setLenient(false);
+		return formatter.parse(fechaHoraB);
+	}
+
 	public void setPermisos(){
 		switch(Ingreso.PersonaLogueada.getCategoria().getDescripcion()){
 		

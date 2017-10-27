@@ -1,5 +1,6 @@
 package business.logic;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 
@@ -28,30 +29,20 @@ public class CtrlElementoLogic {
 	public int getMaxId()throws Exception{
 		return dataElem.getMaxId();
 	}
-	public ArrayList<Elemento> getSome(ListadoElementos.TipoBusqueda tipob,Elemento ele,int indice,int cantidad)throws Exception{
-//		if(ele==null){return dataElem.getSome(indice, cantidad);}
-//		if(ele.getNombre()!=null && ele.getTipo()!=null){
-//			return dataElem.getSome(ele.getNombre(),ele.getTipo().getId(),indice, cantidad);}
-//		if(ele.getNombre()!=null){return dataElem.getSome(ele.getNombre(), indice,cantidad);}
-//		if(ele.getTipo()!=null){return dataElem.getSome(ele.getTipo().getId(), indice,cantidad);}
-//		ArrayList<Elemento> elementos= new ArrayList<Elemento>();
-//		Elemento elemento=dataElem.getOne(ele);
-//		if(elemento!=null){
-//			elementos.add(elemento);
-//		}
-//		return elementos;
+	public ArrayList<Elemento> getSome(ListadoElementos.TipoBusqueda tipob,Elemento ele,Date fechaDisp,int indice,int cantidad)throws Exception{
+
+		if(tipob==TipoBusqueda.POR_TIPO_Y_FH){
+			return dataElem.getSome(ele, fechaDisp, indice, cantidad);
+		}
 		return dataElem.getSome(tipob,ele,indice,cantidad);
 		
 	}
 	
-	public int getCantidad(ListadoElementos.TipoBusqueda tipob,Elemento ele)throws Exception{
+	public int getCantidad(ListadoElementos.TipoBusqueda tipob,Elemento ele,Date fechaDisp)throws Exception{
 		
-//		if(ele==null){return dataElem.getCantidad();}
-//		if(ele.getNombre()!=null && ele.getTipo()!=null){
-//			return dataElem.getCantidad(ele.getNombre(),ele.getTipo().getId());}
-//		if(ele.getNombre()!=null){return dataElem.getCantidad(ele.getNombre());}
-//		if(ele.getTipo()!=null){return dataElem.getCantidad(ele.getTipo().getId());}
-//		return 1;
+		if(tipob==TipoBusqueda.POR_TIPO_Y_FH){
+			return dataElem.getCantidad(ele,fechaDisp);
+		}
 		return dataElem.getCantidad(tipob,ele);
 		
 	}
