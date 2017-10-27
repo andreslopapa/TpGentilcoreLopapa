@@ -89,7 +89,7 @@ public class DataReserva {
 								pstmt.setInt(1, indice);
 								pstmt.setInt(2, cantTraer);
 								break;
-			case TRAER_TODOS:
+			case TRAER_TODAS:
 			default:
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 								+ "select* from reserva r "
@@ -140,6 +140,138 @@ public class DataReserva {
 	}
 	
 	
+	public ArrayList<Reserva> getSome(Persona persona,ListadoReservas.TipoBusqueda tipob,Reserva reserva,int indice,int cantTraer)throws Exception,SQLException,AppDataException{
+		
+		//persona es siempre la entro al sistema
+		//puede ser diferente a la que esta en la reserva pasada como parametro
+		//por ejemplo un administrador busca las reservas de un encargado, 
+		//ahi persona y reserva.getpreserona son diferentes
+		//aca no cambia nada pero en el futuro puede ser util
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+		ArrayList<Reserva> reservas=new ArrayList<Reserva>();
+		try{
+			switch(tipob){
+			case POR_IDRESERVA:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select* from reserva r "
+								+ "inner join elemento e "
+								+ "on e.id_elemento=r.id_elemento "
+								+ "inner join persona p on p.id_persona=r.id_persona "
+								+ "where r.id_reserva=? and r.id_persona=? "
+								+ "order by r.fecha_hora_reserva_hecha desc "
+								+ "limit ?,?");
+								pstmt.setInt(1, reserva.getId_reserva());
+								pstmt.setInt(2, persona.getId());
+								pstmt.setInt(3, indice);
+								pstmt.setInt(4, cantTraer);
+								break;
+			case POR_IDELEMENTO:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select* from reserva r "
+								+ "inner join elemento e "
+								+ "on e.id_elemento=r.id_elemento "
+								+ "inner join persona p on p.id_persona=r.id_persona "
+								+ "where r.id_elemento=? and r.id_persona=? "
+								+ "order by r.fecha_hora_reserva_hecha desc "
+								+ "limit ?,?");
+								pstmt.setInt(1, reserva.getElemento()!=null?reserva.getElemento().getId_elemento():-1);
+								pstmt.setInt(2, persona.getId());
+								pstmt.setInt(3, indice);
+								pstmt.setInt(4, cantTraer);
+								break;
+			case POR_IDPERSONA:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select* from reserva r "
+								+ "inner join elemento e "
+								+ "on e.id_elemento=r.id_elemento "
+								+ "inner join persona p on p.id_persona=r.id_persona "
+								+ "where r.id_persona=? "
+								+ "order by r.fecha_hora_reserva_hecha desc "
+								+ "limit ?,?");
+								pstmt.setInt(1, reserva.getPersona()!=null?reserva.getPersona().getId():-1);
+								pstmt.setInt(2, indice);
+								pstmt.setInt(3, cantTraer);
+								break;
+			case PENDIENTES:	
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select* from reserva r "
+								+ "inner join elemento e "
+								+ "on e.id_elemento=r.id_elemento "
+								+ "inner join persona p on p.id_persona=r.id_persona "
+								+ "where datediff(r.fecha_hora_desde_solicitada,now())>0 and r.id_persona=? "
+								+ "order by r.fecha_hora_reserva_hecha desc "
+								+ "limit ?,?");
+								pstmt.setInt(1, persona.getId());
+								pstmt.setInt(2, indice);
+								pstmt.setInt(3, cantTraer);
+								break;
+			case VENCIDAS:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select* from reserva r "
+								+ "inner join elemento e "
+								+ "on e.id_elemento=r.id_elemento "
+								+ "inner join persona p on p.id_persona=r.id_persona "
+								+ "where r.fecha_hora_entregado is null and "
+								+ "datediff(r.fecha_hora_hasta_solicitada,now())<0 and r.id_persona=? "
+								+ "order by r.fecha_hora_reserva_hecha desc "
+								+ "limit ?,?");
+								pstmt.setInt(1, persona.getId());
+								pstmt.setInt(2, indice);
+								pstmt.setInt(3, cantTraer);
+								break;
+			case TRAER_TODAS:
+			default:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select* from reserva r "
+								+ "inner join elemento e "
+								+ "on e.id_elemento=r.id_elemento "
+								+ "inner join persona p on p.id_persona=r.id_persona "
+								+ "where r.id_persona=? "
+								+ "order by r.fecha_hora_reserva_hecha desc "
+								+ "limit ?,?");
+								pstmt.setInt(1, persona.getId());
+								pstmt.setInt(2, indice);
+								pstmt.setInt(3, cantTraer);
+								break;
+			}
+			res=pstmt.executeQuery();
+			if(res!=null){
+				while(res.next()){
+					Elemento ele=new DataElemento().getOne(res.getInt("r.id_elemento"));
+					Persona per=new DataPersona().getOne(res.getInt("r.id_persona"));
+					Reserva re=new Reserva();
+					re=new Reserva();
+					re.setId_reserva(res.getInt("r.id_reserva"));
+					re.setPersona(per);
+					re.setElemento(ele);
+					
+					re.setFecha_hora_reserva_hecha(res.getTimestamp("r.fecha_hora_reserva_hecha"));
+					re.setFecha_hora_desde_solicitada(res.getTimestamp("r.fecha_hora_desde_solicitada"));
+					re.setFecha_hora_hasta_solicitada(res.getTimestamp("r.fecha_hora_hasta_solicitada"));
+					re.setFecha_hora_entregado(res.getTimestamp("r.fecha_hora_entregado"));
+					re.setDetalle(res.getString("r.detalle"));
+					
+					reservas.add(re);
+				}
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al traer las reservas\n"+sqlex.getMessage());
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				if(res!=null){res.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerrar Conexion,ResultSet o PreparedStatement");
+			}
+		}
+		return reservas;
+	}
+	
 	
 	public int getCantidad(ListadoReservas.TipoBusqueda tipob,Reserva reserva)throws SQLException,AppDataException{
 		PreparedStatement pstmt=null;
@@ -176,7 +308,7 @@ public class DataReserva {
 								+ "where r.fecha_hora_entregado is null and "
 								+ "datediff(r.fecha_hora_hasta_solicitada,now())<0 ");
 								break;
-			case TRAER_TODOS:
+			case TRAER_TODAS:
 			default:
 								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
 								+ "select count(*) from reserva ");
@@ -203,6 +335,73 @@ public class DataReserva {
 		return cantidad;
 	}
 	
+	public int getCantidad(Persona persona,ListadoReservas.TipoBusqueda tipob,Reserva reserva)throws SQLException,AppDataException{
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+		int cantidad=0;
+		try{
+			switch(tipob){
+			case POR_IDRESERVA:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select count(*) from reserva r "
+								+ "where r.id_reserva=? and r.id_persona=? ");
+								pstmt.setInt(1, reserva.getId_reserva());
+								pstmt.setInt(2, persona.getId());
+								break;
+			case POR_IDELEMENTO:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select count(*) from reserva r "
+								+ "where r.id_elemento=?  and r.id_persona=? ");
+								pstmt.setInt(1, reserva.getElemento()!=null?reserva.getElemento().getId_elemento():-1);
+								pstmt.setInt(2, persona.getId());
+								break;
+			case POR_IDPERSONA:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select count(*) from reserva r "
+								+ "where r.id_persona=? ");
+								pstmt.setInt(1, reserva.getPersona()!=null?reserva.getPersona().getId():-1);
+								break;
+			case PENDIENTES:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select count(*) from reserva r "
+								+ "where datediff(r.fecha_hora_desde_solicitada,now())>0  and r.id_persona=? ");
+								pstmt.setInt(1, persona.getId());
+								break;
+			case VENCIDAS:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select count(*) from reserva r "
+								+ "where r.fecha_hora_entregado is null and "
+								+ "datediff(r.fecha_hora_hasta_solicitada,now())<0  and r.id_persona=? ");
+								pstmt.setInt(1, persona.getId());
+								break;
+			case TRAER_TODAS:
+			default:
+								pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+								+ "select count(*) from reserva r "
+								+ "where r.id_persona=? ");
+								pstmt.setInt(1, persona.getId());
+								break;
+			}
+			res=pstmt.executeQuery();
+			if(res!=null && res.next()){
+				cantidad=res.getInt(1);
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al contar las reservas\n"+sqlex.getMessage());
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				if(res!=null){res.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerrar Conexion,ResultSet o PreparedStatement");
+			}
+		}
+		return cantidad;
+	}
 	
 	
 	public void add(Reserva r)throws SQLException,AppDataException{

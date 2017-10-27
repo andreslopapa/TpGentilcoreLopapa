@@ -66,7 +66,7 @@ public class ListadoReservas extends Listado implements IListados{
 	private Reserva reservaActual;
 	private ABMCReservaPrueba formReserva;
     public static enum TipoBusqueda{ POR_IDRESERVA("Por Id de la Reserva"),POR_IDELEMENTO("Por Id del elemento"),
-    								POR_IDPERSONA("Por Id de la Persona"),PENDIENTES("Pendientes"),VENCIDAS("Vencidas"),TRAER_TODOS("Traer Todos");
+    								POR_IDPERSONA("Por Id de la Persona"),PENDIENTES("Pendientes"),VENCIDAS("Vencidas"),TRAER_TODAS("Traer Todas");
     	private final String texto;
     	private TipoBusqueda(final String texto){this.texto=texto;}
     	@Override
@@ -115,7 +115,7 @@ public class ListadoReservas extends Listado implements IListados{
 		getContentPane().setBackground(Color.WHITE);
 		
 	    reservaActual=null;
-	    tipoBusquedaActual=TipoBusqueda.TRAER_TODOS;
+	    tipoBusquedaActual=TipoBusqueda.TRAER_TODAS;
 		reservaLogic=new CtrlReservaLogic();
 		setBounds(100, 100, 556, 444);
 		
@@ -226,7 +226,7 @@ public class ListadoReservas extends Listado implements IListados{
 		cboTipoBusqueda.addItem(TipoBusqueda.POR_IDPERSONA);
 		cboTipoBusqueda.addItem(TipoBusqueda.PENDIENTES);
 		cboTipoBusqueda.addItem(TipoBusqueda.VENCIDAS);
-		cboTipoBusqueda.addItem(TipoBusqueda.TRAER_TODOS);
+		cboTipoBusqueda.addItem(TipoBusqueda.TRAER_TODAS);
 		
 //		cboTipoElemento=new JComboBox();
 //		this.cboTipoElemento.setSelectedIndex(-1);
@@ -330,7 +330,7 @@ public class ListadoReservas extends Listado implements IListados{
 		
 		
 		this.Actualiza();
-
+		setPermisos();
 		
 	}
 
@@ -455,13 +455,13 @@ public class ListadoReservas extends Listado implements IListados{
 	public void Actualiza(){
 		try {
 			//loadLists();
-			this.totalReservas=reservaLogic.getCantidad(tipoBusquedaActual,reservaActual);
+			this.totalReservas=reservaLogic.getCantidad(Ingreso.PersonaLogueada,tipoBusquedaActual,reservaActual);
 			cantidadIndices=(int)Math.ceil((double)totalReservas/FilasTabla);
 			if(cantidadIndices==0){cantidadIndices=1;}
 			if(indiceActual>cantidadIndices){
 				indiceActual=cantidadIndices;}
 			this.txtIndice.setText(String.valueOf(indiceActual));
-			this.reservaLogic.reservas=reservaLogic.getSome(tipoBusquedaActual,reservaActual,(indiceActual-1)*FilasTabla,FilasTabla);//esto cambiarlo
+			this.reservaLogic.reservas=reservaLogic.getSome(Ingreso.PersonaLogueada,tipoBusquedaActual,reservaActual,(indiceActual-1)*FilasTabla,FilasTabla);//esto cambiarlo
 		    this.lblIndice.setText("de "+String.valueOf(cantidadIndices));
 		    initDataBindings();
 		    if(!this.reservaLogic.reservas.isEmpty()){
@@ -511,7 +511,7 @@ public class ListadoReservas extends Listado implements IListados{
 	
 	private void mapearDeForm()throws Exception{
 		reservaActual=new Reserva();
-		
+		reservaActual.setPersona(Ingreso.PersonaLogueada);
 		switch((TipoBusqueda)this.cboTipoBusqueda.getSelectedItem()){
 		case POR_IDRESERVA:
 						  if(Campo.Valida(txtBuscar.getText(), Campo.tipo.ID)){
@@ -543,9 +543,9 @@ public class ListadoReservas extends Listado implements IListados{
 		case VENCIDAS:
 				    	  this.tipoBusquedaActual=TipoBusqueda.VENCIDAS;
 				    	  break;
-		case TRAER_TODOS:
+		case TRAER_TODAS:
 		default:reservaActual=null;
-				this.tipoBusquedaActual=TipoBusqueda.TRAER_TODOS;
+				this.tipoBusquedaActual=TipoBusqueda.TRAER_TODAS;
 				break;		
 		}
 		
@@ -589,6 +589,27 @@ public class ListadoReservas extends Listado implements IListados{
 		table.getColumnModel().getColumn(4).setMinWidth(150);
 		table.getColumnModel().getColumn(5).setMinWidth(150);
 		table.getColumnModel().getColumn(6).setMinWidth(150);
+	
+	}
+	
+	public void setPermisos(){
+		try{
+		ABMCReservaPrueba.getInstancia().setPermisos();}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Error al setear permisos de usuario\n"+ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		}
+		switch(Ingreso.PersonaLogueada.getCategoria().getDescripcion()){
+		
+		
+		case "Administrador":break;
+		case "Usuario":
+		case "Encargado":
+		default:
+			cboTipoBusqueda.removeItem(TipoBusqueda.POR_IDPERSONA);
+			
+		break;
+		
+		}
 	
 	}
 }

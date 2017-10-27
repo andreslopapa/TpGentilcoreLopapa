@@ -251,7 +251,11 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 
 		btnReiniciarListado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				actualizarLista();
+				try {
+					actualizarListas();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Error al actualizar listas\n"+e.getMessage(),"Error",JOptionPane.INFORMATION_MESSAGE);
+				}
 			}
 
 			
@@ -407,7 +411,7 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 			if(validaCampos()){
 		
 				ctrlTde.add(this.mapearDeForm());
-				actualizarLista();
+				actualizarListas();
 				JOptionPane.showMessageDialog(frmSistemaDeGestion, "Tipo guardado correctamente", "", JOptionPane.INFORMATION_MESSAGE);
 			}
 			else{
@@ -451,7 +455,7 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 		try {
 			if(this.validaCampos()){
 				ctrlTde.update(mapearDeForm());
-				actualizarLista();
+				actualizarListas();
 				JOptionPane.showMessageDialog(frmSistemaDeGestion, "Tipo de Elemento actualizado", "", JOptionPane.INFORMATION_MESSAGE);
 			}else{
 				JOptionPane.showMessageDialog(null, Campo.getMensaje(), "", JOptionPane.INFORMATION_MESSAGE);
@@ -468,7 +472,7 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 		try {
 			if(Campo.Valida(txtNombre.getText(), Campo.tipo.OTRO)){
 				ctrlTde.delete(mapearDeForm());
-				actualizarLista();
+				actualizarListas();
 				JOptionPane.showMessageDialog(null, "Tipo eliminado", "", JOptionPane.INFORMATION_MESSAGE);
 				this.limpiarTexto();
 			}else{
@@ -561,9 +565,11 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 		this.mapearAForm(te);
 		
 	}
-	private void actualizarLista() {
+	private void actualizarListas()throws Exception {
 		cargarListaTipos();										
 		initDataBindings();
+		ListadoElementos.getInstancia().Actualiza();
+		ListadoReservas.getInstancia().Actualiza();
 	}
 	protected void initDataBindings() {
 		JTableBinding<TipoDeElemento, List<TipoDeElemento>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, tdes, tableTipos, "tablaTipos");

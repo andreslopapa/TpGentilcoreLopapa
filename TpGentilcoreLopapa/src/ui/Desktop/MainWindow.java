@@ -30,6 +30,15 @@ public class MainWindow {
 	private ABMCTipoDeElemento abmctde;
 	//private ListadoPersona lp;
 	private InformacionSistema info;
+	private JMenu mnArchivo;
+	private JMenuItem mntmListadoPersonas;
+	private JMenuItem mntmSalir;
+	private JMenuItem mntmListadoTipos;
+	private JMenuItem mntmNosotros;
+	private JMenu mnAcercaDe;
+	private JMenuItem mntmListadoElementos;
+	private JMenuItem mntmListadoReservas;
+	private JMenuBar menuBar;
 	
   
 	public static void main() {
@@ -67,15 +76,15 @@ public class MainWindow {
 		frmSistemaDeReservas.setBounds(100, 100, 450, 300);
 		frmSistemaDeReservas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		frmSistemaDeReservas.setJMenuBar(menuBar);
 		
-		JMenu mnArchivo = new JMenu("Inicio");
+		mnArchivo = new JMenu("Inicio");
 		menuBar.add(mnArchivo);
 		
 		
 		
-		JMenuItem mntmListadoElementos = new JMenuItem("Listado Elementos");
+		mntmListadoElementos = new JMenuItem("Listado Elementos");
 		mntmListadoElementos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				listadoElementosClick();
@@ -84,7 +93,7 @@ public class MainWindow {
 		});
 		mnArchivo.add(mntmListadoElementos);
 		
-		JMenuItem mntmListadoReservas = new JMenuItem("Listado Reservas");
+		mntmListadoReservas = new JMenuItem("Listado Reservas");
 		mntmListadoReservas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				listadoReservasClick();
@@ -100,7 +109,7 @@ public class MainWindow {
 		/*JMenuItem mntmListadoCategorias = new JMenuItem("Listado Categorias");
 		mnArchivo.add(mntmListadoCategorias);*/
 		
-		JMenuItem mntmListadoPersonas = new JMenuItem("Administrar Usuarios");
+		mntmListadoPersonas = new JMenuItem("Administrar Usuarios");
 		mntmListadoPersonas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				listadoPersonasClick();
@@ -123,29 +132,29 @@ public class MainWindow {
 //		mnArchivo.add(mntmCambiarPass);
 
 		
-		JMenuItem mntmSalir = new JMenuItem("Salir");
+		mntmSalir = new JMenuItem("Salir");
 		mntmSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				salirClick();
 			}
 		});
 		
-		JMenuItem mntmAdministrarTiposDe = new JMenuItem("Administrar Tipos de Elementos");
-		mntmAdministrarTiposDe.addActionListener(new ActionListener() {
+		mntmListadoTipos = new JMenuItem("Administrar Tipos de Elementos");
+		mntmListadoTipos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				listadoTiposEClick();
 			}
 
 		});
-		mnArchivo.add(mntmAdministrarTiposDe);
+		mnArchivo.add(mntmListadoTipos);
 		
 		
 		mnArchivo.add(mntmSalir);
 		
-		JMenu mnAcercaDe = new JMenu("Acerca de");
+		mnAcercaDe = new JMenu("Acerca de");
 		menuBar.add(mnAcercaDe);
 		
-		JMenuItem mntmNosotros = new JMenuItem("Nosotros");
+		mntmNosotros = new JMenuItem("Nosotros");
 		mntmNosotros.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -153,9 +162,11 @@ public class MainWindow {
 			}
 		});
 		mnAcercaDe.add(mntmNosotros);
+		
+		this.setPermisos();
 	}
 
-	public void listadoElementosClick() {
+	private void listadoElementosClick() {
 		try {
 			desktopPane.removeAll();
 			le = ListadoElementos.getInstancia();
@@ -170,7 +181,7 @@ public class MainWindow {
 		
 	}
 
-	public void listadoReservasClick(){
+	private void listadoReservasClick(){
 		try{
 			desktopPane.removeAll();
 			lr=ListadoReservas.getInstancia();
@@ -200,7 +211,7 @@ public class MainWindow {
 		}
 	}*/
 	
-	public void listadoPersonasClick(){			//proxima etapa hacer listado de personas para que quede similar a listadoelementos
+	private void listadoPersonasClick(){			//proxima etapa hacer listado de personas para que quede similar a listadoelementos
 		 try {
 			desktopPane.removeAll();
 			abmcper = ABMCPersona.getInstancia();
@@ -215,7 +226,7 @@ public class MainWindow {
 		}
 	}
 	
-	public void listadoTiposEClick(){
+	private void listadoTiposEClick(){
 		try{
 			desktopPane.removeAll();
 			abmctde=ABMCTipoDeElemento.getInstancia();
@@ -228,7 +239,7 @@ public class MainWindow {
 		}
 	}
 	
-	protected void informacionSistemaClick(){
+	private void informacionSistemaClick(){
 		try {
 			desktopPane.removeAll();
 			info = new InformacionSistema();
@@ -243,7 +254,24 @@ public class MainWindow {
 		}
 	}
 	
-	protected void salirClick() {		
+	private void salirClick() {		
 		frmSistemaDeReservas.dispose();		
 	}
+	
+	private void setPermisos(){
+		switch(Ingreso.PersonaLogueada.getCategoria().getDescripcion()){
+		
+		
+		case "Administrador":break;
+		case "Usuario":
+		case "Encargado":
+		default:
+			mnArchivo.remove(this.mntmListadoTipos);
+			mnArchivo.remove(this.mntmListadoPersonas);
+		break;
+		
+		}
+	}
+	
+	
 }

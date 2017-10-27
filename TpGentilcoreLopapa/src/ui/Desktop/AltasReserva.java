@@ -57,38 +57,35 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSpinner;
 
-public class AltasReserva extends JInternalFrame{
+public class AltasReserva extends FormReserva{
 	
-	CtrlReservaLogic resLogic = new CtrlReservaLogic();
-
-	
-	
-	private JLabel lblElemento;
+//	CtrlReservaLogic resLogic = new CtrlReservaLogic();
+//	private JLabel lblElemento;
 	private JTextField textElemento;
-	private JTextArea textAreaDetalle;
-	private CtrlElementoLogic ctrElemLogic;
-	private JDateChooser dateChooserDesde;
-	private JDateChooser dateChooserHasta;
-	private JSpinner timeSpinnerDesde;
-	private JSpinner timeSpinnerHasta;
+//	private JTextArea textAreaDetalle;
+//	private CtrlElementoLogic ctrElemLogic;
+//	private JDateChooser dateChooserDesde;
+//	private JDateChooser dateChooserHasta;
+//	private JSpinner timeSpinnerDesde;
+//	private JSpinner timeSpinnerHasta;
 	private JLabel lblTiempoMaxRes;
 	private JLabel lblDiasMaxAnticip;
-	private Elemento elementoActual;
+//	private Elemento elementoActual;
 	/**
 	 * Launch the application.
 	 */
-	public static void main() {								//parametro
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AltasReserva window = new AltasReserva();			//parametro
-					window.setVisible(true);
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null,e.getMessage());
-				}
-			}
-		});
-	}
+//	public static void main() {								//parametro
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					AltasReserva window = new AltasReserva();			//parametro
+//					window.setVisible(true);
+//				} catch (Exception e) {
+//					JOptionPane.showMessageDialog(null,e.getMessage());
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the application.
@@ -96,7 +93,7 @@ public class AltasReserva extends JInternalFrame{
 	public AltasReserva() {									//parametro
 
 		this.resLogic = new CtrlReservaLogic();
-		
+		this.ctrElemLogic=new CtrlElementoLogic();
 		initialize();		
 		//cargarPersona(per);
 	}
@@ -331,21 +328,35 @@ public class AltasReserva extends JInternalFrame{
 			String fechaH=((JTextField)dateChooserHasta.getDateEditor().getUiComponent()).getText();
 			String horaD=((JSpinner.DefaultEditor)timeSpinnerDesde.getEditor()).getTextField().getText();
 			String horaH=((JSpinner.DefaultEditor)timeSpinnerHasta.getEditor()).getTextField().getText();
-			String fechaHoraD=fechaD+" "+horaD;
-			String fechaHoraH=fechaH+" "+horaH;
-			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-			formatter.setLenient(false);
+//			String fechaHoraD=fechaD+" "+horaD;
+//			String fechaHoraH=fechaH+" "+horaH;
+//			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//			formatter.setLenient(false);
 			if(Campo.Valida(this.textElemento.getText(),Campo.tipo.ID) 
 				&& Campo.Valida(fechaD, Campo.tipo.FECHA)
 				&& Campo.Valida(horaD, Campo.tipo.HORA)
 				&& Campo.Valida(fechaH, Campo.tipo.FECHA)
 				&& Campo.Valida(horaH, Campo.tipo.HORA)){
-				
-					if(this.validaFechas(formatter.parse(fechaHoraD),formatter.parse(fechaHoraH))){
 					
-					resLogic.add(this.mapearDeForm(Ingreso.PersonaLogueada));
-					JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
-					ListadoElementos.getInstancia().abrirVentanaElemento(ABMC.Action.OTHER);
+					
+					Elemento ele=this.ctrElemLogic.getOne(Integer.parseInt(textElemento.getText()));
+					if(ele!=null){
+						this.elementoActual=ele;
+						if(this.validaFechas(this.getFechaD(),this.getFechaH())){
+							Reserva resMapeada=this.mapearDeForm();
+							if(resLogic.sePuedeCrear(Ingreso.PersonaLogueada,resMapeada)){
+								resLogic.add(resMapeada);
+								JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+								ListadoElementos.getInstancia().abrirVentanaElemento(ABMC.Action.OTHER);
+							}
+							else{
+								JOptionPane.showMessageDialog(null, "Solo los encargados pueden reservar este tipo de elemento");
+							}
+						}
+					}
+					else{
+						textElemento.setText(null);
+						JOptionPane.showMessageDialog(null, "El elemento no existe","",JOptionPane.INFORMATION_MESSAGE);
 					}
 			}
 			else{
@@ -363,108 +374,108 @@ public class AltasReserva extends JInternalFrame{
 
 	
 
-	private Reserva mapearDeForm(Persona pers) throws ParseException,Exception{
+//	private Reserva mapearDeForm() throws ParseException,Exception{
+//
+//		Reserva r = new Reserva();
+//		Elemento e = new Elemento();
+//
+//		r.setPersona(Ingreso.PersonaLogueada);	
+//		e.setId_elemento(Integer.parseInt(this.textElemento.getText()));
+//		r.setElemento(e);
+//		
+//				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//				formatter.setLenient(false);
+//				int yearD = dateChooserDesde.getCalendar().get(Calendar.YEAR);
+//				int monthD = 1+dateChooserDesde.getCalendar().get(Calendar.MONTH);				//le sumo 1 xq inicia el mes en cero (january lo toma como 0)
+//				int dayD = dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH);
+//				String HoraD=((JSpinner.DefaultEditor)timeSpinnerDesde.getEditor()).getTextField().getText();
+//				String fechaD = dayD + "/" + monthD + "/" + yearD;
+//				r.setFecha_hora_desde_solicitada(formatter.parse(fechaD+" "+HoraD));	
+//				
+//
+//				int yearH = dateChooserHasta.getCalendar().get(Calendar.YEAR);
+//				int monthH = 1+dateChooserHasta.getCalendar().get(Calendar.MONTH);
+//				int dayH = dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH);
+//				
+//				String HoraH=((JSpinner.DefaultEditor)timeSpinnerHasta.getEditor()).getTextField().getText();
+//				String fechaH = dayH + "/" + monthH + "/" +yearH ;
+////				JSpinner.DateEditor timeEditorHasta = new JSpinner.DateEditor(timeSpinnerHasta, "HH:mm:ss");
+//			
+////				r.setFecha_hora_hasta_solicitada(formatter.parse(fechaH+" "+timeEditorHasta.getFormat().format(timeSpinnerHasta.getValue())));	
+//				r.setFecha_hora_hasta_solicitada(formatter.parse(fechaH+" "+HoraH));	
+//
+//		
+//		r.setFecha_hora_reserva_hecha(formatter.parse(new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime())));
+//		r.setDetalle(this.textAreaDetalle.getText());
+//		return r;
+//	}
 
-		Reserva r = new Reserva();
-		Elemento e = new Elemento();
-
-		r.setPersona(pers);	
-		e.setId_elemento(Integer.parseInt(this.textElemento.getText()));
-		r.setElemento(e);
-		
-				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-				formatter.setLenient(false);
-				int yearD = dateChooserDesde.getCalendar().get(Calendar.YEAR);
-				int monthD = 1+dateChooserDesde.getCalendar().get(Calendar.MONTH);				//le sumo 1 xq inicia el mes en cero (january lo toma como 0)
-				int dayD = dateChooserDesde.getCalendar().get(Calendar.DAY_OF_MONTH);
-				String HoraD=((JSpinner.DefaultEditor)timeSpinnerDesde.getEditor()).getTextField().getText();
-				String fechaD = dayD + "/" + monthD + "/" + yearD;
-				r.setFecha_hora_desde_solicitada(formatter.parse(fechaD+" "+HoraD));	
-				
-
-				int yearH = dateChooserHasta.getCalendar().get(Calendar.YEAR);
-				int monthH = 1+dateChooserHasta.getCalendar().get(Calendar.MONTH);
-				int dayH = dateChooserHasta.getCalendar().get(Calendar.DAY_OF_MONTH);
-				
-				String HoraH=((JSpinner.DefaultEditor)timeSpinnerHasta.getEditor()).getTextField().getText();
-				String fechaH = dayH + "/" + monthH + "/" +yearH ;
-//				JSpinner.DateEditor timeEditorHasta = new JSpinner.DateEditor(timeSpinnerHasta, "HH:mm:ss");
-			
-//				r.setFecha_hora_hasta_solicitada(formatter.parse(fechaH+" "+timeEditorHasta.getFormat().format(timeSpinnerHasta.getValue())));	
-				r.setFecha_hora_hasta_solicitada(formatter.parse(fechaH+" "+HoraH));	
-
-		
-		r.setFecha_hora_reserva_hecha(formatter.parse(new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime())));
-		r.setDetalle(this.textAreaDetalle.getText());
-		return r;
-	}
-
-	private Boolean validaFechas(java.util.Date fechaD,java.util.Date fechaH)throws ParseException,Exception{
-		Calendar calendario=Calendar.getInstance();
-		if(!resLogic.noEsFechaPasada(fechaD)){
-			this.dateChooserDesde.setDate(null);
-			this.dateChooserHasta.setDate(null);
-			calendario.set(2000, 1, 1, 23, 59, 59);
-			timeSpinnerHasta.setValue(calendario.getTime());
-			calendario.set(2000, 1, 1, 0, 0, 0);
-			timeSpinnerDesde.setValue(calendario.getTime());
-			JOptionPane.showMessageDialog(null, "Fecha incorrecta: no puede reservar con "
-										+"una fecha-hora pasada","",
-					                    JOptionPane.INFORMATION_MESSAGE);
-			return false;
-		}
-		
-		//ojo la validacion de arriba no ponerla en el otro abm de reservas
-		
-		
-		if(!this.resLogic.isFHastaMayorQFDesde(fechaD, fechaH)){
-			this.dateChooserHasta.setDate(null);
-			calendario.set(2000, 1, 1, 23, 59, 59);
-			timeSpinnerHasta.setValue(calendario.getTime());
-			JOptionPane.showMessageDialog(null, "La fecha-hora hasta debe ser posterior a la fecha-hora "
-					+ "desde","",JOptionPane.INFORMATION_MESSAGE);
-			return false;
-		}
-		
-		java.util.Date hoy=Calendar.getInstance().getTime();
-		int diasMaxAnt=Integer.parseInt(lblDiasMaxAnticip.getText());
-		float diasEntre=this.resLogic.getDaysBetween(fechaD,hoy);
-		if(diasEntre >diasMaxAnt){
-			calendario.setTime(hoy);
-			calendario.add(Calendar.DATE,diasMaxAnt);
-			JOptionPane.showMessageDialog(null, "No puede reservar este elemento luego del "
-					+ ""+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(calendario.getTime()),"",JOptionPane.INFORMATION_MESSAGE);
-			this.dateChooserDesde.setDate(calendario.getTime());
-			calendario.set(2000, 1, 1, 0, 0, 0);
-			timeSpinnerDesde.setValue(calendario.getTime());
-			this.dateChooserHasta.setDate(null);
-			calendario.set(2000, 1, 1, 23, 59, 59);
-			this.timeSpinnerHasta.setValue(calendario.getTime());
-			
-			return false;
-		}
-		
-		int horasMaxRes=Integer.parseInt(lblTiempoMaxRes.getText());
-		float horasEntre=this.resLogic.getHoursBetween(fechaH, fechaD);
-		if(horasEntre>horasMaxRes){
-			
-			calendario.setTime(fechaD);
-			calendario.add(Calendar.HOUR_OF_DAY, horasMaxRes);
-			this.dateChooserHasta.setDate(calendario.getTime());
-			this.timeSpinnerHasta.setValue(calendario.getTime());
-			JOptionPane.showMessageDialog(null, "La reserva no puede durar mas de "
-										+horasMaxRes+" horas","",JOptionPane.INFORMATION_MESSAGE);
-			return false;
-		}
-		
-		if(this.resLogic.getReservasEnIntervalo(Integer.parseInt(textElemento.getText()), fechaD, fechaH)>0){
-			JOptionPane.showMessageDialog(null, 
-					"No se puede reservar en ese intervalo,otra reserva interfiere\n"
-					+ "Consulte las reservas del elemento","",JOptionPane.INFORMATION_MESSAGE);
-			return false;
-		}
-		return true;
-	}
+//	private Boolean validaFechas(java.util.Date fechaD,java.util.Date fechaH)throws ParseException,Exception{
+//		Calendar calendario=Calendar.getInstance();
+//		if(!resLogic.noEsFechaPasada(fechaD)){
+//			this.dateChooserDesde.setDate(null);
+//			this.dateChooserHasta.setDate(null);
+//			calendario.set(2000, 1, 1, 23, 59, 59);
+//			timeSpinnerHasta.setValue(calendario.getTime());
+//			calendario.set(2000, 1, 1, 0, 0, 0);
+//			timeSpinnerDesde.setValue(calendario.getTime());
+//			JOptionPane.showMessageDialog(null, "Fecha incorrecta: no puede reservar con "
+//										+"una fecha-hora pasada","",
+//					                    JOptionPane.INFORMATION_MESSAGE);
+//			return false;
+//		}
+//		
+//		//ojo la validacion de arriba no ponerla en el otro abm de reservas
+//		
+//		
+//		if(!this.resLogic.isFHastaMayorQFDesde(fechaD, fechaH)){
+//			this.dateChooserHasta.setDate(null);
+//			calendario.set(2000, 1, 1, 23, 59, 59);
+//			timeSpinnerHasta.setValue(calendario.getTime());
+//			JOptionPane.showMessageDialog(null, "La fecha-hora hasta debe ser posterior a la fecha-hora "
+//					+ "desde","",JOptionPane.INFORMATION_MESSAGE);
+//			return false;
+//		}
+//		
+//		java.util.Date hoy=Calendar.getInstance().getTime();
+//		int diasMaxAnt=Integer.parseInt(lblDiasMaxAnticip.getText());
+//		float diasEntre=this.resLogic.getDaysBetween(fechaD,hoy);
+//		if(diasEntre >diasMaxAnt){
+//			calendario.setTime(hoy);
+//			calendario.add(Calendar.DATE,diasMaxAnt);
+//			JOptionPane.showMessageDialog(null, "No puede reservar este elemento luego del "
+//					+ ""+new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(calendario.getTime()),"",JOptionPane.INFORMATION_MESSAGE);
+//			this.dateChooserDesde.setDate(calendario.getTime());
+//			calendario.set(2000, 1, 1, 0, 0, 0);
+//			timeSpinnerDesde.setValue(calendario.getTime());
+//			this.dateChooserHasta.setDate(null);
+//			calendario.set(2000, 1, 1, 23, 59, 59);
+//			this.timeSpinnerHasta.setValue(calendario.getTime());
+//			
+//			return false;
+//		}
+//		
+//		int horasMaxRes=Integer.parseInt(lblTiempoMaxRes.getText());
+//		float horasEntre=this.resLogic.getHoursBetween(fechaH, fechaD);
+//		if(horasEntre>horasMaxRes){
+//			
+//			calendario.setTime(fechaD);
+//			calendario.add(Calendar.HOUR_OF_DAY, horasMaxRes);
+//			this.dateChooserHasta.setDate(calendario.getTime());
+//			this.timeSpinnerHasta.setValue(calendario.getTime());
+//			JOptionPane.showMessageDialog(null, "La reserva no puede durar mas de "
+//										+horasMaxRes+" horas","",JOptionPane.INFORMATION_MESSAGE);
+//			return false;
+//		}
+//		
+//		if(this.resLogic.getReservasEnIntervalo(Integer.parseInt(textElemento.getText()), fechaD, fechaH)>0){
+//			JOptionPane.showMessageDialog(null, 
+//					"No se puede reservar en ese intervalo,otra reserva interfiere\n"
+//					+ "Consulte las reservas del elemento","",JOptionPane.INFORMATION_MESSAGE);
+//			return false;
+//		}
+//		return true;
+//	}
 	
 	private void limpiarCampos(){
 		this.textElemento.setText(null);

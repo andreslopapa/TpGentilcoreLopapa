@@ -89,7 +89,7 @@ public abstract class FormReserva extends ABMC{
 			return false;
 		}
 		
-		//ojo la validacion de arriba no ponerla en el otro abm de reservas
+
 		
 		
 		if(!this.resLogic.isFHastaMayorQFDesde(fechaD, fechaH)){

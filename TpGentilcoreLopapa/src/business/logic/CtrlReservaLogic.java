@@ -40,12 +40,23 @@ public class CtrlReservaLogic {
 		reservas=new ArrayList<Reserva>();
 	}
 	
-	public ArrayList<Reserva> getSome(ListadoReservas.TipoBusqueda tipob,Reserva res,int indice,int cantidad)throws Exception{
-		return datRes.getSome(tipob, res, indice, cantidad);
+	public ArrayList<Reserva> getSome(Persona persona,ListadoReservas.TipoBusqueda tipob,Reserva res,int indice,int cantidad)throws Exception{
+		if(persona.getCategoria().getDescripcion().equals("Administrador")){
+			return datRes.getSome(tipob, res, indice, cantidad);
+		}
+		else{
+			return datRes.getSome(persona,tipob, res, indice, cantidad);
+		}
 	}
 	
-	public int getCantidad(ListadoReservas.TipoBusqueda tipob,Reserva reserva)throws Exception{
-		return datRes.getCantidad(tipob, reserva);
+	public int getCantidad(Persona persona,ListadoReservas.TipoBusqueda tipob,Reserva reserva)throws Exception{
+		
+		if(persona.getCategoria().getDescripcion().equals("Administrador")){
+			return datRes.getCantidad(tipob, reserva);
+		}else{
+			return datRes.getCantidad(persona,tipob, reserva);
+		}
+		
 	}
 	
 	public void add(Reserva r) throws SQLException, AppDataException{
@@ -73,6 +84,29 @@ public class CtrlReservaLogic {
 	public Boolean isReservaPendiente(Reserva res)throws Exception{
 		return res.getFecha_hora_desde_solicitada().compareTo(Calendar.getInstance().getTime())<0?false:true;
 	}
+	
+	public Boolean sePuedeCerrar(Reserva res)throws Exception{
+		return !isReservaPendiente(res);
+	}
+	
+	public Boolean sePuedeEliminar(Persona persona,Reserva res)throws Exception{
+		if(!isReservaPendiente(res) && !persona.getCategoria().getDescripcion().equals("Administrador")){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+	
+	public Boolean sePuedeCrear(Persona persona,Reserva res){
+		if(res.getElemento().getTipo().isOnly_encargados() && !persona.getCategoria().getDescripcion().equals("Encargado")){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+	
 	
 	public float getDaysBetween(Date fecha1,Date fecha2){
 		long diff=fecha1.getTime()-fecha2.getTime();//te da la diferencia en milisegundos

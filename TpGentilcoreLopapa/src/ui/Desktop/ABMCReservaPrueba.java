@@ -73,6 +73,7 @@ public class ABMCReservaPrueba extends FormReserva{
 	private JLabel lblIdReservaNumero;
 	protected JSpinner timeSpinnerCierre;
 	private Reserva resActual;
+	private JButton btnCerrarReserva;
 
 //	private JSpinner timeSpinnerDesde;
 //	private JSpinner timeSpinnerHasta;
@@ -147,7 +148,7 @@ public class ABMCReservaPrueba extends FormReserva{
 		
 		btnCrearReserva.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Agregar.png")));
 		
-		JButton btnCerrarReserva = new JButton("");
+		btnCerrarReserva = new JButton("");
 		btnCerrarReserva.setToolTipText("Finalizar reserva");
 		btnCerrarReserva.addMouseListener(new MouseAdapter() {				
 			@Override
@@ -168,6 +169,7 @@ public class ABMCReservaPrueba extends FormReserva{
 		btnCerrarReserva.setIcon(new ImageIcon(ABMCReserva.class.getResource("/ui/Desktop/Editar.png")));
 		
 		JButton btnCancelarSolicitud = new JButton("");
+		btnCancelarSolicitud.setToolTipText("Eliminar Reserva");
 		btnCancelarSolicitud.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -483,25 +485,37 @@ public class ABMCReservaPrueba extends FormReserva{
 					    elementoActual=ele;
 						if(accion==Action.ADD){
 							if(this.validaFechas(this.getFechaD(), this.getFechaH())){
-								resLogic.add(this.mapearDeForm());
-								JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+								Reserva resMapeada=this.mapearDeForm();
+								if(resLogic.sePuedeCrear(Ingreso.PersonaLogueada, resMapeada)){
+									resLogic.add(resMapeada);
+									JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+								    ListadoReservas.getInstancia().Actualiza();
+								    accion=Action.OTHER;
+								    btnReservarEliminar.setVisible(false);
+								    btnCancelarResEli.setVisible(false);
+								}
+								else{
+									JOptionPane.showMessageDialog(null, "Solo los encargados pueden reservar este tipo de elemento");
+								}
+						    }
+					    }
+						else if(accion==Action.DELETE){
+							
+							if(resLogic.sePuedeEliminar(Ingreso.PersonaLogueada, resActual)){
+								Reserva res=this.mapearDeForm();
+								res.setId_reserva(Integer.parseInt(lblIdReservaNumero.getText()));
+								resLogic.delete(res);
+								JOptionPane.showMessageDialog(this, "Reserva eliminada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
 							    ListadoReservas.getInstancia().Actualiza();
 							    accion=Action.OTHER;
 							    btnReservarEliminar.setVisible(false);
 							    btnCancelarResEli.setVisible(false);
+							    editarComponentes(true);
 						    }
-					    }
-						else if(accion==Action.DELETE){
-							//elementoActual.setId_elemento(Integer.parseInt(textElemento.getText()));
-							Reserva res=this.mapearDeForm();
-							res.setId_reserva(Integer.parseInt(lblIdReservaNumero.getText()));
-							resLogic.delete(res);
-							JOptionPane.showMessageDialog(this, "Reserva eliminada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
-						    ListadoReservas.getInstancia().Actualiza();
-						    accion=Action.OTHER;
-						    btnReservarEliminar.setVisible(false);
-						    btnCancelarResEli.setVisible(false);
-						    editarComponentes(true);
+							else{
+								JOptionPane.showMessageDialog(null, "Solo se pueden eliminar reservas pendientes");
+							}
+						    
 						}
 						ListadoReservas.getInstancia().Actualiza();
 				}
@@ -531,7 +545,7 @@ public class ABMCReservaPrueba extends FormReserva{
 				){
 				
 				if(resLogic.isFCierreMayorQFDesde(this.getFechaCierre(),resActual.getFecha_hora_desde_solicitada())){
-					if(!resLogic.isReservaPendiente(resActual)){	
+					if(resLogic.sePuedeCerrar(resActual)){	
 						resLogic.updateParaCerrarRes(this.mapearDeFormFechaFin());
 						JOptionPane.showMessageDialog(this, "Reserva finalizada", "", JOptionPane.INFORMATION_MESSAGE);
 						ListadoReservas.getInstancia().Actualiza();
@@ -719,5 +733,20 @@ public class ABMCReservaPrueba extends FormReserva{
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		formatter.setLenient(false);
 		return formatter.parse(fechaHoraC);
+	}
+	
+	public void setPermisos(){
+		switch(Ingreso.PersonaLogueada.getCategoria().getDescripcion()){
+		
+		
+		case "Administrador":break;
+		case "Usuario":
+		case "Encargado":
+		default:
+			
+			this.btnCerrarReserva.setVisible(false);
+		break;
+		
+		}
 	}
 }

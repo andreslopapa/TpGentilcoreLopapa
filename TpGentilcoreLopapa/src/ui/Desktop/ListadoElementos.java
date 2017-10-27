@@ -99,6 +99,11 @@ public class ListadoElementos extends Listado implements IListados{
 	private JComboBox cboTipoElemento;
 	private JComboBox cboTipoBusqueda;
 	private JDesktopPane desktopPane;
+	private JToolBar toolBar;
+	private BotonLabel btnReservar;
+	private BotonLabel btnAgregar;
+	private BotonLabel btnEditar;
+	private BotonLabel btnBorrar;
 	
 	public static ListadoElementos getInstancia()throws Exception{
 		if(ListadoElementos.instancia==null){
@@ -218,12 +223,12 @@ public class ListadoElementos extends Listado implements IListados{
 		desktopPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		abrirVentanaElemento(ABMC.Action.OTHER);
 		
-		JToolBar toolBar = new JToolBar();
+		toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		getContentPane().add(toolBar, "cell 6 5 3 1,alignx right,aligny center");
 		
 		
-		BotonLabel btnReservar=new BotonLabel("reservar.png","reservarFocus.png","reservarApretado.png");
+		btnReservar = new BotonLabel("reservar.png","reservarFocus.png","reservarApretado.png");
 		btnReservar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -231,7 +236,7 @@ public class ListadoElementos extends Listado implements IListados{
 			}
 		});
 		btnReservar.setToolTipText("Reservar/Sacar Reserva");
-		BotonLabel btnAgregar=new BotonLabel("Agregar.png","AgregarFocus.png","AgregarApretado.png");
+		btnAgregar = new BotonLabel("Agregar.png","AgregarFocus.png","AgregarApretado.png");
 		btnAgregar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -239,7 +244,7 @@ public class ListadoElementos extends Listado implements IListados{
 			}
 		});
 		btnAgregar.setToolTipText("Agregar");
-		BotonLabel btnEditar=new BotonLabel("Editar.png","EditarFocus.png","EditarApretado.png");
+		btnEditar = new BotonLabel("Editar.png","EditarFocus.png","EditarApretado.png");
 		btnEditar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -247,7 +252,7 @@ public class ListadoElementos extends Listado implements IListados{
 			}
 		});
 		btnEditar.setToolTipText("Editar");
-		BotonLabel btnBorrar=new BotonLabel("Borrar.png","BorrarFocus.png","BorrarApretado.png");
+		btnBorrar = new BotonLabel("Borrar.png","BorrarFocus.png","BorrarApretado.png");
 		btnBorrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -306,6 +311,7 @@ public class ListadoElementos extends Listado implements IListados{
 		
 		
 		this.Actualiza();
+		this.setPermisos();
 
 		
 	}
@@ -522,4 +528,21 @@ public class ListadoElementos extends Listado implements IListados{
 		}
 		
 	} 
+	
+	public void setPermisos(){
+		switch(Ingreso.PersonaLogueada.getCategoria().getDescripcion()){
+		
+	
+		case "Administrador":break;
+		case "Usuario":
+		case "Encargado":
+		default:
+			
+			toolBar.remove(btnAgregar);
+			toolBar.remove(btnEditar);
+			toolBar.remove(btnBorrar);
+		break;
+		
+		}
+	}
 }
