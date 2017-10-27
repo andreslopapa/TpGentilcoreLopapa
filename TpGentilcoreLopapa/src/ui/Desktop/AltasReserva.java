@@ -345,9 +345,15 @@ public class AltasReserva extends FormReserva{
 						if(this.validaFechas(this.getFechaD(),this.getFechaH())){
 							Reserva resMapeada=this.mapearDeForm();
 							if(resLogic.sePuedeCrear(Ingreso.PersonaLogueada,resMapeada)){
-								resLogic.add(resMapeada);
-								JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
-								ListadoElementos.getInstancia().abrirVentanaElemento(ABMC.Action.OTHER);
+								if(!resLogic.hayLimtResPen(Ingreso.PersonaLogueada, resMapeada)){
+									resLogic.add(resMapeada);
+									JOptionPane.showMessageDialog(this, "Reserva realizada correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+									ListadoElementos.getInstancia().abrirVentanaElemento(ABMC.Action.OTHER);
+								}
+								else{
+									JOptionPane.showMessageDialog(null, "No puede reservar mas elementos de este tipo\n"
+											+ "Limite de reservas pendientes alcanzadas para el tipo:"+resMapeada.getElemento().getTipo().getNombre());
+								}
 							}
 							else{
 								JOptionPane.showMessageDialog(null, "Solo los encargados pueden reservar este tipo de elemento");

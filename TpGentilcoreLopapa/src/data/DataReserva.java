@@ -679,5 +679,42 @@ public class DataReserva {
 		}
 		return intersecciones;
 	}
+	
+	public int numResPen(Persona persona,Reserva reserva)throws Exception{
+		int cantidad=0;
+		PreparedStatement pstmt=null;
+		ResultSet res=null;
+		try{
+			pstmt=FactoryConexion.getInstancia().getConn().prepareStatement(""
+					+ "select count(*) "
+					+ "from reserva res "
+					+ "inner join elemento ele "
+					+ "on res.id_elemento=ele.id_elemento "
+					+ "inner join tipodeelemento tde "
+					+ "on ele.id_tipodeelemento=tde.id_tipodeelemento "
+					+ "where res.id_persona=? and res.fecha_hora_desde_solicitada>now() "
+					+ "and tde.id_tipodeelemento=?;");
+			pstmt.setInt(1,persona.getId());
+			pstmt.setInt(2, reserva.getElemento().getTipo().getId());
+			res=pstmt.executeQuery();
+			if(res!=null && res.next()){
+				cantidad=res.getInt(1);
+			}
+		}
+		catch(SQLException sqlex){
+			throw new AppDataException(sqlex,"Error al contar numero de reservas pendientes");
+		}
+		finally{
+			try{
+				if(pstmt!=null){pstmt.close();}
+				if(res!=null){res.close();}
+				FactoryConexion.getInstancia().releaseConn();
+			}
+			catch(SQLException sqlex){
+				throw new AppDataException(sqlex,"Error al cerrar PreparedStatement,ResultSet o Conexion");
+			}
+		}
+		return cantidad;
+	}
    
 }

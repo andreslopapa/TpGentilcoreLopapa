@@ -107,6 +107,9 @@ public class CtrlReservaLogic {
 		}
 	}
 	
+	public Boolean hayLimtResPen(Persona persona,Reserva res)throws Exception{
+		return datRes.numResPen(persona, res)>=res.getElemento().getTipo().getCant_max_res_pen()?true:false;
+	}
 	
 	public float getDaysBetween(Date fecha1,Date fecha2){
 		long diff=fecha1.getTime()-fecha2.getTime();//te da la diferencia en milisegundos
