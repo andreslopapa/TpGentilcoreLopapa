@@ -15,7 +15,7 @@ public class FactoryConexion {
 	
 	private static FactoryConexion instancia;
 	
-	private FactoryConexion(){
+	public FactoryConexion(){
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {

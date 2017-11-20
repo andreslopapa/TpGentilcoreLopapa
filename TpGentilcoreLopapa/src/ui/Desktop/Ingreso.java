@@ -35,7 +35,7 @@ public class Ingreso {
 					Ingreso window = new Ingreso();
 					window.frmLogin.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage());
 				}
 			}
 		});

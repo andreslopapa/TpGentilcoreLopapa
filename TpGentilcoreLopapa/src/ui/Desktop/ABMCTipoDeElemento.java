@@ -569,7 +569,7 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 		cargarListaTipos();										
 		initDataBindings();
 		ListadoElementos.getInstancia().Actualiza();
-		ListadoReservas.getInstancia().Actualiza();
+		ListadoReservas.getInstancia().Actualiza();//para evitar problemas cuando pongo solo encargado a un tipo
 	}
 	protected void initDataBindings() {
 		JTableBinding<TipoDeElemento, List<TipoDeElemento>, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, tdes, tableTipos, "tablaTipos");
