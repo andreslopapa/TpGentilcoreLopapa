@@ -311,7 +311,6 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 									.addGap(46))
 								.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(chckbxOnlyEncargados, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
 										.addGroup(groupLayout.createSequentialGroup()
 											.addComponent(lblNombre)
 											.addPreferredGap(ComponentPlacement.RELATED)
@@ -321,13 +320,14 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 										.addGroup(groupLayout.createSequentialGroup()
 											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 												.addComponent(lblCantMaxResPen, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblLimiteHorasRes)
-												.addComponent(lblDiasDeAnticipacion))
+												.addComponent(lblDiasDeAnticipacion)
+												.addComponent(lblLimiteHorasRes))
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 												.addComponent(spinnerMaxResPen, GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
 												.addComponent(spinnerLimiteHoras, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-												.addComponent(spinnerDiasAnt, Alignment.TRAILING))))
+												.addComponent(spinnerDiasAnt, Alignment.TRAILING)))
+										.addComponent(chckbxOnlyEncargados, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE))
 									.addGroup(groupLayout.createSequentialGroup()
 										.addComponent(lblListadoDeTipos)
 										.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -339,7 +339,7 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 695, Short.MAX_VALUE)
+				.addComponent(panel, GroupLayout.DEFAULT_SIZE, 679, Short.MAX_VALUE)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(29)
 					.addComponent(lblGestionDeTipos, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
@@ -349,7 +349,7 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 						.addComponent(btnGuardar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnModificar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnBorrar))
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 							.addGroup(groupLayout.createSequentialGroup()
@@ -364,16 +364,16 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 						.addComponent(lblCantMaxResPen, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 						.addComponent(spinnerMaxResPen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(14)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblLimiteHorasRes, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-						.addComponent(spinnerLimiteHoras, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(spinnerLimiteHoras, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblLimiteHorasRes, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblDiasDeAnticipacion, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 						.addComponent(spinnerDiasAnt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(chckbxOnlyEncargados)
-					.addGap(18)
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lblListadoDeTipos)
 						.addComponent(btnBuscarenlista, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
@@ -586,8 +586,8 @@ public class ABMCTipoDeElemento extends JInternalFrame{
 		BeanProperty<TipoDeElemento, Integer> tipoDeElementoBeanProperty_3 = BeanProperty.create("dias_max_anticipacion");
 		jTableBinding.addColumnBinding(tipoDeElementoBeanProperty_3).setColumnName("Dias Max Ant").setEditable(false);
 		//
-		ObjectProperty<TipoDeElemento> tipoDeElementoObjectProperty = ObjectProperty.create();
-		jTableBinding.addColumnBinding(tipoDeElementoObjectProperty).setColumnName("Limite Horas Res").setEditable(false);
+		BeanProperty<TipoDeElemento, Integer> tipoDeElementoBeanProperty_5 = BeanProperty.create("limite_horas_res");
+		jTableBinding.addColumnBinding(tipoDeElementoBeanProperty_5).setColumnName("Limite Horas Res").setEditable(false);
 		//
 		BeanProperty<TipoDeElemento, Boolean> tipoDeElementoBeanProperty_4 = BeanProperty.create("only_encargados");
 		jTableBinding.addColumnBinding(tipoDeElementoBeanProperty_4).setColumnName("Solo Encargados").setEditable(false);
