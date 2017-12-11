@@ -64,7 +64,7 @@ public class ListadoReservas extends Listado implements IListados{
 	private JTextField txtIndice;
 	private JLabel lblIndice;
 	private Reserva reservaActual;
-	private ABMCReservaPrueba formReserva;
+	private ABMCReserva formReserva;
     public static enum TipoBusqueda{ POR_IDRESERVA("Por Id de la Reserva"),POR_IDELEMENTO("Por Id del elemento"),
     								POR_IDPERSONA("Por Id de la Persona"),PENDIENTES("Pendientes"),VENCIDAS("Vencidas"),TRAER_TODAS("Traer Todas");
     	private final String texto;
@@ -340,7 +340,7 @@ public class ListadoReservas extends Listado implements IListados{
 	//		visibleVentanaReserva=visibleVentanaReserva*(-1);
 	//	visibleVentanaReserva=-1;
 			try {
-				formReserva=ABMCReservaPrueba.getInstancia();
+				formReserva=ABMCReserva.getInstancia();
 				desktopPane.removeAll();
 				desktopPane.add(formReserva);
 				formReserva.setVisible(true);
@@ -594,7 +594,7 @@ public class ListadoReservas extends Listado implements IListados{
 	
 	public void setPermisos(){
 		try{
-		ABMCReservaPrueba.getInstancia().setPermisos();}
+		ABMCReserva.getInstancia().setPermisos();}
 		catch(Exception ex){
 			JOptionPane.showMessageDialog(null, "Error al setear permisos de usuario\n"+ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 		}

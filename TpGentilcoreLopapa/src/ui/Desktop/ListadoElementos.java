@@ -64,7 +64,7 @@ public class ListadoElementos extends Listado implements IListados{
 	private JTextField txtIndice;
 	private JLabel lblIndice;
 	private Elemento elementoActual;
-	private ABMCElementoPrueba formElemento;
+	private ABMCElemento formElemento;
 	private AltasReserva formReserva;
 	private Date fechaDisp;
     public static enum TipoBusqueda{ POR_ID("Por Id"),POR_NOMBRE("Por Nombre"),
@@ -371,7 +371,7 @@ public class ListadoElementos extends Listado implements IListados{
 //			if(formElemento==null){
 			
 			this.mapearHaciaABMCElementoClick();
-			formElemento=ABMCElementoPrueba.getInstancia(accion);
+			formElemento=ABMCElemento.getInstancia(accion);
 			
 //			}
 			desktopPane.removeAll();

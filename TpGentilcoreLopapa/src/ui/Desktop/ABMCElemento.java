@@ -14,6 +14,7 @@ import business.entities.TipoDeElemento;
 import business.logic.CtrlElementoLogic;
 import business.logic.CtrlTipoDeElementoLogic;
 import tools.AppDataException;
+import tools.Campo;
 import tools.FormatoEmail;
 
 import java.awt.Color;
@@ -43,18 +44,16 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JScrollBar;
 
-public class ABMCElemento extends JInternalFrame {
+public class ABMCElemento extends ABMC {
 	
 	CtrlElementoLogic ctrElemLogic = new CtrlElementoLogic();
 	CtrlTipoDeElementoLogic ctrTdELogic = new CtrlTipoDeElementoLogic();
 
 	private JPanel contentPane;
-	private JTextField textIdElemento;
 	private JTextField textNombreElemento;
-	private JLabel lblGestinDeElementos;
-	private JLabel lblId;
+	private JLabel lblGestionDeElementos;
+	private JLabel lblIdTitulo;
 	private JLabel lblNombre;
-	private JLabel lblIconoElemento;
 	private JLabel lblTipo;
 	private JComboBox cboTipoElemento;
 	private JTextField textIdTipoDeElemento;
@@ -69,87 +68,119 @@ public class ABMCElemento extends JInternalFrame {
 	private JTextField textLimiteHoras;
 	private JLabel lblDasDeAnticipacin;
 	private JTextField textDiasDeAnticipacion;
-	private JLabel lblUsuario;
-	private JLabel lblUsuarioLogueado;
+	private Action accion;
+	private JLabel lblId;
+	private JButton btnAceptar;
 //	private JLabel lblUpdateTipoElemento;
 //	private JLabel lblCreateTipoElemento;
 	//private JLabel lblBuscar_TipoElemento;
+	private JButton btnCancelar;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+	private static ABMCElemento instancia=null;
+	
+	public static ABMCElemento getInstancia(Action qAccion){
+		if(instancia==null){
 				try {
-					ABMCElemento frame = new ABMCElemento();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+					instancia=new ABMCElemento();
+				} 
+				catch (Exception e) {
+					JOptionPane.showMessageDialog(null,e.getMessage());
 				}
 			}
-		});
+		try{
+		instancia.preparaInstancia(qAccion);}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+		}
+		return instancia;
 	}
+	
+	
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					ABMCElemento frame = new ABMCElemento();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					JOptionPane.showMessageDialog(null, e.getMessage());
+//				}
+//			}
+//		});
+//	}
 	
 	
 
 	/**
 	 * Create the frame.
 	 */
-	public ABMCElemento() throws Exception{
+	public void preparaInstancia(Action qAccion)throws Exception{
+		this.accion=qAccion;
+		switch(accion){
+			case DELETE:btnAceptar.setVisible(true);
+						btnCancelar.setVisible(true);
+						btnAceptar.setText("Borrar");
+						this.lblGestionDeElementos.setText("Borrar Elemento");
+						break;
+			case UPDATE:btnAceptar.setVisible(true);
+						btnCancelar.setVisible(true);
+						btnAceptar.setText("Guardar");
+						this.lblGestionDeElementos.setText("Modificar Elemento");
+						break;
+			case ADD:
+				    this.limpiarTextoElemento();
+				    this.lblId.setVisible(true);
+				    this.lblId.setText(String.valueOf(ctrElemLogic.getMaxId()+1));
+					btnAceptar.setVisible(true);
+					btnCancelar.setVisible(true);
+					btnAceptar.setText("Guardar");
+					this.lblGestionDeElementos.setText("Agregar Elemento");
+					break;
+			case OTHER:
+			default:this.lblGestionDeElementos.setText("Elemento");break;
+		}
+	}
+	
+//	public ABMCElementoPrueba(Action qAccion)throws Exception{
+//		//this();esto llama al constructor grandote
+//		//this()=ABMCElementoPrueba.getInstancia();
+//		this.accion=qAccion;
+//		switch(accion){
+//			case DELETE:btnAceptar.setVisible(true);
+//						btnCancelar.setVisible(true);
+//						btnAceptar.setText("Borrar");
+//						this.lblGestionDeElementos.setText("Borrar Elemento");
+//						break;
+//			case UPDATE:btnAceptar.setVisible(true);
+//						btnCancelar.setVisible(true);
+//						btnAceptar.setText("Guardar");
+//						this.lblGestionDeElementos.setText("Modificar Elemento");
+//						break;
+//			case ADD:
+//				    this.limpiarTextoElemento();
+//					btnAceptar.setVisible(true);
+//					btnCancelar.setVisible(true);
+//					btnAceptar.setText("Guardar");
+//					this.lblGestionDeElementos.setText("Agregar Elemento");
+//					break;
+//			case OTHER:
+//			default:this.lblGestionDeElementos.setText("Elemento");break;
+//		}
+//	}
+	
+	public ABMCElemento()throws Exception{
+		setBorder(null);
+		((javax.swing.plaf.basic.BasicInternalFrameUI)this.getUI()).setNorthPane(null);
 		
-		this.setTitle("Sistema de gesti\u00F3n de reservas");
+		this.accion=Action.OTHER;
 		//this.setIconImage(Toolkit.getDefaultToolkit().getImage(ABMCElemento.class.getResource("/ui/Desktop/cropped-3w2-web-dominios-hosting.png")));
 		this.setBackground(Color.WHITE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setBounds(100, 100, 586, 282);
+		this.setBounds(100, 100, 368, 302);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(2, 2, 2, 2));
 		setContentPane(contentPane);
-		
-		JPanel panelBarraAzulLateral = new JPanel();
-		panelBarraAzulLateral.setBackground(new Color(0, 51, 102));
-		
-		lblIconoElemento = new JLabel("");
-		lblIconoElemento.setHorizontalAlignment(SwingConstants.CENTER);
-		lblIconoElemento.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_devices_white_24dp_2x.png")));
-		
-		lblUsuario = new JLabel("Usuario");
-		lblUsuario.setFont(new Font("Calibri", Font.PLAIN, 12));
-		lblUsuario.setForeground(Color.WHITE);
-		lblUsuario.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_person_pin_white_24dp_1x.png")));
-		
-		lblUsuarioLogueado = new JLabel("Este usuario se pasaria por parametro como con reserva en caso de usarlo");
-		lblUsuarioLogueado.setForeground(Color.WHITE);
-		GroupLayout gl_panelBarraAzulLateral = new GroupLayout(panelBarraAzulLateral);
-		gl_panelBarraAzulLateral.setHorizontalGroup(
-			gl_panelBarraAzulLateral.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelBarraAzulLateral.createSequentialGroup()
-					.addContainerGap(20, Short.MAX_VALUE)
-					.addComponent(lblUsuario)
-					.addGap(24))
-				.addGroup(Alignment.LEADING, gl_panelBarraAzulLateral.createSequentialGroup()
-					.addGroup(gl_panelBarraAzulLateral.createParallelGroup(Alignment.TRAILING)
-						.addGroup(Alignment.LEADING, gl_panelBarraAzulLateral.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblUsuarioLogueado, 0, 0, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_panelBarraAzulLateral.createSequentialGroup()
-							.addGap(24)
-							.addComponent(lblIconoElemento, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(20, Short.MAX_VALUE))
-		);
-		gl_panelBarraAzulLateral.setVerticalGroup(
-			gl_panelBarraAzulLateral.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelBarraAzulLateral.createSequentialGroup()
-					.addComponent(lblIconoElemento, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblUsuario)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblUsuarioLogueado, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(338, Short.MAX_VALUE))
-		);
-		panelBarraAzulLateral.setLayout(gl_panelBarraAzulLateral);
 		
 		panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
@@ -157,34 +188,27 @@ public class ABMCElemento extends JInternalFrame {
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 442, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panelBarraAzulLateral, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addGap(23)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(20, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(11)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
-					.addGap(71))
-				.addComponent(panelBarraAzulLateral, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+					.addContainerGap()
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
+					.addGap(48))
 		);
 		
-		lblGestinDeElementos = new JLabel("Crear nuevo elemento");
-		lblGestinDeElementos.setHorizontalAlignment(SwingConstants.LEFT);
-		lblGestinDeElementos.setFont(new Font("Calibri", Font.BOLD, 18));
+		lblGestionDeElementos = new JLabel("Elemento");
+		lblGestionDeElementos.setHorizontalAlignment(SwingConstants.LEFT);
+		lblGestionDeElementos.setFont(new Font("Calibri", Font.BOLD, 18));
 		
-		lblId = new JLabel("ID");
-		lblId.setToolTipText("El ID s\u00F3lo es para busqueda, al crear se asignar\u00E1 uno nuevo automaticamente");
-		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
-		
-		textIdElemento = new JTextField();
-		textIdElemento.setToolTipText("El ID s\u00F3lo es para busqueda, al crear se asignar\u00E1 uno nuevo automaticamente");
-		textIdElemento.setColumns(10);
+		lblIdTitulo = new JLabel("ID:");
+		lblIdTitulo.setToolTipText("El ID s\u00F3lo es para busqueda, al crear se asignar\u00E1 uno nuevo automaticamente");
+		lblIdTitulo.setHorizontalAlignment(SwingConstants.RIGHT);
 		
 		textNombreElemento = new JTextField();
 		textNombreElemento.setColumns(10);
@@ -198,128 +222,75 @@ public class ABMCElemento extends JInternalFrame {
 		
 		cboTipoElemento = new JComboBox();
 		
-		JButton btnBorrar = new JButton("");
-		btnBorrar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				clickEliminar();
+		btnAceptar = new JButton("Aceptar");
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AccionarClick();
 			}
 		});
-		btnBorrar.setToolTipText("Eliminar elemento");
-		btnBorrar.setBorderPainted(false);
-		btnBorrar.setBackground(Color.WHITE);
-		btnBorrar.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_delete_sweep_black_24dp_1x.png")));
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cancelarClick();
+			}
+		});
+		btnAceptar.setVisible(false);
+		btnCancelar.setVisible(false);
 		
-		JButton btnModificar = new JButton("");
-		btnModificar.setToolTipText("Actualizar elemento");
-		btnModificar.setBackground(Color.WHITE);
-		btnModificar.setBorderPainted(false);
-		btnModificar.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/Update black .png")));
-	//	btnModificar.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/Update black .png")));
-		btnModificar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				clickModificar();
-			}
-		});
-		
-		JButton btnGuardar = new JButton("");
-		btnGuardar.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		btnGuardar.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnGuardar.setBorderPainted(false);
-		btnGuardar.setBorder(null);
-		btnGuardar.setForeground(Color.WHITE);
-		btnGuardar.setBackground(Color.WHITE);
-		btnGuardar.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_add_circle_black_24dp_1x.png")));
-		btnGuardar.setToolTipText("El ID s\u00F3lo es para busqueda, al crear se asignar\u00E1 uno nuevo automaticamente");
-		btnGuardar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				clickGuardar();
-			}
-		});
-		
-	
-		JButton btnBuscar = new JButton("");
-		btnBuscar.setToolTipText("Buscar elemento");
-		btnBuscar.setBorderPainted(false);
-		btnBuscar.setBackground(Color.WHITE);
-		btnBuscar.setIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_search_black_24dp_1x.png")));
-	//	btnBuscar.setSelectedIcon(new ImageIcon(ABMCElemento.class.getResource("/ui/Desktop/ic_search_black_24dp_1x.png")));
-		btnBuscar.setForeground(Color.WHITE);
-		btnBuscar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				try {
-					clickBuscarElemento();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
+		lblId = new JLabel("");
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(20)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(lblId, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblTipo, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblNombre, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE))
-					.addGap(10)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblGestinDeElementos)
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-								.addComponent(cboTipoElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
-							.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnModificar, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnBorrar, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addComponent(textIdElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)))
-					.addGap(149))
-		);
-		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
+			gl_panel_1.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panel_1.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addComponent(lblGestinDeElementos)
-							.addGap(21)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblId, GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
-								.addComponent(textIdElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(17))
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblIdTitulo, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+								.addComponent(lblNombre, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addGap(10))
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addComponent(btnBuscar)
-							.addPreferredGap(ComponentPlacement.UNRELATED)))
+							.addComponent(lblTipo, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)))
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNombre)
-								.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addGap(20)
-									.addComponent(lblTipo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addGap(41))
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(cboTipoElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-							.addGap(65))
+							.addComponent(btnAceptar)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnCancelar))
 						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(btnGuardar, GroupLayout.PREFERRED_SIZE, 23, Short.MAX_VALUE)
-								.addComponent(btnModificar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnBorrar))
-							.addContainerGap())))
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cboTipoElemento, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
+							.addGap(53))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblGestionDeElementos)
+								.addComponent(lblId))))
+					.addGap(37))
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(27)
+					.addComponent(lblGestionDeElementos)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblIdTitulo, GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
+						.addComponent(lblId))
+					.addGap(17)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNombre)
+						.addComponent(textNombreElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(cboTipoElemento, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblTipo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(26)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnAceptar)
+						.addComponent(btnCancelar))
+					.addContainerGap())
 		);
 		panel_1.setLayout(gl_panel_1);
 		
@@ -374,97 +345,165 @@ public class ABMCElemento extends JInternalFrame {
 	}
 
 	
+	protected void cancelarClick() {
+		this.btnAceptar.setVisible(false);
+		this.btnCancelar.setVisible(false);
+		this.lblGestionDeElementos.setText("Elemento");
+		this.accion=Action.OTHER;
+		this.limpiarTextoElemento();
+		try {
+			ListadoElementos.getInstancia().mapearHaciaABMCElementoClick();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,e.getMessage());
+		}
+	}
+
+
+	protected void AccionarClick() {
+		boolean resultado=false;
+		switch(accion){
+		case ADD:resultado=clickAgregar();break;
+		case UPDATE:resultado=clickModificar();break;
+		case DELETE:resultado=clickEliminar();break;
+		default:break;
+		}
+		if(resultado){
+			this.btnAceptar.setVisible(false);
+			this.btnCancelar.setVisible(false);
+			this.lblGestionDeElementos.setText("Elemento");
+			this.accion=Action.OTHER;
+			this.limpiarTextoElemento();
+			try {
+				ListadoElementos.getInstancia().Actualiza();
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+
 	private void cargarListas(){
 		try {
 			this.cboTipoElemento.setModel(new DefaultComboBoxModel(ctrElemLogic.getTipoDeElemento().toArray()));
 			this.cboTipoElemento.setSelectedIndex(-1);
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	protected void clickBuscarElemento() throws Exception{
-		try {
-			if(textIdElemento.getText().length() >0){
-			this.mapearAForm(ctrElemLogic.getOne(this.mapearDeForm()));
-			}else{
-			JOptionPane.showMessageDialog(this, "Debe ingresar un elemento a buscar", "", JOptionPane.INFORMATION_MESSAGE);
-			}
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
-			//JOptionPane.showMessageDialog(this, "No se pudo encontrar el elemento", "", JOptionPane.WARNING_MESSAGE);
-
-		}
-	}
-	
-	protected void clickGuardar(){
-		try {		
-			if(textIdElemento.getText().length() >0){				
-			
-				ctrElemLogic.add(this.mapearDeForm());
-			JOptionPane.showMessageDialog(this, "Elemento guardado correctamente", "", JOptionPane.INFORMATION_MESSAGE);
-			}else{
-				JOptionPane.showMessageDialog(this, "Debe completar todos los campos", "", JOptionPane.WARNING_MESSAGE);
-			}
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage());
+			JOptionPane.showMessageDialog(null,
+					"Error al cargar lista de tipos de elementos\n"+e.getMessage(),
+					"Error",JOptionPane.ERROR);
 		}
 	}
 	
 	
-	protected void clickModificar(){
-		try {
-			if(textIdElemento.getText().length() >0){
-				ctrElemLogic.update(mapearDeForm());
-			JOptionPane.showMessageDialog(this, "Elemento actualizado", "", JOptionPane.INFORMATION_MESSAGE);
-			}else{
-				JOptionPane.showMessageDialog(this, "No se ha ingresado ning�n elemento", "", JOptionPane.INFORMATION_MESSAGE);
-			}
-		} catch (Exception e) {
-			limpiarTextoElemento();
-			JOptionPane.showMessageDialog(this, e.getMessage());		}
-	}
-	
-	
-	private void clickEliminar(){
-		try {
-			if(textIdElemento.getText().length() >0){
-				ctrElemLogic.delete(mapearDeForm());
-			JOptionPane.showMessageDialog(this, "Elemento eliminado", "", JOptionPane.INFORMATION_MESSAGE);
-			}else{
-				JOptionPane.showMessageDialog(this, "No se ha ingresado ning�n elemento", "", JOptionPane.WARNING_MESSAGE);
-			}
-		} catch (Exception e) {
-			limpiarTextoElemento();
-			JOptionPane.showMessageDialog(this, e.getMessage());		}
-	}
+	//al final buscaremos por listado,este no
+//	protected void clickBuscarElemento() throws Exception{
+//		try {
+//			if(textIdElemento.getText().length() >0){
+//			this.mapearAForm(ctrElemLogic.getOne(this.mapearDeForm()));
+//			}else{
+//			JOptionPane.showMessageDialog(this, "Debe ingresar un elemento a buscar", "", JOptionPane.INFORMATION_MESSAGE);
+//			}
+//		} catch (Exception e) {
+//			JOptionPane.showMessageDialog(this, e.getMessage());
+//			//JOptionPane.showMessageDialog(this, "No se pudo encontrar el elemento", "", JOptionPane.WARNING_MESSAGE);
+//
+//		}
+//	}
 	
 	
 	private Elemento mapearDeForm(){
 		Elemento e = new Elemento();		
-		if(!this.textIdElemento.getText().isEmpty()){
-			e.setId_elemento(Integer.parseInt(this.textIdElemento.getText()));
-		}
-		e.setNombre(this.textNombreElemento.getText());
-	//	if (comboBoxTipoElemento.getSelectedIndex() != -1){
-			e.setTipo((TipoDeElemento) this.cboTipoElemento.getSelectedItem());
-		//}
+		//if(!this.textIdElemento.getText().isEmpty()){
+		//if(Campo.Valida(this.textIdElemento.getText(), Campo.tipo.ID)){
+		
+			if(lblId.isVisible() && !lblId.getText().isEmpty()){e.setId_elemento(Integer.parseInt(lblId.getText()));}
+			e.setNombre(this.textNombreElemento.getText());
+			if (this.cboTipoElemento.getSelectedIndex() != -1){
+				e.setTipo((TipoDeElemento) this.cboTipoElemento.getSelectedItem());
+			}
+			else{
+				JOptionPane.showMessageDialog(null, "Seleccione un tipo por favor");
+				return null;
+			}
+		
 		return e;
 	}
 
+	protected boolean clickAgregar(){
+		try {		
+						
+			Elemento ele=this.mapearDeForm();
+			if(ele!=null){
+				ctrElemLogic.add(this.mapearDeForm());
+				JOptionPane.showMessageDialog(null, "Elemento guardado correctamente", "", JOptionPane.INFORMATION_MESSAGE);
+			    return true;
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error elemento no agregado\n"+e.getMessage());
+		}
+		return false;
+	}
 	
-	private void mapearAForm(Elemento e){
-		this.textIdElemento.setText(Integer.toString((e.getId_elemento())));
-		this.textNombreElemento.setText(e.getNombre());
-		//if (e.getTipo()!=null){
-			this.cboTipoElemento.setSelectedItem((TipoDeElemento) e.getTipo());
-	//	}
+	
+	protected boolean clickModificar(){
+		try {
+			Elemento ele=this.mapearDeForm();
+			if(ele!=null){
+				ctrElemLogic.update(ele);
+				JOptionPane.showMessageDialog(null, "Elemento actualizado", "", JOptionPane.INFORMATION_MESSAGE);
+				return true;
+				}
+			}
+		catch(Exception e) {
+			limpiarTextoElemento();
+			JOptionPane.showMessageDialog(null, e.getMessage());}
+		return false;
+		} 
+	
+	
+	
+	private boolean clickEliminar(){
+		try {
+			Elemento ele=this.mapearDeForm();
+			if(ele!=null){
+				ctrElemLogic.delete(ele);
+				JOptionPane.showMessageDialog(null, "Elemento eliminado", "", JOptionPane.INFORMATION_MESSAGE);
+				return true;
+				}
+			} catch (Exception e) {
+			limpiarTextoElemento();
+			JOptionPane.showMessageDialog(null, e.getMessage());}
+		return false;
+	}
+	
+	public void mapearAForm(Elemento e){
+		if(e!=null){
+//			if(accion==Action.OTHER){
+				this.lblId.setVisible(true);
+				this.lblId.setText(Integer.toString((e.getId_elemento())));
+				this.textNombreElemento.setText(e.getNombre());
+				if (e.getTipo()!=null){
+					this.cboTipoElemento.setSelectedItem((TipoDeElemento) e.getTipo());
+					}
+//				}
+			}
+		else{
+			this.limpiarTextoElemento();
+			}
 	}
 	
 	private void limpiarTextoElemento(){
-		this.textIdElemento.setText("");
+		lblId.setVisible(false);
 		this.textNombreElemento.setText("");
+		cboTipoElemento.setSelectedIndex(-1);
 	}
-	
-	
+
+
+	public Action getAccion() {
+		return accion;
+	}
+
+
+	public void setAccion(Action accion) {
+		this.accion = accion;
+	}
 }
