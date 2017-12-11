@@ -21,7 +21,7 @@ public class Campo {
 	public enum tipo{EMAIL,DNI,INDICE,ID,FECHA,HORA,MAXRESPEN,DIASANT,LIMHOR,OTRO}
 	
 	public static boolean Valida(String campo,tipo tipoCampo){
-		if(campo.isEmpty() || campo==null){
+		if( campo==null || campo.isEmpty()){
 			//JOptionPane.showMessageDialog(null,"Complete todos los campos por favor", "", JOptionPane.INFORMATION_MESSAGE);
 			Mensaje="Complete todos los campos por favor";
 			return false;
